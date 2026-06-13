@@ -1,0 +1,263 @@
+C:\Users\CR Ramesh\Downloads\MCPparser\MCPWEEK6\crewai_run_patched.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  "ts": datetime.utcnow().isoformat() + "Z",
+┌────────────────────────── ✨ Update Available ✨ ───────────────────────────┐
+│                                                                             │
+│  A new version of CrewAI is available!                                      │
+│                                                                             │
+│  Current version: 1.14.5                                                    │
+│  Latest version:  1.14.6                                                    │
+│                                                                             │
+│  To update, run: uv sync --upgrade-package crewai                           │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌───────────────────────── 🚀 Crew Execution Started ─────────────────────────┐
+│                                                                             │
+│  Crew Execution Started                                                     │
+│  Name: crew                                                                 │
+│  ID: 69ee949c-3866-4e90-8b39-30189327a5db                                   │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────────────── 📋 Task Started ──────────────────────────────┐
+│                                                                             │
+│  Task Started                                                               │
+│  Name: Task                                                                 │
+│  ID: b0291b8e-cb33-4e9d-855b-1bf74a814efd                                   │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌───────────────────────────── 🤖 Agent Started ──────────────────────────────┐
+│                                                                             │
+│  Agent: Manager Agent                                                       │
+│                                                                             │
+│  Task: Suggest diagnostic tests for reported symptoms, monitor vitals, and  │
+│  draft a diagnostic report. Update the medical schedule and change the      │
+│  appointment to next week.                                                  │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────┐
+│                                                                             │
+│  Tool: delegate_work_to_coworker                                            │
+│  Args: {'task': 'Suggest diagnostic tests for reported symptoms and draft   │
+│  a diagnostic report based on the results.', 'context': 'The patient has    │
+│  reported symptoms of fever, cough, and fatigue. The medical s...           │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────── 🔧 Tool Execution Started (#3) ───────────────────────┐
+│                                                                             │
+│  Tool: delegate_work_to_coworker                                            │
+│  Args: {'task': "Update the patient's medical schedule and change the       │
+│  appointment to next week.", 'context': 'The patient has reported symptoms  │
+│  of fever, cough, and fatigue. The medical schedule needs to be ...         │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+┌────────────────────── 🔧 Tool Execution Started (#2) ───────────────────────┐
+│                                                                             │
+│  Tool: delegate_work_to_coworker                                            │
+│  Args: {'task': "Monitor the patient's vitals continuously during the       │
+│  diagnostic process.", 'context': 'The patient has reported symptoms of     │
+│  fever, cough, and fatigue. The medical schedule needs to be update...      │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+┌───────────────────────────── 🤖 Agent Started ──────────────────────────────┐
+│                                                                             │
+│  Agent: Real time Monitoring Agent                                          │
+│                                                                             │
+│  Task: Monitor the patient's vitals continuously during the diagnostic      │
+│  process.                                                                   │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────────────── 🤖 Agent Started ──────────────────────────────┐
+│                                                                             │
+│  Agent: Diagnosis Agent                                                     │
+│                                                                             │
+│  Task: Suggest diagnostic tests for reported symptoms and draft a           │
+│  diagnostic report based on the results.                                    │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+┌───────────────────────────── 🤖 Agent Started ──────────────────────────────┐
+│                                                                             │
+│  Agent: Patient Interaction Agent                                           │
+│                                                                             │
+│  Task: Update the patient's medical schedule and change the appointment to  │
+│  next week.                                                                 │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────┐
+│                                                                             │
+│  Tool: monitor_vitals                                                       │
+│  Args: {'patient_id': 'P123456'}                                            │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+[32mTool monitor_vitals executed with result: Patient P123456 vitals are stable....[0m
+┌───────────────────── ✅ Tool Execution Completed (#1) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: monitor_vitals                                                       │
+│  Output: Patient P123456 vitals are stable.                                 │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────┐
+│                                                                             │
+│  Tool: suggest_diagnostic_tests                                             │
+│  Args: {'symptom_description': 'fever, cough, fatigue'}                     │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+[32mTool suggest_diagnostic_tests executed with result: Based on the symptoms: fever, cough, fatigue, suggested diagnostic tests include CBC, X-ray, and MRI....[0m
+[32mTool generate_diagnostic_summary executed with result: Generated diagnostic summary for the patient. Ready for physician review....[0m
+
+┌────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────┐
+│                                                                             │
+│  Tool: generate_diagnostic_summary                                          │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────── ✅ Tool Execution Completed (#1) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: suggest_diagnostic_tests                                             │
+│  Output: Based on the symptoms: fever, cough, fatigue, suggested            │
+│  diagnostic tests include CBC, X-ray, and MRI.                              │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────── ✅ Tool Execution Completed (#1) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: generate_diagnostic_summary                                          │
+│  Output: Generated diagnostic summary for the patient. Ready for physician  │
+│  review.                                                                    │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+
+┌────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────┐
+│                                                                             │
+│  Tool: change_appointment                                                   │
+│  Args: {'patient_id': '12345'}                                              │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+[32mTool change_appointment executed with result: Appointment changed successfully!...[0m
+┌───────────────────── ✅ Tool Execution Completed (#1) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: change_appointment                                                   │
+│  Output: Appointment changed successfully!                                  │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────┐
+│                                                                             │
+│  Tool: detect_anomaly                                                       │
+│  Args: {'patient_id': 'P123456'}                                            │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+[32mTool log_vitals executed with result: Logged vitals for patient P123456 are saved!...[0m
+[32mTool detect_anomaly executed with result: Anomaly check complete for patient P123456....[0m
+
+┌────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────┐
+│                                                                             │
+│  Tool: log_vitals                                                           │
+│  Args: {'patient_id': 'P123456'}                                            │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────── ✅ Tool Execution Completed (#1) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: detect_anomaly                                                       │
+│  Output: Anomaly check complete for patient P123456.                        │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────── ✅ Tool Execution Completed (#1) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: log_vitals                                                           │
+│  Output: Logged vitals for patient P123456 are saved!                       │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+
+┌───────────────────── ✅ Tool Execution Completed (#2) ──────────────────────┐
+│                                                                             │
+│  [32mTool generate_diagnostic_summary executed with result (from cache): Generated diagnostic summary for the patient. Ready for physician review....[0m
+[32mTool generate_diagnostic_summary executed with result (from cache): Generated diagnostic summary for the patient. Ready for physician review....[0m
+Tool Completed                                                             │
+│  Tool: generate_diagnostic_summary                                          │
+│  Output: Generated diagnostic summary for the patient. Ready for physician  │
+│  review.                                                                    │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌───────────────────── ✅ Tool Execution Completed (#2) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: generate_diagnostic_summary                                          │
+│  Output: Generated diagnostic summary for the patient. Ready for physician  │
+│  review.                                                                    │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+┌────────────────────── 🔧 Tool Execution Started (#3) ───────────────────────┐
+│                                                                             │
+│  Tool: generate_diagnostic_summary                                          │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+┌────────────────────── 🔧 Tool Execution Started (#2) ───────────────────────┐
+│                                                                             │
+│  Tool: generate_diagnostic_summary                                          │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+
+┌────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────┐
+│                                                                             │
+│  Tool: respond_to_patient_query                                             │
+│  Args: {'patient_id': '12345', 'query': 'Has my appointment been            │
+│  rescheduled to next week?'}                                                │
+│                                                                             │[32mTool respond_to_patient_query executed with result: Answer to patient 12345's question 'Has my appointment been rescheduled to next week?': Response provided....[0m
+
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌───────────────────── ✅ Tool Execution Completed (#1) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: respond_to_patient_query                                             │
+│  Output: Answer to patient 12345's question 'Has my appointment been        │
+│  rescheduled to next week?': Response provided.                             │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+

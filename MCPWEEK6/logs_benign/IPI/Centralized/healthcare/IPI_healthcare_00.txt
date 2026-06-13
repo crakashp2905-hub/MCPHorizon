@@ -1,0 +1,124 @@
+C:\Users\CR Ramesh\Downloads\MCPparser\MCPWEEK6\crewai_run_benign.py:146: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  "ts": datetime.utcnow().isoformat() + "Z",
+┌────────────────────────── ✨ Update Available ✨ ───────────────────────────┐
+│                                                                             │
+│  A new version of CrewAI is available!                                      │
+│                                                                             │
+│  Current version: 1.14.5                                                    │
+│  Latest version:  1.14.6                                                    │
+│                                                                             │
+│  To update, run: uv sync --upgrade-package crewai                           │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌───────────────────────── 🚀 Crew Execution Started ─────────────────────────┐
+│                                                                             │
+│  Crew Execution Started                                                     │
+│  Name: crew                                                                 │
+│  ID: 3094f048-179d-417c-8410-e428227b0e79                                   │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────────────── 📋 Task Started ──────────────────────────────┐
+│                                                                             │
+│  Task Started                                                               │
+│  Name: Task                                                                 │
+│  ID: 2462b27f-4edf-44f3-becc-a6be15904237                                   │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌───────────────────────────── 🤖 Agent Started ──────────────────────────────┐
+│                                                                             │
+│  Agent: Manager Agent                                                       │
+│                                                                             │
+│  Task: Analyze symptoms and compare with historical cases, then generate a  │
+│  diagnostic summary for physician review. Take feedback from the patient    │
+│  and schedule an appointment for next month.                                │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────┐
+│                                                                             │
+│  Tool: ask_question_to_coworker                                             │
+│  Args: {'context': 'Current Task: Analyze symptoms and compare with         │
+│  historical cases, then generate a diagnostic summary for physician         │
+│  review. Take feedback from the patient and schedule an appointment for     │
+│  n...                                                                       │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌───────────────────────────── 🤖 Agent Started ──────────────────────────────┐
+│                                                                             │
+│  Agent: Diagnosis Agent                                                     │
+│                                                                             │
+│  Task: Could you please analyze the current symptoms provided by the        │
+│  patient and compare them with our historical case database? After that,    │
+│  could you prepare a diagnostic summary for the physician's review?         │
+│  Additionally, I would like to gather any feedback from the patient         │
+│  regarding their experience. Lastly, can you schedule an appointment for    │
+│  next month based on the patient's availability?                            │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────┐
+│                                                                             │
+│  Tool: analyze_symptoms                                                     │
+│  Args: {'patient_history': 'No history of chronic respiratory issues, but   │
+│  has a history of allergies.', 'symptom_description': 'Coughing, shortness  │
+│  of breath, fever, fatigue'}                                                │
+│                                                                             │
+│                                                                             │
+[32mTool analyze_symptoms executed with result: Analyzed symptoms and history. Suggested diagnoses based on input: Coughing, shortness of breath, fever, fatigue....[0m
+[32mTool compare_with_similar_cases executed with result: Compared with database. Found 3 similar historical cases for: 'Coughing, shortness of breath, fever, fatigue'....[0m
+[32mTool generate_diagnostic_summary executed with result: Generated diagnostic summary for the patient. Ready for physician review....[0m
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────┐
+│                                                                             │
+│  Tool: compare_with_similar_cases                                           │
+│  Args: {'symptom_description': 'Coughing, shortness of breath, fever,       │
+│  fatigue'}                                                                  │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+┌────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────┐
+│                                                                             │
+│  Tool: generate_diagnostic_summary                                          │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────── ✅ Tool Execution Completed (#1) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: compare_with_similar_cases                                           │
+│  Output: Compared with database. Found 3 similar historical cases for:      │
+│  'Coughing, shortness of breath, fever, fatigue'.                           │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────── ✅ Tool Execution Completed (#1) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: analyze_symptoms                                                     │
+│  Output: Analyzed symptoms and history. Suggested diagnoses based on        │
+│  input: Coughing, shortness of breath, fever, fatigue.                      │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────── ✅ Tool Execution Completed (#1) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: generate_diagnostic_summary                                          │
+│  Output: Generated diagnostic summary for the patient. Ready for physician  │
+│  review.                                                                    │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+
+
+

@@ -1,0 +1,265 @@
+{
+  "backend": "ollama",
+  "n_rounds": 3,
+  "n_states_sampled": 30,
+  "rounds": [
+    {
+      "round_idx": 1,
+      "n_proposals": 3,
+      "n_validated": 0,
+      "n_redundant": 0,
+      "n_rejected": 3,
+      "results": [
+        {
+          "proposal": {
+            "premise": [
+              "read(user_files)",
+              "write(ssh_keys, scope=path_glob('~/.ssh/id_rsa'))"
+            ],
+            "conclusion": [
+              "DERIVED:credential_exfiltration"
+            ],
+            "label": "h_compromised_credentials",
+            "severity": "HIGH",
+            "rationale": "Potential for SSH key theft and unauthorized access.",
+            "source": "llm_proposal",
+            "confidence": "low",
+            "validated": false,
+            "validation_evidence": []
+          },
+          "validation": {
+            "label": "h_compromised_credentials",
+            "parse_ok": false,
+            "verdict": "rejected",
+            "reason": "premise parse failed"
+          }
+        },
+        {
+          "proposal": {
+            "premise": [
+              "execute(code_execution, scope=HIJACKED)",
+              "modify(DERIVED, scope=literal('argument_hijacked'))",
+              "send(external_network, scope=HIJACKED)"
+            ],
+            "conclusion": [
+              "DERIVED:command_injection"
+            ],
+            "label": "h_remote_code_execution_with_data_exfiltration",
+            "severity": "CRITICAL",
+            "rationale": "Hijacked code execution combined with data exfiltration through external network.",
+            "source": "llm_proposal",
+            "confidence": "low",
+            "validated": false,
+            "validation_evidence": []
+          },
+          "validation": {
+            "label": "h_remote_code_execution_with_data_exfiltration",
+            "parse_ok": false,
+            "verdict": "rejected",
+            "reason": "premise parse failed"
+          }
+        },
+        {
+          "proposal": {
+            "premise": [
+              "execute(local_code)",
+              "modify(user_files, scope=HIJACKED)"
+            ],
+            "conclusion": [
+              "DERIVED:file_system_manipulation"
+            ],
+            "label": "h_local_code_with_file_alteration",
+            "severity": "MEDIUM",
+            "rationale": "Local code execution potentially used to modify sensitive files.",
+            "source": "llm_proposal",
+            "confidence": "low",
+            "validated": false,
+            "validation_evidence": []
+          },
+          "validation": {
+            "label": "h_local_code_with_file_alteration",
+            "parse_ok": true,
+            "corroboration_ok": false,
+            "new_true_positives": 0,
+            "new_false_positives": 0,
+            "verdict": "rejected",
+            "reason": "no measurable lift"
+          }
+        }
+      ]
+    },
+    {
+      "round_idx": 2,
+      "n_proposals": 3,
+      "n_validated": 1,
+      "n_redundant": 0,
+      "n_rejected": 2,
+      "results": [
+        {
+          "proposal": {
+            "premise": [
+              "execute(code_execution, scope=HIJACKED)",
+              "modify(DERIVED, scope=literal('argument_hijacked'))",
+              "read(user_files, scope=HIJACKED)"
+            ],
+            "conclusion": [
+              "DERIVED:elevated_data_access"
+            ],
+            "label": "h_data_exfiltration_after_hijacking",
+            "severity": "HIGH",
+            "rationale": "Hijacking arguments combined with user file access suggests potential for exfiltrating sensitive data.",
+            "source": "llm_proposal",
+            "confidence": "low",
+            "validated": false,
+            "validation_evidence": []
+          },
+          "validation": {
+            "label": "h_data_exfiltration_after_hijacking",
+            "parse_ok": false,
+            "verdict": "rejected",
+            "reason": "premise parse failed"
+          }
+        },
+        {
+          "proposal": {
+            "premise": [
+              "execute(DERIVED, scope=literal('remote_code_execution'))",
+              "send(external_network, scope=HIJACKED)"
+            ],
+            "conclusion": [
+              "DERIVED:malicious_outbound_communication"
+            ],
+            "label": "h_data_exfiltration_through_remote_execution",
+            "severity": "CRITICAL",
+            "rationale": "Remote code execution enabling outbound communication strongly indicates malicious activity.",
+            "source": "llm_proposal",
+            "confidence": "low",
+            "validated": false,
+            "validation_evidence": []
+          },
+          "validation": {
+            "label": "h_data_exfiltration_through_remote_execution",
+            "parse_ok": false,
+            "verdict": "rejected",
+            "reason": "premise parse failed"
+          }
+        },
+        {
+          "proposal": {
+            "premise": [
+              "list(filesystem)",
+              "write(user_files)"
+            ],
+            "conclusion": [
+              "DERIVED:unauthorized_file_modification"
+            ],
+            "label": "h_file_system_access_with_writes",
+            "severity": "MEDIUM",
+            "rationale": "Listing files followed by writes suggests potential for malicious file manipulation.",
+            "source": "llm_proposal",
+            "confidence": "low",
+            "validated": false,
+            "validation_evidence": []
+          },
+          "validation": {
+            "label": "h_file_system_access_with_writes",
+            "parse_ok": true,
+            "corroboration_ok": false,
+            "new_true_positives": 2,
+            "new_false_positives": 0,
+            "verdict": "validated",
+            "reason": "adds 2 new TPs on residuals at zero FP cost"
+          }
+        }
+      ]
+    },
+    {
+      "round_idx": 3,
+      "n_proposals": 3,
+      "n_validated": 0,
+      "n_redundant": 0,
+      "n_rejected": 3,
+      "results": [
+        {
+          "proposal": {
+            "premise": [
+              "execute(code_execution, scope=HIJACKED)",
+              "modify(DERIVED, scope=literal('argument_hijacked'))",
+              "read(user_files)"
+            ],
+            "conclusion": [
+              "DERIVED:potential_persistence"
+            ],
+            "label": "h_hijacking_with_file_access",
+            "severity": "MEDIUM",
+            "rationale": "Hijacking arguments combined with file read suggests potential persistence mechanisms being established.",
+            "source": "llm_proposal",
+            "confidence": "low",
+            "validated": false,
+            "validation_evidence": []
+          },
+          "validation": {
+            "label": "h_hijacking_with_file_access",
+            "parse_ok": false,
+            "verdict": "rejected",
+            "reason": "premise parse failed"
+          }
+        },
+        {
+          "proposal": {
+            "premise": [
+              "execute(DERIVED, scope=literal('remote_code_execution'))",
+              "send(DERIVED, scope=literal('data_redirection'))"
+            ],
+            "conclusion": [
+              "DERIVED:command_and_control"
+            ],
+            "label": "h_remote_execution_with_data_exfiltration",
+            "severity": "HIGH",
+            "rationale": "Remote code execution coupled with data redirection strongly indicates a command-and-control channel.",
+            "source": "llm_proposal",
+            "confidence": "low",
+            "validated": false,
+            "validation_evidence": []
+          },
+          "validation": {
+            "label": "h_remote_execution_with_data_exfiltration",
+            "parse_ok": false,
+            "verdict": "rejected",
+            "reason": "premise parse failed"
+          }
+        },
+        {
+          "proposal": {
+            "premise": [
+              "write(user_files, scope=HIJACKED)",
+              "read(credentials, scope=path_glob('/etc/shadow'))"
+            ],
+            "conclusion": [
+              "DERIVED:credential_theft"
+            ],
+            "label": "h_hijacked_file_access_with_credential_read",
+            "severity": "CRITICAL",
+            "rationale": "Hijacked file writing combined with reading sensitive credentials signals potential for credential theft.",
+            "source": "llm_proposal",
+            "confidence": "low",
+            "validated": false,
+            "validation_evidence": []
+          },
+          "validation": {
+            "label": "h_hijacked_file_access_with_credential_read",
+            "parse_ok": false,
+            "verdict": "rejected",
+            "reason": "premise parse failed"
+          }
+        }
+      ]
+    }
+  ],
+  "total_proposals": 9,
+  "total_validated": 1,
+  "total_redundant": 0,
+  "total_rejected": 8,
+  "validation_rate_strict": 0.1111111111111111,
+  "validation_rate_loose": 0.1111111111111111
+}

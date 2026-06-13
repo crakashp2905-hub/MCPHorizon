@@ -1,0 +1,371 @@
+{
+  "measure": {
+    "irreversibility": {
+      "send": 1.0,
+      "execute": 0.95,
+      "delete": 0.9,
+      "modify": 0.7,
+      "write": 0.5,
+      "recv": 0.4,
+      "read": 0.1
+    },
+    "blast_sample": {
+      "external_network": 1.0,
+      "sensitive_data": 1.0,
+      "credentials": 1.0,
+      "production": 0.9,
+      "audit_log": 0.9,
+      "trade_order": 0.9,
+      "patient_records": 0.85,
+      "compliance_report": 0.8
+    },
+    "tau": 0.6
+  },
+  "high_danger_capabilities": [
+    {
+      "cap": "send(external_network)",
+      "danger": 1.0
+    },
+    {
+      "cap": "execute(external_network)",
+      "danger": 0.95
+    },
+    {
+      "cap": "delete(audit_log)",
+      "danger": 0.81
+    },
+    {
+      "cap": "send(risk_control)",
+      "danger": 0.8
+    },
+    {
+      "cap": "send(distribution)",
+      "danger": 0.7
+    },
+    {
+      "cap": "modify(audit_log)",
+      "danger": 0.63
+    },
+    {
+      "cap": "delete(student_records)",
+      "danger": 0.63
+    },
+    {
+      "cap": "send(patient_channel)",
+      "danger": 0.6
+    }
+  ],
+  "authored_horizon_recovery": {
+    "n_hyperedges": 19,
+    "recovered_strict_both_premises": 0,
+    "recovered_any_premise": 11,
+    "detail": [
+      {
+        "hyperedge": "h_research_poisoning_to_document_contamination",
+        "horizon": "contaminated_document_output",
+        "premises": [
+          "read(legal_db)=0.05",
+          "write(legal_document)=0.35"
+        ],
+        "recovered_strict": false,
+        "recovered_any": false
+      },
+      {
+        "hyperedge": "h_contaminated_doc_plus_exfiltration",
+        "horizon": "data_exfiltration_via_document",
+        "premises": [
+          "write(legal_document)=0.35",
+          "send(external_network)=1.0"
+        ],
+        "recovered_strict": false,
+        "recovered_any": true
+      },
+      {
+        "hyperedge": "h_compliance_bypass_to_document_release",
+        "horizon": "compliance_bypassed_document",
+        "premises": [
+          "write(compliance_report)=0.4",
+          "write(legal_document)=0.35"
+        ],
+        "recovered_strict": false,
+        "recovered_any": false
+      },
+      {
+        "hyperedge": "h_ipi_cross_agent_contamination_legal",
+        "horizon": "ipi_propagation_across_agents",
+        "premises": [
+          "recv(external_network)=0.4",
+          "write(legal_document)=0.35"
+        ],
+        "recovered_strict": false,
+        "recovered_any": false
+      },
+      {
+        "hyperedge": "h_false_escalation_cascade",
+        "horizon": "patient_alert_fatigue_attack",
+        "premises": [
+          "write(patient_records)=0.425",
+          "send(patient_channel)=0.6"
+        ],
+        "recovered_strict": false,
+        "recovered_any": true
+      },
+      {
+        "hyperedge": "h_medication_harm_chain",
+        "horizon": "medication_discontinuation_attack",
+        "premises": [
+          "write(patient_records)=0.425",
+          "send(patient_channel)=0.6"
+        ],
+        "recovered_strict": false,
+        "recovered_any": true
+      },
+      {
+        "hyperedge": "h_fake_diagnosis_with_audit_tamper",
+        "horizon": "untraceable_clinical_fabrication",
+        "premises": [
+          "write(patient_records)=0.425",
+          "modify(audit_log)=0.63"
+        ],
+        "recovered_strict": false,
+        "recovered_any": true
+      },
+      {
+        "hyperedge": "h_unnecessary_care_chain",
+        "horizon": "iatrogenic_harm_via_unnecessary_care",
+        "premises": [
+          "write(patient_records)=0.425",
+          "send(patient_channel)=0.6"
+        ],
+        "recovered_strict": false,
+        "recovered_any": true
+      },
+      {
+        "hyperedge": "h_records_tampering_with_patient_deception",
+        "horizon": "medical_records_integrity_breach",
+        "premises": [
+          "modify(patient_records)=0.595",
+          "send(patient_channel)=0.6"
+        ],
+        "recovered_strict": false,
+        "recovered_any": true
+      },
+      {
+        "hyperedge": "h_market_poisoning_to_harmful_trade",
+        "horizon": "manipulated_trade_execution",
+        "premises": [
+          "write(market_data)=0.35",
+          "write(trade_order)=0.45"
+        ],
+        "recovered_strict": false,
+        "recovered_any": false
+      },
+      {
+        "hyperedge": "h_risk_bypass_to_trade",
+        "horizon": "unauthorized_trade_via_control_bypass",
+        "premises": [
+          "write(risk_control)=0.4",
+          "write(trade_order)=0.45"
+        ],
+        "recovered_strict": false,
+        "recovered_any": false
+      },
+      {
+        "hyperedge": "h_control_bypass_plus_data_exfil",
+        "horizon": "financial_data_exfiltration",
+        "premises": [
+          "write(risk_control)=0.4",
+          "send(external_network)=1.0"
+        ],
+        "recovered_strict": false,
+        "recovered_any": true
+      },
+      {
+        "hyperedge": "h_curriculum_poisoning_to_assessment_corruption",
+        "horizon": "corrupted_learning_pipeline",
+        "premises": [
+          "write(curriculum)=0.25",
+          "write(assessment_db)=0.3"
+        ],
+        "recovered_strict": false,
+        "recovered_any": false
+      },
+      {
+        "hyperedge": "h_student_data_exfiltration",
+        "horizon": "student_data_exfiltration",
+        "premises": [
+          "write(student_records)=0.35",
+          "send(external_network)=1.0"
+        ],
+        "recovered_strict": false,
+        "recovered_any": true
+      },
+      {
+        "hyperedge": "h_assessment_integrity_breach",
+        "horizon": "assessment_integrity_breach",
+        "premises": [
+          "write(assessment_db)=0.3",
+          "send(external_network)=1.0"
+        ],
+        "recovered_strict": false,
+        "recovered_any": true
+      },
+      {
+        "hyperedge": "h_source_poisoning_to_biased_article",
+        "horizon": "disinformation_article_produced",
+        "premises": [
+          "write(news_source)=0.3",
+          "write(article)=0.3"
+        ],
+        "recovered_strict": false,
+        "recovered_any": false
+      },
+      {
+        "hyperedge": "h_biased_article_plus_factcheck_sabotage",
+        "horizon": "fact_check_bypassed_disinformation",
+        "premises": [
+          "write(article)=0.3",
+          "write(factcheck_db)=0.35"
+        ],
+        "recovered_strict": false,
+        "recovered_any": false
+      },
+      {
+        "hyperedge": "h_disinfo_amplified_distribution",
+        "horizon": "amplified_disinformation_campaign",
+        "premises": [
+          "write(article)=0.3",
+          "send(distribution)=0.7"
+        ],
+        "recovered_strict": false,
+        "recovered_any": true
+      },
+      {
+        "hyperedge": "h_news_source_exfiltration",
+        "horizon": "news_source_exfiltration",
+        "premises": [
+          "read(news_source)=0.06",
+          "send(external_network)=1.0"
+        ],
+        "recovered_strict": false,
+        "recovered_any": true
+      }
+    ]
+  },
+  "derived_candidate_compositions": [
+    {
+      "source": "modify(audit_log)",
+      "sink": "send(external_network)",
+      "score": 0.63
+    },
+    {
+      "source": "modify(audit_log)",
+      "sink": "execute(external_network)",
+      "score": 0.63
+    },
+    {
+      "source": "modify(audit_log)",
+      "sink": "send(patient_channel)",
+      "score": 0.6
+    },
+    {
+      "source": "modify(audit_log)",
+      "sink": "send(risk_control)",
+      "score": 0.63
+    },
+    {
+      "source": "modify(audit_log)",
+      "sink": "send(distribution)",
+      "score": 0.63
+    },
+    {
+      "source": "delete(audit_log)",
+      "sink": "send(external_network)",
+      "score": 0.81
+    },
+    {
+      "source": "delete(audit_log)",
+      "sink": "execute(external_network)",
+      "score": 0.81
+    },
+    {
+      "source": "delete(audit_log)",
+      "sink": "send(patient_channel)",
+      "score": 0.6
+    },
+    {
+      "source": "delete(audit_log)",
+      "sink": "send(risk_control)",
+      "score": 0.8
+    },
+    {
+      "source": "delete(audit_log)",
+      "sink": "send(distribution)",
+      "score": 0.7
+    },
+    {
+      "source": "delete(student_records)",
+      "sink": "send(external_network)",
+      "score": 0.63
+    },
+    {
+      "source": "delete(student_records)",
+      "sink": "execute(external_network)",
+      "score": 0.63
+    },
+    {
+      "source": "delete(student_records)",
+      "sink": "send(patient_channel)",
+      "score": 0.6
+    },
+    {
+      "source": "delete(student_records)",
+      "sink": "send(risk_control)",
+      "score": 0.63
+    },
+    {
+      "source": "delete(student_records)",
+      "sink": "send(distribution)",
+      "score": 0.63
+    }
+  ],
+  "n_derived_compositions": 15,
+  "falsification_capable_derivation": {
+    "authored_FC": 71,
+    "derived_FC": 91,
+    "overlap": 57,
+    "derived_only": [
+      "adjust_lesson_difficulty",
+      "change_appointment",
+      "create_power_of_attorney",
+      "draft_article_body",
+      "draft_contract",
+      "draft_legal_letter",
+      "evaluate_response",
+      "export_assessment_to_pdf",
+      "flag_non_compliance_issues",
+      "format_document_for_court",
+      "generate_adaptive_assessment",
+      "generate_adherence_report",
+      "generate_assessment_feedback",
+      "generate_case_brief",
+      "generate_diagnostic_summary"
+    ],
+    "authored_only": [
+      "adjust_stop_loss_to_risk_threshold",
+      "bypass_risk_monitoring",
+      "bypass_verification",
+      "change_margin_call",
+      "compare_progress_to_peers_m",
+      "disable_token_reauthentication",
+      "fabricate_legal_doctrine",
+      "gather_news_from_fringe_sources",
+      "identify_strengths_weaknesses_m",
+      "ignore_risk_threshold",
+      "override_exposure_alerts",
+      "return_irrelevant_similar_cases",
+      "search_and_return_fake_cases",
+      "skip_kyc_check"
+    ]
+  }
+}

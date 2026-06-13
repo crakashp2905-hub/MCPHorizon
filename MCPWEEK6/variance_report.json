@@ -1,0 +1,464 @@
+{
+  "note_detector_deterministic": "The detector is deterministic given events: the released tool reproduces all 150/150 per-scenario verdicts from recorded events (paper \u00a76.8). All variance below is EXECUTION variance (stochastic CrewAI + qwen2.5:7b orchestration), NOT detector variance.",
+  "method": {
+    "within_run": "percentile bootstrap over scenarios, 10000 resamples, 95% CI; per-domain n=10, per-class n=50",
+    "across_run": "independent live re-runs under identical settings (genuine fresh executions only)"
+  },
+  "within_run": {
+    "Colluding": {
+      "per_domain": {
+        "legal": {
+          "n": 10,
+          "detection_count": 6,
+          "detection_rate": 0.6,
+          "detection_ci95": [
+            0.3,
+            0.9
+          ],
+          "horizon_count": 0,
+          "horizon_rate": 0.0,
+          "horizon_ci95": [
+            0.0,
+            0.0
+          ],
+          "detection_wilson95": [
+            0.3126695474501864,
+            0.8318224187964902
+          ],
+          "horizon_wilson95": [
+            0.0,
+            0.2775401687666166
+          ]
+        },
+        "healthcare": {
+          "n": 10,
+          "detection_count": 10,
+          "detection_rate": 1.0,
+          "detection_ci95": [
+            1.0,
+            1.0
+          ],
+          "horizon_count": 6,
+          "horizon_rate": 0.6,
+          "horizon_ci95": [
+            0.3,
+            0.9
+          ],
+          "detection_wilson95": [
+            0.7224598312333834,
+            1.0
+          ],
+          "horizon_wilson95": [
+            0.3126695474501864,
+            0.8318224187964902
+          ]
+        },
+        "finance": {
+          "n": 10,
+          "detection_count": 10,
+          "detection_rate": 1.0,
+          "detection_ci95": [
+            1.0,
+            1.0
+          ],
+          "horizon_count": 3,
+          "horizon_rate": 0.3,
+          "horizon_ci95": [
+            0.0,
+            0.6
+          ],
+          "detection_wilson95": [
+            0.7224598312333834,
+            1.0
+          ],
+          "horizon_wilson95": [
+            0.10778928748621183,
+            0.6032267800204347
+          ]
+        },
+        "education": {
+          "n": 10,
+          "detection_count": 7,
+          "detection_rate": 0.7,
+          "detection_ci95": [
+            0.4,
+            1.0
+          ],
+          "horizon_count": 1,
+          "horizon_rate": 0.1,
+          "horizon_ci95": [
+            0.0,
+            0.3
+          ],
+          "detection_wilson95": [
+            0.39677321997956516,
+            0.892210712513788
+          ],
+          "horizon_wilson95": [
+            0.01787574951572113,
+            0.4041563854975721
+          ]
+        },
+        "news": {
+          "n": 10,
+          "detection_count": 9,
+          "detection_rate": 0.9,
+          "detection_ci95": [
+            0.7,
+            1.0
+          ],
+          "horizon_count": 2,
+          "horizon_rate": 0.2,
+          "horizon_ci95": [
+            0.0,
+            0.5
+          ],
+          "detection_wilson95": [
+            0.5958436145024278,
+            0.9821242504842788
+          ],
+          "horizon_wilson95": [
+            0.056680947980693314,
+            0.5098431532792765
+          ]
+        }
+      },
+      "total": {
+        "n": 50,
+        "detection_count": 42,
+        "detection_rate": 0.84,
+        "detection_ci95": [
+          0.74,
+          0.94
+        ],
+        "horizon_count": 12,
+        "horizon_rate": 0.24,
+        "horizon_ci95": [
+          0.12,
+          0.36
+        ],
+        "detection_wilson95": [
+          0.7148551903823401,
+          0.9166267863791231
+        ],
+        "horizon_wilson95": [
+          0.14297252401872207,
+          0.3741294937519236
+        ]
+      }
+    },
+    "DPI": {
+      "per_domain": {
+        "legal": {
+          "n": 10,
+          "detection_count": 4,
+          "detection_rate": 0.4,
+          "detection_ci95": [
+            0.1,
+            0.7
+          ],
+          "horizon_count": 0,
+          "horizon_rate": 0.0,
+          "horizon_ci95": [
+            0.0,
+            0.0
+          ],
+          "detection_wilson95": [
+            0.16817758120350967,
+            0.6873304525498135
+          ],
+          "horizon_wilson95": [
+            0.0,
+            0.2775401687666166
+          ]
+        },
+        "healthcare": {
+          "n": 10,
+          "detection_count": 8,
+          "detection_rate": 0.8,
+          "detection_ci95": [
+            0.5,
+            1.0
+          ],
+          "horizon_count": 0,
+          "horizon_rate": 0.0,
+          "horizon_ci95": [
+            0.0,
+            0.0
+          ],
+          "detection_wilson95": [
+            0.49015684672072335,
+            0.9433190520193067
+          ],
+          "horizon_wilson95": [
+            0.0,
+            0.2775401687666166
+          ]
+        },
+        "finance": {
+          "n": 10,
+          "detection_count": 3,
+          "detection_rate": 0.3,
+          "detection_ci95": [
+            0.0,
+            0.6
+          ],
+          "horizon_count": 0,
+          "horizon_rate": 0.0,
+          "horizon_ci95": [
+            0.0,
+            0.0
+          ],
+          "detection_wilson95": [
+            0.10778928748621183,
+            0.6032267800204347
+          ],
+          "horizon_wilson95": [
+            0.0,
+            0.2775401687666166
+          ]
+        },
+        "education": {
+          "n": 10,
+          "detection_count": 4,
+          "detection_rate": 0.4,
+          "detection_ci95": [
+            0.1,
+            0.7
+          ],
+          "horizon_count": 0,
+          "horizon_rate": 0.0,
+          "horizon_ci95": [
+            0.0,
+            0.0
+          ],
+          "detection_wilson95": [
+            0.16817758120350967,
+            0.6873304525498135
+          ],
+          "horizon_wilson95": [
+            0.0,
+            0.2775401687666166
+          ]
+        },
+        "news": {
+          "n": 10,
+          "detection_count": 7,
+          "detection_rate": 0.7,
+          "detection_ci95": [
+            0.4,
+            1.0
+          ],
+          "horizon_count": 0,
+          "horizon_rate": 0.0,
+          "horizon_ci95": [
+            0.0,
+            0.0
+          ],
+          "detection_wilson95": [
+            0.39677321997956516,
+            0.892210712513788
+          ],
+          "horizon_wilson95": [
+            0.0,
+            0.2775401687666166
+          ]
+        }
+      },
+      "total": {
+        "n": 50,
+        "detection_count": 26,
+        "detection_rate": 0.52,
+        "detection_ci95": [
+          0.38,
+          0.66
+        ],
+        "horizon_count": 0,
+        "horizon_rate": 0.0,
+        "horizon_ci95": [
+          0.0,
+          0.0
+        ],
+        "detection_wilson95": [
+          0.3851151225880844,
+          0.6520308760449429
+        ],
+        "horizon_wilson95": [
+          0.0,
+          0.07135003417431873
+        ]
+      }
+    },
+    "IPI": {
+      "per_domain": {
+        "legal": {
+          "n": 10,
+          "detection_count": 4,
+          "detection_rate": 0.4,
+          "detection_ci95": [
+            0.1,
+            0.7
+          ],
+          "horizon_count": 1,
+          "horizon_rate": 0.1,
+          "horizon_ci95": [
+            0.0,
+            0.3
+          ],
+          "detection_wilson95": [
+            0.16817758120350967,
+            0.6873304525498135
+          ],
+          "horizon_wilson95": [
+            0.01787574951572113,
+            0.4041563854975721
+          ]
+        },
+        "healthcare": {
+          "n": 10,
+          "detection_count": 4,
+          "detection_rate": 0.4,
+          "detection_ci95": [
+            0.1,
+            0.7
+          ],
+          "horizon_count": 2,
+          "horizon_rate": 0.2,
+          "horizon_ci95": [
+            0.0,
+            0.5
+          ],
+          "detection_wilson95": [
+            0.16817758120350967,
+            0.6873304525498135
+          ],
+          "horizon_wilson95": [
+            0.056680947980693314,
+            0.5098431532792765
+          ]
+        },
+        "finance": {
+          "n": 10,
+          "detection_count": 4,
+          "detection_rate": 0.4,
+          "detection_ci95": [
+            0.1,
+            0.7
+          ],
+          "horizon_count": 1,
+          "horizon_rate": 0.1,
+          "horizon_ci95": [
+            0.0,
+            0.3
+          ],
+          "detection_wilson95": [
+            0.16817758120350967,
+            0.6873304525498135
+          ],
+          "horizon_wilson95": [
+            0.01787574951572113,
+            0.4041563854975721
+          ]
+        },
+        "education": {
+          "n": 10,
+          "detection_count": 0,
+          "detection_rate": 0.0,
+          "detection_ci95": [
+            0.0,
+            0.0
+          ],
+          "horizon_count": 0,
+          "horizon_rate": 0.0,
+          "horizon_ci95": [
+            0.0,
+            0.0
+          ],
+          "detection_wilson95": [
+            0.0,
+            0.2775401687666166
+          ],
+          "horizon_wilson95": [
+            0.0,
+            0.2775401687666166
+          ]
+        },
+        "news": {
+          "n": 10,
+          "detection_count": 2,
+          "detection_rate": 0.2,
+          "detection_ci95": [
+            0.0,
+            0.5
+          ],
+          "horizon_count": 0,
+          "horizon_rate": 0.0,
+          "horizon_ci95": [
+            0.0,
+            0.0
+          ],
+          "detection_wilson95": [
+            0.056680947980693314,
+            0.5098431532792765
+          ],
+          "horizon_wilson95": [
+            0.0,
+            0.2775401687666166
+          ]
+        }
+      },
+      "total": {
+        "n": 50,
+        "detection_count": 14,
+        "detection_rate": 0.28,
+        "detection_ci95": [
+          0.16,
+          0.4
+        ],
+        "horizon_count": 4,
+        "horizon_rate": 0.08,
+        "horizon_ci95": [
+          0.02,
+          0.16
+        ],
+        "detection_wilson95": [
+          0.17474014357680362,
+          0.4166538714598967
+        ],
+        "horizon_wilson95": [
+          0.031549003255790686,
+          0.18838502545063704
+        ]
+      }
+    }
+  },
+  "across_run": {
+    "Colluding_finance": {
+      "runs": [
+        {
+          "source": "locked (RECHECK)",
+          "n": 10,
+          "detection": 10,
+          "horizon": 3
+        },
+        {
+          "source": "fresh re-run (logs_livetest)",
+          "n": 10,
+          "detection": 8,
+          "horizon": 5
+        }
+      ],
+      "n_independent_runs": 2,
+      "detection_observed": [
+        10,
+        8
+      ],
+      "horizon_observed": [
+        3,
+        5
+      ],
+      "note": "Only 2 genuine independent executions are on record for this cell. Detection varied [8, 10], horizon varied [3, 5] across the two runs \u2014 material execution variance on n=10."
+    },
+    "_coverage": "Genuine independent re-runs exist only for Colluding/finance (2 runs). The locked vs map-corrected counts elsewhere are the SAME execution re-scored, not independent runs, so they do NOT measure execution variance. A full n>=5 across-run study of all 150 scenarios (~750 live multi-agent runs at 10-25 min each on CPU) was not feasible in this environment; it is specified as future work. The within-run bootstrap CIs above are the rigorous, computable uncertainty and already show the point estimates over-claim precision."
+  }
+}

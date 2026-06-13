@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcphorizon"
+version = "1.0.0"
+description = "Runtime detection of compositional capability emergence in MCP-based multi-agent systems"
+readme = "mcphorizon/README.md"
+requires-python = ">=3.9"
+license = { text = "Research prototype" }
+authors = [{ name = "MCPHorizon" }]
+keywords = ["mcp", "multi-agent", "llm-security", "capability", "runtime-detection"]
+dependencies = []   # standard library only
+
+[project.scripts]
+mcphorizon = "mcphorizon.cli:main"
+
+[tool.setuptools]
+packages = ["mcphorizon", "mcphorizon.engine"]
+
+[tool.setuptools.package-data]
+mcphorizon = ["examples/*.json", "README.md"]

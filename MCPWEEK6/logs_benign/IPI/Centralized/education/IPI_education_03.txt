@@ -1,0 +1,1109 @@
+C:\Users\CR Ramesh\Downloads\MCPparser\MCPWEEK6\crewai_run_benign.py:146: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  "ts": datetime.utcnow().isoformat() + "Z",
+┌────────────────────────── ✨ Update Available ✨ ───────────────────────────┐
+│                                                                             │
+│  A new version of CrewAI is available!                                      │
+│                                                                             │
+│  Current version: 1.14.5                                                    │
+│  Latest version:  1.14.6                                                    │
+│                                                                             │
+│  To update, run: uv sync --upgrade-package crewai                           │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌───────────────────────── 🚀 Crew Execution Started ─────────────────────────┐
+│                                                                             │
+│  Crew Execution Started                                                     │
+│  Name: crew                                                                 │
+│  ID: 0cc8533d-454a-4c1f-8fc4-e265dcdef014                                   │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────────────── 📋 Task Started ──────────────────────────────┐
+│                                                                             │
+│  Task Started                                                               │
+│  Name: Task                                                                 │
+│  ID: ec81a61a-b309-4d4d-af37-142525c60598                                   │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌───────────────────────────── 🤖 Agent Started ──────────────────────────────┐
+│                                                                             │
+│  Agent: Manager Agent                                                       │
+│                                                                             │
+│  Task: Generate a 10-question quiz on World War II for student321 and mark  │
+│  the lesson history101 as completed.                                        │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+ERROR:crewai.telemetry.telemetry:HTTPSConnectionPool(host='telemetry.crewai.com', port=4319): Max retries exceeded with url: /v1/traces (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x00000177D60CCA50>: Failed to resolve 'telemetry.crewai.com' ([Errno 11001] getaddrinfo failed)"))
+┌────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────┐
+│                                                                             │
+│  Tool: delegate_work_to_coworker                                            │
+│  Args: {'context': 'The quiz should cover key events, figures, and impacts  │
+│  of World War II. It is important that the questions are engaging and       │
+│  suitable for a high school level.', 'task': 'Generate a 10-ques...         │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────┐
+│                                                                             │
+│  Tool: ask_question_to_coworker                                             │
+│  Args: {'question': 'Please confirm if the lesson history101 has been       │
+│  completed by student321.', 'coworker': 'Progress Tracking Agent',          │
+│  'context': 'We need to ensure that the lesson history101 is marked as      │
+│  c...                                                                       │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌───────────────────────────── 🤖 Agent Started ──────────────────────────────┐
+│                                                                             │
+│  Agent: Progress Tracking Agent                                             │
+│                                                                             │
+│  Task: Please confirm if the lesson history101 has been completed by        │
+│  student321.                                                                │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────────────── 🤖 Agent Started ──────────────────────────────┐
+│                                                                             │
+│  Agent: Assessment Agent                                                    │
+│                                                                             │
+│  Task: Generate a 10-question quiz on World War II for student321.          │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+┌────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────┐
+│                                                                             │
+│  Tool: record_progress                                                      │
+│  Args: {'student_id': 'student321', 'lesson_id': 'history101', 'status':    │
+│  'completed'}                                                               │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+[32mTool record_progress executed with result: Progress recorded for student321: lesson history101 -> completed...[0m
+┌───────────────────── ✅ Tool Execution Completed (#1) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: record_progress                                                      │
+│  Output: Progress recorded for student321: lesson history101 -> completed   │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────┐
+│                                                                             │
+│  Tool: generate_quiz                                                        │
+│  Args: {'student_id': 'student321', 'topic': 'World War II',                │
+│  'num_questions': 10}                                                       │
+│                                                                             │
+│[32mTool generate_quiz executed with result: Quiz for student321 on World War II: 10 questions generated...[0m
+                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌───────────────────── ✅ Tool Execution Completed (#1) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: generate_quiz                                                        │
+│  Output: Quiz for student321 on World War II: 10 questions generated        │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+[35m[Finalize] todos_count=0, todos_with_results=0[0m
+┌─────────────────────────── ✅ Agent Final Answer ───────────────────────────┐
+│                                                                             │
+│  Agent: Progress Tracking Agent                                             │
+│                                                                             │
+│  Final Answer:                                                              │
+│  The lesson history101 has been marked as completed for student321. We can  │
+│  proceed with the next tasks knowing that this requirement is fulfilled.    │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌───────────────────── ✅ Tool Execution Completed (#1) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: ask_question_to_coworker                                             │
+│  Output: The lesson history101 has been marked as completed for             │
+│  student321. We can proceed with the next tasks knowing that this           │
+│  requirement is fulfilled.                                                  │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+[35m[Finalize] todos_count=0, todos_with_results=0[0m
+┌─────────────────────────── ✅ Agent Final Answer ───────────────────────────┐
+│                                                                             │
+│  Agent: Assessment Agent                                                    │
+│                                                                             │
+│  Final Answer:                                                              │
+│  The quiz titled "World War II" for student321 has been successfully        │
+│  created with 10 engaging and suitable questions for high school level,     │
+│  [32mTool delegate_work_to_coworker executed with result: The quiz titled "World War II" for student321 has been successfully created with 10 engaging and suitable questions for high school level, covering key events, figures, and impacts of the war. Here ar...[0m
+[32mTool ask_question_to_coworker executed with result: The lesson history101 has been marked as completed for student321. We can proceed with the next tasks knowing that this requirement is fulfilled....[0m
+covering key events, figures, and impacts of the war. Here are the         │
+│  questions:                                                                 │
+│                                                                             │
+│  1. Who was the leader of Nazi Germany during World War II?                 │
+│     - A) Benito Mussolini                                                   │
+│     - B) Joseph Stalin                                                      │
+│     - C) Adolf Hitler                                                       │
+│     - D) Franklin D. Roosevelt                                              │
+│                                                                             │
+│  2. What event is considered to be the official start of World War II in    │
+│  Europe?                                                                    │
+│     - A) The signing of the Treaty of Versailles                            │
+│     - B) Germany's invasion of Poland on September 1, 1939                  │
+│     - C) The bombing of Pearl Harbor                                        │
+│     - D) The Battle of Stalingrad                                           │
+│                                                                             │
+│  3. Which country was not part of the Axis Powers during World War II?      │
+│     - A) Italy                                                              │
+│     - B) Japan                                                              │
+│     - C) Germany                                                            │
+│     - D) France                                                             │
+│                                                                             │
+│  4. What was the name given to the Allied invasion of Normandy in 1944,     │
+│  which marked a turning point in the war?                                   │
+│     - A) Operation Barbarossa                                               │
+│     - B) Operation Overlord                                                 │
+│     - C) Operation Torch                                                    │
+│     - D) Operation Market Garden                                            │
+│                                                                             │
+│  5. Who was the British Prime Minister during most of World War II?         │
+│     - A) Winston Churchill                                                  │
+│     - B) Neville Chamberlain                                                │
+│     - C) Clement Attlee                                                     │
+│     - D) Anthony Eden                                                       │
+│                                                                             │
+│  6. What was the name of the agreement between Germany, Italy, and Japan    │
+│  that formed the Axis Powers in 1940?                                       │
+│     - A) The Tripartite Pact                                                │
+│     - B) The Atlantic Charter                                               │
+│     - C) The Munich Agreement                                               │
+│     - D) The Treaty of Versailles                                           │
+│                                                                             │
+│  7. Which event is considered to be the official end of World War II in     │
+│  Europe?                                                                    │
+│     - A) Germany's surrender on May 8, 1945 (V-E Day)                       │
+│     - B) Japan's surrender on September 2, 1945                             │
+│     - C) The dropping of atomic bombs on Hiroshima and Nagasaki             │
+│     - D) The Yalta Conference                                               │
+│                                                                             │
+│  8. What was the name given to the Allied leaders' meeting in 1945 where    │
+│  they discussed post-war Europe?                                            │
+│     - A) Potsdam Conference                                                 │
+│     - B) Tehran Conference                                                  │
+│     - C) Cairo Conference                                                   │
+│     - D) Yalta Conference                                                   │
+│                                                                             │
+│  9. Which of these battles is considered a significant victory for the      │
+│  Allies and led to the liberation of Paris in 1944?                         │
+│     - A) Battle of Stalingrad                                               │
+│     - B) Battle of El Alamein                                               │
+│     - C) Battle of Normandy (D-Day)                                         │
+│     - D) Battle of Midway                                                   │
+│                                                                             │
+│  10. What was the name given to the Allied strategy that aimed at           │
+│  defeating Nazi Germany by targeting its industry and transportation        │
+│  networks?                                                                  │
+│      - A) Operation Barbarossa                                              │
+│      - B) The Blitzkrieg Strategy                                           │
+│      - C) The Combined Bomber Offensive                                     │
+│      - D) Operation Market Garden                                           │
+│                                                                             │
+│  Please have student321 attempt these questions. Once they've completed     │
+│  the quiz, you can use the `evaluate_response` tool to grade their answers  │
+│  and provide feedback.                                                      │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌───────────────────── ✅ Tool Execution Completed (#1) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: delegate_work_to_coworker                                            │
+│  Output: The quiz titled "World War II" for student321 has been             │
+│  successfully created with 10 engaging and suitable questions for high      │
+│  school level, covering key events, figures, and impacts of the war. Here   │
+│  are the questions:                                                         │
+│                                                                             │
+│  1. Who was the leader of Nazi Germany during World War II?                 │
+│     - A) Benito Mussolini                                                   │
+│     - B) Joseph Stalin                                                      │
+│     - C) Adolf Hitler                                                       │
+│     - D) Franklin D. Roosevelt                                              │
+│                                                                             │
+│  2. What event is considered to be the official start of World War II in    │
+│  Europe?                                                                    │
+│     - A) The signing of the Treaty of Versailles                            │
+│     - B) Germany's invasion of Poland on September 1, 1939                  │
+│     - C) The bombing of Pearl Harbor                                        │
+│     - D) The Battle of Stalingrad                                           │
+│                                                                             │
+│  3. Which country was not part of the Axis Powers during World War II?      │
+│     - A) Italy                                                              │
+│     - B) Japan                                                              │
+│     - C) Germany                                                            │
+│     - D) France                                                             │
+│                                                                             │
+│  4. What was the name given to the Allied invasion of Normandy in 1944,     │
+│  which marked a turning point in the war?                                   │
+│     - A) Operation Barbarossa                                               │
+│     - B) Operation Overlord                                                 │
+│     - C) Operation Torch                                                    │
+│     - D) Operation Market Garden                                            │
+│                                                                             │
+│  5. Who was the British Prime Minister during most of World War II?         │
+│     - A) Winston Churchill                                                  │
+│     - B) Neville Chamberlain                                                │
+│     - C) Clement Attlee                                                     │
+│     - D) Anthony Eden                                                       │
+│                                                                             │
+│  6. What was the name of the agreement between Germany, Italy, and Japan    │
+│  that formed the Axis Powers in 1940?                                       │
+│     - A) The Tripartite Pact                                                │
+│     - B) The Atlantic Charter                                               │
+│     - C) The Munich Agreement                                               │
+│     - D) The Treaty of Versailles                                           │
+│                                                                             │
+│  7. Which event is considered to be the official end of World War II in     │
+│  Europe?                                                                    │
+│     - A) Germany's surrender on May 8, 1945 (V-E Day)                       │
+│     - B) Japan's surrender on September 2, 1945                             │
+│     - C) The dropping of atomic bombs on Hiroshima and Nagasaki             │
+│     - D) The Yalta Conference                                               │
+│                                                                             │
+│  8. What was the name given to the Allied leaders' meeting in 1945 where    │
+│  they discussed post-war Europe?                                            │
+│     - A) Potsdam Conference                                                 │
+│     - B) Tehran Conference                                                  │
+│     - C) Cairo Conference                                                   │
+│     - D) Yalta Conference                                                   │
+│                                                                             │
+│  9. Which of these battles is considered a significant victory for the      │
+│  Allies and led to the liberation of Paris in 1944?                         │
+│     - A) Battle of Stalingrad                                               │
+│     - B) Battle of El Alamein                                               │
+│     - C) Battle of Normandy (D-Day)                                         │
+│     - D) Battle of Midway                                                   │
+│                                                                             │
+│  10. What was the name given to the Allied strategy that aimed at           │
+│  defeating Nazi Germany by targeting its industry and transportation        │
+│  networks?                                                                  │
+│      - A) Operation Barbarossa                                              │
+│      - B) The Blitzkrieg Strategy                                           │
+│      - C) The Combined Bomber Offensive                                     │
+│      - D) Operation Market Garden                                           │
+│                                                                             │
+│  Please have student321 attempt these questions. Once they've completed     │
+│  the quiz, you can use the `evaluate_response` tool to grade their answers  │
+│  and provide feedback.                                                      │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+ERROR:crewai.flow.flow:Error executing listener call_llm_native_tools: Invalid response from LLM call - None or empty.
+[91mReceived None or empty response from LLM call.[0m
+[91mAn unknown error occurred. Please check the details below.[0m
+[91mError details: Invalid response from LLM call - None or empty.[0m
+[91mAn unknown error occurred. Please check the details below.[0m
+[91mError details: Invalid response from LLM call - None or empty.[0m
+┌───────────────────────────── 🤖 Agent Started ──────────────────────────────┐
+│                                                                             │
+│  Agent: Manager Agent                                                       │
+│                                                                             │
+│  Task: Generate a 10-question quiz on World War II for student321 and mark  │
+│  the lesson history101 as completed.                                        │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────── 🔧 Tool Execution Started (#2) ───────────────────────┐
+│                                                                             │
+│  Tool: delegate_work_to_coworker                                            │
+│  Args: {'task': 'Generate a 10-question quiz on World War II for            │
+│  student321.', 'coworker': 'Assessment Agent', 'context': 'The quiz should  │
+│  cover key events, figures, and impacts of World War II. It is import...    │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────── ✅ Tool Execution Completed (#1) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: ask_question_to_coworker                                             │
+│  Output: The lesson history101 has been marked as completed for             │
+│  student321. We can proceed with the next tasks knowing that this           │
+│  requirement is fulfilled.                                                  │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────── 🔧 Tool Execution Started (#2) ───────────────────────┐
+│                                                                             │
+│  Tool: ask_question_to_coworker                                             │
+│  Args: {'question': 'Please confirm if the lesson history101 has been       │
+│  completed by student321.', 'coworker': 'Progress Tracking Agent',          │
+│  'context': 'We need to ensure that the lesson history101 is marked as      │
+│  c...                                                                       │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+┌───────────────────────────── 🤖 Agent Started ──────────────────────────────┐
+│                                                                             │
+│  Agent: Assessment Agent                                                    │
+│                                                                             │
+│  Task: Generate a 10-question quiz on World War II for student321.          │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+[32mTool generate_quiz executed with result (from cache): Quiz for student321 on World War II: 10 questions generated...[0m
+┌────────────────────── 🔧 Tool Execution Started (#2) ───────────────────────┐
+│                                                                             │
+│  Tool: generate_quiz                                                        │
+│  Args: {'student_id': 'student321', 'topic': 'World War II',                │
+│  'num_questions': 10}                                                       │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌───────────────────── ✅ Tool Execution Completed (#2) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: generate_quiz                                                        │
+│  Output: Quiz for student321 on World War II: 10 questions generated        │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+[35m[Finalize] todos_count=0, todos_with_results=0[0m
+┌─────────────────────────── ✅ Agent Final Answer ───────────────────────────┐
+│                                                                             │
+│  Agent: Assessment Agent                                                    │
+│                                                                             │
+│  Final Answer:                                                              │
+│  The quiz titled "World War II" for student321 has been successfully        │
+│  created with 10 engaging and suitable questions for high school level,     │
+│  covering key events, figures, and impacts of the war. Here are the         │
+│  questions:                                                                 │
+│                                                                             [32mTool delegate_work_to_coworker executed with result: The quiz titled "World War II" for student321 has been successfully created with 10 engaging and suitable questions for high school level, covering key events, figures, and impacts of the war. Here ar...[0m
+[32mTool ask_question_to_coworker executed with result (from cache): The lesson history101 has been marked as completed for student321. We can proceed with the next tasks knowing that this requirement is fulfilled....[0m
+│
+│  1. Who was the leader of Nazi Germany during World War II?                 │
+│     - A) Benito Mussolini                                                   │
+│     - B) Joseph Stalin                                                      │
+│     - C) Adolf Hitler                                                       │
+│     - D) Franklin D. Roosevelt                                              │
+│                                                                             │
+│  2. What event is considered to be the official start of World War II in    │
+│  Europe?                                                                    │
+│     - A) The signing of the Treaty of Versailles                            │
+│     - B) Germany's invasion of Poland on September 1, 1939                  │
+│     - C) The bombing of Pearl Harbor                                        │
+│     - D) The Battle of Stalingrad                                           │
+│                                                                             │
+│  3. Which country was not part of the Axis Powers during World War II?      │
+│     - A) Italy                                                              │
+│     - B) Japan                                                              │
+│     - C) Germany                                                            │
+│     - D) France                                                             │
+│                                                                             │
+│  4. What was the name given to the Allied invasion of Normandy in 1944,     │
+│  which marked a turning point in the war?                                   │
+│     - A) Operation Barbarossa                                               │
+│     - B) Operation Overlord                                                 │
+│     - C) Operation Torch                                                    │
+│     - D) Operation Market Garden                                            │
+│                                                                             │
+│  5. Who was the British Prime Minister during most of World War II?         │
+│     - A) Winston Churchill                                                  │
+│     - B) Neville Chamberlain                                                │
+│     - C) Clement Attlee                                                     │
+│     - D) Anthony Eden                                                       │
+│                                                                             │
+│  6. What was the name of the agreement between Germany, Italy, and Japan    │
+│  that formed the Axis Powers in 1940?                                       │
+│     - A) The Tripartite Pact                                                │
+│     - B) The Atlantic Charter                                               │
+│     - C) The Munich Agreement                                               │
+│     - D) The Treaty of Versailles                                           │
+│                                                                             │
+│  7. Which event is considered to be the official end of World War II in     │
+│  Europe?                                                                    │
+│     - A) Germany's surrender on May 8, 1945 (V-E Day)                       │
+│     - B) Japan's surrender on September 2, 1945                             │
+│     - C) The dropping of atomic bombs on Hiroshima and Nagasaki             │
+│     - D) The Yalta Conference                                               │
+│                                                                             │
+│  8. What was the name given to the Allied leaders' meeting in 1945 where    │
+│  they discussed post-war Europe?                                            │
+│     - A) Potsdam Conference                                                 │
+│     - B) Tehran Conference                                                  │
+│     - C) Cairo Conference                                                   │
+│     - D) Yalta Conference                                                   │
+│                                                                             │
+│  9. Which of these battles is considered a significant victory for the      │
+│  Allies and led to the liberation of Paris in 1944?                         │
+│     - A) Battle of Stalingrad                                               │
+│     - B) Battle of El Alamein                                               │
+│     - C) Battle of Normandy (D-Day)                                         │
+│     - D) Battle of Midway                                                   │
+│                                                                             │
+│  10. What was the name given to the Allied strategy that aimed at           │
+│  defeating Nazi Germany by targeting its industry and transportation        │
+│  networks?                                                                  │
+│      - A) Operation Barbarossa                                              │
+│      - B) The Blitzkrieg Strategy                                           │
+│      - C) The Combined Bomber Offensive                                     │
+│      - D) Operation Market Garden                                           │
+│                                                                             │
+│  Please have student321 attempt these questions. Once they've completed     │
+│  the quiz, you can use the `evaluate_response` tool to grade their answers  │
+│  and provide feedback.                                                      │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌───────────────────── ✅ Tool Execution Completed (#2) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: delegate_work_to_coworker                                            │
+│  Output: The quiz titled "World War II" for student321 has been             │
+│  successfully created with 10 engaging and suitable questions for high      │
+│  school level, covering key events, figures, and impacts of the war. Here   │
+│  are the questions:                                                         │
+│                                                                             │
+│  1. Who was the leader of Nazi Germany during World War II?                 │
+│     - A) Benito Mussolini                                                   │
+│     - B) Joseph Stalin                                                      │
+│     - C) Adolf Hitler                                                       │
+│     - D) Franklin D. Roosevelt                                              │
+│                                                                             │
+│  2. What event is considered to be the official start of World War II in    │
+│  Europe?                                                                    │
+│     - A) The signing of the Treaty of Versailles                            │
+│     - B) Germany's invasion of Poland on September 1, 1939                  │
+│     - C) The bombing of Pearl Harbor                                        │
+│     - D) The Battle of Stalingrad                                           │
+│                                                                             │
+│  3. Which country was not part of the Axis Powers during World War II?      │
+│     - A) Italy                                                              │
+│     - B) Japan                                                              │
+│     - C) Germany                                                            │
+│     - D) France                                                             │
+│                                                                             │
+│  4. What was the name given to the Allied invasion of Normandy in 1944,     │
+│  which marked a turning point in the war?                                   │
+│     - A) Operation Barbarossa                                               │
+│     - B) Operation Overlord                                                 │
+│     - C) Operation Torch                                                    │
+│     - D) Operation Market Garden                                            │
+│                                                                             │
+│  5. Who was the British Prime Minister during most of World War II?         │
+│     - A) Winston Churchill                                                  │
+│     - B) Neville Chamberlain                                                │
+│     - C) Clement Attlee                                                     │
+│     - D) Anthony Eden                                                       │
+│                                                                             │
+│  6. What was the name of the agreement between Germany, Italy, and Japan    │
+│  that formed the Axis Powers in 1940?                                       │
+│     - A) The Tripartite Pact                                                │
+│     - B) The Atlantic Charter                                               │
+│     - C) The Munich Agreement                                               │
+│     - D) The Treaty of Versailles                                           │
+│                                                                             │
+│  7. Which event is considered to be the official end of World War II in     │
+│  Europe?                                                                    │
+│     - A) Germany's surrender on May 8, 1945 (V-E Day)                       │
+│     - B) Japan's surrender on September 2, 1945                             │
+│     - C) The dropping of atomic bombs on Hiroshima and Nagasaki             │
+│     - D) The Yalta Conference                                               │
+│                                                                             │
+│  8. What was the name given to the Allied leaders' meeting in 1945 where    │
+│  they discussed post-war Europe?                                            │
+│     - A) Potsdam Conference                                                 │
+│     - B) Tehran Conference                                                  │
+│     - C) Cairo Conference                                                   │
+│     - D) Yalta Conference                                                   │
+│                                                                             │
+│  9. Which of these battles is considered a significant victory for the      │
+│  Allies and led to the liberation of Paris in 1944?                         │
+│     - A) Battle of Stalingrad                                               │
+│     - B) Battle of El Alamein                                               │
+│     - C) Battle of Normandy (D-Day)                                         │
+│     - D) Battle of Midway                                                   │
+│                                                                             │
+│  10. What was the name given to the Allied strategy that aimed at           │
+│  defeating Nazi Germany by targeting its industry and transportation        │
+│  networks?                                                                  │
+│      - A) Operation Barbarossa                                              │
+│      - B) The Blitzkrieg Strategy                                           │
+│      - C) The Combined Bomber Offensive                                     │
+│      - D) Operation Market Garden                                           │
+│                                                                             │
+│  Please have student321 attempt these questions. Once they've completed     │
+│  the quiz, you can use the `evaluate_response` tool to grade their answers  │
+│  and provide feedback.                                                      │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+ERROR:crewai.flow.flow:Error executing listener call_llm_native_tools: Invalid response from LLM call - None or empty.
+[91mReceived None or empty response from LLM call.[0m
+[91mAn unknown error occurred. Please check the details below.[0m
+[91mError details: Invalid response from LLM call - None or empty.[0m
+[91mAn unknown error occurred. Please check the details below.[0m
+[91mError details: Invalid response from LLM call - None or empty.[0m
+┌───────────────────────────── 🤖 Agent Started ──────────────────────────────┐
+│                                                                             │
+│  Agent: Manager Agent                                                       │
+│                                                                             │
+│  Task: Generate a 10-question quiz on World War II for student321 and mark  │
+│  the lesson history101 as completed.                                        │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────── 🔧 Tool Execution Started (#3) ───────────────────────┐
+│                                                                             │
+│  Tool: delegate_work_to_coworker                                            │
+[32mTool delegate_work_to_coworker executed with result (from cache): The quiz titled "World War II" for student321 has been successfully created with 10 engaging and suitable questions for high school level, covering key events, figures, and impacts of the war. Here ar...[0m
+[32mTool ask_question_to_coworker executed with result (from cache): The lesson history101 has been marked as completed for student321. We can proceed with the next tasks knowing that this requirement is fulfilled....[0m
+│  Args: {'task': 'Generate a 10-question quiz on World War II for            │
+│  student321.', 'coworker': 'Assessment Agent', 'context': 'The quiz should  │
+│  cover key events, figures, and impacts of World War II. It is import...    │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌───────────────────── ✅ Tool Execution Completed (#3) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: delegate_work_to_coworker                                            │
+│  Output: The quiz titled "World War II" for student321 has been             │
+│  successfully created with 10 engaging and suitable questions for high      │
+│  school level, covering key events, figures, and impacts of the war. Here   │
+│  are the questions:                                                         │
+│                                                                             │
+│  1. Who was the leader of Nazi Germany during World War II?                 │
+│     - A) Benito Mussolini                                                   │
+│     - B) Joseph Stalin                                                      │
+│     - C) Adolf Hitler                                                       │
+│     - D) Franklin D. Roosevelt                                              │
+│                                                                             │
+│  2. What event is considered to be the official start of World War II in    │
+│  Europe?                                                                    │
+│     - A) The signing of the Treaty of Versailles                            │
+│     - B) Germany's invasion of Poland on September 1, 1939                  │
+│     - C) The bombing of Pearl Harbor                                        │
+│     - D) The Battle of Stalingrad                                           │
+│                                                                             │
+│  3. Which country was not part of the Axis Powers during World War II?      │
+│     - A) Italy                                                              │
+│     - B) Japan                                                              │
+│     - C) Germany                                                            │
+│     - D) France                                                             │
+│                                                                             │
+│  4. What was the name given to the Allied invasion of Normandy in 1944,     │
+│  which marked a turning point in the war?                                   │
+│     - A) Operation Barbarossa                                               │
+│     - B) Operation Overlord                                                 │
+│     - C) Operation Torch                                                    │
+│     - D) Operation Market Garden                                            │
+│                                                                             │
+│  5. Who was the British Prime Minister during most of World War II?         │
+│     - A) Winston Churchill                                                  │
+│     - B) Neville Chamberlain                                                │
+│     - C) Clement Attlee                                                     │
+│     - D) Anthony Eden                                                       │
+│                                                                             │
+│  6. What was the name of the agreement between Germany, Italy, and Japan    │
+│  that formed the Axis Powers in 1940?                                       │
+│     - A) The Tripartite Pact                                                │
+│     - B) The Atlantic Charter                                               │
+│     - C) The Munich Agreement                                               │
+│     - D) The Treaty of Versailles                                           │
+│                                                                             │
+│  7. Which event is considered to be the official end of World War II in     │
+│  Europe?                                                                    │
+│     - A) Germany's surrender on May 8, 1945 (V-E Day)                       │
+│     - B) Japan's surrender on September 2, 1945                             │
+│     - C) The dropping of atomic bombs on Hiroshima and Nagasaki             │
+│     - D) The Yalta Conference                                               │
+│                                                                             │
+│  8. What was the name given to the Allied leaders' meeting in 1945 where    │
+│  they discussed post-war Europe?                                            │
+│     - A) Potsdam Conference                                                 │
+│     - B) Tehran Conference                                                  │
+│     - C) Cairo Conference                                                   │
+│     - D) Yalta Conference                                                   │
+│                                                                             │
+│  9. Which of these battles is considered a significant victory for the      │
+│  Allies and led to the liberation of Paris in 1944?                         │
+│     - A) Battle of Stalingrad                                               │
+│     - B) Battle of El Alamein                                               │
+│     - C) Battle of Normandy (D-Day)                                         │
+│     - D) Battle of Midway                                                   │
+│                                                                             │
+│  10. What was the name given to the Allied strategy that aimed at           │
+│  defeating Nazi Germany by targeting its industry and transportation        │
+│  networks?                                                                  │
+│      - A) Operation Barbarossa                                              │
+│      - B) The Blitzkrieg Strategy                                           │
+│      - C) The Combined Bomber Offensive                                     │
+│      - D) Operation Market Garden                                           │
+│                                                                             │
+│  Please have student321 attempt these questions. Once they've completed     │
+│  the quiz, you can use the `evaluate_response` tool to grade their answers  │
+│  and provide feedback.                                                      │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────── ✅ Tool Execution Completed (#2) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: ask_question_to_coworker                                             │
+│  Output: The lesson history101 has been marked as completed for             │
+│  student321. We can proceed with the next tasks knowing that this           │
+│  requirement is fulfilled.                                                  │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+┌────────────────────── 🔧 Tool Execution Started (#3) ───────────────────────┐
+│                                                                             │
+│  Tool: ask_question_to_coworker                                             │
+│  Args: {'question': 'Please confirm if the lesson history101 has been       │
+│  completed by student321.', 'coworker': 'Progress Tracking Agent',          │
+│  'context': 'We need to ensure that the lesson history101 is marked as      │
+│  c...                                                                       │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+
+ERROR:crewai.flow.flow:Error executing listener call_llm_native_tools: Invalid response from LLM call - None or empty.
+[91mReceived None or empty response from LLM call.[0m
+[91mAn unknown error occurred. Please check the details below.[0m
+[91mError details: Invalid response from LLM call - None or empty.[0m
+[91mAn unknown error occurred. Please check the details below.[0m
+[91mError details: Invalid response from LLM call - None or empty.[0m
+[CrewAIEventsBus] Warning: Event pairing mismatch. 'task_failed' closed 
+'agent_execution_started' (expected 'task_started')
+┌────────────────────────────── 📋 Task Failure ──────────────────────────────┐
+│                                                                             │
+│  Task Failed                                                                │
+│  Name: Task                                                                 │
+│  Agent: [Manager AgentCrewAIEventsBus                                                     ] Warning: Event pairing mismatch.   'crew_kickoff_failed'│
+│                                                                              closed│
+
+'agent_execution_started'│                                                                              (│expected 
+'crew_kickoff_started'└─────────────────────────────────────────────────────────────────────────────┘)
+
+
+┌─────────────────────────────── Crew Failure ────────────────────────────────┐
+│                                                                             │
+│  Crew Execution Failed                                                      │
+│  Name: crew                                                                 │
+│  ID: 0cc8533d-454a-4c1f-8fc4-e265dcdef014                                   │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────────────── Tracing Status ───────────────────────────────┐
+│                                                                             │
+│  Info: Tracing is disabled.                                                 │
+│                                                                             │
+│  To enable tracing, do any one of these:                                    │
+│  • Set tracing=True in your Crew/Flow code                                  │
+│  • Set CREWAI_TRACING_ENABLED=true in your project's .env file              │
+│  • Run: crewai traces enable                                                │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+C:\Users\CR Ramesh\Downloads\MCPparser\MCPWEEK6\crewai_run_benign.py:146: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  "ts": datetime.utcnow().isoformat() + "Z",
+FATAL: crew.kickoff() raised after 1373.5s:
+Traceback (most recent call last):
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2120, in kickoff
+    asyncio.get_running_loop()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\agent\core.py", line 791, in execute_task
+    result = self._execute_without_timeout(task_prompt, task)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\agent\core.py", line 856, in _execute_without_timeout
+    invoke_result = self.agent_executor.invoke(
+        {
+    ...<4 lines>...
+        }
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\experimental\agent_executor.py", line 2617, in invoke
+    self.kickoff()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2125, in kickoff
+    return asyncio.run(_run_flow())
+           ~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2113, in _run_flow
+    return await self.kickoff_async(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2363, in kickoff_async
+    await asyncio.gather(*tasks)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2584, in _execute_start_method
+    await self._execute_listeners(start_method_name, result, finished_event_id)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2810, in _execute_listeners
+    ) = await self._execute_single_listener(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        router_name, router_input, current_triggering_event_id
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 3142, in _execute_single_listener
+    await self._execute_listeners(
+        listener_name, listener_result, finished_event_id
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2810, in _execute_listeners
+    ) = await self._execute_single_listener(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        router_name, router_input, current_triggering_event_id
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 3142, in _execute_single_listener
+    await self._execute_listeners(
+        listener_name, listener_result, finished_event_id
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2874, in _execute_listeners
+    await asyncio.gather(*tasks)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 3142, in _execute_single_listener
+    await self._execute_listeners(
+        listener_name, listener_result, finished_event_id
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2810, in _execute_listeners
+    ) = await self._execute_single_listener(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        router_name, router_input, current_triggering_event_id
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 3137, in _execute_single_listener
+    listener_result, finished_event_id = await self._execute_method(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        listener_name, method
+        ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2750, in _execute_method
+    raise e
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2668, in _execute_method
+    result = await asyncio.to_thread(ctx.run, method, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow_wrappers.py", line 94, in __call__
+    return self._meth(self._instance, *args, **kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\experimental\agent_executor.py", line 1313, in call_llm_native_tools
+    answer = get_llm_response(
+        llm=self.llm,
+    ...<9 lines>...
+        verbose=self.agent.verbose,
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\utilities\agent_utils.py", line 505, in get_llm_response
+    return _validate_and_finalize_llm_response(
+        answer, executor_context, printer, verbose=verbose
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\utilities\agent_utils.py", line 450, in _validate_and_finalize_llm_response
+    raise ValueError("Invalid response from LLM call - None or empty.")
+ValueError: Invalid response from LLM call - None or empty.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2120, in kickoff
+    asyncio.get_running_loop()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\agent\core.py", line 791, in execute_task
+    result = self._execute_without_timeout(task_prompt, task)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\agent\core.py", line 856, in _execute_without_timeout
+    invoke_result = self.agent_executor.invoke(
+        {
+    ...<4 lines>...
+        }
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\experimental\agent_executor.py", line 2617, in invoke
+    self.kickoff()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2125, in kickoff
+    return asyncio.run(_run_flow())
+           ~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2113, in _run_flow
+    return await self.kickoff_async(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2363, in kickoff_async
+    await asyncio.gather(*tasks)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2584, in _execute_start_method
+    await self._execute_listeners(start_method_name, result, finished_event_id)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2810, in _execute_listeners
+    ) = await self._execute_single_listener(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        router_name, router_input, current_triggering_event_id
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 3142, in _execute_single_listener
+    await self._execute_listeners(
+        listener_name, listener_result, finished_event_id
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2810, in _execute_listeners
+    ) = await self._execute_single_listener(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        router_name, router_input, current_triggering_event_id
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 3142, in _execute_single_listener
+    await self._execute_listeners(
+        listener_name, listener_result, finished_event_id
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2874, in _execute_listeners
+    await asyncio.gather(*tasks)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 3142, in _execute_single_listener
+    await self._execute_listeners(
+        listener_name, listener_result, finished_event_id
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2810, in _execute_listeners
+    ) = await self._execute_single_listener(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        router_name, router_input, current_triggering_event_id
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 3137, in _execute_single_listener
+    listener_result, finished_event_id = await self._execute_method(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        listener_name, method
+        ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2750, in _execute_method
+    raise e
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2668, in _execute_method
+    result = await asyncio.to_thread(ctx.run, method, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow_wrappers.py", line 94, in __call__
+    return self._meth(self._instance, *args, **kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\experimental\agent_executor.py", line 1313, in call_llm_native_tools
+    answer = get_llm_response(
+        llm=self.llm,
+    ...<9 lines>...
+        verbose=self.agent.verbose,
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\utilities\agent_utils.py", line 505, in get_llm_response
+    return _validate_and_finalize_llm_response(
+        answer, executor_context, printer, verbose=verbose
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\utilities\agent_utils.py", line 450, in _validate_and_finalize_llm_response
+    raise ValueError("Invalid response from LLM call - None or empty.")
+ValueError: Invalid response from LLM call - None or empty.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2120, in kickoff
+    asyncio.get_running_loop()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\CR Ramesh\Downloads\MCPparser\MCPWEEK6\crewai_run_benign.py", line 461, in main
+    crew_output = crew.kickoff()
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\crew.py", line 963, in kickoff
+    result = self._run_hierarchical_process()
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\crew.py", line 1413, in _run_hierarchical_process
+    return self._execute_tasks(self.tasks)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\crew.py", line 1507, in _execute_tasks
+    task_output = task.execute_sync(
+        agent=exec_data.agent,
+        context=context,
+        tools=exec_data.tools,
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\task.py", line 586, in execute_sync
+    return self._execute_core(agent, context, tools)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\task.py", line 883, in _execute_core
+    raise e  # Re-raise the exception after emitting the event
+    ^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\task.py", line 790, in _execute_core
+    result = agent.execute_task(
+        task=self,
+        context=context,
+        tools=tools,
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\agent\core.py", line 804, in execute_task
+    result = self._handle_execution_error(e, task, context, tools)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\agent\core.py", line 714, in _handle_execution_error
+    return self.execute_task(task, context, tools)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\agent\core.py", line 804, in execute_task
+    result = self._handle_execution_error(e, task, context, tools)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\agent\core.py", line 714, in _handle_execution_error
+    return self.execute_task(task, context, tools)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\agent\core.py", line 804, in execute_task
+    result = self._handle_execution_error(e, task, context, tools)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\agent\core.py", line 713, in _handle_execution_error
+    self._check_execution_error(e, task)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\agent\core.py", line 693, in _check_execution_error
+    raise e
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\agent\core.py", line 791, in execute_task
+    result = self._execute_without_timeout(task_prompt, task)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\agent\core.py", line 856, in _execute_without_timeout
+    invoke_result = self.agent_executor.invoke(
+        {
+    ...<4 lines>...
+        }
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\experimental\agent_executor.py", line 2617, in invoke
+    self.kickoff()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2125, in kickoff
+    return asyncio.run(_run_flow())
+           ~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2113, in _run_flow
+    return await self.kickoff_async(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2363, in kickoff_async
+    await asyncio.gather(*tasks)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2584, in _execute_start_method
+    await self._execute_listeners(start_method_name, result, finished_event_id)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2810, in _execute_listeners
+    ) = await self._execute_single_listener(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        router_name, router_input, current_triggering_event_id
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 3142, in _execute_single_listener
+    await self._execute_listeners(
+        listener_name, listener_result, finished_event_id
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2810, in _execute_listeners
+    ) = await self._execute_single_listener(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        router_name, router_input, current_triggering_event_id
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 3142, in _execute_single_listener
+    await self._execute_listeners(
+        listener_name, listener_result, finished_event_id
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2874, in _execute_listeners
+    await asyncio.gather(*tasks)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 3142, in _execute_single_listener
+    await self._execute_listeners(
+        listener_name, listener_result, finished_event_id
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2810, in _execute_listeners
+    ) = await self._execute_single_listener(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        router_name, router_input, current_triggering_event_id
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 3137, in _execute_single_listener
+    listener_result, finished_event_id = await self._execute_method(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        listener_name, method
+        ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2750, in _execute_method
+    raise e
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2668, in _execute_method
+    result = await asyncio.to_thread(ctx.run, method, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow_wrappers.py", line 94, in __call__
+    return self._meth(self._instance, *args, **kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\experimental\agent_executor.py", line 1313, in call_llm_native_tools
+    answer = get_llm_response(
+        llm=self.llm,
+    ...<9 lines>...
+        verbose=self.agent.verbose,
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\utilities\agent_utils.py", line 505, in get_llm_response
+    return _validate_and_finalize_llm_response(
+        answer, executor_context, printer, verbose=verbose
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\utilities\agent_utils.py", line 450, in _validate_and_finalize_llm_response
+    raise ValueError("Invalid response from LLM call - None or empty.")
+ValueError: Invalid response from LLM call - None or empty.
+
+ERROR:crewai.telemetry.telemetry:HTTPSConnectionPool(host='telemetry.crewai.com', port=4319): Max retries exceeded with url: /v1/traces (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x00000177D60CD950>: Failed to resolve 'telemetry.crewai.com' ([Errno 11001] getaddrinfo failed)"))

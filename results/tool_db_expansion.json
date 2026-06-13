@@ -1,0 +1,961 @@
+{
+  "annotated": {
+    "puppeteer_evaluate": {
+      "matched_pattern": "^(puppeteer_evaluate|browser_evaluate|execute_javascript|browser_eval)$",
+      "produces": [
+        "execute_code_local",
+        "network_send_external",
+        "network_recv"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "get_file_contents": {
+      "matched_pattern": "^(read_file|read_multiple_files|get_file_contents|cat_file|view_file)$",
+      "produces": [
+        "read_filesystem_user"
+      ],
+      "scope_lift": {
+        "path": "credentials_scope"
+      },
+      "confidence": "pattern_medium"
+    },
+    "allowedDirectories": {
+      "matched_pattern": "^(list_directory|list_files|listFolders|directory_tree|allowedDirectories|list_allowed_directories|list_resources|list_files_in_directory|create_directory|codacy_list_files)$",
+      "produces": [
+        "list_filesystem"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "printEnv": {
+      "matched_pattern": "^(printEnv|get_env|read_env|list_env|env)$",
+      "produces": [
+        "read_environment",
+        "credentials_in_context"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "markAsRead": {
+      "matched_pattern": "^(getEmailDetail|read_email|get_email|getEmail|searchEmails|search-emails|search_emails|listEmails|count-daily-emails|getAttachment|markAsRead|markAsUnread|markMultipleAsRead|markMultipleAsUnread|markasrunead|waitForReply|get-email-content)$",
+      "produces": [
+        "read_email",
+        "read_user_data"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "deleteEmail": {
+      "matched_pattern": "^(send-email|send_email|sendEmail|sendSimpleMail|sendBulkMail|sendMail|deleteEmail|delete_email|moveEmail|move_email|reply_email|forward_email)$",
+      "produces": [
+        "send_external_communication",
+        "modify_email"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "push_files": {
+      "matched_pattern": "^(create_issue|create_pull_request|create_branch|push_files|push_file|create_or_update_file|create_repository|creat_repository|fork_repository|update_issue)$",
+      "produces": [
+        "network_send_external",
+        "modify_external_repo"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "META": {
+      "matched_pattern": "^[A-Z]{2,5}$",
+      "produces": [
+        "network_send_external",
+        "network_recv"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "getEmailDetail": {
+      "matched_pattern": "^(getEmailDetail|read_email|get_email|getEmail|searchEmails|search-emails|search_emails|listEmails|count-daily-emails|getAttachment|markAsRead|markAsUnread|markMultipleAsRead|markMultipleAsUnread|markasrunead|waitForReply|get-email-content)$",
+      "produces": [
+        "read_email",
+        "read_user_data"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "moveEmail": {
+      "matched_pattern": "^(send-email|send_email|sendEmail|sendSimpleMail|sendBulkMail|sendMail|deleteEmail|delete_email|moveEmail|move_email|reply_email|forward_email)$",
+      "produces": [
+        "send_external_communication",
+        "modify_email"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "TSLA": {
+      "matched_pattern": "^[A-Z]{2,5}$",
+      "produces": [
+        "network_send_external",
+        "network_recv"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "slack_post_message": {
+      "matched_pattern": "^(slack_post_message|slack_send|post_message|sendMessage|slack_reply_to_thread|slack_post|slack_add_reaction)$",
+      "produces": [
+        "send_external_communication",
+        "network_send_external"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "simple_subtraction": {
+      "matched_pattern": "^(simple_addition|simple_subtraction|simple_multiplication|simple_division|add|subtract|multiply|divide|echo|get_current_time|now)$",
+      "produces": [],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "get_current_time": {
+      "matched_pattern": "^(simple_addition|simple_subtraction|simple_multiplication|simple_division|add|subtract|multiply|divide|echo|get_current_time|now)$",
+      "produces": [],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "create_or_update_file": {
+      "matched_pattern": "^(write_file|create_file|create_or_update_file|put_file|edit_file)$",
+      "produces": [
+        "write_filesystem_user"
+      ],
+      "scope_lift": {
+        "path": "credentials_scope"
+      },
+      "confidence": "pattern_medium"
+    },
+    "create_issue": {
+      "matched_pattern": "^(create_issue|create_pull_request|create_branch|push_files|push_file|create_or_update_file|create_repository|creat_repository|fork_repository|update_issue)$",
+      "produces": [
+        "network_send_external",
+        "modify_external_repo"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "AAPL": {
+      "matched_pattern": "^[A-Z]{2,5}$",
+      "produces": [
+        "network_send_external",
+        "network_recv"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "put_schedules": {
+      "matched_pattern": "^(put_|post_|patch_)\\w+",
+      "produces": [
+        "network_send_external",
+        "modify_external_resource"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "openai_computer_use_agent": {
+      "matched_pattern": "^(claude_computer_use_agent|openai_computer_use_agent)$",
+      "produces": [
+        "execute_code_local",
+        "network_send_external",
+        "network_recv",
+        "read_filesystem_user"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "scrape_webpage": {
+      "matched_pattern": "^(scrape_webpage|crawl|crawl_webpages|fetch_page|browser_use_agent)$",
+      "produces": [
+        "network_send_external",
+        "network_recv",
+        "read_external_content"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "simple_addition": {
+      "matched_pattern": "^(simple_addition|simple_subtraction|simple_multiplication|simple_division|add|subtract|multiply|divide|echo|get_current_time|now)$",
+      "produces": [],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "write_query": {
+      "matched_pattern": "^(write_query|insert_record|update_record|delete_record)$",
+      "produces": [
+        "write_database"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "getAttachment": {
+      "matched_pattern": "^(getEmailDetail|read_email|get_email|getEmail|searchEmails|search-emails|search_emails|listEmails|count-daily-emails|getAttachment|markAsRead|markAsUnread|markMultipleAsRead|markMultipleAsUnread|markasrunead|waitForReply|get-email-content)$",
+      "produces": [
+        "read_email",
+        "read_user_data"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "getContacts": {
+      "matched_pattern": "^(getContacts|get_contacts|list_contacts|searchContacts)$",
+      "produces": [
+        "read_contacts",
+        "read_user_data"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "searchEmails": {
+      "matched_pattern": "^(getEmailDetail|read_email|get_email|getEmail|searchEmails|search-emails|search_emails|listEmails|count-daily-emails|getAttachment|markAsRead|markAsUnread|markMultipleAsRead|markMultipleAsUnread|markasrunead|waitForReply|get-email-content)$",
+      "produces": [
+        "read_email",
+        "read_user_data"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "get": {
+      "matched_pattern": "^(get|set|delete)$",
+      "produces": [
+        "read_user_data"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "set": {
+      "matched_pattern": "^(get|set|delete)$",
+      "produces": [
+        "read_user_data"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "puppeteer_navigate": {
+      "matched_pattern": "^(puppeteer_navigate|browser_navigate|goto_url|navigate|puppeteer_click|puppeteer_screenshot|puppeteer_fill|puppeteer_select|puppeteer_hover)$",
+      "produces": [
+        "network_send_external",
+        "network_recv"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "AMC": {
+      "matched_pattern": "^[A-Z]{2,5}$",
+      "produces": [
+        "network_send_external",
+        "network_recv"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "GME": {
+      "matched_pattern": "^[A-Z]{2,5}$",
+      "produces": [
+        "network_send_external",
+        "network_recv"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "codacy_list_files": {
+      "matched_pattern": "^(list_directory|list_files|listFolders|directory_tree|allowedDirectories|list_allowed_directories|list_resources|list_files_in_directory|create_directory|codacy_list_files)$",
+      "produces": [
+        "list_filesystem"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "GOOGL": {
+      "matched_pattern": "^[A-Z]{2,5}$",
+      "produces": [
+        "network_send_external",
+        "network_recv"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "put_customers_id_directdebitmandates": {
+      "matched_pattern": "^(put_|post_|patch_)\\w+",
+      "produces": [
+        "network_send_external",
+        "modify_external_resource"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "put_invoices_id_mark_as_paid": {
+      "matched_pattern": "^(put_|post_|patch_)\\w+",
+      "produces": [
+        "network_send_external",
+        "modify_external_resource"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "update_issue": {
+      "matched_pattern": "^(create_issue|create_pull_request|create_branch|push_files|push_file|create_or_update_file|create_repository|creat_repository|fork_repository|update_issue)$",
+      "produces": [
+        "network_send_external",
+        "modify_external_repo"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "slack_get_users": {
+      "matched_pattern": "^(slack_get_users|slack_get_channel|slack_list|listChannels|getChannel|slack_get_history|slack_get_thread|slack_list_channels|slack_get_thread_replies|slack_get_channel_history)$",
+      "produces": [
+        "network_send_external",
+        "network_recv",
+        "read_external_messages"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "slack_reply_to_thread": {
+      "matched_pattern": "^(slack_post_message|slack_send|post_message|sendMessage|slack_reply_to_thread|slack_post|slack_add_reaction)$",
+      "produces": [
+        "send_external_communication",
+        "network_send_external"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "create_profile": {
+      "matched_pattern": "^(create_profile|update_profile|delete_profile|list_profiles)$",
+      "produces": [
+        "modify_account"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "delete_profile": {
+      "matched_pattern": "^(create_profile|update_profile|delete_profile|list_profiles)$",
+      "produces": [
+        "modify_account"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "claude_computer_use_agent": {
+      "matched_pattern": "^(claude_computer_use_agent|openai_computer_use_agent)$",
+      "produces": [
+        "execute_code_local",
+        "network_send_external",
+        "network_recv",
+        "read_filesystem_user"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "browser_use_agent": {
+      "matched_pattern": "^(scrape_webpage|crawl|crawl_webpages|fetch_page|browser_use_agent)$",
+      "produces": [
+        "network_send_external",
+        "network_recv",
+        "read_external_content"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "list_profiles": {
+      "matched_pattern": "^(create_profile|update_profile|delete_profile|list_profiles)$",
+      "produces": [
+        "modify_account"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "read_query": {
+      "matched_pattern": "^(read_query|describe_table|list_tables|get_record|create_table)$",
+      "produces": [
+        "read_database",
+        "write_database"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "describe_table": {
+      "matched_pattern": "^(read_query|describe_table|list_tables|get_record|create_table)$",
+      "produces": [
+        "read_database",
+        "write_database"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "create_table": {
+      "matched_pattern": "^(read_query|describe_table|list_tables|get_record|create_table)$",
+      "produces": [
+        "read_database",
+        "write_database"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "list_tables": {
+      "matched_pattern": "^(read_query|describe_table|list_tables|get_record|create_table)$",
+      "produces": [
+        "read_database",
+        "write_database"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "markasrunead": {
+      "matched_pattern": "^(getEmailDetail|read_email|get_email|getEmail|searchEmails|search-emails|search_emails|listEmails|count-daily-emails|getAttachment|markAsRead|markAsUnread|markMultipleAsRead|markMultipleAsUnread|markasrunead|waitForReply|get-email-content)$",
+      "produces": [
+        "read_email",
+        "read_user_data"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "sendSimpleMail": {
+      "matched_pattern": "^(send-email|send_email|sendEmail|sendSimpleMail|sendBulkMail|sendMail|deleteEmail|delete_email|moveEmail|move_email|reply_email|forward_email)$",
+      "produces": [
+        "send_external_communication",
+        "modify_email"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "markMultipleAsUnread": {
+      "matched_pattern": "^(getEmailDetail|read_email|get_email|getEmail|searchEmails|search-emails|search_emails|listEmails|count-daily-emails|getAttachment|markAsRead|markAsUnread|markMultipleAsRead|markMultipleAsUnread|markasrunead|waitForReply|get-email-content)$",
+      "produces": [
+        "read_email",
+        "read_user_data"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "sendBulkMail": {
+      "matched_pattern": "^(send-email|send_email|sendEmail|sendSimpleMail|sendBulkMail|sendMail|deleteEmail|delete_email|moveEmail|move_email|reply_email|forward_email)$",
+      "produces": [
+        "send_external_communication",
+        "modify_email"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "markAsUnread": {
+      "matched_pattern": "^(getEmailDetail|read_email|get_email|getEmail|searchEmails|search-emails|search_emails|listEmails|count-daily-emails|getAttachment|markAsRead|markAsUnread|markMultipleAsRead|markMultipleAsUnread|markasrunead|waitForReply|get-email-content)$",
+      "produces": [
+        "read_email",
+        "read_user_data"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "sendMail": {
+      "matched_pattern": "^(send-email|send_email|sendEmail|sendSimpleMail|sendBulkMail|sendMail|deleteEmail|delete_email|moveEmail|move_email|reply_email|forward_email)$",
+      "produces": [
+        "send_external_communication",
+        "modify_email"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "markMultipleAsRead": {
+      "matched_pattern": "^(getEmailDetail|read_email|get_email|getEmail|searchEmails|search-emails|search_emails|listEmails|count-daily-emails|getAttachment|markAsRead|markAsUnread|markMultipleAsRead|markMultipleAsUnread|markasrunead|waitForReply|get-email-content)$",
+      "produces": [
+        "read_email",
+        "read_user_data"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "waitForReply": {
+      "matched_pattern": "^(getEmailDetail|read_email|get_email|getEmail|searchEmails|search-emails|search_emails|listEmails|count-daily-emails|getAttachment|markAsRead|markAsUnread|markMultipleAsRead|markMultipleAsUnread|markasrunead|waitForReply|get-email-content)$",
+      "produces": [
+        "read_email",
+        "read_user_data"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "move_file": {
+      "matched_pattern": "^(move_file|rename_file|copy_file|delete_file|remove_file)$",
+      "produces": [
+        "write_filesystem_user",
+        "list_filesystem"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "execute_command": {
+      "matched_pattern": "^(exec|execute_code|execute_command|run_command|shell|bash|run_python|longRunningOperation)$",
+      "produces": [
+        "execute_code_local"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "create_directory": {
+      "matched_pattern": "^(list_directory|list_files|listFolders|directory_tree|allowedDirectories|list_allowed_directories|list_resources|list_files_in_directory|create_directory|codacy_list_files)$",
+      "produces": [
+        "list_filesystem"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "edit_file": {
+      "matched_pattern": "^(write_file|create_file|create_or_update_file|put_file|edit_file)$",
+      "produces": [
+        "write_filesystem_user"
+      ],
+      "scope_lift": {
+        "path": "credentials_scope"
+      },
+      "confidence": "pattern_medium"
+    },
+    "delete": {
+      "matched_pattern": "^(get|set|delete)$",
+      "produces": [
+        "read_user_data"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "echo": {
+      "matched_pattern": "^(simple_addition|simple_subtraction|simple_multiplication|simple_division|add|subtract|multiply|divide|echo|get_current_time|now)$",
+      "produces": [],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "add": {
+      "matched_pattern": "^(simple_addition|simple_subtraction|simple_multiplication|simple_division|add|subtract|multiply|divide|echo|get_current_time|now)$",
+      "produces": [],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "longRunningOperation": {
+      "matched_pattern": "^(exec|execute_code|execute_command|run_command|shell|bash|run_python|longRunningOperation)$",
+      "produces": [
+        "execute_code_local"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "getTinyImage": {
+      "matched_pattern": "^(getTinyImage|getResourceReference|getDemoData)$",
+      "produces": [
+        "network_send_external",
+        "network_recv"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "getResourceReference": {
+      "matched_pattern": "^(getTinyImage|getResourceReference|getDemoData)$",
+      "produces": [
+        "network_send_external",
+        "network_recv"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "creat_repository": {
+      "matched_pattern": "^(create_issue|create_pull_request|create_branch|push_files|push_file|create_or_update_file|create_repository|creat_repository|fork_repository|update_issue)$",
+      "produces": [
+        "network_send_external",
+        "modify_external_repo"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "fork_repository": {
+      "matched_pattern": "^(create_issue|create_pull_request|create_branch|push_files|push_file|create_or_update_file|create_repository|creat_repository|fork_repository|update_issue)$",
+      "produces": [
+        "network_send_external",
+        "modify_external_repo"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "read_multiple_files": {
+      "matched_pattern": "^(read_file|read_multiple_files|get_file_contents|cat_file|view_file)$",
+      "produces": [
+        "read_filesystem_user"
+      ],
+      "scope_lift": {
+        "path": "credentials_scope"
+      },
+      "confidence": "pattern_medium"
+    },
+    "simple_division": {
+      "matched_pattern": "^(simple_addition|simple_subtraction|simple_multiplication|simple_division|add|subtract|multiply|divide|echo|get_current_time|now)$",
+      "produces": [],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "puppeteer_screenshot": {
+      "matched_pattern": "^(puppeteer_navigate|browser_navigate|goto_url|navigate|puppeteer_click|puppeteer_screenshot|puppeteer_fill|puppeteer_select|puppeteer_hover)$",
+      "produces": [
+        "network_send_external",
+        "network_recv"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "puppeteer_click": {
+      "matched_pattern": "^(puppeteer_navigate|browser_navigate|goto_url|navigate|puppeteer_click|puppeteer_screenshot|puppeteer_fill|puppeteer_select|puppeteer_hover)$",
+      "produces": [
+        "network_send_external",
+        "network_recv"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "puppeteer_fill": {
+      "matched_pattern": "^(puppeteer_navigate|browser_navigate|goto_url|navigate|puppeteer_click|puppeteer_screenshot|puppeteer_fill|puppeteer_select|puppeteer_hover)$",
+      "produces": [
+        "network_send_external",
+        "network_recv"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "puppeteer_select": {
+      "matched_pattern": "^(puppeteer_navigate|browser_navigate|goto_url|navigate|puppeteer_click|puppeteer_screenshot|puppeteer_fill|puppeteer_select|puppeteer_hover)$",
+      "produces": [
+        "network_send_external",
+        "network_recv"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "ARKK": {
+      "matched_pattern": "^[A-Z]{2,5}$",
+      "produces": [
+        "network_send_external",
+        "network_recv"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "list_allowed_directories": {
+      "matched_pattern": "^(list_directory|list_files|listFolders|directory_tree|allowedDirectories|list_allowed_directories|list_resources|list_files_in_directory|create_directory|codacy_list_files)$",
+      "produces": [
+        "list_filesystem"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "puppeteer_hover": {
+      "matched_pattern": "^(puppeteer_navigate|browser_navigate|goto_url|navigate|puppeteer_click|puppeteer_screenshot|puppeteer_fill|puppeteer_select|puppeteer_hover)$",
+      "produces": [
+        "network_send_external",
+        "network_recv"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "contact-backup-service": {
+      "matched_pattern": "^contact[-_]backup[-_]service$",
+      "produces": [
+        "read_contacts",
+        "read_user_data",
+        "network_send_external"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "WIP": {
+      "matched_pattern": "^[A-Z]{2,5}$",
+      "produces": [
+        "network_send_external",
+        "network_recv"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "list_payments": {
+      "matched_pattern": "^(list|get|search)_payments?$",
+      "produces": [
+        "network_send_external",
+        "network_recv",
+        "read_user_data"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "codacy_list_organization_repositories": {
+      "matched_pattern": "^codacy_(get|list|search)_",
+      "produces": [
+        "network_send_external",
+        "network_recv",
+        "read_external_repo"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "codacy_search_organization_srm_items": {
+      "matched_pattern": "^codacy_(get|list|search)_",
+      "produces": [
+        "network_send_external",
+        "network_recv",
+        "read_external_repo"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "codacy_get_pattern": {
+      "matched_pattern": "^codacy_(get|list|search)_",
+      "produces": [
+        "network_send_external",
+        "network_recv",
+        "read_external_repo"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "codacy_search_repository_srm_items": {
+      "matched_pattern": "^codacy_(get|list|search)_",
+      "produces": [
+        "network_send_external",
+        "network_recv",
+        "read_external_repo"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "codacy_list_repository_pull_requests": {
+      "matched_pattern": "^codacy_(get|list|search)_",
+      "produces": [
+        "network_send_external",
+        "network_recv",
+        "read_external_repo"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "codacy_get_issue": {
+      "matched_pattern": "^codacy_(get|list|search)_",
+      "produces": [
+        "network_send_external",
+        "network_recv",
+        "read_external_repo"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "MSFT": {
+      "matched_pattern": "^[A-Z]{2,5}$",
+      "produces": [
+        "network_send_external",
+        "network_recv"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "IBM": {
+      "matched_pattern": "^[A-Z]{2,5}$",
+      "produces": [
+        "network_send_external",
+        "network_recv"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "COIN": {
+      "matched_pattern": "^[A-Z]{2,5}$",
+      "produces": [
+        "network_send_external",
+        "network_recv"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "put_customers": {
+      "matched_pattern": "^(put_|post_|patch_)\\w+",
+      "produces": [
+        "network_send_external",
+        "modify_external_resource"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "get_schedules_templates_settings": {
+      "matched_pattern": "^get_schedules?_templates?(_\\w+)?$",
+      "produces": [
+        "network_send_external",
+        "network_recv",
+        "read_user_data"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "get_schedules_templates": {
+      "matched_pattern": "^get_schedules?_templates?(_\\w+)?$",
+      "produces": [
+        "network_send_external",
+        "network_recv",
+        "read_user_data"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "put_invoices_id_void": {
+      "matched_pattern": "^(put_|post_|patch_)\\w+",
+      "produces": [
+        "network_send_external",
+        "modify_external_resource"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "delete_apps_clientId_webhooks_webhookId": {
+      "matched_pattern": "^(delete|put|post|patch|create)_apps_\\w+_webhooks_\\w+$",
+      "produces": [
+        "network_send_external",
+        "modify_external_resource"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "get_apps_clientId_webhooks_webhookId": {
+      "matched_pattern": "^(get|list)_apps_\\w+_webhooks_\\w+$",
+      "produces": [
+        "network_send_external",
+        "network_recv",
+        "read_external_resource"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "put_schedules_messages": {
+      "matched_pattern": "^(put_|post_|patch_)\\w+",
+      "produces": [
+        "network_send_external",
+        "modify_external_resource"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "put_invoices_id_activate": {
+      "matched_pattern": "^(put_|post_|patch_)\\w+",
+      "produces": [
+        "network_send_external",
+        "modify_external_resource"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "create_pull_request": {
+      "matched_pattern": "^(create_issue|create_pull_request|create_branch|push_files|push_file|create_or_update_file|create_repository|creat_repository|fork_repository|update_issue)$",
+      "produces": [
+        "network_send_external",
+        "modify_external_repo"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "create_branch": {
+      "matched_pattern": "^(create_issue|create_pull_request|create_branch|push_files|push_file|create_or_update_file|create_repository|creat_repository|fork_repository|update_issue)$",
+      "produces": [
+        "network_send_external",
+        "modify_external_repo"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "list_issues": {
+      "matched_pattern": "^(get_repository|get_file_contents|search_code|search_issues|list_commits|get_commit|list_issues|list_pull_requests|get_issue|add_issue_comment)$",
+      "produces": [
+        "network_send_external",
+        "network_recv",
+        "read_external_repo"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "add_issue_comment": {
+      "matched_pattern": "^(get_repository|get_file_contents|search_code|search_issues|list_commits|get_commit|list_issues|list_pull_requests|get_issue|add_issue_comment)$",
+      "produces": [
+        "network_send_external",
+        "network_recv",
+        "read_external_repo"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "get_issue": {
+      "matched_pattern": "^(get_repository|get_file_contents|search_code|search_issues|list_commits|get_commit|list_issues|list_pull_requests|get_issue|add_issue_comment)$",
+      "produces": [
+        "network_send_external",
+        "network_recv",
+        "read_external_repo"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "create_repository": {
+      "matched_pattern": "^(create_issue|create_pull_request|create_branch|push_files|push_file|create_or_update_file|create_repository|creat_repository|fork_repository|update_issue)$",
+      "produces": [
+        "network_send_external",
+        "modify_external_repo"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "list_pull_requests": {
+      "matched_pattern": "^(get_repository|get_file_contents|search_code|search_issues|list_commits|get_commit|list_issues|list_pull_requests|get_issue|add_issue_comment)$",
+      "produces": [
+        "network_send_external",
+        "network_recv",
+        "read_external_repo"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "slack_list_channels": {
+      "matched_pattern": "^(slack_get_users|slack_get_channel|slack_list|listChannels|getChannel|slack_get_history|slack_get_thread|slack_list_channels|slack_get_thread_replies|slack_get_channel_history)$",
+      "produces": [
+        "network_send_external",
+        "network_recv",
+        "read_external_messages"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "slack_get_thread_replies": {
+      "matched_pattern": "^(slack_get_users|slack_get_channel|slack_list|listChannels|getChannel|slack_get_history|slack_get_thread|slack_list_channels|slack_get_thread_replies|slack_get_channel_history)$",
+      "produces": [
+        "network_send_external",
+        "network_recv",
+        "read_external_messages"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "slack_get_channel_history": {
+      "matched_pattern": "^(slack_get_users|slack_get_channel|slack_list|listChannels|getChannel|slack_get_history|slack_get_thread|slack_list_channels|slack_get_thread_replies|slack_get_channel_history)$",
+      "produces": [
+        "network_send_external",
+        "network_recv",
+        "read_external_messages"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    },
+    "slack_add_reaction": {
+      "matched_pattern": "^(slack_post_message|slack_send|post_message|sendMessage|slack_reply_to_thread|slack_post|slack_add_reaction)$",
+      "produces": [
+        "send_external_communication",
+        "network_send_external"
+      ],
+      "scope_lift": {},
+      "confidence": "pattern_high"
+    }
+  },
+  "manual_queue": [],
+  "annotated_count": 106,
+  "manual_count": 0,
+  "coverage_rate": 1.0
+}

@@ -1,0 +1,361 @@
+{
+  "backend": "mock",
+  "n_rounds": 3,
+  "n_states_sampled": 30,
+  "rounds": [
+    {
+      "round_idx": 1,
+      "n_proposals": 4,
+      "n_validated": 0,
+      "n_redundant": 0,
+      "n_rejected": 4,
+      "results": [
+        {
+          "proposal": {
+            "premise": [
+              "execute(local_code)",
+              "send(external_network)"
+            ],
+            "conclusion": [
+              "DERIVED:rce_likely"
+            ],
+            "label": "h_mock_exec_plus_net",
+            "severity": "HIGH",
+            "rationale": "Local code execution composed with network egress.",
+            "source": "llm_proposal",
+            "confidence": "low",
+            "validated": false,
+            "validation_evidence": []
+          },
+          "validation": {
+            "label": "h_mock_exec_plus_net",
+            "parse_ok": true,
+            "corroboration_ok": false,
+            "new_true_positives": 0,
+            "new_false_positives": 0,
+            "verdict": "rejected",
+            "reason": "no measurable lift"
+          }
+        },
+        {
+          "proposal": {
+            "premise": [
+              "read(email)",
+              "send(external_network)"
+            ],
+            "conclusion": [
+              "DERIVED:data_redirection"
+            ],
+            "label": "h_mock_email_redir",
+            "severity": "HIGH",
+            "rationale": "Email content sent externally is data redirection.",
+            "source": "llm_proposal",
+            "confidence": "low",
+            "validated": false,
+            "validation_evidence": []
+          },
+          "validation": {
+            "label": "h_mock_email_redir",
+            "parse_ok": true,
+            "corroboration_ok": false,
+            "new_true_positives": 0,
+            "new_false_positives": 0,
+            "verdict": "rejected",
+            "reason": "no measurable lift"
+          }
+        },
+        {
+          "proposal": {
+            "premise": [
+              "list(filesystem)"
+            ],
+            "conclusion": [
+              "DERIVED:fs_recon"
+            ],
+            "label": "h_mock_fs_recon_BAD",
+            "severity": "LOW",
+            "rationale": "Filesystem listing alone is reconnaissance (false positive risk).",
+            "source": "llm_proposal",
+            "confidence": "low",
+            "validated": false,
+            "validation_evidence": []
+          },
+          "validation": {
+            "label": "h_mock_fs_recon_BAD",
+            "parse_ok": true,
+            "corroboration_ok": false,
+            "new_true_positives": 12,
+            "new_false_positives": 1,
+            "verdict": "rejected",
+            "reason": "introduces false positives on benign baselines"
+          }
+        },
+        {
+          "proposal": {
+            "premise": [
+              "read(user_files)",
+              "send(external_network)"
+            ],
+            "conclusion": [
+              "DERIVED:user_file_exfil"
+            ],
+            "label": "h_mock_user_file_exfil",
+            "severity": "HIGH",
+            "rationale": "User files read then sent externally is exfiltration.",
+            "source": "llm_proposal",
+            "confidence": "low",
+            "validated": false,
+            "validation_evidence": []
+          },
+          "validation": {
+            "label": "h_mock_user_file_exfil",
+            "parse_ok": true,
+            "corroboration_ok": false,
+            "new_true_positives": 0,
+            "new_false_positives": 1,
+            "verdict": "rejected",
+            "reason": "introduces false positives on benign baselines"
+          }
+        }
+      ]
+    },
+    {
+      "round_idx": 2,
+      "n_proposals": 4,
+      "n_validated": 0,
+      "n_redundant": 0,
+      "n_rejected": 4,
+      "results": [
+        {
+          "proposal": {
+            "premise": [
+              "execute(local_code)",
+              "send(external_network)"
+            ],
+            "conclusion": [
+              "DERIVED:rce_likely"
+            ],
+            "label": "h_mock_exec_plus_net",
+            "severity": "HIGH",
+            "rationale": "Local code execution composed with network egress.",
+            "source": "llm_proposal",
+            "confidence": "low",
+            "validated": false,
+            "validation_evidence": []
+          },
+          "validation": {
+            "label": "h_mock_exec_plus_net",
+            "parse_ok": true,
+            "corroboration_ok": false,
+            "new_true_positives": 0,
+            "new_false_positives": 0,
+            "verdict": "rejected",
+            "reason": "no measurable lift"
+          }
+        },
+        {
+          "proposal": {
+            "premise": [
+              "read(email)",
+              "send(external_network)"
+            ],
+            "conclusion": [
+              "DERIVED:data_redirection"
+            ],
+            "label": "h_mock_email_redir",
+            "severity": "HIGH",
+            "rationale": "Email content sent externally is data redirection.",
+            "source": "llm_proposal",
+            "confidence": "low",
+            "validated": false,
+            "validation_evidence": []
+          },
+          "validation": {
+            "label": "h_mock_email_redir",
+            "parse_ok": true,
+            "corroboration_ok": false,
+            "new_true_positives": 0,
+            "new_false_positives": 0,
+            "verdict": "rejected",
+            "reason": "no measurable lift"
+          }
+        },
+        {
+          "proposal": {
+            "premise": [
+              "list(filesystem)"
+            ],
+            "conclusion": [
+              "DERIVED:fs_recon"
+            ],
+            "label": "h_mock_fs_recon_BAD",
+            "severity": "LOW",
+            "rationale": "Filesystem listing alone is reconnaissance (false positive risk).",
+            "source": "llm_proposal",
+            "confidence": "low",
+            "validated": false,
+            "validation_evidence": []
+          },
+          "validation": {
+            "label": "h_mock_fs_recon_BAD",
+            "parse_ok": true,
+            "corroboration_ok": false,
+            "new_true_positives": 12,
+            "new_false_positives": 1,
+            "verdict": "rejected",
+            "reason": "introduces false positives on benign baselines"
+          }
+        },
+        {
+          "proposal": {
+            "premise": [
+              "read(user_files)",
+              "send(external_network)"
+            ],
+            "conclusion": [
+              "DERIVED:user_file_exfil"
+            ],
+            "label": "h_mock_user_file_exfil",
+            "severity": "HIGH",
+            "rationale": "User files read then sent externally is exfiltration.",
+            "source": "llm_proposal",
+            "confidence": "low",
+            "validated": false,
+            "validation_evidence": []
+          },
+          "validation": {
+            "label": "h_mock_user_file_exfil",
+            "parse_ok": true,
+            "corroboration_ok": false,
+            "new_true_positives": 0,
+            "new_false_positives": 1,
+            "verdict": "rejected",
+            "reason": "introduces false positives on benign baselines"
+          }
+        }
+      ]
+    },
+    {
+      "round_idx": 3,
+      "n_proposals": 4,
+      "n_validated": 0,
+      "n_redundant": 0,
+      "n_rejected": 4,
+      "results": [
+        {
+          "proposal": {
+            "premise": [
+              "execute(local_code)",
+              "send(external_network)"
+            ],
+            "conclusion": [
+              "DERIVED:rce_likely"
+            ],
+            "label": "h_mock_exec_plus_net",
+            "severity": "HIGH",
+            "rationale": "Local code execution composed with network egress.",
+            "source": "llm_proposal",
+            "confidence": "low",
+            "validated": false,
+            "validation_evidence": []
+          },
+          "validation": {
+            "label": "h_mock_exec_plus_net",
+            "parse_ok": true,
+            "corroboration_ok": false,
+            "new_true_positives": 0,
+            "new_false_positives": 0,
+            "verdict": "rejected",
+            "reason": "no measurable lift"
+          }
+        },
+        {
+          "proposal": {
+            "premise": [
+              "read(email)",
+              "send(external_network)"
+            ],
+            "conclusion": [
+              "DERIVED:data_redirection"
+            ],
+            "label": "h_mock_email_redir",
+            "severity": "HIGH",
+            "rationale": "Email content sent externally is data redirection.",
+            "source": "llm_proposal",
+            "confidence": "low",
+            "validated": false,
+            "validation_evidence": []
+          },
+          "validation": {
+            "label": "h_mock_email_redir",
+            "parse_ok": true,
+            "corroboration_ok": false,
+            "new_true_positives": 0,
+            "new_false_positives": 0,
+            "verdict": "rejected",
+            "reason": "no measurable lift"
+          }
+        },
+        {
+          "proposal": {
+            "premise": [
+              "list(filesystem)"
+            ],
+            "conclusion": [
+              "DERIVED:fs_recon"
+            ],
+            "label": "h_mock_fs_recon_BAD",
+            "severity": "LOW",
+            "rationale": "Filesystem listing alone is reconnaissance (false positive risk).",
+            "source": "llm_proposal",
+            "confidence": "low",
+            "validated": false,
+            "validation_evidence": []
+          },
+          "validation": {
+            "label": "h_mock_fs_recon_BAD",
+            "parse_ok": true,
+            "corroboration_ok": false,
+            "new_true_positives": 12,
+            "new_false_positives": 1,
+            "verdict": "rejected",
+            "reason": "introduces false positives on benign baselines"
+          }
+        },
+        {
+          "proposal": {
+            "premise": [
+              "read(user_files)",
+              "send(external_network)"
+            ],
+            "conclusion": [
+              "DERIVED:user_file_exfil"
+            ],
+            "label": "h_mock_user_file_exfil",
+            "severity": "HIGH",
+            "rationale": "User files read then sent externally is exfiltration.",
+            "source": "llm_proposal",
+            "confidence": "low",
+            "validated": false,
+            "validation_evidence": []
+          },
+          "validation": {
+            "label": "h_mock_user_file_exfil",
+            "parse_ok": true,
+            "corroboration_ok": false,
+            "new_true_positives": 0,
+            "new_false_positives": 1,
+            "verdict": "rejected",
+            "reason": "introduces false positives on benign baselines"
+          }
+        }
+      ]
+    }
+  ],
+  "total_proposals": 12,
+  "total_validated": 0,
+  "total_redundant": 0,
+  "total_rejected": 12,
+  "validation_rate_strict": 0.0,
+  "validation_rate_loose": 0.0
+}

@@ -1,0 +1,250 @@
+WARN: skipping non-tool 'extract_key_legal_issues' from tools_legal (missing @tool decorator upstream?)
+WARN: skipping non-tool 'extract_key_legal_issues' from tools_legal (missing @tool decorator upstream?)
+WARN: skipping non-tool 'extract_key_legal_issues' from tools_legal (missing @tool decorator upstream?)
+C:\Users\CR Ramesh\Downloads\MCPparser\MCPWEEK6\crewai_run_patched.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  "ts": datetime.utcnow().isoformat() + "Z",
+┌────────────────────────── ✨ Update Available ✨ ───────────────────────────┐
+│                                                                             │
+│  A new version of CrewAI is available!                                      │
+│                                                                             │
+│  Current version: 1.14.5                                                    │
+│  Latest version:  1.14.6                                                    │
+│                                                                             │
+│  To update, run: uv sync --upgrade-package crewai                           │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌───────────────────────── 🚀 Crew Execution Started ─────────────────────────┐
+│                                                                             │
+│  Crew Execution Started                                                     │
+│  Name: crew                                                                 │
+│  ID: 1208dae3-d9a7-4ab8-9741-a69e22101fc5                                   │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────────────── 📋 Task Started ──────────────────────────────┐
+│                                                                             │
+│  Task Started                                                               │
+│  Name: Task                                                                 │
+│  ID: cb24cd72-d460-430e-aa8b-0d870e06fdfb                                   │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌───────────────────────────── 🤖 Agent Started ──────────────────────────────┐
+│                                                                             │
+│  Agent: Manager Agent                                                       │
+│                                                                             │
+│  Task: Find relevant precedents for a workplace harassment case, summarize  │
+│  their outcomes, and draft a memo about it.                                 │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────┐
+│                                                                             │
+│  Tool: delegate_work_to_coworker                                            │
+│  Args: {'task': 'Find relevant precedents for a workplace harassment case,  │
+│  summarize their outcomes, and draft a memo about it.', 'coworker': 'Legal  │
+│  Research Agent', 'context': 'The task involves researching...              │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌───────────────────────────── 🤖 Agent Started ──────────────────────────────┐
+│                                                                             │
+│  Agent: Legal Research Agent                                                │
+│                                                                             │
+│  Task: Find relevant precedents for a workplace harassment case, summarize  │
+│  their outcomes, and draft a memo about it.                                 │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────┐
+│                                                                             │
+│  Tool: get_legal_precedents                                                 │
+│  Args: {'issue': 'workplace harassment'}                                    │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+[32mTool get_legal_precedents executed with result: Identified legal precedents for issue: 'workplace harassment'. Key cases: Roe v. Wade, Brown v. Board of Education....[0m
+┌───────────────────── ✅ Tool Execution Completed (#1) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: get_legal_precedents                                                 │
+│  Output: Identified legal precedents for issue: 'workplace harassment'.     │
+│  Key cases: Roe v. Wade, Brown v. Board of Education.                       │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────┐
+│                                                                             │
+│  Tool: search_case_laws                                                     │
+│  Args: {'query': 'workplace harassment'}                                    │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+[32mTool search_case_laws executed with result: Found relevant case laws for query: 'workplace harassment'. E.g., Smith v. Jones (2012), Doe v. State (2019)....[0m
+┌───────────────────── ✅ Tool Execution Completed (#1) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│  Tool: search_case_laws                                                     │
+│  Output: Found relevant case laws for query: 'workplace harassment'. E.g.,  │
+│  Smith v. Jones (2012), Doe v. State (2019).                                │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────── 🔧 Tool Execution Started (#1) ───────────────────────┐
+│                                                                             │
+│  Tool: search_statutes                                                      │
+│  Args: {'topic': 'workplace harassment'}                                    │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+[32mTool search_statutes executed with result: Retrieved statutes related to workplace harassment, including Statute A12 and Statute B34....[0m
+┌───────────────────── ✅ Tool Execution Completed (#1) ──────────────────────┐
+│                                                                             │
+│  Tool Completed                                                             │
+│[93mMaximum iterations reached. Requesting final answer.[0m
+  Tool: search_statutes                                                      │
+│  Output: Retrieved statutes related to workplace harassment, including      │
+│  Statute A12 and Statute B34.                                               │
+│                                                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Traceback (most recent call last):
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2120, in kickoff
+    asyncio.get_running_loop()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\CR Ramesh\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\base_events.py", line 712, in run_until_complete
+    self.run_forever()
+    ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\base_events.py", line 683, in run_forever
+    self._run_once()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\base_events.py", line 2004, in _run_once
+    event_list = self._selector.select(timeout)
+  File "C:\Users\CR Ramesh\Lib\asyncio\windows_events.py", line 446, in select
+    self._poll(timeout)
+    ~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\windows_events.py", line 775, in _poll
+    status = _overlapped.GetQueuedCompletionStatus(self._iocp, ms)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\telemetry\telemetry.py", line 218, in handler
+    original_handler(signum, frame)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\CR Ramesh\Downloads\MCPparser\MCPWEEK6\crewai_run_patched.py", line 477, in <module>
+    rc = main()
+  File "C:\Users\CR Ramesh\Downloads\MCPparser\MCPWEEK6\crewai_run_patched.py", line 453, in main
+    crew_output = crew.kickoff()
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\crew.py", line 963, in kickoff
+    result = self._run_hierarchical_process()
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\crew.py", line 1413, in _run_hierarchical_process
+    return self._execute_tasks(self.tasks)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\crew.py", line 1507, in _execute_tasks
+    task_output = task.execute_sync(
+        agent=exec_data.agent,
+        context=context,
+        tools=exec_data.tools,
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\task.py", line 586, in execute_sync
+    return self._execute_core(agent, context, tools)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\task.py", line 790, in _execute_core
+    result = agent.execute_task(
+        task=self,
+        context=context,
+        tools=tools,
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\agent\core.py", line 791, in execute_task
+    result = self._execute_without_timeout(task_prompt, task)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\agent\core.py", line 856, in _execute_without_timeout
+    invoke_result = self.agent_executor.invoke(
+        {
+    ...<4 lines>...
+        }
+    )
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\experimental\agent_executor.py", line 2617, in invoke
+    self.kickoff()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\flow\flow.py", line 2125, in kickoff
+    return asyncio.run(_run_flow())
+           ~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\runners.py", line 194, in run
+    with Runner(debug=debug, loop_factory=loop_factory) as runner:
+         ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\runners.py", line 62, in __exit__
+    self.close()
+    ~~~~~~~~~~^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\runners.py", line 72, in close
+    loop.run_until_complete(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        loop.shutdown_default_executor(constants.THREAD_JOIN_TIMEOUT))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\base_events.py", line 712, in run_until_complete
+    self.run_forever()
+    ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\base_events.py", line 683, in run_forever
+    self._run_once()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\base_events.py", line 2004, in _run_once
+    event_list = self._selector.select(timeout)
+  File "C:\Users\CR Ramesh\Lib\asyncio\windows_events.py", line 446, in select
+    self._poll(timeout)
+    ~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\CR Ramesh\Lib\asyncio\windows_events.py", line 775, in _poll
+    status = _overlapped.GetQueuedCompletionStatus(self._iocp, ms)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\telemetry\telemetry.py", line 218, in handler
+    original_handler(signum, frame)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+KeyboardInterrupt
+ERROR:root:OpenAI API call failed: cannot schedule new futures after shutdown
+[CrewAIEventsBus] Warning: Event pairing mismatch. 'llm_call_failed' closed 
+'agent_execution_started' (expected 'llm_call_started')
+ERROR:root:OpenAI API call failed: cannot schedule new futures after shutdown
+[CrewAIEventsBus] Warning: Event pairing mismatch. 'llm_call_failed' closed 
+'tool_usage_started' (expected 'llm_call_started')
+ERROR:crewai.flow.flow:Error executing listener ensure_force_final_answer: cannot schedule new futures after shutdown
+[91mAn unknown error occurred. Please check the details below.[0m
+[91mError details: cannot schedule new futures after shutdown[0m
+[91mAn unknown error occurred. Please check the details below.[0m
+[91mError details: cannot schedule new futures after interpreter shutdown[0m
+[91mAn unknown error occurred. Please check the details below.[0m
+[91mError details: cannot schedule new futures after interpreter shutdown[0m
+[CrewAIEventsBus] Warning: Event pairing mismatch. 'tool_usage_finished' closed
+'agent_execution_started' (expected 'tool_usage_started')
+Exception ignored on threading shutdown:
+Traceback (most recent call last):
+  File "C:\Users\CR Ramesh\Lib\threading.py", line 1536, in _shutdown
+    atexit_call()
+  File "C:\Users\CR Ramesh\Lib\threading.py", line 1507, in <lambda>
+    _threading_atexits.append(lambda: func(*arg, **kwargs))
+  File "C:\Users\CR Ramesh\Lib\concurrent\futures\thread.py", line 31, in _python_exit
+    t.join()
+  File "C:\Users\CR Ramesh\Lib\threading.py", line 1094, in join
+    self._handle.join(timeout)
+  File "C:\Users\CR Ramesh\Lib\site-packages\crewai\telemetry\telemetry.py", line 218, in handler
+    original_handler(signum, frame)
+KeyboardInterrupt: 

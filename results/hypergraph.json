@@ -1,0 +1,58 @@
+[
+  {
+    "premise": [
+      "read_filesystem_credentials"
+    ],
+    "conclusion": [
+      "read_filesystem_user"
+    ],
+    "label": "h_imp_cred_read_implies_user_read"
+  },
+  {
+    "premise": [
+      "write_filesystem_credentials"
+    ],
+    "conclusion": [
+      "write_filesystem_user"
+    ],
+    "label": "h_imp_cred_write_implies_user_write"
+  },
+  {
+    "premise": [
+      "read_filesystem_credentials"
+    ],
+    "conclusion": [
+      "credentials_in_context"
+    ],
+    "label": "h_cred_read_to_context"
+  },
+  {
+    "premise": [
+      "network_send_external",
+      "credentials_in_context"
+    ],
+    "conclusion": [
+      "credential_exfiltration_setup"
+    ],
+    "label": "h_exfil_chain"
+  },
+  {
+    "premise": [
+      "write_filesystem_credentials"
+    ],
+    "conclusion": [
+      "persistence_installed"
+    ],
+    "label": "h_persistence_via_cred_write"
+  },
+  {
+    "premise": [
+      "write_filesystem_system",
+      "execute_code_local"
+    ],
+    "conclusion": [
+      "remote_code_execution"
+    ],
+    "label": "h_rce_via_system_write_plus_exec"
+  }
+]
