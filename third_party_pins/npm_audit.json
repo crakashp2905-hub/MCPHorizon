@@ -1,0 +1,114 @@
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "@utcp/code-mode": {
+      "name": "@utcp/code-mode",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        "@utcp/sdk"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@utcp/code-mode"
+      ],
+      "fixAvailable": false
+    },
+    "@utcp/http": {
+      "name": "@utcp/http",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        "@utcp/sdk"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@utcp/http"
+      ],
+      "fixAvailable": false
+    },
+    "@utcp/mcp": {
+      "name": "@utcp/mcp",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        "@utcp/sdk"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@utcp/mcp"
+      ],
+      "fixAvailable": false
+    },
+    "@utcp/sdk": {
+      "name": "@utcp/sdk",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        "zod"
+      ],
+      "effects": [
+        "@utcp/code-mode",
+        "@utcp/http",
+        "@utcp/mcp"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@utcp/sdk"
+      ],
+      "fixAvailable": false
+    },
+    "zod": {
+      "name": "zod",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1243066,
+          "name": "zod",
+          "dependency": "zod",
+          "title": "Zod can exhaust memory while validating oversized constrained collections",
+          "url": "https://github.com/advisories/GHSA-mrhx-c7xc-m3w5",
+          "severity": "high",
+          "cwe": [
+            "CWE-770"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<4.6.6"
+        }
+      ],
+      "effects": [
+        "@utcp/sdk"
+      ],
+      "range": "<4.6.6",
+      "nodes": [
+        "node_modules/@utcp/sdk/node_modules/zod"
+      ],
+      "fixAvailable": false
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 5,
+      "critical": 0,
+      "total": 5
+    },
+    "dependencies": {
+      "prod": 121,
+      "dev": 0,
+      "optional": 0,
+      "peer": 3,
+      "peerOptional": 0,
+      "total": 123
+    }
+  }
+}

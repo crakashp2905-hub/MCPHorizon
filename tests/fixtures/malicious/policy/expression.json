@@ -1,0 +1,24 @@
+{
+ "apiVersion": "horizon.security/v2",
+ "defaults": {
+  "evaluation_timeout": "DENY",
+  "inspection_only": "QUARANTINE",
+  "protected_effect": "DENY"
+ },
+ "kind": "PolicyBundle",
+ "metadata": {
+  "id": "research-lab-default",
+  "owner": "${env.SECRET}",
+  "signature": "EXTERNAL_SIGNED_BUNDLE_REFERENCE",
+  "version": 1
+ },
+ "rules": [
+  {
+   "decision": "DENY",
+   "id": "r1",
+   "when": {
+    "purpose": "x"
+   }
+  }
+ ]
+}

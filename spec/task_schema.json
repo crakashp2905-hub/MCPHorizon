@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MCPHorizon TaskSpec",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "task_id",
+    "schema_version",
+    "spec_revision_sha256",
+    "description_hash",
+    "phase",
+    "work_class",
+    "risk_tier",
+    "depends_on",
+    "status",
+    "extraction_confidence",
+    "source"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "pattern": "^P\\d{1,2}-\\d{2}$"
+    },
+    "spec_revision_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "description_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "phase": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 94
+    },
+    "work_class": {
+      "enum": [
+        "CODE",
+        "DECISION",
+        "EXPERIMENT",
+        "EXTERNAL",
+        "LIVE_EFFECT"
+      ]
+    },
+    "risk_tier": {
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "depends_on": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status": {
+      "enum": [
+        "BLOCKED_SECURITY",
+        "LEASED",
+        "NEEDS_APPROVAL",
+        "NEEDS_RECONCILIATION",
+        "NEEDS_REVALIDATION",
+        "NOT_APPLICABLE_APPROVED",
+        "PENDING",
+        "READY",
+        "REJECTED",
+        "RETRY_WAIT",
+        "RUNNING",
+        "VERIFIED",
+        "VERIFYING",
+        "WAITING_EXTERNAL"
+      ]
+    },
+    "owner_role": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "acceptance_gates": {
+      "type": "array"
+    },
+    "last_verified_revision": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

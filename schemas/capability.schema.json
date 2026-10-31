@@ -1,0 +1,109 @@
+{
+  "$id": "https://mcphorizon.invalid/schemas/capability/2.0.0",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "enum": [
+        "read",
+        "list",
+        "write",
+        "modify",
+        "delete",
+        "execute",
+        "send",
+        "receive",
+        "admin"
+      ]
+    },
+    "constraints": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_destinations": {
+          "items": {
+            "maxLength": 512,
+            "type": "string"
+          },
+          "maxItems": 64,
+          "type": "array"
+        },
+        "max_records": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "purpose": {
+          "maxLength": 128,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "labels": {
+      "additionalProperties": false,
+      "properties": {
+        "confidentiality": {
+          "enum": [
+            "PUBLIC",
+            "INTERNAL",
+            "CONFIDENTIAL",
+            "SECRET"
+          ]
+        },
+        "trust": {
+          "enum": [
+            "TRUSTED",
+            "UNVERIFIED",
+            "UNTRUSTED"
+          ]
+        }
+      },
+      "required": [
+        "confidentiality",
+        "trust"
+      ],
+      "type": "object"
+    },
+    "principal_id": {
+      "pattern": "^(?:[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,127})$",
+      "type": "string"
+    },
+    "resource_class": {
+      "pattern": "^(?:[a-z][a-z0-9_.-]{0,63})$",
+      "type": "string"
+    },
+    "resource_id": {
+      "maxLength": 512,
+      "type": "string"
+    },
+    "scope": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "literal",
+            "glob",
+            "tenant",
+            "any"
+          ]
+        },
+        "value": {
+          "maxLength": 512,
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "action",
+    "resource_class",
+    "scope",
+    "principal_id",
+    "labels"
+  ],
+  "title": "Capability",
+  "type": "object"
+}

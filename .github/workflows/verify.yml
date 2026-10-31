@@ -1,0 +1,33 @@
+name: verify
+# Independent verifier: runs on main only, produces Sigstore-attested receipts. No shared secret is needed.
+# Verify a receipt:  gh attestation verify receipts.json --repo crakashp2905-hub/MCPHorizon \
+#                      --signer-workflow crakashp2905-hub/MCPHorizon/.github/workflows/verify.yml
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: dtolnay/rust-toolchain@stable
+      - run: python3 scripts/ci_verify.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: receipts
+          path: receipts/receipts.json
+      - uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: receipts/receipts.json

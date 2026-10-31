@@ -1,0 +1,130 @@
+{
+  "$defs": {
+    "consumes": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "pattern": "^(?:[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,127})$",
+          "type": "string"
+        },
+        "event_id": {
+          "pattern": "^(?:[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,127})$",
+          "type": "string"
+        },
+        "kind": {
+          "const": "consumes"
+        }
+      },
+      "required": [
+        "kind",
+        "event_id",
+        "artifact_id"
+      ],
+      "type": "object"
+    },
+    "derives": {
+      "additionalProperties": false,
+      "properties": {
+        "from_artifact": {
+          "pattern": "^(?:[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,127})$",
+          "type": "string"
+        },
+        "kind": {
+          "const": "derives"
+        },
+        "to_artifact": {
+          "pattern": "^(?:[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,127})$",
+          "type": "string"
+        },
+        "transformation_id": {
+          "pattern": "^(?:[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,127})$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "from_artifact",
+        "to_artifact",
+        "transformation_id"
+      ],
+      "type": "object"
+    },
+    "produces": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "pattern": "^(?:[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,127})$",
+          "type": "string"
+        },
+        "event_id": {
+          "pattern": "^(?:[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,127})$",
+          "type": "string"
+        },
+        "kind": {
+          "const": "produces"
+        }
+      },
+      "required": [
+        "kind",
+        "event_id",
+        "artifact_id"
+      ],
+      "type": "object"
+    },
+    "verifies": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "pattern": "^(?:[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,127})$",
+          "type": "string"
+        },
+        "authority": {
+          "pattern": "^(?:[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,127})$",
+          "type": "string"
+        },
+        "kind": {
+          "const": "verifies"
+        },
+        "scope": {
+          "maxLength": 256,
+          "minLength": 1,
+          "type": "string"
+        },
+        "verification_kind": {
+          "maxLength": 64,
+          "type": "string"
+        },
+        "verifier_event_id": {
+          "pattern": "^(?:[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,127})$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "verifier_event_id",
+        "artifact_id",
+        "verification_kind",
+        "authority",
+        "scope"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://mcphorizon.invalid/schemas/lineage_edge/2.0.0",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/produces"
+    },
+    {
+      "$ref": "#/$defs/consumes"
+    },
+    {
+      "$ref": "#/$defs/derives"
+    },
+    {
+      "$ref": "#/$defs/verifies"
+    }
+  ],
+  "title": "LineageEdge"
+}
