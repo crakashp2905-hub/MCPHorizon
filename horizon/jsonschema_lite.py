@@ -15,6 +15,11 @@ KNOWN = {"$schema", "$id", "$defs", "$ref", "title", "description", "type", "enu
 TYPES = {"object": dict, "array": list, "string": str, "boolean": bool, "null": type(None)}
 
 
+def _ecma(pat: str) -> str:
+    """JSON Schema patterns are unanchored searches; ECMA `$` has no trailing-newline allowance, Python's does."""
+    return pat[:-1] + r"\Z" if pat.endswith("$") and not pat.endswith("\\$") else pat
+
+
 def _is_type(v, t):
     if t == "integer": return isinstance(v, int) and not isinstance(v, bool)
     if t == "number": return isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v)
@@ -66,7 +71,7 @@ def validate(instance, schema: dict, root: dict | None = None, path: str = "$") 
     if isinstance(instance, str):
         if "minLength" in schema and len(instance) < schema["minLength"]: errs.append(f"{path}: too short")
         if "maxLength" in schema and len(instance) > schema["maxLength"]: errs.append(f"{path}: too long")
-        if "pattern" in schema and not re.fullmatch(schema["pattern"], instance):
+        if "pattern" in schema and not re.search(_ecma(schema["pattern"]), instance):
             errs.append(f"{path}: does not match pattern {schema['pattern']}")
     if isinstance(instance, (int, float)) and not isinstance(instance, bool):
         if "minimum" in schema and instance < schema["minimum"]: errs.append(f"{path}: below minimum")

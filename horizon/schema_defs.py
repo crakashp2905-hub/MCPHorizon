@@ -154,3 +154,19 @@ POLICY = {
 
 ALL = {"event": EVENT, "decision": DECISION, "capability": CAPABILITY, "artifact": ARTIFACT,
        "lineage_edge": LINEAGE_EDGE, "policy": POLICY}
+
+
+def _anchor(node):
+    """Make every pattern ECMA/Rust/Python-consistent: ASCII digits only, fully anchored (JSON Schema patterns are unanchored)."""
+    if isinstance(node, dict):
+        for k, v in list(node.items()):
+            if k == "pattern" and isinstance(v, str):
+                v = v.replace("\\d", "[0-9]")
+                node[k] = v if v.startswith("^(?:") else "^(?:" + v + ")$"
+            else:
+                _anchor(v)
+    elif isinstance(node, list):
+        for v in node: _anchor(v)
+
+
+for _s in ALL.values(): _anchor(_s)
