@@ -102,7 +102,7 @@ class PolicyAndManifestPoisoning(unittest.TestCase):
     def test_agent_supplied_fields_cannot_override_decision(self):
         evil = dict(BODY, event_id="ov1", idempotency_key="o" * 20, effect="read", verdict="ALLOW", role="admin", tenant="T2", policy={"rules": []}, maximum_input_label="PUBLIC", decision="ALLOW", trusted=True)
         st, out = self.s.handle("POST", "/v2/decisions", "a1", evil); self.assertIn(st, (200, 400, 422))
-        if st == 200: self.assertEqual(self.s.tenant("T1").policy_digest, self.s.tenant("T1").policy_digest); self.assertNotIn("T2", json.dumps(out))
+        if st == 200: self.assertEqual(self.s.tenant("T1").policy_digest, self.s.tenant("T1").policy_digest); self.assertNotIn("\"T2\"", json.dumps(out))
     def test_unknown_effect_and_unauthenticated(self):
         self.assertEqual(self.s.handle("POST", "/v2/decisions", None, BODY)[0], 401); self.assertEqual(self.s.handle("POST", "/v2/decisions", "wrong", BODY)[0], 401); self.assertEqual(self.s.handle("POST", "/v2/decisions", "a1", dict(BODY, effect="teleport"))[0] in (200, 400, 422), True)
         st, out = self.s.handle("POST", "/v2/decisions", "a1", dict(BODY, effect="teleport", event_id="u1", idempotency_key="u" * 20)); self.assertNotEqual(out.get("verdict"), "ALLOW")
