@@ -43,6 +43,8 @@ jobs:
       - run: python3 -W ignore -m unittest tests.p9.test_study tests.p9.test_stats tests.p3.test_audit_close -v
       - run: python3 bench/p9/manifest.py verify
       - run: python3 -W ignore -m unittest tests.p10.test_ops tests.p10.test_negative -v
+      - run: pip install 'cryptography==50.0.1'
+      - run: python3 -W ignore -m unittest tests.p13.test_authz -v
       - run: python3 -W ignore -m unittest tests.p11.test_paper -v
       - run: python3 paper/build.py --check
       - run: python3 scripts/secret_scan.py

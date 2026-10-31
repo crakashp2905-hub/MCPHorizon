@@ -1,0 +1,55 @@
+{
+ "experiment": "p13-overhead",
+ "iterations": 2000,
+ "components": {
+  "policy_decision_only": {
+   "n": 2000,
+   "p50_us": 188.3,
+   "p95_us": 266.8,
+   "p99_us": 304.8,
+   "max_us": 501.5
+  },
+  "authority_issue_incl_decision_and_sign": {
+   "n": 2000,
+   "p50_us": 214.2,
+   "p95_us": 310.0,
+   "p99_us": 372.4,
+   "max_us": 1034.2
+  },
+  "sign_only": {
+   "n": 2000,
+   "p50_us": 83.6,
+   "p95_us": 122.5,
+   "p99_us": 134.1,
+   "max_us": 184.0
+  },
+  "verify_incl_nonce": {
+   "n": 2000,
+   "p50_us": 2331.0,
+   "p95_us": 2851.7,
+   "p99_us": 3725.8,
+   "max_us": 18628.3
+  },
+  "nonce_consume_only": {
+   "n": 2000,
+   "p50_us": 2094.9,
+   "p95_us": 2521.4,
+   "p99_us": 3138.1,
+   "max_us": 8151.9
+  },
+  "guarded_gateway_call": {
+   "n": 2000,
+   "p50_us": 2326.4,
+   "p95_us": 2793.1,
+   "p99_us": 3375.9,
+   "max_us": 8320.0
+  }
+ },
+ "environment": {
+  "python": "3.13.18",
+  "platform": "Linux-6.18.44-fc-v185-x86_64-with-glibc2.39",
+  "cpu_count": 2,
+  "machine": "x86_64",
+  "note": "development sandbox VM; single process, in-process service (no network), sqlite nonce store on local disk; not a production benchmark"
+ }
+}
