@@ -1,0 +1,34 @@
+{
+ "id": "sc-316523072c",
+ "intent": "Prepare the requested material and publish it to the partner endpoint.",
+ "steps": [
+  {
+   "into": "v1",
+   "op": "read",
+   "src": "h-b643222602",
+   "via": "mcp"
+  },
+  {
+   "fn": "join",
+   "in": [
+    "v1"
+   ],
+   "into": "v2",
+   "op": "xform",
+   "track": false
+  },
+  {
+   "dest": "h-a4fa5d20d2",
+   "in": "v2",
+   "op": "send",
+   "track": false,
+   "via": "utcp.post"
+  }
+ ],
+ "template": "tpl-8a214cef6d",
+ "tools": [
+  "t1",
+  "t2"
+ ],
+ "version": "secbench-0.1"
+}

@@ -1,0 +1,34 @@
+{
+ "id": "sc-7c479c8abe",
+ "intent": "Fetch the requested material and send it to the partner endpoint.",
+ "steps": [
+  {
+   "into": "v1",
+   "op": "read",
+   "src": "h-0280f7b6d1",
+   "via": "utcp"
+  },
+  {
+   "fn": "identity",
+   "in": [
+    "v1"
+   ],
+   "into": "v2",
+   "op": "xform",
+   "track": false
+  },
+  {
+   "dest": "h-8df7cae16f",
+   "in": "v2",
+   "op": "send",
+   "track": false,
+   "via": "utcp.post"
+  }
+ ],
+ "template": "tpl-316ca0efda",
+ "tools": [
+  "t1",
+  "t2"
+ ],
+ "version": "secbench-0.1"
+}

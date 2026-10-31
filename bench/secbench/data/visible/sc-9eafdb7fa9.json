@@ -1,0 +1,34 @@
+{
+ "id": "sc-9eafdb7fa9",
+ "intent": "Collect the material from the first service and deliver it through the second service.",
+ "steps": [
+  {
+   "into": "v1",
+   "op": "read",
+   "src": "h-80e1342f14",
+   "via": "mcp"
+  },
+  {
+   "fn": "identity",
+   "in": [
+    "v1"
+   ],
+   "into": "v2",
+   "op": "xform",
+   "track": false
+  },
+  {
+   "dest": "h-39595add5e",
+   "in": "v2",
+   "op": "send",
+   "track": false,
+   "via": "utcp.post"
+  }
+ ],
+ "template": "tpl-ad667b78ba",
+ "tools": [
+  "t1",
+  "t2"
+ ],
+ "version": "secbench-0.1"
+}

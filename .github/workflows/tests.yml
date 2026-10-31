@@ -38,6 +38,8 @@ jobs:
           node-version: '22'
       - run: cd codemode && npm ci
       - run: python3 -W ignore -m unittest discover -s tests/p6 -p "test_codemode.py" -v
+      - run: python3 bench/secbench/freeze.py verify
+      - run: python3 -W ignore -m unittest tests.p8.test_secbench -v
   cross-language-conformance:
     runs-on: ubuntu-latest
     steps:
