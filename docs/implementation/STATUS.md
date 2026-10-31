@@ -45,7 +45,10 @@ Vocabulary per AGENTS.md/CLAUDE.md: CANDIDATE | FAILED | BLOCKED | NEEDS_APPROVA
 | P23 Incident hygiene, schema 2.1-proposed, provenance (17 of 18 + gap report) | CANDIDATE | `horizon/runtime/{schema,provenance,importer}.py`, `tests/p23`, `scripts/{p23_freeze,runtime_gap_report}.py`, `docs/evidence/p23/*`. Freeze key is ephemeral/discarded; Cohere dataset licence NOT STATED; no trace downloaded |
 | P24 Process sandbox (14 of 18) | CANDIDATE; Linux x86_64 + root only | `horizon/runtime/sandbox.py`, `receiver.py`, `tests/p24` (15). UNMET: P24-02 microVM, -03 immutable image, -12 AppArmor/SELinux, -18 kernel audit correlation. Landlock ABI 7 does not scope pathname unix sockets (mount-ns masking used) |
 | P25 Egress broker (18 of 18) | CANDIDATE; HTTP-only | `horizon/runtime/broker.py`, `tests/p25` (19). https/ws/CONNECT/UDP denied as UNSUPPORTED (not approximated); firewall drop counters not available |
-| P26+ | NOT STARTED | |
+| P26 Credential broker, metadata & secret surfaces (18 of 18) | CANDIDATE; Linux root only | `horizon/runtime/{creds,mockservices,procs}.py`, `tests/p26` (17), `docs/runtime/CREDENTIAL_POLICY_REPORT.md`. Metadata listener bound on the real 169.254.169.254 alias (host loopback only): zero requests served. Found+fixed 2 sandbox bugs (inheritable fd leak, stdin never EOF) |
+| P27 Managed native execution (18 of 18) | CANDIDATE; Python top-level only | `horizon/runtime/managed.py`, `tests/p27` (15), `docs/evidence/p27/COVERAGE_AND_BOUNDARIES.md`. Existing JS isolated-vm Code Mode and real MCP/UTCP transports not run end to end; process observation is polling, not syscall tracing |
+| P28 Artifact assurance (18 of 18) | CANDIDATE; Python/bandit only | `horizon/runtime/artifacts.py`, `tests/p28` (16), `scripts/security_gate.py`, `bench/haa/fixtures/vuln`, `docs/evidence/p28/*`. SCA uses a synthetic 2-entry DB; bandit blocked 1/4 vulnerable fixtures, oracle caught 4/4 |
+| P29+ | NOT STARTED | |
 | P78–P82 | NOT STARTED | require B-01, B-05 |
 | P1–P54, P87–P94 research & engineering | NOT STARTED | depend on reviewed DAG and authorized budget (B-07) |
 | P91–P93 science/budget/customer validation | WAITING_EXTERNAL | needs real stakeholders |

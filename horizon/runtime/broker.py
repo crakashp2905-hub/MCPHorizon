@@ -47,13 +47,13 @@ class Broker:
         self.rules, self.res, self.sinks, self.policy_ok, self.key, self.rate, self.canaries, self.max_hops, self.timeout, self.used, self.log, self.hits = rules, resolver, set(test_sinks), policy_ok, key or secrets.token_bytes(32), rate_per_min, canaries, max_hops, timeout_s, set(), [], {}
 
     # ---- authorization: decide ONCE for exact args, return an unforgeable permit (P25-03, P25-14)
-    def _canon(self, principal, method, url, body: bytes, labels):
-        return json.dumps({"p": principal, "m": method, "u": N.canonical_url(url), "b": hashlib.sha256(body).hexdigest(), "l": sorted(labels)}, sort_keys=True)
-    def authorize(self, principal, method, url, body: bytes = b"", labels=(), exp_s=10) -> dict:
+    def _canon(self, principal, method, url, body: bytes, labels, headers=None):
+        return json.dumps({"p": principal, "m": method, "u": N.canonical_url(url), "b": hashlib.sha256(body).hexdigest(), "l": sorted(labels), "h": hashlib.sha256(json.dumps(sorted((headers or {}).items())).encode()).hexdigest()}, sort_keys=True)
+    def authorize(self, principal, method, url, body: bytes = b"", labels=(), exp_s=10, headers=None) -> dict:
         try: dec = self._decide(principal, method, url, body, labels)
         except Exception as e: dec = {"ok": False, "code": "POLICY_ERROR", "detail": type(e).__name__}
         if not dec["ok"]: self.log.append({"principal": principal, "url": url, "decision": "DENY", "code": dec["code"]}); return dec
-        c = self._canon(principal, method, url, body, labels); nonce = secrets.token_hex(8); exp = int(time.time()) + exp_s
+        c = self._canon(principal, method, url, body, labels, headers); nonce = secrets.token_hex(8); exp = int(time.time()) + exp_s
         mac = hmac.new(self.key, f"{c}|{nonce}|{exp}".encode(), hashlib.sha256).hexdigest(); return {"ok": True, "permit": {"nonce": nonce, "exp": exp, "mac": mac}, "ip": dec["ip"], "port": dec["port"]}
     def _decide(self, principal, method, url, body, labels) -> dict:
         if not self.policy_ok(): return {"ok": False, "code": "POLICY_UNAVAILABLE"}                                  # fail closed on authority/policy outage (P25-17)
@@ -79,19 +79,19 @@ class Broker:
         if any((c in ("METADATA", "LINK_LOCAL", "MULTICAST", "UNSPECIFIED") or (c in ("LOOPBACK", "PRIVATE", "CGNAT", "RESERVED") and (ip, port) not in self.sinks)) for ip, c in classes): return {"ok": False, "code": "DESTINATION_CLASS_DENIED", "detail": [c for _, c in classes]}
         if len({ip for ip, _ in classes}) != 1: return {"ok": False, "code": "AMBIGUOUS_RESOLUTION"}      # multi-answer names must not let the connect pick a different address than the one validated
         h.append(now); return {"ok": True, "ip": classes[0][0], "port": port}
-    def execute(self, principal, method, url, body: bytes, labels, auth: dict) -> dict:
-        p = auth["permit"]; c = self._canon(principal, method, url, body, labels)
+    def execute(self, principal, method, url, body: bytes, labels, auth: dict, headers=None) -> dict:
+        p = auth["permit"]; c = self._canon(principal, method, url, body, labels, headers)
         want = hmac.new(self.key, f"{c}|{p['nonce']}|{p['exp']}".encode(), hashlib.sha256).hexdigest()
         if not hmac.compare_digest(want, p["mac"]): return {"ok": False, "code": "PERMIT_MISMATCH"}                    # arguments changed after authorization
         if time.time() > p["exp"]: return {"ok": False, "code": "PERMIT_EXPIRED"}
         if p["nonce"] in self.used: return {"ok": False, "code": "PERMIT_REPLAY"}
-        self.used.add(p["nonce"]); return self._send(principal, method, url, body, labels, auth["ip"], auth["port"], hops=0)
-    def _send(self, principal, method, url, body, labels, ip, port, hops) -> dict:
+        self.used.add(p["nonce"]); return self._send(principal, method, url, body, labels, auth["ip"], auth["port"], hops=0, headers=headers)
+    def _send(self, principal, method, url, body, labels, ip, port, hops, headers=None) -> dict:
         s = urlsplit(N.canonical_url(url)); rule = next(r for r in self.rules[principal] if r.host == s.hostname and port in r.ports)
         try:
             sk = socket.create_connection((ip, port), timeout=self.timeout)          # connect to the VALIDATED, PINNED ip — never re-resolve the name
             if sk.getpeername()[0] != ip: sk.close(); return {"ok": False, "code": "PEER_MISMATCH"}
-            path = (s.path or "/") + (f"?{s.query}" if s.query else ""); req = f"{method} {path} HTTP/1.1\r\nHost: {s.hostname}\r\nConnection: close\r\nContent-Length: {len(body)}\r\n\r\n".encode() + body
+            path = (s.path or "/") + (f"?{s.query}" if s.query else ""); extra = "".join(f"{k}: {v}\r\n" for k, v in (headers or {}).items() if "\r" not in k + v and "\n" not in k + v); req = f"{method} {path} HTTP/1.1\r\nHost: {s.hostname}\r\nConnection: close\r\nContent-Length: {len(body)}\r\n{extra}\r\n".encode() + body
             sk.sendall(req); data = b""; end = time.time() + self.timeout
             while len(data) <= rule.max_resp and time.time() < end:
                 d = sk.recv(8192)
@@ -106,18 +106,18 @@ class Broker:
             if not loc: return {"ok": False, "code": "BAD_REDIRECT"}
             a = self.authorize(principal, "GET", loc, b"", ())
             if not a["ok"]: self.log.append({"principal": principal, "url": loc, "decision": "DENY_AT_REDIRECT", "code": a["code"]}); return {"ok": False, "code": "REDIRECT_" + a["code"]}
-            self.used.add(a["permit"]["nonce"]); return self._send(principal, "GET", loc, b"", (), a["ip"], a["port"], hops + 1)
+            self.used.add(a["permit"]["nonce"]); return self._send(principal, "GET", loc, b"", (), a["ip"], a["port"], hops + 1)      # headers (credentials) are NEVER forwarded across a redirect
         self.log.append({"principal": principal, "url": url, "decision": "ALLOW", "status": status}); return {"ok": True, "status": status, "body": data.split(b"\r\n\r\n", 1)[-1][:rule.max_resp].decode(errors="replace")}
-    def fetch(self, principal, method, url, body=b"", labels=()) -> dict:
-        a = self.authorize(principal, method, url, body, labels)
-        return a if not a["ok"] else self.execute(principal, method, url, body, labels, a)
+    def fetch(self, principal, method, url, body=b"", labels=(), headers=None) -> dict:
+        a = self.authorize(principal, method, url, body, labels, headers=headers)
+        return a if not a["ok"] else self.execute(principal, method, url, body, labels, a, headers)
 
-    def session(self, principal) -> "Session": return Session(self, principal)
+    def session(self, principal, creds=None) -> "Session": return Session(self, principal, creds)
 
 
 class Session:
     """What the sandbox talks to. The principal is fixed at launch; the request cannot name another one."""
-    def __init__(self, broker, principal): self.b, self.p = broker, principal
+    def __init__(self, broker, principal, creds=None): self.b, self.p, self.creds = broker, principal, creds
     def serve_once(self, sock, run_id, reqs):
         hdr = sock.recv(4)
         if len(hdr) < 4: return
@@ -128,16 +128,18 @@ class Session:
         try: m = json.loads(buf)
         except ValueError: sock.sendall(self._frame({"ok": False, "code": "BAD_JSON"})); return
         body = m.get("body", "").encode()
-        r = self.b.fetch(self.p, str(m.get("method", "")).upper(), str(m.get("url", "")), body, tuple(m.get("labels", ())))
-        reqs.append({"run_id": run_id, "principal": self.p, "method": m.get("method"), "url": m.get("url"), "ok": r["ok"], "code": r.get("code"), "bytes": len(body)}); sock.sendall(self._frame({k: v for k, v in r.items() if k not in ("permit", "ip")}))
+        if m.get("cred") is not None:
+            r = self.creds.call(self.p, str(m["cred"]), str(m.get("method", "")).upper(), str(m.get("url", "")), body) if self.creds else {"ok": False, "code": "NO_CREDENTIAL_BROKER"}
+        else: r = self.b.fetch(self.p, str(m.get("method", "")).upper(), str(m.get("url", "")), body, tuple(m.get("labels", ())))
+        reqs.append({"run_id": run_id, "principal": self.p, "method": m.get("method"), "url": m.get("url"), "ok": r["ok"], "code": r.get("code"), "bytes": len(body), "cred_ref": m.get("cred")}); sock.sendall(self._frame({k: v for k, v in r.items() if k not in ("permit", "ip")}))
     @staticmethod
     def _frame(o): d = json.dumps(o).encode(); return struct.pack(">I", len(d)) + d
 
 
 CLIENT = '''
 import socket, struct, json
-def hz_fetch(method, url, body="", labels=()):
-    s = socket.socket(fileno=3); d = json.dumps({"method": method, "url": url, "body": body, "labels": list(labels)}).encode()
+def hz_fetch(method, url, body="", labels=(), cred=None):
+    s = socket.socket(fileno=3); d = json.dumps({"method": method, "url": url, "body": body, "labels": list(labels), "cred": cred}).encode()
     s.sendall(struct.pack(">I", len(d)) + d); h = s.recv(4); n = struct.unpack(">I", h)[0]; b = b""
     while len(b) < n: b += s.recv(n - len(b))
     s.detach(); return json.loads(b)
