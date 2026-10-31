@@ -1337,5 +1337,124 @@
   ],
   "covers": "reference implementation orchestrator/packet2.py and examples/p84/least_privilege_packet.json (validated by test)"
  },
+ "P85-04": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_verifier2.py"
+   ]
+  ],
+  "covers": "evidence envelope binds task, attempt, epoch, plan digest, commit/base, oracle id and env digest (repository identity and policy beyond plan digest are NOT bound)"
+ },
+ "P85-08": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_verifier2.py"
+   ]
+  ],
+  "covers": "verdict derived only from own replay; forged/unsigned/wrong-key receipts and worker claims rejected"
+ },
+ "P85-09": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_verifier2.py"
+   ]
+  ],
+  "covers": "replayed receipts, key-id substitution, edited verdicts and receipts for unrelated commits rejected"
+ },
+ "P85-10": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_verifier2.py"
+   ]
+  ],
+  "covers": "worker edits/deletes of existing tests/graders/fixtures and test-shadowing files fail the task (artifact-digest manifest tampering not tested)"
+ },
+ "P85-11": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_verifier2.py"
+   ]
+  ],
+  "covers": "required sinks without independent telemetry => UNKNOWN => NEEDS_RECONCILIATION; worker-reported observations never count"
+ },
+ "P85-15": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_verifier2.py"
+   ]
+  ],
+  "covers": "failure report names the failing command and minimal repro, output tail scrubbed"
+ },
+ "P85-16": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_verifier2.py"
+   ]
+  ],
+  "covers": "verifier crash leaves task VERIFYING; recovery completes without false promotion"
+ },
  "_note": "Task -> acceptance command(s) run by the CI verifier (.github/workflows/verify.yml) on the exact merged commit. A passing receipt shows these commands exited 0; it does not prove the task text is fully satisfied beyond what the tests check (see 'covers')."
 }

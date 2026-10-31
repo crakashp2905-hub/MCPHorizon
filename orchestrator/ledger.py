@@ -55,7 +55,7 @@ class Ledger:
     def __init__(self, path: str | Path, principals: dict[str, tuple[str, bytes]], clock=time.time):
         """principals: id -> (role, key). roles: supervisor | worker | verifier | external | approver.
         clock is injectable so lease/skew behaviour is testable; production uses time.time."""
-        self.principals, self.clock, self.path = principals, clock, str(path)
+        self.principals, self.clock, self.path = dict(principals), clock, str(path)     # private copy: revocation must not mutate the caller's dict
         self.db = sqlite3.connect(self.path, isolation_level=None)
         try:
             self.db.execute("PRAGMA journal_mode=WAL"); self.db.execute("PRAGMA busy_timeout=5000")
@@ -285,12 +285,27 @@ class Ledger:
             if receipt["task"] != tid or receipt["git_sha"] != sha or receipt["epoch"] != ep \
                     or receipt["plan"] != self.plan_digest():
                 raise LedgerError("receipt does not match submission (task/sha/epoch/plan)")
+            verdict = receipt.get("verdict")
+            if verdict not in (None, "PASS", "FAIL", "UNKNOWN"): raise LedgerError("receipt has an unknown verdict")
+            if receipt["exit_code"] == 0 and verdict not in (None, "PASS"): raise LedgerError("receipt exit_code 0 contradicts its verdict")
+            if verdict == "PASS" and receipt["exit_code"] != 0: raise LedgerError("receipt PASS contradicts non-zero exit_code")
+            if verdict == "UNKNOWN":                       # missing/incomplete protected-effect telemetry: never promote, never silently retry
+                self._set(tid, "NEEDS_RECONCILIATION", vid, receipt)
+                return "NEEDS_RECONCILIATION"
             if receipt["exit_code"] == 0:
                 self._set(tid, "VERIFIED", vid, receipt, verified_sha=sha)
                 return "VERIFIED"
             att = self.db.execute("SELECT attempts FROM tasks WHERE id=?", (tid,)).fetchone()[0] + 1
             self._set(tid, "RETRY_WAIT", vid, receipt, attempts=att)
             return "RETRY_WAIT"
+
+    def revoke_principal(self, pid: str, actor: str, reason: str) -> None:
+        """Remove a principal's key from this process (e.g. a compromised verifier). Receipts it signs afterwards are rejected as
+        'unknown principal'. NOTE: receipts accepted BEFORE revocation stay accepted; use invalidate() on those tasks if needed."""
+        if self._role(actor) != "supervisor": raise LedgerError("only supervisor revokes principals")
+        if pid not in self.principals: raise LedgerError("unknown principal")
+        del self.principals[pid]
+        with self._tx(): self._journal("*", None, "PRINCIPAL_REVOKED", actor, {"principal": pid, "reason": reason})
 
     def mark(self, tid: str, to: str, actor: str, reason: str, approval_sig: str | None = None) -> None:
         role = self._role(actor)
