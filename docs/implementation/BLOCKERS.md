@@ -2,7 +2,7 @@
 
 | ID | Class | Blocks | What is needed | Owner |
 |---|---|---|---|---|
-| B-01 | NEEDS_APPROVAL | P83-06, P83-16, P83-18, all scheduling | Authorized maintainer reviews/signs the 158 gate edges in `spec/dependencies.yaml` and `plan.lock` | Maintainer |
+| B-01 | RESOLVED 2026-10-31 (chat approval; consider a real signature) | P83-06, P83-16, P83-18, all scheduling | Authorized maintainer reviews/signs the 158 gate edges in `spec/dependencies.yaml` and `plan.lock` | Maintainer |
 | B-02 | NEEDS_APPROVAL | P0-09, P0-17 | Legal review of proprietary root LICENSE vs imported datasets; GitHub branch-protection/CODEOWNERS (repo-admin action) | Maintainer/counsel |
 | B-03 | WAITING_EXTERNAL | P0-08, P0-10 | Upstream provenance for MCPTox / MCPSecBench / TAMAS copies; decision on private-core access | Maintainer |
 | B-04 | MISSING_ARTIFACT | P0-11, P0-05 | `mcphorizon` package source (cli.py, engine/) absent: legacy experiments needing it cannot be re-run | Maintainer |

@@ -1,0 +1,46 @@
+{
+ "apiVersion": "horizon.security/v2",
+ "defaults": {
+  "evaluation_timeout": "DENY",
+  "inspection_only": "QUARANTINE",
+  "protected_effect": "DENY"
+ },
+ "kind": "PolicyBundle",
+ "metadata": {
+  "id": "research-lab-default",
+  "owner": "security-team",
+  "signature": "EXTERNAL_SIGNED_BUNDLE_REFERENCE",
+  "version": 1
+ },
+ "rules": [
+  {
+   "decision": "DENY",
+   "id": "deny-secret-egress",
+   "when": {
+    "authorized_flow": false,
+    "effect": "send",
+    "input_label_at_least": "SECRET",
+    "sink_zone": "external"
+   }
+  },
+  {
+   "decision": "REVIEW",
+   "id": "review-incomplete",
+   "when": {
+    "effect": "send",
+    "lineage_complete": false,
+    "sink_zone": "external"
+   }
+  },
+  {
+   "decision": "ALLOW",
+   "id": "allow-public",
+   "when": {
+    "effect": "send",
+    "maximum_input_label": "PUBLIC",
+    "purpose": "approved_release",
+    "sink_zone": "approved_release_registry"
+   }
+  }
+ ]
+}

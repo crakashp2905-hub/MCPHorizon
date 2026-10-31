@@ -10,8 +10,11 @@ Vocabulary per AGENTS.md/CLAUDE.md: CANDIDATE | FAILED | BLOCKED | NEEDS_APPROVA
 | P0 repository audit (mechanical items) | CANDIDATE | `docs/implementation/p0/` ; `python3 scripts/p0_audit.py` |
 | P0 judgement items (provenance, licence, private core, branch protection, legacy re-runs) | BLOCKED / NEEDS_APPROVAL | see BLOCKERS.md B-02…B-04 |
 | P83 compiler/validator, schema, plan.lock | CANDIDATE | 15/15 tests pass (`python3 -m unittest discover -s tests/spec -v`); `python3 scripts/validate_plan.py` exit 0 |
-| P83 reviewed dependency DAG | NEEDS_APPROVAL | 158 gate edges all `NEEDS_REVIEW`; `scheduling_enabled=false` |
+| P83 reviewed dependency DAG | CANDIDATE (approved) | 158 gate edges SIGNED by maintainer via chat instruction 2026-10-31 (non-cryptographic, not line-by-line); `scheduling_enabled=true` |
 | P75–P77 ledger/state machine, P84 work packets, P85 verifier, P86 adversarial subset | CANDIDATE (prototype) | `orchestrator/`, 17 tests pass (`python3 -m unittest discover -s tests/supervisor -v`); local-trust only, see `docs/security/SUPERVISOR_THREAT_MODEL.md`; hardening needs B-05 |
+| P1 schemas/validator/normalization/HMAC (P1-07..12, 15..19) | CANDIDATE | `horizon/`, `schemas/`, 53-file fixture corpus, 14 tests: `python3 -m unittest discover -s tests/p1 -v` |
+| P1-01..06 version pins & wire docs | PARTIAL | `docs/protocols/`; P1-04/05/06 open (need sandboxed install + source inspection) |
+| P1-13/14/20 Rust/TS types and cross-language conformance | NOT STARTED | no Rust/TS toolchain run here; Python only |
 | P78–P82 | NOT STARTED | require B-01, B-05 |
 | P1–P54, P87–P94 research & engineering | NOT STARTED | depend on reviewed DAG and authorized budget (B-07) |
 | P91–P93 science/budget/customer validation | WAITING_EXTERNAL | needs real stakeholders |

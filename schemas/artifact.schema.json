@@ -1,0 +1,73 @@
+{
+  "$id": "https://mcphorizon.invalid/schemas/artifact/2.0.0",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "confidentiality": {
+      "enum": [
+        "PUBLIC",
+        "INTERNAL",
+        "CONFIDENTIAL",
+        "SECRET"
+      ]
+    },
+    "content_digest": {
+      "pattern": "sha256:[0-9a-f]{64}",
+      "type": "string"
+    },
+    "id": {
+      "pattern": "[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,127}",
+      "type": "string"
+    },
+    "parents": {
+      "items": {
+        "pattern": "[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,127}",
+        "type": "string"
+      },
+      "maxItems": 1024,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "partial_lineage": {
+      "type": "boolean"
+    },
+    "producer_event_id": {
+      "pattern": "[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,127}",
+      "type": "string"
+    },
+    "purpose_tags": {
+      "items": {
+        "maxLength": 64,
+        "type": "string"
+      },
+      "maxItems": 32,
+      "type": "array"
+    },
+    "retention_class": {
+      "maxLength": 64,
+      "type": "string"
+    },
+    "tenant_id": {
+      "pattern": "[A-Za-z0-9][A-Za-z0-9_.:@/-]{0,127}",
+      "type": "string"
+    },
+    "trust": {
+      "enum": [
+        "TRUSTED",
+        "UNVERIFIED",
+        "UNTRUSTED"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "producer_event_id",
+    "parents",
+    "confidentiality",
+    "trust",
+    "tenant_id",
+    "partial_lineage"
+  ],
+  "title": "Artifact",
+  "type": "object"
+}
