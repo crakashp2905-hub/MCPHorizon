@@ -9,7 +9,7 @@ from horizon.codemode.exec import Executor, HERE
 
 CODE_TEMPLATES = {"C1", "C2", "C3", "C4", "C5", "X1", "X2"}
 JS_HELPERS = """
-const HEX='0123456789abcdef', B='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+const HEX='0123456789abcdef', B='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'; // secret-scan:ignore
 function hex(s){let o='';for(let i=0;i<s.length;i++){const c=s.charCodeAt(i);o+=HEX[c>>4]+HEX[c&15];}return o;}
 function b64(s){let o='';for(let i=0;i<s.length;i+=3){const a=s.charCodeAt(i),b=i+1<s.length?s.charCodeAt(i+1):NaN,c=i+2<s.length?s.charCodeAt(i+2):NaN;
  o+=B[a>>2]+B[((a&3)<<4)|((b||0)>>4)]+(isNaN(b)?'=':B[((b&15)<<2)|((c||0)>>6)])+(isNaN(c)?'=':B[c&63]);}return o;}
