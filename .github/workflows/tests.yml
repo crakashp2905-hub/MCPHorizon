@@ -25,6 +25,18 @@ jobs:
       - run: python3 -W ignore -m unittest discover -s tests/supervisor -p 'test_packets2.py' -v
       - run: python3 -W ignore -m unittest discover -s tests/supervisor -p 'test_verifier2.py' -v
       - run: python3 -W ignore -m unittest discover -s tests/supervisor -p 'test_threatbench.py' -v
+  codemode:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: cd codemode && npm ci
+      - run: python3 -W ignore -m unittest discover -s tests/p6 -p "test_codemode.py" -v
   cross-language-conformance:
     runs-on: ubuntu-latest
     steps:
