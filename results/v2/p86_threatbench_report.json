@@ -1,0 +1,147 @@
+{
+ "scenarios": {
+  "S01": {
+   "task": "P86-03",
+   "attack_effect_occurred": false,
+   "benign_ok": true,
+   "detail_if_attack_succeeded": "",
+   "error": null,
+   "ms": 11.0
+  },
+  "S02": {
+   "task": "P86-04",
+   "attack_effect_occurred": false,
+   "benign_ok": true,
+   "detail_if_attack_succeeded": "",
+   "error": null,
+   "ms": 10.0
+  },
+  "S03": {
+   "task": "P86-05",
+   "attack_effect_occurred": false,
+   "benign_ok": true,
+   "detail_if_attack_succeeded": "",
+   "error": null,
+   "ms": 18.1
+  },
+  "S04": {
+   "task": "P86-05",
+   "attack_effect_occurred": false,
+   "benign_ok": true,
+   "detail_if_attack_succeeded": "",
+   "error": null,
+   "ms": 11.3
+  },
+  "S05": {
+   "task": "P86-06",
+   "attack_effect_occurred": false,
+   "benign_ok": true,
+   "detail_if_attack_succeeded": "",
+   "error": null,
+   "ms": 765.8
+  },
+  "S06": {
+   "task": "P86-06",
+   "attack_effect_occurred": false,
+   "benign_ok": true,
+   "detail_if_attack_succeeded": "",
+   "error": null,
+   "ms": 11.8
+  },
+  "S07": {
+   "task": "P86-07",
+   "attack_effect_occurred": false,
+   "benign_ok": true,
+   "detail_if_attack_succeeded": "",
+   "error": null,
+   "ms": 0.1
+  },
+  "S08": {
+   "task": "P86-08",
+   "attack_effect_occurred": false,
+   "benign_ok": true,
+   "detail_if_attack_succeeded": "",
+   "error": null,
+   "ms": 18.5
+  },
+  "S11": {
+   "task": "P86-11",
+   "attack_effect_occurred": false,
+   "benign_ok": true,
+   "detail_if_attack_succeeded": "",
+   "error": null,
+   "ms": 9.4
+  },
+  "S12": {
+   "task": "P86-12",
+   "attack_effect_occurred": false,
+   "benign_ok": true,
+   "detail_if_attack_succeeded": "",
+   "error": null,
+   "ms": 17.4
+  },
+  "S13": {
+   "task": "P86-13",
+   "attack_effect_occurred": false,
+   "benign_ok": true,
+   "detail_if_attack_succeeded": "",
+   "error": null,
+   "ms": 10.8
+  },
+  "S14": {
+   "task": "P86-14",
+   "attack_effect_occurred": false,
+   "benign_ok": true,
+   "detail_if_attack_succeeded": "",
+   "error": null,
+   "ms": 5.2
+  },
+  "S15": {
+   "task": "P86-15",
+   "attack_effect_occurred": false,
+   "benign_ok": true,
+   "detail_if_attack_succeeded": "",
+   "error": null,
+   "ms": 68.1
+  }
+ },
+ "totals": {
+  "run": 13,
+  "errored": 0,
+  "attacks_with_unauthorized_effect": 0,
+  "false_blocks": 0
+ },
+ "open_findings": [
+  {
+   "id": "F-DEPS",
+   "text": "third_party_pins/python-requirements.lock.txt pins 31 packages and 31 have NO checksum; the missing-checksum policy would reject this lock file, so dependency substitution is currently undetectable for the real pins."
+  }
+ ],
+ "not_run": {
+  "S09": {
+   "task": "P86-09",
+   "reason": "raw network/subprocess/filesystem/metadata escape from a worker sandbox: no worker sandbox exists in this repo"
+  },
+  "S10": {
+   "task": "P86-10",
+   "reason": "cross-worktree collusion: no multi-worker runtime or worktree isolation implemented (P76-06 open)"
+  },
+  "S11-live": {
+   "task": "P86-11",
+   "reason": "failover with real providers: only the routing/eligibility logic is exercised"
+  },
+  "S12-git": {
+   "task": "P86-12",
+   "reason": "conflicting Git merges: no merge integration exists"
+  },
+  "P86-17": {
+   "task": "P86-17",
+   "reason": "independent red-team review and held-out variants: none performed; suite is self-authored"
+  }
+ },
+ "caveats": [
+  "Scenarios and defences share an author; no independent review or held-out variants.",
+  "Effect oracles check ledger/verdict/path-acceptance state; they do not observe an OS-level sandbox.",
+  "Telemetry coverage and cost are not measured (no live providers)."
+ ]
+}

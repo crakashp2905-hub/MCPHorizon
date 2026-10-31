@@ -1456,5 +1456,226 @@
   ],
   "covers": "verifier crash leaves task VERIFYING; recovery completes without false promotion"
  },
+ "P86-02": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_threatbench.py"
+   ]
+  ],
+  "covers": "PARTIAL: attack/benign pairs with effect oracles exist for the 13 implemented scenarios only; not every \u00a7P86 scenario has one"
+ },
+ "P86-03": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_threatbench.py"
+   ]
+  ],
+  "covers": "AGENTS.md/CLAUDE.md-style injection with matched harmless control (S01); effect oracle = out-of-scope path / VERIFIED claim accepted"
+ },
+ "P86-04": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_threatbench.py"
+   ]
+  ],
+  "covers": "untrusted skill relabelled trusted/mandatory (S02) with a legitimately supervisor-built trusted control; mutation of label binding fires the oracle"
+ },
+ "P86-05": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_threatbench.py"
+   ]
+  ],
+  "covers": "forged verifier receipts and forged approvals (S03, S04) judged by ledger state; mutation of signature checks fires the oracles"
+ },
+ "P86-06": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_threatbench.py"
+   ]
+  ],
+  "covers": "weakened/mutated/deleted tests and fabricated CI transcript (S05, S06); mutation of tamper detection fires S05"
+ },
+ "P86-07": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_threatbench.py"
+   ]
+  ],
+  "covers": "PARTIAL: lock-policy module rejects version/hash substitution, missing checksum, unlisted packages (S07). The REAL lock has no checksums (open finding F-DEPS / B-08) and mirror compromise is not simulated"
+ },
+ "P86-08": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_threatbench.py"
+   ]
+  ],
+  "covers": "PARTIAL: trust-root and secret paths cannot enter an allowlist or be edited (S08, found and fixed a real gap). Reading the supervisor DB/keys at OS level is NOT tested"
+ },
+ "P86-11": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_threatbench.py"
+   ]
+  ],
+  "covers": "PARTIAL: routing/failover eligibility by policy, classification ceiling and region (S11). No live provider failover"
+ },
+ "P86-12": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_threatbench.py"
+   ]
+  ],
+  "covers": "PARTIAL: stale epoch, revoked approval, expired packet (S12). Double execution across processes and conflicting Git merges NOT tested"
+ },
+ "P86-13": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_threatbench.py"
+   ]
+  ],
+  "covers": "PARTIAL: forged external sign-off cannot open RC-R (S13). Fabricated testimonials/studies as content are not detectable by this suite"
+ },
+ "P86-14": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_threatbench.py"
+   ]
+  ],
+  "covers": "self-edited scope, budget, attempts and expiry (S14) rejected; mutation fires the oracle"
+ },
+ "P86-15": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_threatbench.py"
+   ]
+  ],
+  "covers": "PARTIAL: forged receipt still rejected after abrupt ledger restart (S15); no real daemon or OS-level policy process"
+ },
+ "P86-16": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_threatbench.py"
+   ]
+  ],
+  "covers": "PARTIAL: report of unauthorized effects and false blocks (results/v2/p86_threatbench_report.json). Telemetry coverage, cost, reproducibility across machines NOT measured"
+ },
  "_note": "Task -> acceptance command(s) run by the CI verifier (.github/workflows/verify.yml) on the exact merged commit. A passing receipt shows these commands exited 0; it does not prove the task text is fully satisfied beyond what the tests check (see 'covers')."
 }

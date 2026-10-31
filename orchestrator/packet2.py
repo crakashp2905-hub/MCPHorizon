@@ -66,7 +66,8 @@ def build(key: bytes, *, task: dict, spec_text: str, spec_sha256: str, plan_dige
     if sha(spec_text) != spec_sha256: raise PacketError("spec text does not match the pinned digest")
     if not allowlist or not acceptance: raise PacketError("allowlist and acceptance oracle are mandatory")
     for pat in allowlist:
-        if pat.startswith("/") or ".." in pat.split("/") or any(pat.startswith(f) for f in FORBIDDEN_PREFIXES): raise PacketError(f"allowlist pattern not permitted: {pat}")
+        if pat.startswith("/") or ".." in pat.split("/") or any(pat.startswith(f) for f in FORBIDDEN_PREFIXES) \
+                or pat.rsplit("/", 1)[-1] in FORBIDDEN_NAMES: raise PacketError(f"allowlist pattern not permitted: {pat}")
     need = {"network", "filesystem", "credentials", "providers", "tools"}
     if need - set(policies): raise PacketError(f"policies missing: {sorted(need - set(policies))}")
     ph = (f"### P{task['phase']} ", f"### Phase P{task['phase']} ")
@@ -146,6 +147,14 @@ def for_provider(pkt: dict, ceiling: str, key: bytes | None = None) -> dict:
             continue
         out.append({**{k: i[k] for k in ("id", "source", "trust", "classification", "mandatory")}, "text": scrub(i["text"]), "sha256_original": i["sha256"]})
     return {"contract": pkt["contract"], "signature": pkt["signature"], "context": out}
+
+
+def eligible_providers(pkt: dict, providers: dict[str, dict]) -> list[str]:
+    """Providers that may receive this packet, including as FAILOVER targets: named in the signed policy, classification ceiling at least the
+    highest-classified included item, and (if the policy lists regions) in an allowed region. Empty list => do not send anywhere (fail closed)."""
+    pol = pkt["contract"]["policies"]; allowed = set(pol["providers"]); regions = pol.get("regions")
+    top = max((CLASS[i["classification"]] for i in pkt["context"]), default=0)
+    return [n for n, p in sorted(providers.items()) if n in allowed and CLASS[p["ceiling"]] >= top and (regions is None or p.get("region") in regions)]
 
 
 HANDOFF_REQ = {"task_id", "epoch", "packet_sha256", "claimed_status", "patch_sha256", "changed_paths", "commands", "evidence", "limitations"}
