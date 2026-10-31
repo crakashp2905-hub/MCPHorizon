@@ -55,6 +55,10 @@ jobs:
       - run: python3 -W ignore -m unittest tests.p20.test_lp -v
       - run: python3 -W ignore -m unittest tests.p21.test_arena -v
       - run: python3 -W ignore -m unittest tests.p22.test_select -v
+      - run: python3 -W ignore -m unittest tests.p23.test_p23 -v
+      - run: python3 scripts/runtime_gap_report.py --check
+      # Runtime tests need root (namespaces/Landlock/seccomp). They skip with a visible UNSUPPORTED message otherwise; the `-v` output records which.
+      - run: sudo -E env "PATH=$PATH" python3 -W ignore -m unittest tests.p24.test_sandbox tests.p25.test_broker -v
       - run: python3 -W ignore -m unittest tests.p11.test_paper -v
       - run: python3 paper/build.py --check
       - run: python3 scripts/secret_scan.py
