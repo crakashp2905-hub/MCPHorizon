@@ -20,8 +20,8 @@ STATES = {"PENDING", "READY", "LEASED", "RUNNING", "VERIFYING", "VERIFIED", "RET
 ALLOWED = {
     "PENDING": {"READY", "WAITING_EXTERNAL", "NEEDS_APPROVAL", "BLOCKED_SECURITY"},
     "READY": {"LEASED", "NEEDS_APPROVAL", "BLOCKED_SECURITY"},
-    "LEASED": {"RUNNING", "VERIFYING", "RETRY_WAIT", "BLOCKED_SECURITY", "WAITING_EXTERNAL", "NEEDS_APPROVAL"},
-    "RUNNING": {"VERIFYING", "RETRY_WAIT", "BLOCKED_SECURITY", "WAITING_EXTERNAL", "NEEDS_APPROVAL"},
+    "LEASED": {"RUNNING", "VERIFYING", "RETRY_WAIT", "BLOCKED_SECURITY", "WAITING_EXTERNAL", "NEEDS_APPROVAL", "NEEDS_RECONCILIATION"},
+    "RUNNING": {"VERIFYING", "RETRY_WAIT", "BLOCKED_SECURITY", "WAITING_EXTERNAL", "NEEDS_APPROVAL", "NEEDS_RECONCILIATION"},
     "VERIFYING": {"VERIFIED", "RETRY_WAIT", "REJECTED", "NEEDS_RECONCILIATION"},
     "RETRY_WAIT": {"READY", "BLOCKED_SECURITY"},
     "WAITING_EXTERNAL": {"READY", "BLOCKED_SECURITY"},
@@ -50,11 +50,19 @@ def sign(key: bytes, payload: dict) -> str:
 
 
 class Ledger:
-    def __init__(self, path: str | Path, principals: dict[str, tuple[str, bytes]]):
-        """principals: id -> (role, key). roles: supervisor | worker | verifier | external | approver."""
-        self.principals = principals
-        self.db = sqlite3.connect(str(path), isolation_level=None)
-        self.db.execute("PRAGMA journal_mode=WAL"); self.db.execute("PRAGMA busy_timeout=5000")
+    SCHEMA_VERSION = 2
+
+    def __init__(self, path: str | Path, principals: dict[str, tuple[str, bytes]], clock=time.time):
+        """principals: id -> (role, key). roles: supervisor | worker | verifier | external | approver.
+        clock is injectable so lease/skew behaviour is testable; production uses time.time."""
+        self.principals, self.clock, self.path = principals, clock, str(path)
+        self.db = sqlite3.connect(self.path, isolation_level=None)
+        try:
+            self.db.execute("PRAGMA journal_mode=WAL"); self.db.execute("PRAGMA busy_timeout=5000")
+            ok = self.db.execute("PRAGMA quick_check").fetchone()[0]
+        except sqlite3.DatabaseError as e:
+            self.db.close(); raise LedgerError(f"ledger file is not a readable database ({e}); restore from backup") from e
+        if ok != "ok": raise LedgerError(f"ledger failed integrity check ({ok}); restore from backup")
         self.db.executescript("""
         CREATE TABLE IF NOT EXISTS plan(k TEXT PRIMARY KEY, v TEXT NOT NULL);
         CREATE TABLE IF NOT EXISTS tasks(id TEXT PRIMARY KEY, phase INTEGER NOT NULL, status TEXT NOT NULL,
@@ -64,6 +72,20 @@ class Ledger:
             to_ TEXT, actor TEXT, detail TEXT, prev TEXT, hash TEXT);
         CREATE TABLE IF NOT EXISTS signatures(gate TEXT, signer TEXT, sig TEXT, PRIMARY KEY(gate, signer));
         """)
+        self._migrate()
+
+    def _migrate(self) -> None:
+        """Forward-only, versioned (PRAGMA user_version). Refuses a database newer than this code."""
+        v = self.db.execute("PRAGMA user_version").fetchone()[0]
+        if v > self.SCHEMA_VERSION: raise LedgerError(f"ledger schema {v} is newer than supported {self.SCHEMA_VERSION}")
+        cols = {r[1] for r in self.db.execute("PRAGMA table_info(tasks)")}
+        with self._tx():
+            if "effects" not in cols: self.db.execute("ALTER TABLE tasks ADD COLUMN effects TEXT")              # declared external-effect keys (JSON list)
+            if "effect_state" not in cols: self.db.execute("ALTER TABLE tasks ADD COLUMN effect_state TEXT")   # NULL | 'uncertain' | 'reconciled'
+            self.db.execute(f"PRAGMA user_version={self.SCHEMA_VERSION}")
+
+    def close(self) -> None:
+        self.db.close()
 
     # ---- plan -------------------------------------------------------------
     def load_plan(self, rows: list[dict], lock: dict) -> None:
@@ -93,7 +115,8 @@ class Ledger:
     def _journal(self, task, frm, to, actor, detail):
         prev = self.db.execute("SELECT hash FROM journal ORDER BY seq DESC LIMIT 1").fetchone()
         prev = prev[0] if prev else "GENESIS"
-        ts, d = time.time(), json.dumps(detail, sort_keys=True)
+        pd = self.db.execute("SELECT v FROM plan WHERE k='digest'").fetchone()
+        ts, d = self.clock(), json.dumps({**detail, "_plan": pd[0] if pd else None}, sort_keys=True)   # every entry is bound to the spec digest
         self.db.execute("INSERT INTO journal(ts,task,frm,to_,actor,detail,prev,hash) VALUES(?,?,?,?,?,?,?,?)",
                         (ts, task, frm, to, actor, d, prev, _h(prev, repr(ts), task, frm or "", to, actor, d)))
 
@@ -155,6 +178,31 @@ class Ledger:
                     self._set(tid, "READY", actor); out.append(tid)
         return out
 
+    def eligible(self) -> list[str]:
+        """Read-only: PENDING tasks whose gates are all satisfied (what refresh_ready WOULD promote). Empty if plan unreviewed."""
+        if self.db.execute("SELECT v FROM plan WHERE k='reviewed'").fetchone()[0] != "1": return []
+        return [t for t, dep in self.db.execute("SELECT id,depends FROM tasks WHERE status='PENDING' ORDER BY id").fetchall()
+                if all(self.gate_ok(g) for g in json.loads(dep))]
+
+    def why_blocked(self, tid: str) -> list[str]:
+        """Human-readable reasons a task cannot start. Empty list means it is not blocked by dependencies."""
+        r = self.db.execute("SELECT status,depends FROM tasks WHERE id=?", (tid,)).fetchone()
+        if not r: raise LedgerError(f"unknown task {tid}")
+        st, dep = r; why = []
+        if self.db.execute("SELECT v FROM plan WHERE k='reviewed'").fetchone()[0] != "1": why.append("plan is not reviewed: scheduling is disabled")
+        if st != "PENDING": why.append(f"status is {st}, not PENDING")
+        for g in json.loads(dep):
+            if self.gate_ok(g): continue
+            name = g.split(":", 1)[1]
+            if name == "RC-R":
+                sigs = self.db.execute("SELECT COUNT(*) FROM signatures WHERE gate=?", (g,)).fetchone()[0]
+                need = json.loads((self.db.execute("SELECT v FROM plan WHERE k='rcr_inputs'").fetchone() or ["[]"])[0])
+                why.append(f"{g}: needs a valid external signature ({sigs} recorded) and gates {[x for x in need if not self.gate_ok(x)]}")
+            else:
+                n = int(name[1:]); left = self.db.execute("SELECT COUNT(*) FROM tasks WHERE phase=? AND status!='VERIFIED'", (n,)).fetchone()[0]
+                why.append(f"{g}: {left} task(s) in phase {n} not VERIFIED")
+        return why
+
     def lease(self, tid: str, supervisor: str, worker: str, ttl: float = 3600) -> int:
         if self._role(supervisor) != "supervisor" or self._role(worker) != "worker":
             raise LedgerError("lease needs a supervisor granting to a registered worker")
@@ -163,7 +211,7 @@ class Ledger:
             if not all(self.gate_ok(g) for g in dep): raise LedgerError("prerequisite gate no longer satisfied")
             ep = self.db.execute("SELECT epoch FROM tasks WHERE id=?", (tid,)).fetchone()[0] + 1
             self._set(tid, "LEASED", supervisor, {"worker": worker, "epoch": ep}, epoch=ep, worker=worker,
-                      lease_until=time.time() + ttl)
+                      lease_until=self.clock() + ttl)
         return ep
 
     def submit(self, tid: str, worker: str, epoch: int, git_sha: str) -> None:
@@ -172,9 +220,57 @@ class Ledger:
             w, ep, until = self.db.execute("SELECT worker,epoch,lease_until FROM tasks WHERE id=?", (tid,)).fetchone()
             if self.status(tid) not in ("LEASED", "RUNNING"): raise LedgerError("task not leased")
             if worker != w or epoch != ep: raise LedgerError("stale or foreign lease epoch")
-            if time.time() > until: raise LedgerError("lease expired")
-            if len(git_sha) != 40: raise LedgerError("submission requires exact 40-hex git sha")
+            if self.clock() > until: raise LedgerError("lease expired")
+            if len(git_sha) != 40 or any(c not in "0123456789abcdef" for c in git_sha): raise LedgerError("submission requires exact 40-hex git sha")
+            if self.db.execute("SELECT effect_state FROM tasks WHERE id=?", (tid,)).fetchone()[0] == "uncertain":
+                raise LedgerError("declared external effect is unconfirmed; confirm_effect or reconcile before submitting")
             self._set(tid, "VERIFYING", worker, {"git_sha": git_sha}, sub_sha=git_sha, sub_epoch=epoch)
+
+    def start(self, tid: str, worker: str, epoch: int) -> None:
+        with self._tx():
+            w, ep = self.db.execute("SELECT worker,epoch FROM tasks WHERE id=?", (tid,)).fetchone()
+            if worker != w or epoch != ep: raise LedgerError("stale or foreign lease epoch")
+            self._set(tid, "RUNNING", worker, {"epoch": epoch})
+
+    def declare_effect(self, tid: str, worker: str, epoch: int, key: str) -> None:
+        """Worker declares it is about to perform an external side effect (idempotency key `key`). Until reconciled, a crash
+        or lease expiry will NOT allow automatic retry (P76-12)."""
+        with self._tx():
+            w, ep, cur = self.db.execute("SELECT worker,epoch,effects FROM tasks WHERE id=?", (tid,)).fetchone()
+            if worker != w or epoch != ep or self.status(tid) not in ("LEASED", "RUNNING"): raise LedgerError("stale or foreign lease epoch")
+            keys = json.loads(cur) if cur else []
+            self.db.execute("UPDATE tasks SET effects=?, effect_state='uncertain' WHERE id=?", (json.dumps(keys + [key]), tid))
+            self._journal(tid, self.status(tid), self.status(tid), worker, {"effect_declared": key})
+
+    def confirm_effect(self, tid: str, worker: str, epoch: int) -> None:
+        """Worker reports the declared effect completed (or was never started) cleanly."""
+        with self._tx():
+            w, ep = self.db.execute("SELECT worker,epoch FROM tasks WHERE id=?", (tid,)).fetchone()
+            if worker != w or epoch != ep: raise LedgerError("stale or foreign lease epoch")
+            self.db.execute("UPDATE tasks SET effect_state='reconciled' WHERE id=?", (tid,))
+            self._journal(tid, self.status(tid), self.status(tid), worker, {"effect_confirmed": True})
+
+    def reclaim_expired(self, supervisor: str) -> dict[str, str]:
+        """Reconcile stale leases after crash/restart (P76-11). Expired lease => RETRY_WAIT, unless an external effect is
+        uncertain, in which case => NEEDS_RECONCILIATION (no automatic retry). Epoch is NOT reset, so the old worker is fenced."""
+        if self._role(supervisor) != "supervisor": raise LedgerError("only supervisor reclaims leases")
+        out = {}
+        with self._tx():
+            rows = self.db.execute("SELECT id,status,effect_state FROM tasks WHERE status IN ('LEASED','RUNNING') AND lease_until<?", (self.clock(),)).fetchall()
+            for tid, st, eff in rows:
+                to = "NEEDS_RECONCILIATION" if eff == "uncertain" else "RETRY_WAIT"
+                att = self.db.execute("SELECT attempts FROM tasks WHERE id=?", (tid,)).fetchone()[0] + 1
+                self._set(tid, to, supervisor, {"reason": "lease expired", "was": st}, attempts=att, worker=None)
+                out[tid] = to
+        return out
+
+    def reconcile(self, tid: str, supervisor: str, outcome: str, evidence: str) -> None:
+        """Supervisor resolves an uncertain effect after checking the external system. outcome: 'not_performed'|'performed'.
+        Only then may the task be retried (READY); 'performed' marks the effect reconciled so the retry must be idempotent."""
+        if self._role(supervisor) != "supervisor": raise LedgerError("only supervisor reconciles")
+        if outcome not in ("not_performed", "performed") or not evidence: raise LedgerError("reconcile needs an outcome and evidence")
+        with self._tx():
+            self._set(tid, "READY", supervisor, {"reconciled": outcome, "evidence": evidence}, effect_state="reconciled")
 
     def accept_receipt(self, tid: str, receipt: dict, signature: str) -> str:
         """receipt: {task, verifier, git_sha, epoch, plan, cmd, exit_code, report_hash}"""
