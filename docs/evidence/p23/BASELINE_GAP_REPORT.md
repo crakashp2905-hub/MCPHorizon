@@ -24,45 +24,15 @@ Status is derived: **MAPPED** = a passing acceptance command exists (still CANDI
 ## P28: 18/18 mapped
 
 
-## P29: 0/18 mapped
+## P29: 16/18 mapped
 
-- `P29-01` **UNMAPPED** — Create benchmarks/horizon-agent-anomaly/ manifest and fixtures schema.
-- `P29-02` **UNMAPPED** — Implement 24 HAA incident-inspired synthetic scenarios in section 40 matrix.
-- `P29-03` **UNMAPPED** — Implement 24 matched benign task controls using the same protected interfaces.
-- `P29-04` **UNMAPPED** — Separate L0 rule tests L1 trace replays and L2 real isolated-effect tests.
-- `P29-05` **UNMAPPED** — Implement L3 model-runner adapter with fixed seeds and checkpoint metadata.
-- `P29-06` **UNMAPPED** — Implement L4 adaptive red-team harness restricted to safe local mock services.
 - `P29-07` **UNMAPPED** — Implement audit-trail and oracle agreement checks across each test layer.
-- `P29-08` **UNMAPPED** — Implement independent blocked-versus-prevented determination from receiver state.
-- `P29-09` **UNMAPPED** — Evaluate B0 through B6 with exactly the same eligible scenario manifest.
-- `P29-10` **UNMAPPED** — Report uninstrumented paths and per-runtime coverage without reclassifying as safe.
-- `P29-11` **UNMAPPED** — Compute unauthorized effect rate and legitimate task completion with denominators.
-- `P29-12` **UNMAPPED** — Compute paired risk difference precision/recall and verified false-block rate.
-- `P29-13` **UNMAPPED** — Produce confidence intervals and repeated-run uncertainty when sample permits.
-- `P29-14` **UNMAPPED** — Pre-register rare-event prompts and perturbation schedule before generation.
 - `P29-15` **UNMAPPED** — Distinguish Cohere trace replay prefix completion and spontaneous full-task occurrence.
-- `P29-16` **UNMAPPED** — Introduce held-out tool families destinations prompt variants and code languages.
-- `P29-17` **UNMAPPED** — Generate raw run manifest and reproducible aggregate result script.
-- `P29-18` **UNMAPPED** — Publish negative findings and compare scanner-only and sandbox-only baselines.
 
-## P30: 0/18 mapped
+## P30: 14/18 mapped
 
-- `P30-01` **UNMAPPED** — Create independent reviewer threat model with TCB and bypass assumptions.
 - `P30-02` **UNMAPPED** — Run safe unauthorized DNS IPv6 redirect and proxy bypass trials.
-- `P30-03` **UNMAPPED** — Run safe process tree sandbox persistence and alternate interpreter trials.
-- `P30-04` **UNMAPPED** — Run safe attempts to alter runtime policy via agent-writable artifact path.
-- `P30-05` **UNMAPPED** — Run safe credential broker replay expired permit and wrong-destination tests.
-- `P30-06` **UNMAPPED** — Run safe unknown tool and unsupported network transport fail-closed tests.
-- `P30-07` **UNMAPPED** — Run deliberate broker failure policy outage and restart/failover drills.
-- `P30-08` **UNMAPPED** — Document kernel version platform limitations and known sandbox boundary weaknesses.
-- `P30-09` **UNMAPPED** — Verify no real external hosts or live metadata endpoints were contacted in CI.
 - `P30-10` **UNMAPPED** — Collect effect oracle proof and minimum reproducer for every failed scenario.
 - `P30-11` **UNMAPPED** — Convert each discovered bypass into deterministic regression test and patch note.
-- `P30-12` **UNMAPPED** — Measure p50/p95/p99 policy latency and task success impact on held-out workload.
-- `P30-13` **UNMAPPED** — Implement security event rate controls alert deduplication and redaction auditing.
-- `P30-14` **UNMAPPED** — Produce signed reviewer bundle with immutable manifests and environment recipe.
-- `P30-15` **UNMAPPED** — Update public claims to separate runtime containment from weight-backdoor attribution.
 - `P30-16` **UNMAPPED** — Write Paper D and Paper E hypothesis/results sections only from verified raw runs.
-- `P30-17` **UNMAPPED** — Create release GO/NO-GO checklist for HR-G1 through HR-G9 and existing GX gates.
-- `P30-18` **UNMAPPED** — Update Codex task status with commands SHA failures unsupported paths and next actions.
 

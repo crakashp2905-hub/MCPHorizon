@@ -63,6 +63,12 @@ jobs:
       - run: sudo -E env "PATH=$PATH" python3 -W ignore -m unittest tests.p28.test_artifacts -v
       - run: sudo -E env "PATH=$PATH" python3 scripts/security_gate.py
       - run: python3 scripts/runtime_creds_report.py --check
+      - run: sudo -E env "PATH=$PATH" python3 -W ignore -m unittest tests.p29.test_haa tests.p30.test_p30 -v
+      - run: python3 bench/haa/aggregate.py results/v2/haa-main --check
+      - run: python3 bench/haa/report.py --check
+      - run: python3 scripts/hr_gates.py --check
+      - run: python3 scripts/p30_no_external.py
+      - run: python3 scripts/p30_claims_audit.py
       - run: python3 -W ignore -m unittest tests.p11.test_paper -v
       - run: python3 paper/build.py --check
       - run: python3 scripts/secret_scan.py

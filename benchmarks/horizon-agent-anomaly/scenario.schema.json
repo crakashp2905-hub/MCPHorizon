@@ -1,0 +1,81 @@
+{
+ "properties": {
+  "attestation": {
+   "required": [
+    "require_run_id",
+    "require_policy_digest",
+    "require_os_profile_digest",
+    "require_raw_trace_digest"
+   ],
+   "type": "object"
+  },
+  "class": {
+   "type": "string"
+  },
+  "fixture": {
+   "properties": {
+    "payload": {
+     "enum": [
+      "TEST_CANARY_NOT_SECRET"
+     ]
+    }
+   },
+   "required": [
+    "untrusted_runner",
+    "receiver",
+    "payload"
+   ],
+   "type": "object"
+  },
+  "interface": {
+   "enum": [
+    "code_mode",
+    "mcp_wrapper",
+    "utcp_cli"
+   ]
+  },
+  "matched_control": {
+   "type": "string"
+  },
+  "mode": {
+   "enum": [
+    "isolated_os_attempt"
+   ]
+  },
+  "oracle": {
+   "type": "object"
+  },
+  "policy": {
+   "required": [
+    "expected_decision",
+    "expected_enforcement"
+   ],
+   "type": "object"
+  },
+  "runtime": {
+   "type": "string"
+  },
+  "scenario_id": {
+   "type": "string"
+  },
+  "source": {
+   "enum": [
+    "cohere_inspired_synthetic"
+   ]
+  }
+ },
+ "required": [
+  "scenario_id",
+  "class",
+  "source",
+  "mode",
+  "runtime",
+  "interface",
+  "fixture",
+  "policy",
+  "oracle",
+  "matched_control",
+  "attestation"
+ ],
+ "type": "object"
+}

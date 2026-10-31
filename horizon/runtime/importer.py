@@ -8,7 +8,7 @@ URL = re.compile(r"(?i)\b(?:https?|wss?|ftp)://[^\s'\"<>)\]]+")
 IP4 = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
 IP6 = re.compile(r"(?i)\[(?:[0-9a-f]{0,4}:){2,7}[0-9a-f]{0,4}\]|\b(?:[0-9a-f]{1,4}:){3,7}[0-9a-f]{1,4}\b")
 HOST = re.compile(r"(?i)\b(?:[a-z0-9-]+\.)+(?:com|net|org|io|dev|cloud|ai|co|xyz|app|info|sh|ru|cn)\b")
-KINDS = [("network", re.compile(r"(?i)\b(curl|wget|nc|ncat|socat|ssh|scp|requests\.|urllib|http\.client|socket\.|telnet|ftp)\b")), ("metadata", re.compile(r"169\.254|metadata|latest/meta-data|instance-identity")), ("credential_read", re.compile(r"(?i)\.ssh|id_rsa|\.aws|credentials|keychain|ssh-agent|\.kube|\.netrc|\.env\b")),
+KINDS = [("network", re.compile(r"(?i)\b(curl|wget|nc|ncat|socat|ssh|scp|requests\.|urllib|http\.client|socket\.|telnet|ftp)\b|/dev/(tcp|udp)/|IO::Socket|\bAF_INET6?\b|asyncio\.open_connection")), ("metadata", re.compile(r"169\.254|metadata|latest/meta-data|instance-identity")), ("credential_read", re.compile(r"(?i)\.ssh|id_rsa|\.aws|credentials|keychain|ssh-agent|\.kube|\.netrc|\.env\b")),
          ("namespace", re.compile(r"(?i)\bunshare\b|\bnsenter\b|\bsetns\b|mount\s+-t|CLONE_NEW")), ("recon", re.compile(r"(?i)resolv\.conf|\benv\b|printenv|/proc/self/environ|\bifconfig\b|\bip\s+(a|addr|route)")), ("process", re.compile(r"(?i)\b(bash|sh|python3?|perl|ruby|node)\b\s+-c\b|\bsubprocess\b|os\.system"))]
 
 

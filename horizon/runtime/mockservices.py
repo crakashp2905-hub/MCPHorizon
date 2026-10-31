@@ -28,7 +28,10 @@ def serve(role: str, host: str, port: int, stats: str, secret: str):
             else: self._rec(body); out = b"ok"; code = 200
             self.send_response(code); self.send_header("Content-Length", str(len(out))); self.end_headers(); self.wfile.write(out)
         do_GET = do_POST = do_PUT = _do
-    HTTPServer((host, port), H).serve_forever()
+    class V6(HTTPServer):
+        import socket as _s
+        address_family = _s.AF_INET6
+    (V6 if ":" in host else HTTPServer)((host, port), H).serve_forever()
 
 
 class Mock:
@@ -42,7 +45,9 @@ class Mock:
             except OSError: time.sleep(0.05)
         open(self.stats, "w").close(); return self
     def __exit__(self, *a): self.p.terminate(); self.p.wait(5)
-    def rows(self): time.sleep(0.15); return [json.loads(l) for l in open(self.stats).read().splitlines() if l.strip()]
+    def rows(self, settle=0.15):
+        if settle: time.sleep(settle)
+        return [json.loads(l) for l in open(self.stats).read().splitlines() if l.strip()]
 
 
 if __name__ == "__main__": serve(sys.argv[1], sys.argv[2], int(sys.argv[3]), sys.argv[4], os.environ.get("HZ_MOCK_SECRET", ""))
