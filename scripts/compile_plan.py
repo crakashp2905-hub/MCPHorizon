@@ -341,7 +341,8 @@ def main(argv=None) -> int:
             print(json.dumps(compile_plan(a.spec, a.out), indent=2))
         elif a.cmd == "validate":
             errs = validate(a.out, a.spec)
-            print("\n".join(errs) if errs else f"OK: plan valid ({EXPECTED_TASKS} tasks). Edges signed: {sum(1 for e in json.loads((a.out / "dependencies.yaml").read_text())["edges"] if e["review_status"]=="SIGNED")}.")
+            signed = sum(1 for e in json.loads((a.out / "dependencies.yaml").read_text())["edges"] if e["review_status"] == "SIGNED")
+            print("\n".join(errs) if errs else f"OK: plan valid ({EXPECTED_TASKS} tasks). Edges signed: {signed}.")
             return 1 if errs else 0
         elif a.cmd == "approve":
             import datetime
