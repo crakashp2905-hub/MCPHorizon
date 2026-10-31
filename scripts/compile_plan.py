@@ -331,6 +331,9 @@ def main(argv=None) -> int:
         p.add_argument("--out", type=Path, default=Path("spec"))
     d = sub.add_parser("diff"); d.add_argument("old", type=Path); d.add_argument("new", type=Path)
     e = sub.add_parser("explain-dependencies"); e.add_argument("phase"); e.add_argument("--out", type=Path, default=Path("spec"))
+    ap_ = sub.add_parser("approve", help="record a human maintainer's approval of all gate edges")
+    ap_.add_argument("--out", type=Path, default=Path("spec")); ap_.add_argument("--approver", required=True)
+    ap_.add_argument("--basis", required=True, help="how approval was given, e.g. 'chat message 2026-10-31, not line-by-line'")
     c = sub.add_parser("critical-path"); c.add_argument("target"); c.add_argument("--out", type=Path, default=Path("spec"))
     a = ap.parse_args(argv)
     try:
@@ -338,8 +341,21 @@ def main(argv=None) -> int:
             print(json.dumps(compile_plan(a.spec, a.out), indent=2))
         elif a.cmd == "validate":
             errs = validate(a.out, a.spec)
-            print("\n".join(errs) if errs else f"OK: plan valid ({EXPECTED_TASKS} tasks). NOTE: edges remain unsigned.")
+            print("\n".join(errs) if errs else f"OK: plan valid ({EXPECTED_TASKS} tasks). Edges signed: {sum(1 for e in json.loads((a.out / "dependencies.yaml").read_text())["edges"] if e["review_status"]=="SIGNED")}.")
             return 1 if errs else 0
+        elif a.cmd == "approve":
+            import datetime
+            rows, deps, lock = load(a.out)
+            stamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
+            for e in deps["edges"]:
+                e["review_status"], e["signed_by"] = "SIGNED", a.approver
+            (a.out / "dependencies.yaml").write_text(json.dumps(deps, indent=1, sort_keys=True))
+            lock.update(reviewed=True, scheduling_enabled=True, reason="Approved by human maintainer; see reviewer_signature.",
+                        reviewer_signature={"approver": a.approver, "basis": a.basis, "time_utc": stamp,
+                                            "plan_digest_before_approval": lock["plan_digest_sha256"],
+                                            "cryptographic": False})
+            (a.out / "plan.lock").write_text(json.dumps(lock, indent=2, sort_keys=True))
+            print(json.dumps(lock, indent=2))
         elif a.cmd == "diff":
             r = diff(a.old, a.new); print("\n".join(r) if r else "no differences"); return 1 if any("SILENT" in x or "REMOVED" in x for x in r) else 0
         elif a.cmd == "explain-dependencies":
