@@ -20,16 +20,18 @@ def load(ledger_path: str) -> tuple[Ledger, list[dict], dict]:
     ids = [r["task_id"] for r in rows]
     if len(set(ids)) != len(ids): raise SystemExit("integrity: duplicate task ids")
     Path(ledger_path).parent.mkdir(parents=True, exist_ok=True)
-    led = Ledger(ledger_path, PRINC)
-    if not led.db.execute("SELECT 1 FROM plan WHERE k='digest'").fetchone():
-        led.load_plan(rows, lock)
-    elif led.plan_digest() != lock["plan_digest_sha256"]:
-        raise SystemExit("integrity: ledger was initialised from a different plan digest; reconcile explicitly")
     edges = json.loads((ROOT / "spec/dependencies.yaml").read_text())                 # file is JSON-formatted YAML
     edges = edges["edges"] if isinstance(edges, dict) else edges
     inputs = sorted({e["from"] for e in edges if e["to"] == "PHASE:RC-R"}, key=lambda g: int(g.split(":P")[1]))
     if not inputs: raise SystemExit("integrity: no RC-R input gates found in dependencies.yaml")
-    led.set_rcr_inputs(inputs)
+    with open(str(ledger_path) + ".init.lock", "w") as lk:
+        fcntl.flock(lk, fcntl.LOCK_EX)                       # serialise first-time initialisation and the RC-R write across processes
+        led = Ledger(ledger_path, PRINC)
+        if not led.db.execute("SELECT 1 FROM plan WHERE k='digest'").fetchone():
+            led.load_plan(rows, lock)
+        elif led.plan_digest() != lock["plan_digest_sha256"]:
+            raise SystemExit("integrity: ledger was initialised from a different plan digest; reconcile explicitly")
+        led.set_rcr_inputs(inputs)
     return led, rows, lock
 
 
