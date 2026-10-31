@@ -13,8 +13,9 @@ Vocabulary per AGENTS.md/CLAUDE.md: CANDIDATE | FAILED | BLOCKED | NEEDS_APPROVA
 | P83 reviewed dependency DAG | CANDIDATE (approved) | 158 gate edges SIGNED by maintainer via chat instruction 2026-10-31 (non-cryptographic, not line-by-line); `scheduling_enabled=true` |
 | P75–P77 ledger/state machine, P84 work packets, P85 verifier, P86 adversarial subset | CANDIDATE (prototype) | `orchestrator/`, 17 tests pass (`python3 -m unittest discover -s tests/supervisor -v`); local-trust only, see `docs/security/SUPERVISOR_THREAT_MODEL.md`; hardening needs B-05 |
 | P1 schemas/validator/normalization/HMAC (P1-07..12, 15..19) | CANDIDATE | `horizon/`, `schemas/`, 53-file fixture corpus, 14 tests: `python3 -m unittest discover -s tests/p1 -v` |
-| P1-01..06 version pins & wire docs | PARTIAL | `docs/protocols/`; P1-04/05/06 open (need sandboxed install + source inspection) |
-| P1-13/14/20 Rust/TS types and cross-language conformance | NOT STARTED | no Rust/TS toolchain run here; Python only |
+| P1-01..06 version pins & wire docs | CANDIDATE | `docs/protocols/PINNED_VERSIONS.md`; lockfiles in `third_party_pins/`. Finding: TS SDK 1.32.2 does not implement 2026-07-28 (Python `mcp` 2.3.0 does); 5 high npm-audit findings (zod). UTCP spec-version string / other plugins still unpinned |
+| P1-13/14/20 generated TS/Python/Rust types + cross-language conformance | CANDIDATE | `scripts/run_conformance.sh`: Python, Ajv and Rust `jsonschema` agree on 55 fixtures; semantic rules (bound ALLOW, policy ambiguity, major-version) exist only in Python |
+| CI verifier | CANDIDATE | `.github/workflows/verify.yml` + `spec/acceptance.json` (17 task mappings); Sigstore-attested receipts after merge to main; VERIFIED status is not claimed until the first attested run is checked |
 | P78–P82 | NOT STARTED | require B-01, B-05 |
 | P1–P54, P87–P94 research & engineering | NOT STARTED | depend on reviewed DAG and authorized budget (B-07) |
 | P91–P93 science/budget/customer validation | WAITING_EXTERNAL | needs real stakeholders |
