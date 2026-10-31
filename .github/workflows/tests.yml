@@ -15,6 +15,7 @@ jobs:
       - run: python3 scripts/gen_schemas.py --check
       - run: python3 -m unittest discover -s tests/p1 -p "test_p1.py" -v
       - run: python3 -m unittest discover -s tests/p2 -p "test_core.py" -v
+      - run: python3 -m unittest discover -s tests/p3 -p "test_service.py" -v
       - run: python3 -m unittest discover -s tests/spec -p 'test_plan.py' -v
       - run: python3 -m unittest discover -s tests/supervisor -p 'test_supervisor.py' -v
   cross-language-conformance:
@@ -30,6 +31,17 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - run: python3 scripts/gen_schemas.py --check
       - run: cd conformance/ts && npm install --ignore-scripts --package-lock-only && cd ../.. && ./scripts/run_conformance.sh
+  ts-sdk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: ./scripts/run_ts_sdk_smoke.sh
   rust-core:
     runs-on: ubuntu-latest
     steps:
