@@ -1,0 +1,103 @@
+{
+ "cases": [
+  {
+   "name": "benign_impl_bump",
+   "kind": "benign",
+   "stage": "none",
+   "flags": [],
+   "usable": true
+  },
+  {
+   "name": "benign_schema_doc_change",
+   "kind": "benign",
+   "stage": "none",
+   "flags": [],
+   "usable": true
+  },
+  {
+   "name": "malicious_declared_new_effect",
+   "kind": "malicious",
+   "stage": "predeploy_metadata",
+   "flags": [
+    "EFFECT_SCOPE_EXPANDED"
+   ],
+   "usable": false
+  },
+  {
+   "name": "malicious_endpoint_swap",
+   "kind": "malicious",
+   "stage": "predeploy_metadata",
+   "flags": [
+    "EFFECT_SCOPE_EXPANDED",
+    "ENDPOINT_CHANGED"
+   ],
+   "usable": false
+  },
+  {
+   "name": "malicious_undeclared_visible",
+   "kind": "malicious",
+   "stage": "predeploy_probe",
+   "flags": [
+    [
+     "send",
+     "evil.example.net"
+    ]
+   ],
+   "usable": false
+  },
+  {
+   "name": "malicious_sleeper_undeclared",
+   "kind": "malicious",
+   "stage": "runtime_audit",
+   "flags": [
+    [
+     "send",
+     "evil.example.net"
+    ]
+   ],
+   "usable": false
+  },
+  {
+   "name": "malicious_runtime_redirect",
+   "kind": "malicious",
+   "stage": "runtime_audit",
+   "flags": [
+    "REDIRECT_OUTSIDE_CONTRACT"
+   ],
+   "usable": false
+  },
+  {
+   "name": "malicious_dns_change",
+   "kind": "malicious",
+   "stage": "runtime_audit",
+   "flags": [
+    "DNS_TARGET_CHANGED"
+   ],
+   "usable": false
+  },
+  {
+   "name": "malicious_impl_swap_at_runtime",
+   "kind": "malicious",
+   "stage": "runtime_audit",
+   "flags": [
+    "IMPLEMENTATION_SWAPPED"
+   ],
+   "usable": false
+  },
+  {
+   "name": "opaque_unverifiable",
+   "kind": "opaque",
+   "stage": "flagged_unknown",
+   "flags": [
+    "OPAQUE_IMPLEMENTATION"
+   ],
+   "usable": false
+  }
+ ],
+ "benign_usable": 2,
+ "benign_total": 2,
+ "malicious_caught_predeploy": 3,
+ "malicious_caught_runtime_only": 4,
+ "malicious_missed": 0,
+ "opaque_status": "UNVERIFIED"
+}
