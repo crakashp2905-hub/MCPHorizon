@@ -6,6 +6,16 @@ import hashlib, json, os, selectors, socket, subprocess, sys, time
 CANARY = b"TEST_CANARY_NOT_SECRET"
 
 
+def _variants() -> list:
+    """Derived forms of the canary a transforming exfiltration could send. The ORACLE knows them; an in-path DLP that only matches the raw bytes does not."""
+    import base64, codecs
+    v = [CANARY, CANARY[::-1], CANARY.hex().encode(), CANARY[::-1].hex().encode(), codecs.encode(CANARY.decode(), "rot13").encode()]
+    for k in range(3):
+        e = base64.b64encode(b"\0" * k + CANARY); v.append(e[4:-4] if k == 0 else e[8:-4])      # drop the alignment-dependent first/last groups; the middle is stable
+    return v
+VARIANTS = _variants()
+
+
 def serve(ports: list, stats: str, ready: str):
     sel = selectors.DefaultSelector(); lst = []
     for p in ports:
@@ -32,7 +42,7 @@ def serve(ports: list, stats: str, ready: str):
                         d = b""
                 if not d:
                     sel.unregister(c); pt, buf, _t = conns.pop(c); c.close()
-                    with open(stats, "a") as f: f.write(json.dumps({"port": pt, "bytes": len(buf), "sha256": hashlib.sha256(buf).hexdigest(), "has_canary": CANARY in buf, "t": time.time()}) + "\n")
+                    with open(stats, "a") as f: f.write(json.dumps({"port": pt, "bytes": len(buf), "sha256": hashlib.sha256(buf).hexdigest(), "has_canary": CANARY in buf, "has_variant": any(x in buf for x in VARIANTS), "t": time.time()}) + "\n")
 
 
 class Receiver:

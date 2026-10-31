@@ -2,7 +2,7 @@
 launch's principal, authorizes it against an explicit allowlist, resolves via the approved resolver, validates the FINAL connect IP, pins the connection to that IP, re-applies policy on every redirect hop,
 and caps size/time/rate. Unsupported transports are denied, not approximated."""
 from __future__ import annotations
-import hashlib, hmac, ipaddress, json, secrets, socket, struct, time
+import hashlib, hmac, ipaddress, json, os, secrets, socket, struct, time
 from dataclasses import dataclass, field
 from urllib.parse import urlsplit
 from horizon import normalize as N
@@ -43,8 +43,11 @@ class Resolver:
 
 
 class Broker:
-    def __init__(self, rules: dict, resolver: Resolver, *, test_sinks: set, policy_ok=lambda: True, key: bytes | None = None, rate_per_min: int = 60, canaries: tuple = (b"TEST_CANARY_NOT_SECRET",), max_hops=3, timeout_s=3.0):
+    def __init__(self, rules: dict, resolver: Resolver, *, test_sinks: set, policy_ok=lambda: True, key: bytes | None = None, rate_per_min: int = 60, canaries: tuple = (b"TEST_CANARY_NOT_SECRET",), max_hops=3, timeout_s=3.0, mode: str = "full", label_policy: bool = False, resources: dict | None = None, used_path: str | None = None):
         self.rules, self.res, self.sinks, self.policy_ok, self.key, self.rate, self.canaries, self.max_hops, self.timeout, self.used, self.log, self.hits = rules, resolver, set(test_sinks), policy_ok, key or secrets.token_bytes(32), rate_per_min, canaries, max_hops, timeout_s, set(), [], {}
+        # mode='name_only' is the deliberately WEAK wrapper baseline (B3): checks host NAME/port/method only, re-resolves at connect, follows redirects unchecked.
+        # label_policy=True (B6) taints a principal that read labelled resources and requires every destination rule to allow those labels.
+        self.mode, self.label_policy, self.resources, self.taint, self.used_path = mode, label_policy, resources or {}, {}, used_path   # used_path: shared nonce store so a failover instance cannot replay a permit
 
     # ---- authorization: decide ONCE for exact args, return an unforgeable permit (P25-03, P25-14)
     def _canon(self, principal, method, url, body: bytes, labels, headers=None):
@@ -71,8 +74,10 @@ class Broker:
         if method not in r.methods: return {"ok": False, "code": "METHOD_NOT_APPROVED"}
         if not (s.path or "/").startswith(r.path_prefix): return {"ok": False, "code": "PATH_NOT_APPROVED"}
         if len(body) > r.max_body: return {"ok": False, "code": "BODY_TOO_LARGE"}
-        if not set(labels) <= set(r.allow_labels): return {"ok": False, "code": "PAYLOAD_LABEL_NOT_ALLOWED"}
-        if any(c in body for c in self.canaries) and "TEST_CANARY" not in r.allow_labels: return {"ok": False, "code": "CANARY_IN_PAYLOAD"}
+        eff = set(labels) | (self.taint.get(principal, set()) if self.label_policy else set())
+        if not eff <= set(r.allow_labels): return {"ok": False, "code": "PAYLOAD_LABEL_NOT_ALLOWED"}
+        if self.mode == "name_only": h.append(now); return {"ok": True, "ip": None, "port": port}
+        if any(c in body for c in self.canaries) and not (set(r.allow_labels) - {"PUBLIC"}): return {"ok": False, "code": "CANARY_IN_PAYLOAD"}      # canary-bearing data may only go to destinations authorized for a sensitive label
         ips = self.res.resolve(host)
         if not ips: return {"ok": False, "code": "NO_RESOLUTION"}
         classes = [(ip, classify_ip(ip)) for ip in ips]
@@ -84,10 +89,21 @@ class Broker:
         want = hmac.new(self.key, f"{c}|{p['nonce']}|{p['exp']}".encode(), hashlib.sha256).hexdigest()
         if not hmac.compare_digest(want, p["mac"]): return {"ok": False, "code": "PERMIT_MISMATCH"}                    # arguments changed after authorization
         if time.time() > p["exp"]: return {"ok": False, "code": "PERMIT_EXPIRED"}
-        if p["nonce"] in self.used: return {"ok": False, "code": "PERMIT_REPLAY"}
-        self.used.add(p["nonce"]); return self._send(principal, method, url, body, labels, auth["ip"], auth["port"], hops=0, headers=headers)
+        if p["nonce"] in self.used or self._shared_used(p["nonce"]): return {"ok": False, "code": "PERMIT_REPLAY"}
+        self.used.add(p["nonce"]); self._shared_add(p["nonce"]); return self._send(principal, method, url, body, labels, auth["ip"], auth["port"], hops=0, headers=headers)
+    def _shared_used(self, n) -> bool:
+        if not self.used_path or not os.path.exists(self.used_path): return False
+        return n in open(self.used_path).read().split()
+    def _shared_add(self, n):
+        if not self.used_path: return
+        import fcntl
+        with open(self.used_path, "a") as f: fcntl.flock(f, fcntl.LOCK_EX); f.write(n + "\n")
     def _send(self, principal, method, url, body, labels, ip, port, hops, headers=None) -> dict:
-        s = urlsplit(N.canonical_url(url)); rule = next(r for r in self.rules[principal] if r.host == s.hostname and port in r.ports)
+        s = urlsplit(N.canonical_url(url)); rule = next((r for r in self.rules[principal] if r.host == s.hostname and port in r.ports), None) or self.rules[principal][0]
+        if ip is None:                                                              # name_only: resolve AGAIN at connect time (rebinding-prone by design)
+            ips = self.res.resolve(s.hostname)
+            if not ips: return {"ok": False, "code": "NO_RESOLUTION"}
+            ip = ips[0]
         try:
             sk = socket.create_connection((ip, port), timeout=self.timeout)          # connect to the VALIDATED, PINNED ip — never re-resolve the name
             if sk.getpeername()[0] != ip: sk.close(); return {"ok": False, "code": "PEER_MISMATCH"}
@@ -104,6 +120,10 @@ class Broker:
             if hops >= self.max_hops: return {"ok": False, "code": "TOO_MANY_REDIRECTS"}
             loc = next((l.split(":", 1)[1].strip() for l in head.split("\r\n") if l.lower().startswith("location:")), None)
             if not loc: return {"ok": False, "code": "BAD_REDIRECT"}
+            if self.mode == "name_only":
+                ls = urlsplit(N.canonical_url(loc)); lips = self.res.resolve(ls.hostname) or ([ls.hostname] if ls.hostname.replace(".", "").isdigit() else [])
+                if not lips: return {"ok": False, "code": "NO_RESOLUTION"}
+                return self._send(principal, "GET", loc, b"", (), lips[0], ls.port or 80, hops + 1)
             a = self.authorize(principal, "GET", loc, b"", ())
             if not a["ok"]: self.log.append({"principal": principal, "url": loc, "decision": "DENY_AT_REDIRECT", "code": a["code"]}); return {"ok": False, "code": "REDIRECT_" + a["code"]}
             self.used.add(a["permit"]["nonce"]); return self._send(principal, "GET", loc, b"", (), a["ip"], a["port"], hops + 1)      # headers (credentials) are NEVER forwarded across a redirect
@@ -112,6 +132,11 @@ class Broker:
         a = self.authorize(principal, method, url, body, labels, headers=headers)
         return a if not a["ok"] else self.execute(principal, method, url, body, labels, a, headers)
 
+    def read(self, principal, name) -> dict:
+        if name not in self.resources: return {"ok": False, "code": "NO_SUCH_RESOURCE"}
+        data, label = self.resources[name]
+        if self.label_policy: self.taint.setdefault(principal, set()).add(label)
+        self.log.append({"principal": principal, "decision": "READ", "resource": name, "label": label}); return {"ok": True, "data": data}
     def session(self, principal, creds=None) -> "Session": return Session(self, principal, creds)
 
 
@@ -128,6 +153,8 @@ class Session:
         try: m = json.loads(buf)
         except ValueError: sock.sendall(self._frame({"ok": False, "code": "BAD_JSON"})); return
         body = m.get("body", "").encode()
+        if m.get("op") == "read":
+            r = self.b.read(self.p, str(m.get("name", ""))); reqs.append({"run_id": run_id, "principal": self.p, "op": "read", "name": m.get("name"), "ok": r["ok"], "code": r.get("code")}); sock.sendall(self._frame(r)); return
         if m.get("cred") is not None:
             r = self.creds.call(self.p, str(m["cred"]), str(m.get("method", "")).upper(), str(m.get("url", "")), body) if self.creds else {"ok": False, "code": "NO_CREDENTIAL_BROKER"}
         else: r = self.b.fetch(self.p, str(m.get("method", "")).upper(), str(m.get("url", "")), body, tuple(m.get("labels", ())))
@@ -137,6 +164,12 @@ class Session:
 
 
 CLIENT = '''
+import socket, struct, json
+def hz_read(name):
+    s = socket.socket(fileno=3); d = json.dumps({"op": "read", "name": name}).encode(); s.sendall(struct.pack(">I", len(d)) + d); n = struct.unpack(">I", s.recv(4))[0]; b = b""
+    while len(b) < n: b += s.recv(n - len(b))
+    s.detach(); return json.loads(b)
+
 import socket, struct, json
 def hz_fetch(method, url, body="", labels=(), cred=None):
     s = socket.socket(fileno=3); d = json.dumps({"method": method, "url": url, "body": body, "labels": list(labels), "cred": cred}).encode()

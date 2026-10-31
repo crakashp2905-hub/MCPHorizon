@@ -33,7 +33,7 @@ COVERAGE = {
 class ManagedExecutor:
     def __init__(self, session_factory=None, *, policy=None, hook=None, timeout_s=15):
         self.session_factory, self.policy, self.hook, self.timeout_s, self.launches = session_factory, policy, hook, timeout_s, []
-    def run(self, code: str, *, principal: str, interface: str = "code_mode", language: str = "python", parent_run_id: str | None = None, action_id: str | None = None, declared: dict | None = None, observe_files=True, prelude: str = "") -> dict:
+    def run(self, code: str, *, principal: str, interface: str = "code_mode", language: str = "python", parent_run_id: str | None = None, action_id: str | None = None, declared: dict | None = None, observe_files=True, prelude: str = "", extra_env: dict | None = None) -> dict:
         if interface not in INTERFACES: raise Refused("UNKNOWN_INTERFACE", interface)
         if language not in SUPPORTED: raise Refused("UNSUPPORTED_RUNTIME", language)                  # no privileged fallback: unsupported means not run at all
         exec_id = "x-" + uuid.uuid4().hex[:12]; run_id = "r-" + exec_id[2:]
@@ -43,7 +43,7 @@ class ManagedExecutor:
             v = self.hook(ident, full)                                                                  # managed execution hook BEFORE the program starts
             if v is not None: raise Refused("HOOK_DENIED", str(v))
         pw, fw = P.ProcWatch(), P.FileWatch(); obs = [pw] + ([fw] if observe_files else [])
-        res = S.launch(full, run_id=run_id, policy=pol, broker=self.session_factory(principal) if self.session_factory else None, timeout_s=self.timeout_s, observers=obs, extra_env={"HZ_PARENT_RUN_ID": parent_run_id or ""})
+        res = S.launch(full, run_id=run_id, policy=pol, broker=self.session_factory(principal) if self.session_factory else None, timeout_s=self.timeout_s, observers=obs, extra_env={"HZ_PARENT_RUN_ID": parent_run_id or "", **(extra_env or {})})
         if res.refused: raise Refused("LAUNCH_REFUSED", res.refused)
         self.launches.append(ident)
         procs = res.observations["procs"]["processes"]; files = res.observations.get("files", {}).get("events", [])

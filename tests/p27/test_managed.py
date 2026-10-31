@@ -66,7 +66,7 @@ class Live(unittest.TestCase):
         o = ex().run(code, principal="agent"); r = out(o); self.assertTrue(all(x == [-1, 1] for x in r[:3])); self.assertNotEqual(r[3], 0); self.assertNotEqual(r[4], 0); self.assertEqual(r[6], "ok")
         for p in o["processes"]: self.assertEqual(p["profile"].get("NoNewPrivs"), "1")
     def test_executable_tmpfs_mount_denied(self):
-        code = ("import ctypes,subprocess,json\nlibc=ctypes.CDLL(None,use_errno=True);r=[]\nr.append((libc.mount(b'tmpfs',b'/tmp',b'tmpfs',0,b'exec'),ctypes.get_errno()))\nr.append(subprocess.run(['mount','-t','tmpfs','-o','exec','tmpfs','/mnt'],capture_output=True).returncode)\nprint(json.dumps(r))")
+        code = ("import ctypes,subprocess,json\nlibc=ctypes.CDLL(None,use_errno=True);r=[]\nr.append((libc.mount(b'tmpfs',b'/tmp',b'tmpfs',0,b'size=1m'),ctypes.get_errno()))\nr.append(subprocess.run(['mount','-t','tmpfs','-o','exec','tmpfs','/mnt'],capture_output=True).returncode)\nprint(json.dumps(r))")
         r = out(ex().run(code, principal="agent")); self.assertEqual(r[0], [-1, 1]); self.assertNotEqual(r[1], 0)
     def test_claim_vs_behavior_is_advisory_only(self):
         with tempfile.TemporaryDirectory() as d, Receiver([P1], d) as rc:
