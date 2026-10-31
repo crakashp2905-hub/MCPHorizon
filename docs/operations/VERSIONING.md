@@ -1,0 +1,3 @@
+# Versioning, migration and pinning policy (P10-18)
+
+Semantic versioning (`horizon/ops/version.py`): MAJOR = incompatible schema/API change; MINOR = additive; PATCH = fixes. Major 0 requires an exact minor match. Documents carry `schema_version`; migrations are explicit, ordered, never downgrade, never skip, and are tested (`tests/p10/test_ops.py::VersionTests`). Policy bundles may not roll back (`POLICY_VERSION_NOT_NEWER`). Dependencies are pinned by lockfile (`codemode/package-lock.json`, `Cargo.lock`); `scripts/sbom.py` emits a CycloneDX SBOM; dependency updates go through PR with CI. Protocol codecs (MCP 2025-11-25 and 2026-07-28) are versioned independently.

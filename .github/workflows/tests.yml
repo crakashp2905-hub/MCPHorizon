@@ -42,6 +42,13 @@ jobs:
       - run: python3 -W ignore -m unittest tests.p8.test_secbench -v
       - run: python3 -W ignore -m unittest tests.p9.test_study tests.p9.test_stats tests.p3.test_audit_close -v
       - run: python3 bench/p9/manifest.py verify
+      - run: python3 -W ignore -m unittest tests.p10.test_ops tests.p10.test_negative -v
+      - run: python3 scripts/secret_scan.py
+      - run: python3 scripts/sbom.py --out sbom.cdx.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.cdx.json
   cross-language-conformance:
     runs-on: ubuntu-latest
     steps:
