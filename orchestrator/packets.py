@@ -2,7 +2,12 @@
 from __future__ import annotations
 import fnmatch, hashlib, json, posixpath
 
-FORBIDDEN_PREFIXES = (".git/", ".mcphorizon/", "spec/plan.lock", "docs/MCPHORIZON_2_0_MASTER_SPEC.md",
+# Trust roots: files that define what counts as VERIFIED or who may schedule. Workers may never change them; maintainers change them
+# through reviewed PRs. (Found by SupervisorThreatBench S08: previously a worker with allowlist `scripts/*` could rewrite the verifier.)
+TRUST_ROOTS = (".github/", "spec/acceptance.json", "spec/dependencies.yaml", "spec/task_compiled.jsonl", "spec/overrides.yaml",
+               "scripts/ci_verify.py", "scripts/compile_plan.py", "scripts/validate_plan.py",
+               "orchestrator/ledger.py", "orchestrator/verifier.py", "orchestrator/verifier2.py")
+FORBIDDEN_PREFIXES = TRUST_ROOTS + (".git/", ".mcphorizon/", "spec/plan.lock", "docs/MCPHORIZON_2_0_MASTER_SPEC.md",
                       "MCPTox/", "MCPSecBench/", "TAMAS/", "results/", "MCPWEEK5/", "MCPWEEK6/", "data/")
 FORBIDDEN_NAMES = (".env", ".env.local", "secrets.json", "id_rsa", "credentials")
 
@@ -14,7 +19,8 @@ def build_packet(task_row: dict, status: str, epoch: int, base_sha: str, allowli
     if not allowlist:
         raise ValueError("a non-empty changed_path_allowlist is required (fail closed)")
     for pat in allowlist:
-        if pat.startswith("/") or ".." in pat.split("/") or any(pat.startswith(f) for f in FORBIDDEN_PREFIXES):
+        if pat.startswith("/") or ".." in pat.split("/") or any(pat.startswith(f) for f in FORBIDDEN_PREFIXES) \
+                or pat.rsplit("/", 1)[-1] in FORBIDDEN_NAMES:
             raise ValueError(f"allowlist pattern not permitted: {pat}")
     pkt = {
         "task_id": task_row["task_id"], "epoch": epoch, "base_git_sha": base_sha,

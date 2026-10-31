@@ -9,3 +9,4 @@
 | B-05 | PARTIAL (CI verifier built; see VERIFIER.md) | P75–P82, P84–P86 | Verifier identity/keys, budgets, provider credentials, sandbox host for an unattended supervisor | Maintainer |
 | B-06 | WAITING_EXTERNAL | RC-R, P55–P74, P91–P93 | Independent RC-R sign-off, external audits, real customer pilots, legal/compliance approvals — cannot be produced by an agent | External parties |
 | B-07 | SCOPE | P1–P54, P87–P94 | ~1,400 research/engineering tasks need an authorized, budgeted multi-session campaign under the supervisor; none executed here | Maintainer |
+| B-08 | OPEN_FINDING | P1-01..06, P86-07 | `third_party_pins/python-requirements.lock.txt` pins 31 packages with **no checksums**; `orchestrator/deps.py` would reject it. Hashes must be generated per platform from a trusted index (cannot be done meaningfully from this sandbox) | Maintainer |
