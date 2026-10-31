@@ -1107,5 +1107,235 @@
   ],
   "covers": "broken-manifest tests exist and pass"
  },
+ "P84-01": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_packets2.py"
+   ]
+  ],
+  "covers": "HMAC-signed packet: contract with task id, spec digest, commit and lease identity"
+ },
+ "P84-02": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_packets2.py"
+   ]
+  ],
+  "covers": "verbatim spec s0, s3 and the task's phase section, pinned to the spec digest; every phase maps to exactly one heading; missing/ambiguous fails closed"
+ },
+ "P84-04": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_packets2.py"
+   ]
+  ],
+  "covers": "packet must declare network/filesystem/credential/provider/tool policies (enforcement of those policies is NOT in this module)"
+ },
+ "P84-05": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_packets2.py"
+   ]
+  ],
+  "covers": "token cap enforced; mandatory text is never truncated (build fails); optional items dropped explicitly and recorded"
+ },
+ "P84-07": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_packets2.py"
+   ]
+  ],
+  "covers": "context items cannot alter the signed contract; relabel/add/alter attempts fail validation; injection scan is a flag only"
+ },
+ "P84-08": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_packets2.py"
+   ]
+  ],
+  "covers": "expiry, lease owner/epoch, requirements version and attempt budget bound in the signed contract"
+ },
+ "P84-09": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_packets2.py"
+   ]
+  ],
+  "covers": "stale commit, changed dependency receipts, revoked approval, expiry rejected by validate()"
+ },
+ "P84-10": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_packets2.py"
+   ]
+  ],
+  "covers": "machine-readable handoff schema; worker may claim only CANDIDATE/BLOCKED/FAILED; paths checked against allowlist"
+ },
+ "P84-11": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_packets2.py"
+   ]
+  ],
+  "covers": "identical inputs reproduce a byte-identical packet"
+ },
+ "P84-12": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_packets2.py"
+   ]
+  ],
+  "covers": "coverage() against a mandatory checklist and diff() between packets"
+ },
+ "P84-13": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_packets2.py"
+   ]
+  ],
+  "covers": "classification ceiling drops items; secret-pattern scrub is heuristic; mandatory item above ceiling is an error"
+ },
+ "P84-15": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_packets2.py"
+   ]
+  ],
+  "covers": "poisoned AGENTS.md/CLAUDE.md/issue/tool-output cases plus a matched harmless control; contract unchanged"
+ },
+ "P84-16": {
+  "cmds": [
+   [
+    "python3",
+    "scripts/measure_packets.py"
+   ]
+  ],
+  "covers": "PARTIAL: measures mandatory-context size for all 1686 tasks only; cost, result validity and missing-instruction rate are NOT measured (need live provider runs)"
+ },
+ "P84-17": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_packets2.py"
+   ]
+  ],
+  "covers": "reference implementation orchestrator/packet2.py and examples/p84/least_privilege_packet.json (validated by test)"
+ },
  "_note": "Task -> acceptance command(s) run by the CI verifier (.github/workflows/verify.yml) on the exact merged commit. A passing receipt shows these commands exited 0; it does not prove the task text is fully satisfied beyond what the tests check (see 'covers')."
 }
