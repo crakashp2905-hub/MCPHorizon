@@ -1,20 +1,573 @@
 {
   "_note": "Task -> acceptance command(s) run by the CI verifier (.github/workflows/verify.yml) on the exact merged commit. A passing receipt shows these commands exited 0; it does not prove the task text is fully satisfied beyond what the tests check (see 'covers').",
-  "P83-04": {"cmds": [["python3", "-m", "unittest", "discover", "-s", "tests/spec", "-p", "test_plan.py"]], "covers": "compiler refuses truncated/duplicate/renumbered definitions"},
-  "P83-07": {"cmds": [["python3", "-m", "unittest", "discover", "-s", "tests/spec", "-p", "test_plan.py"]], "covers": "validator rejects cycles, self-deps, unknown prerequisites, orphan IDs"},
-  "P83-15": {"cmds": [["python3", "-m", "unittest", "discover", "-s", "tests/spec", "-p", "test_plan.py"]], "covers": "broken-manifest tests exist and pass"},
-  "P1-07": {"cmds": [["python3", "-m", "unittest", "discover", "-s", "tests/p1", "-p", "test_p1.py"]], "covers": "Event schema + fixtures"},
-  "P1-08": {"cmds": [["python3", "-m", "unittest", "discover", "-s", "tests/p1", "-p", "test_p1.py"]], "covers": "Decision schema + verdict enum + binding rules"},
-  "P1-09": {"cmds": [["python3", "-m", "unittest", "discover", "-s", "tests/p1", "-p", "test_p1.py"]], "covers": "Capability schema"},
-  "P1-10": {"cmds": [["python3", "-m", "unittest", "discover", "-s", "tests/p1", "-p", "test_p1.py"]], "covers": "Artifact/LineageEdge schemas and incomplete-lineage semantics"},
-  "P1-11": {"cmds": [["python3", "-m", "unittest", "discover", "-s", "tests/p1", "-p", "test_p1.py"]], "covers": "Bounded declarative policy schema + semantic checks"},
-  "P1-12": {"cmds": [["python3", "-m", "unittest", "discover", "-s", "tests/p1", "-p", "test_p1.py"]], "covers": "principal_source semantics (agent-claimed principal cannot support before_call)"},
-  "P1-15": {"cmds": [["python3", "-m", "unittest", "discover", "-s", "tests/p1", "-p", "test_p1.py"]], "covers": "unsupported-major rejection with intelligible errors"},
-  "P1-16": {"cmds": [["python3", "-m", "unittest", "discover", "-s", "tests/p1", "-p", "test_p1.py"]], "covers": "valid/invalid/malicious corpus"},
-  "P1-17": {"cmds": [["python3", "-m", "unittest", "discover", "-s", "tests/p1", "-p", "test_p1.py"]], "covers": "logical operation IDs"},
-  "P1-18": {"cmds": [["python3", "-m", "unittest", "discover", "-s", "tests/p1", "-p", "test_p1.py"]], "covers": "target normalization"},
-  "P1-19": {"cmds": [["python3", "-m", "unittest", "discover", "-s", "tests/p1", "-p", "test_p1.py"]], "covers": "HMAC + replay limits"},
-  "P1-13": {"cmds": [["python3", "scripts/ci_conformance.py"]], "covers": "Rust types generated, current, round-trip all valid fixtures"},
-  "P1-14": {"cmds": [["python3", "scripts/ci_conformance.py"]], "covers": "TS + Python types generated, current, compile"},
-  "P1-20": {"cmds": [["python3", "scripts/ci_conformance.py"]], "covers": "Python/Ajv/Rust agree on all fixtures (schema level only; semantic rules are Python-only)"}
+  "P83-04": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/spec",
+        "-p",
+        "test_plan.py"
+      ]
+    ],
+    "covers": "compiler refuses truncated/duplicate/renumbered definitions"
+  },
+  "P83-07": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/spec",
+        "-p",
+        "test_plan.py"
+      ]
+    ],
+    "covers": "validator rejects cycles, self-deps, unknown prerequisites, orphan IDs"
+  },
+  "P83-15": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/spec",
+        "-p",
+        "test_plan.py"
+      ]
+    ],
+    "covers": "broken-manifest tests exist and pass"
+  },
+  "P1-07": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p1",
+        "-p",
+        "test_p1.py"
+      ]
+    ],
+    "covers": "Event schema + fixtures"
+  },
+  "P1-08": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p1",
+        "-p",
+        "test_p1.py"
+      ]
+    ],
+    "covers": "Decision schema + verdict enum + binding rules"
+  },
+  "P1-09": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p1",
+        "-p",
+        "test_p1.py"
+      ]
+    ],
+    "covers": "Capability schema"
+  },
+  "P1-10": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p1",
+        "-p",
+        "test_p1.py"
+      ]
+    ],
+    "covers": "Artifact/LineageEdge schemas and incomplete-lineage semantics"
+  },
+  "P1-11": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p1",
+        "-p",
+        "test_p1.py"
+      ]
+    ],
+    "covers": "Bounded declarative policy schema + semantic checks"
+  },
+  "P1-12": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p1",
+        "-p",
+        "test_p1.py"
+      ]
+    ],
+    "covers": "principal_source semantics (agent-claimed principal cannot support before_call)"
+  },
+  "P1-15": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p1",
+        "-p",
+        "test_p1.py"
+      ]
+    ],
+    "covers": "unsupported-major rejection with intelligible errors"
+  },
+  "P1-16": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p1",
+        "-p",
+        "test_p1.py"
+      ]
+    ],
+    "covers": "valid/invalid/malicious corpus"
+  },
+  "P1-17": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p1",
+        "-p",
+        "test_p1.py"
+      ]
+    ],
+    "covers": "logical operation IDs"
+  },
+  "P1-18": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p1",
+        "-p",
+        "test_p1.py"
+      ]
+    ],
+    "covers": "target normalization"
+  },
+  "P1-19": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p1",
+        "-p",
+        "test_p1.py"
+      ]
+    ],
+    "covers": "HMAC + replay limits"
+  },
+  "P1-13": {
+    "cmds": [
+      [
+        "python3",
+        "scripts/ci_conformance.py"
+      ]
+    ],
+    "covers": "Rust types generated, current, round-trip all valid fixtures"
+  },
+  "P1-14": {
+    "cmds": [
+      [
+        "python3",
+        "scripts/ci_conformance.py"
+      ]
+    ],
+    "covers": "TS + Python types generated, current, compile"
+  },
+  "P1-20": {
+    "cmds": [
+      [
+        "python3",
+        "scripts/ci_conformance.py"
+      ]
+    ],
+    "covers": "Python/Ajv/Rust agree on all fixtures (schema level only; semantic rules are Python-only)"
+  },
+  "P2-01": {
+    "cmds": [
+      [
+        "python3",
+        "scripts/ci_core.py"
+      ]
+    ],
+    "covers": "locked Rust workspace builds and tests"
+  },
+  "P2-02": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p2",
+        "-p",
+        "test_core.py"
+      ]
+    ],
+    "covers": "hierarchy DAG validation"
+  },
+  "P2-03": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p2",
+        "-p",
+        "test_core.py"
+      ]
+    ],
+    "covers": "scope subsumption soundness (incomplete by design)"
+  },
+  "P2-04": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p2",
+        "-p",
+        "test_core.py"
+      ]
+    ],
+    "covers": "unsafe/regex-like scopes rejected; no blow-up"
+  },
+  "P2-05": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p2",
+        "-p",
+        "test_core.py"
+      ]
+    ],
+    "covers": "closure monotone/idempotent/deterministic"
+  },
+  "P2-06": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p2",
+        "-p",
+        "test_core.py"
+      ]
+    ],
+    "covers": "rule budgets"
+  },
+  "P2-07": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p2",
+        "-p",
+        "test_core.py"
+      ]
+    ],
+    "covers": "witnesses and reason codes"
+  },
+  "P2-08": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p2",
+        "-p",
+        "test_core.py"
+      ]
+    ],
+    "covers": "deny precedence and defaults"
+  },
+  "P2-09": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p2",
+        "-p",
+        "test_core.py"
+      ]
+    ],
+    "covers": "UNKNOWN never ALLOW"
+  },
+  "P2-10": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p2",
+        "-p",
+        "test_core.py"
+      ]
+    ],
+    "covers": "trusted-store, tenant-bound authorization"
+  },
+  "P2-11": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p2",
+        "-p",
+        "test_core.py"
+      ]
+    ],
+    "covers": "purpose/destination-scoped grants"
+  },
+  "P2-12": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p2",
+        "-p",
+        "test_core.py"
+      ]
+    ],
+    "covers": "policy digest + request-bound tokens"
+  },
+  "P2-13": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p2",
+        "-p",
+        "test_core.py"
+      ]
+    ],
+    "covers": "expiry, replay, idempotency, mismatch"
+  },
+  "P2-14": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p2",
+        "-p",
+        "test_core.py"
+      ]
+    ],
+    "covers": "deterministic replay"
+  },
+  "P2-15": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p2",
+        "-p",
+        "test_core.py"
+      ]
+    ],
+    "covers": "eviction yields explicit evidence gaps"
+  },
+  "P2-16": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p2",
+        "-p",
+        "test_core.py"
+      ]
+    ],
+    "covers": "label join / non-downgrade"
+  },
+  "P2-17": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p2",
+        "-p",
+        "test_core.py"
+      ]
+    ],
+    "covers": "declassification only via signed path"
+  },
+  "P2-18": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p2",
+        "-p",
+        "test_core.py"
+      ]
+    ],
+    "covers": "incomplete lineage -> REVIEW for protected ALLOW"
+  },
+  "P2-19": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p2",
+        "-p",
+        "test_core.py"
+      ]
+    ],
+    "covers": "epistemic risk predicate (policy predicate only)"
+  },
+  "P2-20": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p2",
+        "-p",
+        "test_core.py"
+      ]
+    ],
+    "covers": "static certification, sound over-approx under stated assumptions"
+  },
+  "P2-21": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p2",
+        "-p",
+        "test_core.py"
+      ]
+    ],
+    "covers": "exact small / greedy large hitting set"
+  },
+  "P2-22": {
+    "cmds": [
+      [
+        "python3",
+        "scripts/ci_core.py"
+      ]
+    ],
+    "covers": "Python oracle vs Rust differential (5 seeds x ~12k cases)"
+  },
+  "P2-23": {
+    "cmds": [
+      [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/p2",
+        "-p",
+        "test_core.py"
+      ]
+    ],
+    "covers": "property tests: monotonicity, authz, non-downgrade, hard-deny precedence"
+  }
 }
