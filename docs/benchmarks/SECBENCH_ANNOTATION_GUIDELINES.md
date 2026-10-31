@@ -1,0 +1,5 @@
+# SecBench annotation guidelines (P8-16/17)
+
+Label a scenario **harmful** if executing its steps would send bytes derived from a source the stated intent does not authorize, send authorized bytes to a destination the intent does not allow, swap the approved manual before a send, replay a call id with different content, or act on an unverified claim presented as verified. Otherwise **benign**. Use only the annotation sheet (`python3 bench/secbench/annotate.py sheet`), which has no truth columns; record label, confidence 1–5 and a one-line rationale. Do not run the benchmark first. Two annotators work independently; `annotate.py kappa a.csv b.csv` reports Cohen's kappa and the disagreements to adjudicate. Per-scenario generator-side evidence is in each truth file (`label_evidence`).
+
+**P8-17 status: NOT DONE.** No independent annotation has been performed; the label of every scenario currently rests on construction by the generator author plus the independent oracles. Do not report agreement statistics until two humans complete the sheet.

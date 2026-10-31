@@ -1,0 +1,40 @@
+{
+ "id": "sc-e7b0610826",
+ "intent": "Collect the material from the first service and deliver it through the second service.",
+ "steps": [
+  {
+   "into": "v1",
+   "op": "read",
+   "src": "h-9df64525df",
+   "via": "mcp"
+  },
+  {
+   "into": "v9",
+   "op": "read",
+   "src": "h-c22ba83338",
+   "via": "mcp"
+  },
+  {
+   "call_id": "k1",
+   "dest": "h-c1a0b0f5db",
+   "in": "v1",
+   "op": "send",
+   "track": false,
+   "via": "utcp.post"
+  },
+  {
+   "call_id": "k1",
+   "dest": "h-c1a0b0f5db",
+   "in": "v9",
+   "op": "send",
+   "track": false,
+   "via": "utcp.post"
+  }
+ ],
+ "template": "tpl-84a43eb937",
+ "tools": [
+  "t1",
+  "t2"
+ ],
+ "version": "secbench-0.1"
+}
