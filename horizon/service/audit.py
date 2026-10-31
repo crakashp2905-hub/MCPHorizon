@@ -11,6 +11,17 @@ class AuditLog:
         self.fd = os.open(path, os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o600)
         self.prev = self._last_hash()
 
+    def close(self) -> None:
+        with self.lock:
+            fd, self.fd = self.fd, -1
+            if fd >= 0:
+                try: os.close(fd)
+                except OSError: pass
+
+    def __del__(self):
+        try: self.close()
+        except Exception: pass
+
     def _last_hash(self) -> str:
         try:
             last = None
