@@ -208,7 +208,8 @@ class SupplyChainScripts(unittest.TestCase):
     def test_repo_is_clean_and_scanner_detects_planted_secrets(self):
         import importlib.util
         sp = importlib.util.spec_from_file_location("secret_scan", REPO / "scripts/secret_scan.py"); m = importlib.util.module_from_spec(sp); sp.loader.exec_module(m)
-        self.assertEqual(m.scan(str(REPO)), [])
+        self.assertGreater(len(m.tracked_files(str(REPO))), 100); self.assertEqual(m.scan(str(REPO)), [])
+        with self.assertRaises(RuntimeError): m.scan(tempfile.mkdtemp())                                       # empty input must not look like a clean pass
         d = Path(tempfile.mkdtemp())
         plants = {"a.py": "AWS='AKIA" + "ABCDEFGHIJKLMNOP'", "b.txt": "-----BEGIN " + "RSA PRIVATE KEY-----", "c.py": "password = '" + "Zx9Qw2Er7Ty4Ui8Op3As6Df1'", "d.py": "t='gh" + "p_" + "A" * 36 + "'", "e.py": "x='" + "".join(chr(33 + (i * 37) % 90) for i in range(0, 0)) + "aB3dE5gH7jK9mN1pQ3sT5vX7zC9fH2kM4nR6uW8yB0'"}
         for n, t in plants.items(): (d / n).write_text(t)

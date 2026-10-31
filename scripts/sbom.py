@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """CycloneDX 1.5 SBOM from lockfiles (P10-15, partial). Sources: package-lock.json files, Cargo.lock. Writes JSON to stdout or --out. Vulnerability/container scanning requires network services and is NOT done here."""
-import json, re, sys, subprocess
+import json, os, re, sys
 from pathlib import Path
 
 
 def components(root="."):
     comps = {}
-    files = subprocess.run(["git", "-C", root, "ls-files"], capture_output=True, text=True).stdout.split()
+    files = [os.path.relpath(os.path.join(d, f), root) for d, dirs, fs in os.walk(root) if not dirs.__setitem__(slice(None), [x for x in dirs if x not in (".git", "node_modules", "target", "__pycache__")]) for f in fs]
     for f in files:
         p = Path(root) / f
         if p.name == "package-lock.json":
@@ -14,6 +14,7 @@ def components(root="."):
                 if path and meta.get("version"): n = path.split("node_modules/")[-1]; comps[("npm", n, meta["version"])] = meta.get("integrity")
         elif p.name == "Cargo.lock":
             for m in re.finditer(r'\[\[package\]\]\nname = "([^"]+)"\nversion = "([^"]+)"', p.read_text()): comps[("cargo", m.group(1), m.group(2))] = None
+    if not comps: raise RuntimeError("no lockfile components found (refusing to emit an empty SBOM)")
     return comps
 
 
