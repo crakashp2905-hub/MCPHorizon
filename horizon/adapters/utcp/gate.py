@@ -16,8 +16,9 @@ def _sha(o) -> str: return "sha256:" + hashlib.sha256(json.dumps(o, sort_keys=Tr
 
 
 class UtcpGate:
-    def __init__(self, *, decide, registry: ManualRegistry, broker: CredentialBroker, resolver, send, tenant: str, store_artifact=None, sink_zones=None, cli_allowed=frozenset(), cli_cwd="/tmp", budget=egress.Budget(), allowed_hosts=None):
+    def __init__(self, *, decide, registry: ManualRegistry, broker: CredentialBroker, resolver, send, tenant: str, store_artifact=None, sink_zones=None, cli_allowed=frozenset(), cli_cwd="/tmp", budget=egress.Budget(), allowed_hosts=None, boundary=None):
         self.decide, self.reg, self.broker, self.resolver, self.send, self.tenant, self.store = decide, registry, broker, resolver, send, tenant, store_artifact
+        self.boundary = boundary           # optional callable(dict)->{"allow": bool, "reason_codes": [...]}: sees the ACTUAL outgoing bytes (url, body) before anything is sent
         self.zones, self.cli_allowed, self.cli_cwd, self.budget, self.allowed_hosts = sink_zones or {}, set(cli_allowed), cli_cwd, budget, allowed_hosts
         self.artifacts: dict[str, dict] = {}; self.done: OrderedDict = OrderedDict(); self.log: list[dict] = []
 
@@ -27,23 +28,24 @@ class UtcpGate:
 
     def _out(self, ok, **kw): return {"ok": ok, **kw}
 
-    def call(self, principal: str, call_id: str, manual_id: str, tool: str, args: dict, *, approval_id=None, run_artifacts=(), cred_ref=None, scopes=()) -> dict:
+    def call(self, principal: str, call_id: str, manual_id: str, tool: str, args: dict, *, approval_id=None, run_artifacts=(), cred_ref=None, scopes=(), purpose=None) -> dict:
         fp = _sha([manual_id, tool, args, cred_ref]); key = (principal, call_id)
         if key in self.done:
             prior = self.done[key]
             if prior["fp"] != fp: return self._out(False, error="ID_REUSED")
             if prior["state"] == "uncertain": return self._out(False, error="UNCERTAIN_EXECUTION", detail="a previous attempt may have executed")
             return prior["resp"]
-        try: resp, state = self._call(principal, call_id, fp, manual_id, tool, args, approval_id, tuple(run_artifacts), cred_ref, tuple(scopes))
+        try: resp, state = self._call(principal, call_id, fp, manual_id, tool, args, approval_id, tuple(run_artifacts), cred_ref, tuple(scopes), purpose)
         except (ManualError, egress.EgressError, CredentialError, clix.CliError) as e: return self._out(False, error=e.code, detail=str(e)[:200])
         except Exception: return self._out(False, error="GATE_ERROR")                     # fail closed
         if state: self.done[key] = {"fp": fp, "state": state, "resp": resp}
         return resp
 
-    def _call(self, principal, call_id, fp, manual_id, tool, args, approval_id, run_artifacts, cred_ref, scopes):
+    def _call(self, principal, call_id, fp, manual_id, tool, args, approval_id, run_artifacts, cred_ref, scopes, purpose=None):
         m = self.reg.resolve(manual_id, tool); ct = m["template"]
         if not isinstance(args, dict): return self._out(False, error="BAD_ARGS"), None
-        inputs = sorted(set(run_artifacts))
+        from ..mcp.gate import handles as _handles
+        inputs = sorted(set(run_artifacts) | set(_handles(args)))
         # operator-controlled sink zone (per manual/host), NEVER from the manual's own text
         if ct["call_template_type"] == "http":
             method = (ct.get("http_method") or "GET").upper(); effect = HTTP_EFFECT.get(method)
@@ -56,7 +58,7 @@ class UtcpGate:
         else:
             argv = clix.build_argv(ct.get("commands") or ct.get("command"), args, allowed=self.cli_allowed); effect, kind, raw, t, native = "execute", "command", argv[0], None, "cli:exec"
         body = {"protocol": "utcp", "native_operation": native, "tool_id": f"{manual_id}/{tool}", "effect": effect, "args_digest": _sha(args),
-                "target": {"kind": kind, "raw": raw}, "sink_zone": self.zones.get(manual_id), "input_artifacts": inputs,
+                "target": {"kind": kind, "raw": raw}, "sink_zone": self.zones.get(manual_id), "purpose": purpose, "input_artifacts": inputs,
                 "idempotency_key": hashlib.sha256(f"{principal}|{call_id}|{fp}".encode()).hexdigest()[:48], "event_id": f"{principal}-{call_id}"}
         if approval_id: body["approval_id"] = approval_id
         dec = self.decide(body)
@@ -64,8 +66,15 @@ class UtcpGate:
         headers = {}
         try:
             if ct["call_template_type"] == "http":
+                body_bytes = None
+                if ct.get("body_arg"):
+                    if ct["body_arg"] not in args: raise egress.EgressError("PARAM", "missing body argument")
+                    body_bytes = json.dumps(args[ct["body_arg"]], sort_keys=True).encode()
+                if self.boundary is not None:
+                    bd = self.boundary({"protocol": "utcp", "method": method, "url": t["url"], "body": body_bytes or b"", "input_artifacts": list(inputs), "sink_zone": self.zones.get(manual_id), "purpose": purpose, "principal": principal})
+                    if not (isinstance(bd, dict) and bd.get("allow") is True): return self._out(False, error="DENIED", verdict="BOUNDARY", reason_codes=(bd or {}).get("reason_codes", ["BOUNDARY_ERROR"]) if isinstance(bd, dict) else ["BOUNDARY_ERROR"]), None
                 if cred_ref: headers = self.broker.inject(self.tenant, cred_ref, t, headers, need_scopes=scopes)
-                try: r, trail = egress.fetch(method, t["url"], headers, resolver=self.resolver, send=self.send, budget=self.budget, allowed_hosts=self.allowed_hosts)
+                try: r, trail = egress.fetch(method, t["url"], headers, resolver=self.resolver, send=self.send, budget=self.budget, allowed_hosts=self.allowed_hosts, body=body_bytes)
                 except egress.EgressError: raise
                 raw_res = {"status": r.status, "body": r.body.decode("utf-8", "replace")}
             else:

@@ -61,10 +61,10 @@ def handles(args, limit=200) -> list[str]:
 
 class McpGate:
     def __init__(self, *, decide: Callable[[dict], dict], forward: Callable[[str, Request, dict], dict], registry: ToolRegistry, tracker: ManifestTracker,
-                 tenant: str, store_artifact: Callable[[dict], None] | None = None, clock=time.time, cache_size: int = 10_000):
+                 tenant: str, store_artifact: Callable[[dict], None] | None = None, clock=time.time, cache_size: int = 10_000, boundary=None):
         self.decide, self.forward, self.reg, self.tracker, self.tenant, self.store, self.clock = decide, forward, registry, tracker, tenant, store_artifact, clock
         self.artifacts: dict[str, dict] = {}; self.done: OrderedDict = OrderedDict(); self.cancelled: set = set(); self.cache_size = cache_size
-        self.log: list[dict] = []
+        self.log: list[dict] = []; self.boundary = boundary      # optional callable(dict)->{"allow","reason_codes"} over the ACTUAL outgoing arguments, run after ALLOW and before forward
 
     def add_artifact(self, a: dict) -> None:
         self.artifacts[a["id"]] = a
@@ -76,7 +76,7 @@ class McpGate:
 
     def cancel(self, principal: str, rid) -> None: self.cancelled.add((principal, rid))
 
-    def handle(self, server_id: str, req: Request, *, approval_id: str | None = None, run_artifacts: tuple = ()) -> dict | None:
+    def handle(self, server_id: str, req: Request, *, approval_id: str | None = None, run_artifacts: tuple = (), purpose: str | None = None) -> dict | None:
         """approval_id and run_artifacts are supplied by the trusted host. Anything of that kind inside req.params is ignored."""
         if req.kind == "notification":
             if req.method == "notifications/cancelled" and isinstance(req.params.get("requestId"), (str, int)): self.cancel(req.principal, req.params["requestId"])
@@ -91,7 +91,7 @@ class McpGate:
             if prior["state"] == "uncertain": return self._err(req.id, E_UNCERTAIN, "a previous attempt may have executed; reconcile before retrying")
             return prior["resp"]                                      # duplicate delivery => cached response, no second execution
         try:
-            resp, ran = self._dispatch(server_id, req, fp, approval_id, tuple(run_artifacts))
+            resp, ran = self._dispatch(server_id, req, fp, approval_id, tuple(run_artifacts), purpose)
         except Exception:                                            # fail closed
             return self._err(req.id, E_DENIED, "denied: internal error in enforcement path", {"reason_codes": ["GATE_ERROR"]})
         if ran == "uncertain": self._remember(key, {"fp": fp, "state": "uncertain", "resp": None})
@@ -103,7 +103,7 @@ class McpGate:
         self.done[key] = v
         while len(self.done) > self.cache_size: self.done.popitem(last=False)
 
-    def _dispatch(self, server_id, req: Request, fp: str, approval_id, run_artifacts):
+    def _dispatch(self, server_id, req: Request, fp: str, approval_id, run_artifacts, host_purpose=None):
         m, p = req.method, req.params
         if (req.principal, req.id) in self.cancelled: return self._err(req.id, E_DENIED, "cancelled before execution"), None
         if m in ("initialize", "ping"): return self.forward(server_id, req, {}), "done"        # legacy lifecycle: no effect, nothing to decide
@@ -123,7 +123,7 @@ class McpGate:
                 tv = args.get(pol.target_arg) if isinstance(args, dict) else None
                 if not isinstance(tv, str): return self._err(req.id, E_PARAMS, f"target argument {pol.target_arg!r} missing or not a string"), None
                 raw_target = tv
-            tool_id, effect, tkind, zone, purpose = f"{server_id}/{name}", pol.effect, pol.target_kind, pol.sink_zone, pol.purpose
+            tool_id, effect, tkind, zone, purpose = f"{server_id}/{name}", pol.effect, pol.target_kind, pol.sink_zone, (host_purpose or pol.purpose)
             inputs = sorted(set(handles(args)) | set(run_artifacts))
             body = {"protocol": "mcp", "native_operation": "tools/call", "tool_id": tool_id, "effect": effect, "args_digest": _sha(args),
                     "target": {"kind": tkind, "raw": raw_target}, "sink_zone": zone, "purpose": purpose, "input_artifacts": inputs,
@@ -136,6 +136,10 @@ class McpGate:
         dec = self.decide(body)
         if dec.get("verdict") not in ALLOW_VERDICTS: return self._deny(req.id, dec), None
         if (req.principal, req.id) in self.cancelled: return self._err(req.id, E_DENIED, "cancelled before execution"), None
+        if self.boundary is not None and m == "tools/call" and effect not in ("read", "list"):
+            try: bd = self.boundary({"protocol": "mcp", "method": m, "tool": tool_id, "body": _canon(p.get("arguments", {})).encode(), "input_artifacts": list(inputs), "sink_zone": zone, "purpose": purpose, "principal": req.principal})
+            except Exception: bd = None
+            if not (isinstance(bd, dict) and bd.get("allow") is True): return self._err(req.id, E_DENIED, "denied at the outgoing boundary", {"verdict": "BOUNDARY", "reason_codes": (bd or {}).get("reason_codes", ["BOUNDARY_ERROR"]) if isinstance(bd, dict) else ["BOUNDARY_ERROR"]}), None
         try: raw_resp = self.forward(server_id, req, {"decision_id": dec.get("decision_id")})
         except Exception:
             return self._err(req.id, E_UNCERTAIN, "upstream failed; outcome unknown", {"reason_codes": ["UNCERTAIN_EXECUTION"]}), ("uncertain" if effect not in ("read", "list") else None)
