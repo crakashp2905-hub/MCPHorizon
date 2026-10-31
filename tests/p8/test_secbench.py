@@ -58,7 +58,7 @@ class BenchmarkValidityTests(unittest.TestCase):
     def test_counts_pairs_and_matching(self):
         by = {}
         for s in SC: by.setdefault(s["truth"]["pair"], {})[s["truth"]["role"]] = s
-        self.assertTrue(all(set(v) == {"harmful", "benign"} for v in by.values())); self.assertEqual(len(SC), 112)
+        self.assertTrue(all(set(v) == {"harmful", "benign"} for v in by.values())); self.assertEqual(len(SC), 128)
         for pair, v in by.items():
             h, b = v["harmful"]["visible"], v["benign"]["visible"]; self.assertEqual((h["intent"], h["tools"], h["template"], len(h["steps"])), (b["intent"], b["tools"], b["template"], len(b["steps"])), pair)
             diff = [(x, y) for x, y in zip(h["steps"], b["steps"]) if x != y]; self.assertTrue(all(set(x) == set(y) for x, y in diff))      # same operations, different parameter values only
@@ -130,6 +130,11 @@ class ContainmentTests(unittest.TestCase):
             rows = [run_one(s, "open", spec.SEED) for s in USABLE[:30]]
         finally: socket.socket.connect = orig
         self.assertEqual(calls, []); self.assertTrue(all(r["outcome"] != "ERROR" for r in rows))
+    def test_no_file_descriptor_leak_across_runs(self):
+        """Regression: the P3 audit log fd was never closed; ~1000 scenario runs then crashed select() with 'filedescriptor out of range'."""
+        n = lambda: len(os.listdir("/proc/self/fd")); sc = next(s for s in SC if s["truth"]["template_code"] == "U1"); run_one(sc, "full", spec.SEED); a = n()
+        for _ in range(5): run_one(sc, "full", spec.SEED)
+        self.assertEqual(n() - a, 0)
     def test_temp_worlds_are_cleaned_up(self):
         before = set(Path(tempfile.gettempdir()).glob("secbench-*")); run_one(USABLE[0], "open", spec.SEED); self.assertEqual(set(Path(tempfile.gettempdir()).glob("secbench-*")) - before, set())
 

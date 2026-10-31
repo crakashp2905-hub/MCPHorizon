@@ -92,6 +92,8 @@ class Service:
     def _need(who, *roles):
         if who["role"] not in roles: raise ApiError(403, "FORBIDDEN", f"role {who['role']!r} may not call this endpoint")
 
+    def close(self) -> None: self.audit.close()
+
     def _audit(self, rec: dict) -> None:
         rec = {**rec, "t": self.clock()}
         try: self.audit.write(rec)

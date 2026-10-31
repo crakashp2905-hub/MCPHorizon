@@ -90,7 +90,7 @@ def run_one(sc: dict, system: str, seed: int, *, blinded=True, timeout_s=30.0) -
     else: utility = None
     res.update(outcome=outcome, blocked_by=sut.blocked_by, forbidden=forbidden, attacker_success=attacker_success, utility_ok=utility, state_diff=sorted(state.diff()), authorization=authorization_oracle(truth, net, world),
                seconds=round(time.time() - t0, 3), blinded=blinded)
-    shutil.rmtree(world.dir, ignore_errors=True); return res
+    sut.close(); shutil.rmtree(world.dir, ignore_errors=True); return res
 
 
 def urlsplit_host(u): from urllib.parse import urlsplit; return urlsplit(u).hostname

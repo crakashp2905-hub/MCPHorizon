@@ -1,14 +1,14 @@
-# SecBench 0.1 — benchmark card (P8)
+# SecBench 0.2 — benchmark card (P8)
 
 **Status: CANDIDATE.** Synthetic, scripted, single-author. Independent dual annotation (P8-17) has **NOT** been done.
 
 ## What it is
-112 scenarios (56 matched harmful/benign pairs) across 18 templates (C = Code Mode flows, U = UTCP/transport/manual flows, X = cross-protocol/multi-agent/replay, E = epistemic claims, K = unknown transport/unmapped endpoint stress). Agents are scripted (no LLM): the benchmark measures mediation and detection, not model behaviour. Generator: `bench/secbench/spec.py` (seed 20261031, version `secbench-0.1`).
+128 scenarios (64 matched harmful/benign pairs) across 20 templates (0.2 added S1/S2, sensitive-but-benign runs, **post hoc**: written after seeing that a coarse baseline matched the defence on 0.1; the test split is therefore not a clean held-out set) (C = Code Mode flows, U = UTCP/transport/manual flows, X = cross-protocol/multi-agent/replay, E = epistemic claims, K = unknown transport/unmapped endpoint stress). Agents are scripted (no LLM): the benchmark measures mediation and detection, not model behaviour. Generator: `bench/secbench/spec.py` (seed 20261031, version `secbench-0.2`).
 
 ## Design properties (each is tested in `tests/p8/test_secbench.py`)
 - **Matched pairs:** harmful and benign twins share intent text, tools, template and step structure; only parameter values differ.
 - **Blinding (P8-11):** visible files contain no label words; tool names are neutral; source/destination handles are opaque per-scenario aliases (a global handle such as a fixed "secret source" name leaked the label to a bag-of-tokens classifier at 88% test accuracy before aliasing; the test now bounds it at 65%). A deliberately leaky `unblinded_view` exists only to show why blinding matters.
-- **Frozen splits (P8-12):** by template. Test contains transports/protocols absent from train (`utcp.get`, `ws.send`). `bench/secbench/freeze.py verify` checks 225 data files against a SHA-256 manifest and against regeneration.
+- **Frozen splits (P8-12):** by template. Test contains transports/protocols absent from train (`utcp.get`, `ws.send`). `bench/secbench/freeze.py verify` checks 257 data files against a SHA-256 manifest and against regeneration.
 - **Independent oracles (P8-05..09):** network receiver, filesystem/sqlite diff, authorization-by-intent and epistemic truth are computed from the truth files with their own decoders (raw, percent, base64/url, hex, reversed, JSON-wrapped, chunk re-join). The oracle code does not import the defence code (tested).
 - **Validity:** under no defence every harmful scenario succeeds and every benign twin completes with utility and no violation.
 - **Outcome accounting (P8-19):** COMPLETED / BLOCKED / REFUSED / TIMEOUT / ERROR; no ERROR or TIMEOUT occurs in the committed runs.
@@ -17,13 +17,8 @@
 ## Systems under test
 `open` (no defence), `name_heuristic` (refuses on label-like names; equals `open` on blinded views), `labels_only` (P3 service + gates with operator labels), `full` (+ lineage Boundary + epistemic ledger).
 
-## Results (dev / test; `results/v2/p8_secbench_{dev,test}.json`)
-| split | system | attacker success | benign utility |
-|---|---|---|---|
-| dev | open / labels_only / full | 14/14 / 6/14 / 2/14 | 14/14 / 14/14 / 12/14 |
-| test | open / labels_only / full | 26/26 / 10/26 / 2/26 | 26/26 / 22/26 / 22/26 |
-
-Known misses of `full` are the documented hard cases: C4 (chunked exfiltration) and C5 (reversed encoding). Utility loss comes from K1/K2 (fail-closed on unknown transport/endpoint), E1/E2 (true-but-untrusted claims) and U4 (CLI). Small n: intervals (Wilson) are wide; treat as a regression suite, not a population estimate.
+## Results
+See `results/v2/p8_secbench_{dev,test}.json` and the full comparison with baselines/ablations in `docs/research/P9_RESULTS_AND_LIMITS.md`. Test split (30 harmful/30 benign): open 30/30 attacker success, labels_only 12/30, full 2/30 (reversed encoding C5); benign utility full 26/30. Wilson/cluster intervals are wide; treat as a regression suite.
 
 ## Limitations
 Scripted agents; templates are authored by the same person who built the defence (author-bias risk, mitigated only by independent oracles and blinding); 18 templates is a small coverage of real attacks; paraphrase-with-lost-lineage is not covered here (see P7 limits); results do not establish real-world detection rates.
