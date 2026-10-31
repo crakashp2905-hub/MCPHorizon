@@ -11,7 +11,8 @@ Vocabulary per AGENTS.md/CLAUDE.md: CANDIDATE | FAILED | BLOCKED | NEEDS_APPROVA
 | P0 judgement items (provenance, licence, private core, branch protection, legacy re-runs) | BLOCKED / NEEDS_APPROVAL | see BLOCKERS.md B-02…B-04 |
 | P83 compiler/validator, schema, plan.lock | CANDIDATE | 15/15 tests pass (`python3 -m unittest discover -s tests/spec -v`); `python3 scripts/validate_plan.py` exit 0 |
 | P83 reviewed dependency DAG | NEEDS_APPROVAL | 158 gate edges all `NEEDS_REVIEW`; `scheduling_enabled=false` |
-| P75–P82, P84–P86 supervisor/worker/verifier | NOT STARTED | require B-01, B-05 |
+| P75–P77 ledger/state machine, P84 work packets, P85 verifier, P86 adversarial subset | CANDIDATE (prototype) | `orchestrator/`, 17 tests pass (`python3 -m unittest discover -s tests/supervisor -v`); local-trust only, see `docs/security/SUPERVISOR_THREAT_MODEL.md`; hardening needs B-05 |
+| P78–P82 | NOT STARTED | require B-01, B-05 |
 | P1–P54, P87–P94 research & engineering | NOT STARTED | depend on reviewed DAG and authorized budget (B-07) |
 | P91–P93 science/budget/customer validation | WAITING_EXTERNAL | needs real stakeholders |
 | RC-R and P55–P74 productization | BLOCKED | independent RC-R sign-off required (B-06) |
@@ -29,8 +30,8 @@ Vocabulary per AGENTS.md/CLAUDE.md: CANDIDATE | FAILED | BLOCKED | NEEDS_APPROVA
 | P0-09 licence audit | NEEDS_APPROVAL | raw signals only (`p0/license_signals.json`); `THIRD_PARTY_NOTICES.md` not drafted |
 | P0-10 private core / approach A/B | NEEDS_APPROVAL | provisional B in DEVIATIONS D-002 |
 | P0-11 re-run legacy experiments | BLOCKED | engine source absent (B-04); not attempted |
-| P0-12 archive legacy metrics (42/26/14) | NOT STARTED | |
-| P0-13 predictor limitations register | NOT STARTED | |
+| P0-12 archive legacy metrics (42/26/14) | CANDIDATE | `LEGACY_METRICS.md` (archived, not re-run) |
+| P0-13 predictor limitations register | CANDIDATE | `RESEARCH_RISK_REGISTER.md` (severities proposed) |
 | P0-14 unavailable references | CANDIDATE | `p0/unavailable_in_public_release.json` |
 | P0-15/16 STATUS, DEVIATIONS | CANDIDATE | this file, DEVIATIONS.md |
 | P0-17 branch protection/CODEOWNERS | NEEDS_APPROVAL | repo-admin action |

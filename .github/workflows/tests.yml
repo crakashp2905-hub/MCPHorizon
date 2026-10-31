@@ -1,0 +1,12 @@
+name: tests
+on: [push, pull_request]
+jobs:
+  stdlib-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: python3 scripts/validate_plan.py
+      - run: python3 -m unittest discover -s tests/spec -p 'test_plan.py' -v
+      - run: python3 -m unittest discover -s tests/supervisor -p 'test_supervisor.py' -v
