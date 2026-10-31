@@ -42,7 +42,10 @@ Vocabulary per AGENTS.md/CLAUDE.md: CANDIDATE | FAILED | BLOCKED | NEEDS_APPROVA
 | P20 Least privilege (14 mapped) | CANDIDATE | `horizon/lp`, `tests/p20` (12; found+fixed unbounded-arg false denials), `bench/p20`, `results/v2/p20-least-privilege/`. Exposure 32 vs 60 (all-tools) at equal completion; approver auto-approves in policy. |
 | P21 Arena (14 mapped; P21-03/05/07 limited) | CANDIDATE; red team NOT independent | `bench/p21`, `tests/p21` (14), `results/v2/p21-arena/`. Only independent forged-evidence collusion beats the full stack; grants/contracts redundant for exfiltration once taint is on. |
 | P22 Selective verification etc. (12 of 18 mapped) | CANDIDATE; simulated verifier/reviewer | `horizon/select`, `tests/p22` (11), `bench/p22`, `scripts/{coverage_matrix,paper_tables,go_nogo}.py`, `docs/evidence/{COVERAGE_MATRIX,ADVANCED_TABLES,GO_NO_GO}.md`, `docs/research/{P17_P22_BOUNDARIES_AND_LIMITS,PRIOR_ART_CLAIMS_MATRIX}.md`, `docs/formal/P22_FORMAL_SPEC_REVIEW.md`. **GO/NO-GO: NO-GO** (GX1, GX4, GX8, GX9 NOT MET; Papers A/B/C NO-GO). NOT done: P22-09, 11 (template), 12–14, 16. 44 mutants across P17–P22 modules killed (one gap closed). |
-| P23+ | NOT STARTED | |
+| P23 Incident hygiene, schema 2.1-proposed, provenance (17 of 18 + gap report) | CANDIDATE | `horizon/runtime/{schema,provenance,importer}.py`, `tests/p23`, `scripts/{p23_freeze,runtime_gap_report}.py`, `docs/evidence/p23/*`. Freeze key is ephemeral/discarded; Cohere dataset licence NOT STATED; no trace downloaded |
+| P24 Process sandbox (14 of 18) | CANDIDATE; Linux x86_64 + root only | `horizon/runtime/sandbox.py`, `receiver.py`, `tests/p24` (15). UNMET: P24-02 microVM, -03 immutable image, -12 AppArmor/SELinux, -18 kernel audit correlation. Landlock ABI 7 does not scope pathname unix sockets (mount-ns masking used) |
+| P25 Egress broker (18 of 18) | CANDIDATE; HTTP-only | `horizon/runtime/broker.py`, `tests/p25` (19). https/ws/CONNECT/UDP denied as UNSUPPORTED (not approximated); firewall drop counters not available |
+| P26+ | NOT STARTED | |
 | P78–P82 | NOT STARTED | require B-01, B-05 |
 | P1–P54, P87–P94 research & engineering | NOT STARTED | depend on reviewed DAG and authorized budget (B-07) |
 | P91–P93 science/budget/customer validation | WAITING_EXTERNAL | needs real stakeholders |
