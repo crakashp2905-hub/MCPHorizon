@@ -15,68 +15,14 @@ Status is derived: **MAPPED** = a passing acceptance command exists (still CANDI
 ## P25: 18/18 mapped
 
 
-## P26: 0/18 mapped
+## P26: 18/18 mapped
 
-- `P26-01` **UNMAPPED** — Inventory secret-bearing paths sockets env variables and instance metadata surfaces.
-- `P26-02` **UNMAPPED** — Create a local metadata simulator bound only to protected mock network.
-- `P26-03` **UNMAPPED** — Block direct metadata endpoints regardless of cloud-provider-specific aliases.
-- `P26-04` **UNMAPPED** — Test redirect or hostname remapping to protected metadata addresses.
-- `P26-05` **UNMAPPED** — Build credential broker interface with no raw secret in model or generated-code context.
-- `P26-06` **UNMAPPED** — Implement scoped short-lived credential references bound to exact approved service call.
-- `P26-07` **UNMAPPED** — Provide read-only repository view and constrained project scratch filesystem.
-- `P26-08` **UNMAPPED** — Protect home SSH configs cloud files agent sockets and host keychains from runner.
-- `P26-09` **UNMAPPED** — Track file read/write provenance under protected kernel/host observations.
-- `P26-10` **UNMAPPED** — Deny cross-tenant path traversal and symlink or bind-mount escape attempts.
-- `P26-11` **UNMAPPED** — Test file-descriptor reuse and inherited handle exposure across subprocesses.
-- `P26-12` **UNMAPPED** — Prevent raw secret logging in broker process stderr OS audit and model transcripts.
-- `P26-13` **UNMAPPED** — Verify authorized registry authentication without payload embedding of credential.
-- `P26-14` **UNMAPPED** — Verify synthetic secret payload embedding is rejected by receiver/lineage policy.
-- `P26-15` **UNMAPPED** — Enforce token revocation on task completion timeout or emergency stop.
-- `P26-16` **UNMAPPED** — Maintain explicit metadata-simulator response and credential-leak effect oracle.
-- `P26-17` **UNMAPPED** — Test allowed diagnostics separately from sensitive environment reconnaissance.
-- `P26-18` **UNMAPPED** — Produce policy and incident report with opaque credential identifiers only.
 
-## P27: 0/18 mapped
+## P27: 18/18 mapped
 
-- `P27-01` **UNMAPPED** — Extend Code Mode adapter with process launch identity and parent-child propagation.
-- `P27-02` **UNMAPPED** — Add managed execution hook before generated program and tool dispatch.
-- `P27-03` **UNMAPPED** — Treat arbitrary code as untrusted even when it uses a trusted SDK namespace.
-- `P27-04` **UNMAPPED** — Capture attempted native filesystem and process effects via trusted observation.
-- `P27-05` **UNMAPPED** — Capture unbrokered socket or network attempts at enforced network boundary.
-- `P27-06` **UNMAPPED** — Require child processes to inherit policy and run identity when spawning shells.
-- `P27-07` **UNMAPPED** — Add safe test for a second interpreter launched from within generated code.
-- `P27-08` **UNMAPPED** — Add safe test for direct network library use rather than typed API calls.
-- `P27-09` **UNMAPPED** — Add safe test for command substitution pipeline and redirection to protected sink.
-- `P27-10` **UNMAPPED** — Add safe test for ordinary compiler and test-runner child-process workflows.
-- `P27-11` **UNMAPPED** — Add safe test for namespace operation after initial permission failure.
-- `P27-12` **UNMAPPED** — Add safe test for executable tmpfs request and verify kernel denial.
-- `P27-13` **UNMAPPED** — Verify unsupported languages/runtimes cannot obtain privileged execution fallback.
-- `P27-14` **UNMAPPED** — Add correlation between agent action call and kernel-native process event.
-- `P27-15` **UNMAPPED** — Detect self-reported no-tools versus actual execution as advisory mismatch only.
-- `P27-16` **UNMAPPED** — Avoid storing hidden chain-of-thought; record visible claims only when permitted.
-- `P27-17` **UNMAPPED** — Expose explicit runtime coverage report showing intercepted versus unavailable effects.
-- `P27-18` **UNMAPPED** — Compare identical code execution through MCP wrapper UTCP CLI and Code Mode.
 
-## P28: 0/18 mapped
+## P28: 18/18 mapped
 
-- `P28-01` **UNMAPPED** — Implement artifact manifest with source revision builder identity and checksums.
-- `P28-02` **UNMAPPED** — Create sandboxed build stage that cannot access real registries or production.
-- `P28-03` **UNMAPPED** — Generate SBOM and pinned dependency set for supported languages.
-- `P28-04` **UNMAPPED** — Add secret scanning over build inputs output and deployment packages.
-- `P28-05` **UNMAPPED** — Integrate one maintained SAST scanner and capture parser/code coverage warnings.
-- `P28-06` **UNMAPPED** — Integrate one maintained dependency vulnerability/SCA check with pinned DB snapshot.
-- `P28-07` **UNMAPPED** — Add vulnerable-by-construction local training fixtures with known ground truth.
-- `P28-08` **UNMAPPED** — Add patched counterpart for each vulnerable fixture with same functional behavior.
-- `P28-09` **UNMAPPED** — Build local exploit-oracle runner restricted to owned intentionally vulnerable services.
-- `P28-10` **UNMAPPED** — Require scanner reported findings and exploit-oracle results as separate evidence.
-- `P28-11` **UNMAPPED** — Test path from build artifact to registry release cannot bypass security gate.
-- `P28-12` **UNMAPPED** — Define signed artifact release policy permit bound to digest and destination.
-- `P28-13` **UNMAPPED** — Enforce deploy-time artifact digest recheck and expiry before final publish.
-- `P28-14` **UNMAPPED** — Report false positive blocks on benign applications and changed dependencies.
-- `P28-15` **UNMAPPED** — Measure scan runtime memory cost and legitimate build task completion.
-- `P28-16` **UNMAPPED** — Add branch-specific security gate status to CI with no unsupported PASS labels.
-- `P28-17` **UNMAPPED** — Report residual unknown vulnerabilities and classes with no dynamic test oracle.
-- `P28-18` **UNMAPPED** — Document release exception process requiring authenticated administrator not agent approval.
 
 ## P29: 0/18 mapped
 

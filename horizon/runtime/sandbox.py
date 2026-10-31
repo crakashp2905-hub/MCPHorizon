@@ -100,7 +100,7 @@ def seccomp_apply(deny_sockets=True):
 # ---------------- result types
 @dataclass
 class Result:
-    run_id: str; exit: int | None; signal: int | None; timed_out: bool; stdout: str; stderr: str; profile: dict; policy_digest: str; host_pid: int; duration_s: float; refused: str | None = None; broker_requests: list = field(default_factory=list)
+    run_id: str; exit: int | None; signal: int | None; timed_out: bool; stdout: str; stderr: str; profile: dict; policy_digest: str; host_pid: int; duration_s: float; refused: str | None = None; broker_requests: list = field(default_factory=list); observations: dict = field(default_factory=dict)
 
 
 def _read_status(pid) -> dict:
@@ -143,7 +143,7 @@ def _cgroup_setup(run_id, pol) -> list:
     return made
 
 
-def launch(code: str, *, run_id: str, policy: Policy | None = None, scratch: str | None = None, timeout_s: float = 20, extra_env: dict | None = None, broker=None, stdin: bytes = b"") -> Result:
+def launch(code: str, *, run_id: str, policy: Policy | None = None, scratch: str | None = None, timeout_s: float = 20, extra_env: dict | None = None, broker=None, stdin: bytes = b"", observers=()) -> Result:
     pol = policy or Policy(); t0 = time.time()
     isolation = any((pol.netns, pol.pidns, pol.mntns, pol.landlock, pol.seccomp, pol.drop_privs))
     if isolation:
@@ -174,6 +174,7 @@ def launch(code: str, *, run_id: str, policy: Policy | None = None, scratch: str
             if pol.mntns: _check(libc.mount(None, b"/", None, MS_REC | MS_PRIVATE, None), "make-rprivate")
             bpid = os.fork()
             if bpid:                                                               # A: relay B's host pid to parent, then reap
+                for fd in (in_w, out_r, err_r, go_w, rdy_r, pid_r) + ((sock_p.fileno(),) if sock_p else ()): os.close(fd)      # A must not hold parent-side ends (else the child's stdin never sees EOF)
                 os.write(pid_w, struct.pack("i", bpid)); _, st = os.waitpid(bpid, 0); os._exit(os.waitstatus_to_exitcode(st) & 0xFF if os.WIFEXITED(st) else 128 + os.WTERMSIG(st))
             # ---- process B (pid 1 of the new pid ns when pidns)
             if pol.mntns and pol.pidns: _check(libc.mount(b"proc", b"/proc", b"proc", MS_NOSUID | MS_NODEV | MS_NOEXEC, b"hidepid=2"), "mount proc")
@@ -197,9 +198,10 @@ def launch(code: str, *, run_id: str, policy: Policy | None = None, scratch: str
             if sock_c: os.dup2(sock_c.fileno(), 3)
             for fd in sorted(set(os.listdir("/proc/self/fd")), key=int) if os.path.exists("/proc/self/fd") else []:
                 f = int(fd)
-                if f not in (0, 1, 2, 3, rdy_w, go_r): 
+                if f not in (0, 1, 2, rdy_w, go_r) and not (f == 3 and sock_c):          # fd 3 is ONLY the broker socket; any other inherited handle is closed
                     try: os.close(f)
                     except OSError: pass
+            os.set_inheritable(rdy_w, False); os.set_inheritable(go_r, False)           # barrier fds close on exec: payload never holds them
             if pol.seccomp: seccomp_apply(deny_sockets=True)
             os.write(rdy_w, b"R"); os.read(go_r, 1)                               # barrier: parent verifies /proc/<pid>/status before payload runs
             os.chdir(scratch); os.execve(sys.executable, [sys.executable, "-I", "-c", code], env)
@@ -220,12 +222,13 @@ def launch(code: str, *, run_id: str, policy: Policy | None = None, scratch: str
             if bad: refused = "profile_mismatch: " + ",".join(bad)
         if refused: _kill(bpid, pid)
         else:
+            for o in observers: o.start(scratch, bpid)
             os.write(go_w, b"G"); os.write(in_w, stdin) if stdin else None; os.close(in_w)
     except Exception as e: refused = f"launch_error: {e}"; _kill(bpid, pid)
     out, err, reqs = b"", b"", []
     end = time.time() + timeout_s; done = False; status = None
     while not refused and not done:
-        rl = [out_r, err_r] + ([sock_p] if sock_p else []); r, _, _ = select.select(rl, [], [], 0.05)
+        rl = [out_r, err_r] + ([sock_p] if sock_p else []); r, _, _ = select.select(rl, [], [], 0.002 if observers else 0.05)       # tight loop only while host observers are attached
         for f in r:
             if f is sock_p:
                 try: broker.serve_once(sock_p, run_id, reqs)
@@ -234,6 +237,7 @@ def launch(code: str, *, run_id: str, policy: Policy | None = None, scratch: str
                 d = os.read(f, 65536)
                 if f == out_r: out += d
                 else: err += d
+        for o in observers: o.poll()
         w, st = os.waitpid(pid, os.WNOHANG)
         if w: done, status = True, st
         elif time.time() > end: timed = True; _kill(bpid, pid); _, status = os.waitpid(pid, 0); done = True
@@ -255,9 +259,13 @@ def launch(code: str, *, run_id: str, policy: Policy | None = None, scratch: str
     for d in cg:
         try: os.rmdir(d)
         except OSError: pass
+    obs = {}
+    for o in observers:
+        try: obs[o.name] = o.stop()
+        except Exception as e: obs[o.name] = {"error": str(e)}
     ex = sg = None
     if status is not None: ex, sg = (os.WEXITSTATUS(status), None) if os.WIFEXITED(status) else (None, os.WTERMSIG(status))
-    res = Result(run_id, ex, sg, timed, out.decode(errors="replace")[:20000], err.decode(errors="replace")[:20000], prof, pol.digest(), bpid, round(time.time() - t0, 3), refused, reqs)
+    res = Result(run_id, ex, sg, timed, out.decode(errors="replace")[:20000], err.decode(errors="replace")[:20000], prof, pol.digest(), bpid, round(time.time() - t0, 3), refused, reqs, obs)
     if own_scratch:
         import shutil; shutil.rmtree(scratch, ignore_errors=True)
     return res
