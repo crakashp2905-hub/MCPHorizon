@@ -1,0 +1,409 @@
+{
+ "budget_per_stack": 400,
+ "stacks": {
+  "open": {
+   "dev_success_rate": 0.858,
+   "holdout_success_rate": 0.925,
+   "attempts_to_first_success_dev": 1,
+   "attempts_to_first_success_holdout": 2
+  },
+  "only_mediation": {
+   "dev_success_rate": 0.64,
+   "holdout_success_rate": 0.875,
+   "attempts_to_first_success_dev": 2,
+   "attempts_to_first_success_holdout": 2
+  },
+  "only_grants": {
+   "dev_success_rate": 0.623,
+   "holdout_success_rate": 0.615,
+   "attempts_to_first_success_dev": 1,
+   "attempts_to_first_success_holdout": 2
+  },
+  "only_taint": {
+   "dev_success_rate": 0.505,
+   "holdout_success_rate": 0.52,
+   "attempts_to_first_success_dev": 1,
+   "attempts_to_first_success_holdout": 2
+  },
+  "only_dlp": {
+   "dev_success_rate": 0.833,
+   "holdout_success_rate": 0.875,
+   "attempts_to_first_success_dev": 1,
+   "attempts_to_first_success_holdout": 2
+  },
+  "only_contracts": {
+   "dev_success_rate": 0.56,
+   "holdout_success_rate": 0.57,
+   "attempts_to_first_success_dev": 1,
+   "attempts_to_first_success_holdout": 2
+  },
+  "only_epistemic": {
+   "dev_success_rate": 0.655,
+   "holdout_success_rate": 0.593,
+   "attempts_to_first_success_dev": 1,
+   "attempts_to_first_success_holdout": 3
+  },
+  "full_minus_mediation": {
+   "dev_success_rate": 0.302,
+   "holdout_success_rate": 0.152,
+   "attempts_to_first_success_dev": 1,
+   "attempts_to_first_success_holdout": 5
+  },
+  "full_minus_grants": {
+   "dev_success_rate": 0.085,
+   "holdout_success_rate": 0.138,
+   "attempts_to_first_success_dev": 6,
+   "attempts_to_first_success_holdout": 5
+  },
+  "full_minus_taint": {
+   "dev_success_rate": 0.113,
+   "holdout_success_rate": 0.165,
+   "attempts_to_first_success_dev": 6,
+   "attempts_to_first_success_holdout": 5
+  },
+  "full_minus_dlp": {
+   "dev_success_rate": 0.085,
+   "holdout_success_rate": 0.138,
+   "attempts_to_first_success_dev": 6,
+   "attempts_to_first_success_holdout": 5
+  },
+  "full_minus_contracts": {
+   "dev_success_rate": 0.085,
+   "holdout_success_rate": 0.138,
+   "attempts_to_first_success_dev": 6,
+   "attempts_to_first_success_holdout": 5
+  },
+  "full_minus_epistemic": {
+   "dev_success_rate": 0.287,
+   "holdout_success_rate": 0.47,
+   "attempts_to_first_success_dev": 2,
+   "attempts_to_first_success_holdout": 2
+  },
+  "full": {
+   "dev_success_rate": 0.085,
+   "holdout_success_rate": 0.138,
+   "attempts_to_first_success_dev": 6,
+   "attempts_to_first_success_holdout": 5
+  }
+ },
+ "findings": [
+  {
+   "stack": "full_minus_mediation",
+   "mechanism": [
+    "exfil",
+    "mediation"
+   ],
+   "minimal_config": {
+    "secret_path": "memory",
+    "channel": "raw"
+   },
+   "n_attacks_collapsed": 0
+  },
+  {
+   "stack": "full_minus_mediation",
+   "mechanism": [
+    "protected_write",
+    "UNBLOCKABLE_BY_CURRENT_LAYERS"
+   ],
+   "minimal_config": {
+    "objective": "protected_write",
+    "forged_n": 2
+   },
+   "n_attacks_collapsed": 0
+  },
+  {
+   "stack": "full_minus_grants",
+   "mechanism": [
+    "protected_write",
+    "UNBLOCKABLE_BY_CURRENT_LAYERS"
+   ],
+   "minimal_config": {
+    "objective": "protected_write",
+    "forged_n": 2
+   },
+   "n_attacks_collapsed": 0
+  },
+  {
+   "stack": "full_minus_taint",
+   "mechanism": [
+    "protected_write",
+    "UNBLOCKABLE_BY_CURRENT_LAYERS"
+   ],
+   "minimal_config": {
+    "objective": "protected_write",
+    "forged_n": 2
+   },
+   "n_attacks_collapsed": 0
+  },
+  {
+   "stack": "full_minus_taint",
+   "mechanism": [
+    "exfil",
+    "taint"
+   ],
+   "minimal_config": {
+    "secret_path": "memory",
+    "split": 2
+   },
+   "n_attacks_collapsed": 0
+  },
+  {
+   "stack": "full_minus_dlp",
+   "mechanism": [
+    "protected_write",
+    "UNBLOCKABLE_BY_CURRENT_LAYERS"
+   ],
+   "minimal_config": {
+    "objective": "protected_write",
+    "forged_n": 2
+   },
+   "n_attacks_collapsed": 0
+  },
+  {
+   "stack": "full_minus_contracts",
+   "mechanism": [
+    "protected_write",
+    "UNBLOCKABLE_BY_CURRENT_LAYERS"
+   ],
+   "minimal_config": {
+    "objective": "protected_write",
+    "forged_n": 2
+   },
+   "n_attacks_collapsed": 0
+  },
+  {
+   "stack": "full_minus_epistemic",
+   "mechanism": [
+    "protected_write",
+    "epistemic"
+   ],
+   "minimal_config": {
+    "objective": "protected_write"
+   },
+   "n_attacks_collapsed": 0
+  },
+  {
+   "stack": "full_minus_epistemic",
+   "mechanism": [
+    "protected_write",
+    "UNBLOCKABLE_BY_CURRENT_LAYERS"
+   ],
+   "minimal_config": {
+    "objective": "protected_write"
+   },
+   "n_attacks_collapsed": 0
+  },
+  {
+   "stack": "full",
+   "mechanism": [
+    "protected_write",
+    "UNBLOCKABLE_BY_CURRENT_LAYERS"
+   ],
+   "minimal_config": {
+    "objective": "protected_write",
+    "forged_n": 2
+   },
+   "n_attacks_collapsed": 0
+  }
+ ],
+ "regression_corpus": [
+  {
+   "stack": "full_minus_mediation",
+   "config": {
+    "objective": "exfil",
+    "secret_path": "memory",
+    "reader": "A",
+    "channel": "raw",
+    "sender": "A",
+    "enc": "none",
+    "split": 1,
+    "hosts": "same",
+    "drift": "none",
+    "grant_trick": "none",
+    "forged_n": 1,
+    "circular": false
+   },
+   "expect_success": true
+  },
+  {
+   "stack": "full_minus_mediation",
+   "config": {
+    "objective": "protected_write",
+    "secret_path": "direct",
+    "reader": "A",
+    "channel": "utcp",
+    "sender": "A",
+    "enc": "none",
+    "split": 1,
+    "hosts": "same",
+    "drift": "none",
+    "grant_trick": "none",
+    "forged_n": 2,
+    "circular": false
+   },
+   "expect_success": true
+  },
+  {
+   "stack": "full_minus_grants",
+   "config": {
+    "objective": "protected_write",
+    "secret_path": "direct",
+    "reader": "A",
+    "channel": "utcp",
+    "sender": "A",
+    "enc": "none",
+    "split": 1,
+    "hosts": "same",
+    "drift": "none",
+    "grant_trick": "none",
+    "forged_n": 2,
+    "circular": false
+   },
+   "expect_success": true
+  },
+  {
+   "stack": "full_minus_taint",
+   "config": {
+    "objective": "protected_write",
+    "secret_path": "direct",
+    "reader": "A",
+    "channel": "utcp",
+    "sender": "A",
+    "enc": "none",
+    "split": 1,
+    "hosts": "same",
+    "drift": "none",
+    "grant_trick": "none",
+    "forged_n": 2,
+    "circular": false
+   },
+   "expect_success": true
+  },
+  {
+   "stack": "full_minus_taint",
+   "config": {
+    "objective": "exfil",
+    "secret_path": "memory",
+    "reader": "A",
+    "channel": "utcp",
+    "sender": "A",
+    "enc": "none",
+    "split": 2,
+    "hosts": "same",
+    "drift": "none",
+    "grant_trick": "none",
+    "forged_n": 1,
+    "circular": false
+   },
+   "expect_success": true
+  },
+  {
+   "stack": "full_minus_dlp",
+   "config": {
+    "objective": "protected_write",
+    "secret_path": "direct",
+    "reader": "A",
+    "channel": "utcp",
+    "sender": "A",
+    "enc": "none",
+    "split": 1,
+    "hosts": "same",
+    "drift": "none",
+    "grant_trick": "none",
+    "forged_n": 2,
+    "circular": false
+   },
+   "expect_success": true
+  },
+  {
+   "stack": "full_minus_contracts",
+   "config": {
+    "objective": "protected_write",
+    "secret_path": "direct",
+    "reader": "A",
+    "channel": "utcp",
+    "sender": "A",
+    "enc": "none",
+    "split": 1,
+    "hosts": "same",
+    "drift": "none",
+    "grant_trick": "none",
+    "forged_n": 2,
+    "circular": false
+   },
+   "expect_success": true
+  },
+  {
+   "stack": "full_minus_epistemic",
+   "config": {
+    "objective": "protected_write",
+    "secret_path": "direct",
+    "reader": "A",
+    "channel": "utcp",
+    "sender": "A",
+    "enc": "none",
+    "split": 1,
+    "hosts": "same",
+    "drift": "none",
+    "grant_trick": "none",
+    "forged_n": 1,
+    "circular": false
+   },
+   "expect_success": true
+  },
+  {
+   "stack": "full_minus_epistemic",
+   "config": {
+    "objective": "protected_write",
+    "secret_path": "direct",
+    "reader": "A",
+    "channel": "utcp",
+    "sender": "A",
+    "enc": "none",
+    "split": 1,
+    "hosts": "same",
+    "drift": "none",
+    "grant_trick": "none",
+    "forged_n": 1,
+    "circular": false
+   },
+   "expect_success": true
+  },
+  {
+   "stack": "full",
+   "config": {
+    "objective": "protected_write",
+    "secret_path": "direct",
+    "reader": "A",
+    "channel": "utcp",
+    "sender": "A",
+    "enc": "none",
+    "split": 1,
+    "hosts": "same",
+    "drift": "none",
+    "grant_trick": "none",
+    "forged_n": 2,
+    "circular": false
+   },
+   "expect_success": true
+  },
+  {
+   "stack": "open",
+   "config": {
+    "objective": "exfil",
+    "secret_path": "direct",
+    "reader": "A",
+    "channel": "utcp",
+    "sender": "A",
+    "enc": "none",
+    "split": 1,
+    "hosts": "same",
+    "drift": "none",
+    "grant_trick": "none",
+    "forged_n": 1,
+    "circular": false
+   },
+   "expect_success": true
+  }
+ ]
+}
