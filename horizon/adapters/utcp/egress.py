@@ -63,7 +63,7 @@ class Response:
     wire_bytes: int | None = None
 
 
-def fetch(method: str, url: str, headers: dict, *, resolver, send, budget: Budget = Budget(), allowed_hosts: set | None = None, allow_http=False) -> tuple[Response, list[dict]]:
+def fetch(method: str, url: str, headers: dict, *, resolver, send, budget: Budget = Budget(), allowed_hosts: set | None = None, allow_http=False, body: bytes | None = None) -> tuple[Response, list[dict]]:
     """Follow redirects manually. EVERY hop is re-canonicalised, re-resolved and re-checked; credentials are stripped on any host/port/scheme change.
     `send({"url","ip","method","headers"})` must connect to `ip` (the validated address) with SNI/Host = hostname and certificate verification ON."""
     trail, cur, m, h = [], url, method.upper(), {k: v for k, v in headers.items()}
@@ -71,14 +71,14 @@ def fetch(method: str, url: str, headers: dict, *, resolver, send, budget: Budge
         t = canonical_target(m, cur, allow_http=allow_http)
         if allowed_hosts is not None and t["host"] not in allowed_hosts: raise EgressError("HOST_NOT_ALLOWED", t["host"])
         ips = resolve_checked(t["host"], resolver, t["literal_ip"])
-        resp = send({"url": t["url"], "ip": ips[0], "method": m, "headers": dict(h)}); trail.append({"url": t["url"], "ip": ips[0], "status": resp.status})
+        resp = send({"url": t["url"], "ip": ips[0], "method": m, "headers": dict(h), "body": body if m not in ("GET", "HEAD") else None}); trail.append({"url": t["url"], "ip": ips[0], "status": resp.status})
         if not resp.tls_ok: raise EgressError("TLS", "certificate validation failed")
         if resp.status in (301, 302, 303, 307, 308):
             loc = next((v for k, v in resp.headers.items() if k.lower() == "location"), None)
             if not loc: raise EgressError("BAD_REDIRECT", "redirect without location")
             nxt = urljoin(t["url"], loc); nt = canonical_target(m, nxt, allow_http=allow_http)
             if (nt["scheme"], nt["host"], nt["port"]) != (t["scheme"], t["host"], t["port"]): h = {k: v for k, v in h.items() if k.lower() not in AUTH_HEADERS}
-            if resp.status in (301, 302, 303) and m not in ("GET", "HEAD"): m = "GET"
+            if resp.status in (301, 302, 303) and m not in ("GET", "HEAD"): m, body = "GET", None
             cur = nxt; continue
         n = len(resp.body)
         if n > budget.max_body_bytes or n > budget.max_decompressed_bytes: raise EgressError("BODY_TOO_LARGE", f"{n} bytes")
