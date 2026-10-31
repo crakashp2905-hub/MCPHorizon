@@ -9,7 +9,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: { python-version: ${{ matrix.python }} }
+        with:
+          python-version: ${{ matrix.python }}
       - run: python3 scripts/validate_plan.py
       - run: python3 scripts/gen_schemas.py --check
       - run: python3 -m unittest discover -s tests/p1 -p "test_p1.py" -v
