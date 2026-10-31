@@ -739,6 +739,329 @@
   ],
   "covers": "load-test script runs and reports measured percentiles; published numbers (results/v2/p3_load_test.json) are one run on a 2-vCPU sandbox, in-process only, not a production claim"
  },
+ "P75-13": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_cli_verifier.py"
+   ]
+  ],
+  "covers": "CLI plan/next/list/why-blocked/status/export-dag with exit codes"
+ },
+ "P75-15": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_cli_verifier.py"
+   ]
+  ],
+  "covers": "truncated and duplicated task files and wrong plan digest abort"
+ },
+ "P75-16": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_cli_verifier.py"
+   ]
+  ],
+  "covers": "render uses file lock + atomic replace; 6 concurrent renderers leave no corruption"
+ },
+ "P75-17": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_cli_verifier.py"
+   ]
+  ],
+  "covers": "failed ingestion aborts rather than dropping tasks"
+ },
+ "P76-01": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_recovery.py"
+   ]
+  ],
+  "covers": "SQLite WAL store with versioned forward-only migration; newer schema refused; old v1 DB migrated"
+ },
+ "P76-04": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_recovery.py"
+   ]
+  ],
+  "covers": "fenced lease epochs; one active writer across concurrent connections; expired lease reclaimed without epoch reset"
+ },
+ "P76-05": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_recovery.py"
+   ]
+  ],
+  "covers": "stale or foreign epoch cannot submit; replayed receipt and duplicate submit rejected"
+ },
+ "P76-08": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_recovery.py"
+   ]
+  ],
+  "covers": "checkpoints are versioned, 0700, credential-scrubbed, path-validated before any write"
+ },
+ "P76-09": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_recovery.py"
+   ]
+  ],
+  "covers": "deterministic atomic hash manifest; symlink and path escape rejected"
+ },
+ "P76-10": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_recovery.py"
+   ]
+  ],
+  "covers": "shutdown handler sets a flag; state is transactional (tested via kill-without-hook reopen). Does not test a real daemon loop"
+ },
+ "P76-11": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_recovery.py"
+   ]
+  ],
+  "covers": "stale-lease reconciliation after expiry/crash"
+ },
+ "P76-12": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_recovery.py"
+   ]
+  ],
+  "covers": "uncertain external effect blocks retry until supervisor reconcile with evidence"
+ },
+ "P76-15": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_recovery.py"
+   ]
+  ],
+  "covers": "exception between write and commit rolls back; no half-applied VERIFIED"
+ },
+ "P76-16": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_recovery.py"
+   ]
+  ],
+  "covers": "concurrent connections, duplicate events, backwards clock skew, stale epochs"
+ },
+ "P76-17": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_recovery.py"
+   ]
+  ],
+  "covers": "simulated disk-full keeps chain intact; corrupt file refuses to open; restore from backup"
+ },
+ "P76-18": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_recovery.py"
+   ]
+  ],
+  "covers": "restore procedure in docs/operations/SUPERVISOR_RESTORE.md; automated tests prove forged VERIFIED is rejected on restore"
+ },
+ "P77-09": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_cli_verifier.py"
+   ]
+  ],
+  "covers": "worker/supervisor cannot set VERIFIED by any route; only verifier-signed receipts"
+ },
+ "P77-16": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_cli_verifier.py"
+   ]
+  ],
+  "covers": "fabricated/unsigned/wrong-key/tampered receipts and misleading summaries are rejected"
+ },
+ "P77-17": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_cli_verifier.py"
+   ]
+  ],
+  "covers": "receipts from worker, approver or unknown principals (e.g. a second LLM) are not accepted"
+ },
  "P83-04": {
   "cmds": [
    [
