@@ -11943,5 +11943,255 @@
    ]
   ],
   "covers": "docs/evidence/p49/ASSUMPTIONS_AND_LIMITS.md sections 3 and 5; scripts/p49_run.py --check"
+ },
+ "P50-01": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p50.test_budget.Units.test_classes_and_damage",
+    "tests.p50.test_budget.Units.test_cost_from_registry",
+    "tests.p50.test_budget.Units.test_same_class_across_tools",
+    "tests.p50.test_budget.Lifecycle.test_principal_bound_to_scope"
+   ]
+  ],
+  "covers": "horizon/budget/units.py CLASSES, POLICY; docs/evidence/p50/ASSUMPTIONS_AND_LIMITS.md"
+ },
+ "P50-02": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p50.test_budget.Assignment"
+   ]
+  ],
+  "covers": "horizon/budget/ledger.py open_task (owner-role ATTESTATION, policy revision, increasing version)"
+ },
+ "P50-03": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p50.test_budget.Delegation"
+   ]
+  ],
+  "covers": "horizon/budget/ledger.py delegate/close_scope (attenuation and transfer)"
+ },
+ "P50-04": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p50.test_budget.Lifecycle.test_reserve_commit",
+    "tests.p50.test_budget.Lifecycle.test_idempotent_same_digest",
+    "tests.p50.test_budget.Lifecycle.test_reused_id_different_digest",
+    "tests.p50.test_budget.Lifecycle.test_expiry_refunds_unstarted",
+    "tests.p50.test_budget.Lifecycle.test_expiry_boundary",
+    "tests.p50.test_budget.Lifecycle.test_expired_id_not_reusable"
+   ]
+  ],
+  "covers": "horizon/budget/ledger.py reserve"
+ },
+ "P50-05": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p50.test_budget.Lifecycle.test_reconcile_with_observed_commits",
+    "tests.p50.test_budget.Lifecycle.test_reconcile_zero_refunds",
+    "tests.p50.test_budget.Lifecycle.test_commit_shortfall_refunds_difference",
+    "tests.p50.test_budget.Lifecycle.test_commit_overrun_charged_and_noted"
+   ]
+  ],
+  "covers": "ledger commit/reconcile against the receiver's observation"
+ },
+ "P50-06": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p50.test_budget.Lifecycle.test_started_timeout_becomes_unknown_and_stays_charged",
+    "tests.p50.test_budget.Lifecycle.test_reconcile_unreachable_keeps_charge",
+    "tests.p50.test_budget.Receiver.test_crash_after_effect_still_applies",
+    "tests.p50.test_budget.Receiver.test_drop_before_effect",
+    "tests.p50.test_budget.Matrix.test_unknowns_reported"
+   ]
+  ],
+  "covers": "ledger state machine RESERVED/STARTED/UNKNOWN/COMMITTED/RELEASED/EXPIRED"
+ },
+ "P50-07": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p50.test_budget.Units",
+    "tests.p50.test_budget.Assignment.test_bad_limits_refused"
+   ]
+  ],
+  "covers": "horizon/budget/units.py versioned policy rev 3"
+ },
+ "P50-08": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p50.test_budget.Carriers"
+   ]
+  ],
+  "covers": "horizon/budget/broker.py carrier codecs (not wired into the real adapters; see limits)"
+ },
+ "P50-09": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p50.test_budget.Receiver",
+    "tests.p50.test_budget.Gates.test_receiver_independent_of_ledger"
+   ]
+  ],
+  "covers": "horizon/budget/sinks.py independent effect counters"
+ },
+ "P50-10": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p50.test_budget.Property.test_concurrent_reserve_never_overspends",
+    "tests.p50.test_budget.Property.test_concurrent_processes",
+    "tests.p50.test_budget.Matrix.test_no_atomic_race_breaks_invariant"
+   ]
+  ],
+  "covers": "threads and processes racing on one file ledger"
+ },
+ "P50-11": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p50.test_budget.Matrix.test_baseline_failures",
+    "tests.p50.test_budget.Matrix.test_ablation_targets",
+    "tests.p50.test_budget.Carriers.test_all_carriers_charge_one_ledger",
+    "tests.p50.test_budget.Delegation.test_shared_pool",
+    "tests.p50.test_budget.Delegation.test_grandchild_counts_at_every_ancestor"
+   ]
+  ],
+  "covers": "delegation, spawn and carrier-switch attacks"
+ },
+ "P50-12": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p50.test_budget.Matrix.test_full_system_completes_benign",
+    "tests.p50.test_budget.Matrix.test_benign_complete_under_all_baselines",
+    "tests.p50.test_budget.Matrix.test_retry_charged_once",
+    "tests.p50.test_budget.Matrix.test_transfer_return"
+   ]
+  ],
+  "covers": "benign distributed workflows and idempotent retries"
+ },
+ "P50-13": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p50.test_budget.Matrix.test_baseline_failures",
+    "tests.p50.test_budget.Matrix.test_single_protocol_limiter_holds_when_one_carrier",
+    "tests.p50.test_budget.Matrix.test_system_list",
+    "tests.p50.test_budget.Recorded"
+   ]
+  ],
+  "covers": "per-agent, per-protocol, per-tool, eventual and post-hoc baselines"
+ },
+ "P50-14": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p50.test_budget.Property.test_random_sequences_match_reference_and_never_overspend",
+    "tests.p50.test_budget.Property.test_charges_never_decrease_except_by_refund_states"
+   ]
+  ],
+  "covers": "seeded random sequences against an independent reference model"
+ },
+ "P50-15": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p50.test_budget.Recorded",
+    "tests.p50.test_budget.Matrix.test_full_system_never_over_budget"
+   ],
+   [
+    "env",
+    "N=60",
+    "python3",
+    "scripts/p50_bench.py"
+   ]
+  ],
+  "covers": "results/v2/p50-budget (over-budget rate, completion); throughput and tail latency via scripts/p50_bench.py (machine-specific, not recorded)"
+ },
+ "P50-16": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p50.test_budget.Gates"
+   ],
+   [
+    "python3",
+    "scripts/p50_report.py",
+    "--check"
+   ]
+  ],
+  "covers": "docs/evidence/p50/ASSUMPTIONS_AND_LIMITS.md"
  }
 }
