@@ -1,18 +1,18 @@
 # P37 end-to-end demo — recorded execution (CANDIDATE)
 
-* source: local clone of this repository at `841891e2f47d927a2c9f37f092212ef809f97214` (no network fetch)
+* source: local clone of this repository at `8f3e95876f05b1ad4598b0e4135c89e86a3dfdb9` (no network fetch)
 * isolation: empty environment (`env` has only PATH, HOME=temp, LANG); network namespace via `unshare -n`: **yes**
 * machine: Linux 6.18.44-fc-v185 x86_64, Python 3.13.18
 * The scenarios run only loopback/in-process synthetic fixtures; nothing is contacted.
 
-## Step 1: `git clone --quiet --no-hardlinks /home/claude/mcphorizon /tmp/h4demo-7odu3noq/clone`
-exit code **0**, wall 0.5 s
+## Step 1: `git clone --quiet --no-hardlinks /home/claude/mcphorizon /tmp/h4demo-6j7_cqoj/clone`
+exit code **0**, wall 0.7 s
 
 ```
 
 ```
 
-## Step 2: `git checkout --quiet 841891e2f47d927a2c9f37f092212ef809f97214`
+## Step 2: `git checkout --quiet 8f3e95876f05b1ad4598b0e4135c89e86a3dfdb9`
 exit code **0**, wall 0.1 s
 
 ```
@@ -36,7 +36,7 @@ external (TEST-NET) unreachable: OSError
 ```
 
 ## Step 4: `unshare -n /usr/local/bin/python3 bench/h4/netns_lo.py python3 -W ignore bench/h4/demo.py`
-exit code **0**, wall 2.7 s
+exit code **0**, wall 2.8 s
 
 ```
 scenario   baseline effect  denied  control_ok
@@ -73,13 +73,13 @@ test_model_oracle_ignores_guard_verdict (tests.p37.test_h4.Oracles.test_model_or
 test_release_store_oracle_distinguishes_bad_from_clean_releases (tests.p37.test_h4.Oracles.test_release_store_oracle_distinguishes_bad_from_clean_releases) ... ok
 
 ----------------------------------------------------------------------
-Ran 16 tests in 3.334s
+Ran 16 tests in 3.343s
 
 OK
 ```
 
 ## Step 6: `unshare -n /usr/local/bin/python3 bench/h4/netns_lo.py python3 bench/h4/run.py check`
-exit code **0**, wall 0.4 s
+exit code **0**, wall 0.3 s
 
 ```
 h4 aggregate recomputed from raw rows: MATCH | file hashes: OK
