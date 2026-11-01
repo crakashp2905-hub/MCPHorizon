@@ -11239,5 +11239,250 @@
    ]
   ],
   "covers": "docs/evidence/p46/ASSUMPTIONS_AND_LIMITS.md"
+ },
+ "P47-01": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p47.test_incentive.Schema.test_hard_ids_carry_no_weights",
+    "tests.p47.test_incentive.Schema.test_hard_constraint_cannot_be_a_weighted_goal",
+    "tests.p47.test_incentive.Schema.test_valid_objective",
+    "tests.p47.test_incentive.Schema.test_hard_constraints_must_be_known_and_nonempty"
+   ]
+  ],
+  "covers": "horizon/incentive/contract.py HARD, Objective"
+ },
+ "P47-02": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p47.test_incentive.Schema"
+   ]
+  ],
+  "covers": "horizon/incentive/contract.py Objective, Conflict, validators"
+ },
+ "P47-03": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p47.test_incentive.UtilityModel.test_transparent_numbers",
+    "tests.p47.test_incentive.Matrix.test_variants_change_deadline_only",
+    "tests.p47.test_incentive.Matrix.test_shared_budget_three_agents",
+    "tests.p47.test_incentive.Matrix.test_scenario_counts"
+   ]
+  ],
+  "covers": "horizon/incentive/agents.py, scenarios.py"
+ },
+ "P47-04": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p47.test_incentive.MonitorRules.test_renamed_tool_same_effect",
+    "tests.p47.test_incentive.MonitorRules.test_declared_effect_ablation",
+    "tests.p47.test_incentive.MonitorRules.test_unknown_tool_denied",
+    "tests.p47.test_incentive.MonitorRules.test_alias_resolves_to_prod",
+    "tests.p47.test_incentive.Matrix.test_ablations_fail_on_their_scenario"
+   ]
+  ],
+  "covers": "horizon/incentive/contract.py EFFECTS, monitor.py"
+ },
+ "P47-05": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p47.test_incentive.PreflightTests",
+    "tests.p47.test_incentive.StaticIndependence.test_preflight_has_no_enforcement_dependency"
+   ]
+  ],
+  "covers": "horizon/incentive/preflight.py"
+ },
+ "P47-06": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p47.test_incentive.Matrix.test_monitor_stops_every_attack",
+    "tests.p47.test_incentive.UtilityModel.test_monitor_outcome_independent_of_reward",
+    "tests.p47.test_incentive.StaticIndependence.test_monitor_ignores_reward"
+   ]
+  ],
+  "covers": "horizon/incentive/monitor.py"
+ },
+ "P47-07": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p47.test_incentive.MonitorRules.test_self_assert_denied",
+    "tests.p47.test_incentive.MonitorRules.test_disable_verification_denied",
+    "tests.p47.test_incentive.MonitorRules.test_denies_no_evidence",
+    "tests.p47.test_incentive.Matrix.test_monitor_stops_every_attack",
+    "tests.p47.test_incentive.Matrix.test_none_violates_every_attack"
+   ]
+  ],
+  "covers": "scenarios A01-A03, A11, A12"
+ },
+ "P47-08": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p47.test_incentive.MonitorRules.test_rows_budget_boundary",
+    "tests.p47.test_incentive.MonitorRules.test_rows_accumulate_across_principals",
+    "tests.p47.test_incentive.MonitorRules.test_call_budget_project_wide",
+    "tests.p47.test_incentive.MonitorRules.test_per_agent_ablation_lets_fanout_through",
+    "tests.p47.test_incentive.Matrix.test_monitor_budget_partial_delivery_disclosed"
+   ]
+  ],
+  "covers": "scenarios A07-A09"
+ },
+ "P47-09": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p47.test_incentive.Matrix.test_safe_fast_path_is_not_slower_than_baseline",
+    "tests.p47.test_incentive.Matrix.test_cached_evidence_not_blocked",
+    "tests.p47.test_incentive.Matrix.test_high_urgency_safe_plans_unaffected",
+    "tests.p47.test_incentive.Matrix.test_monitor_no_false_blocks_on_benign"
+   ]
+  ],
+  "covers": "scenarios B01-B06"
+ },
+ "P47-10": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p47.test_incentive.Matrix.test_sweep_shape",
+    "tests.p47.test_incentive.UtilityModel.test_crossovers",
+    "tests.p47.test_incentive.UtilityModel.test_zero_pressure_prefers_safe"
+   ]
+  ],
+  "covers": "horizon/incentive/experiment.py sweep"
+ },
+ "P47-11": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p47.test_incentive.UtilityModel.test_replan_after_denial_reaches_safe_plan",
+    "tests.p47.test_incentive.UtilityModel.test_replan_costs_time",
+    "tests.p47.test_incentive.Matrix.test_honest_mistake_denied_once_then_recovers"
+   ]
+  ],
+  "covers": "agents.run_agents replan loop"
+ },
+ "P47-12": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p47.test_incentive.Recorded.test_baselines_have_effects",
+    "tests.p47.test_incentive.Recorded.test_ablations_each_lose",
+    "tests.p47.test_incentive.Matrix.test_name_pattern_misses_alias_and_config",
+    "tests.p47.test_incentive.Matrix.test_preflight_advisory_does_not_enforce"
+   ]
+  ],
+  "covers": "results/v2/p47-incentive"
+ },
+ "P47-13": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p47.test_incentive.OracleOnJournals",
+    "tests.p47.test_incentive.StaticIndependence.test_oracle_imports_nothing_from_the_system",
+    "tests.p47.test_incentive.StaticIndependence.test_monitor_never_reads_the_platform"
+   ]
+  ],
+  "covers": "horizon/incentive/oracle.py"
+ },
+ "P47-14": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p47.test_incentive.Matrix.test_false_block_accounting",
+    "tests.p47.test_incentive.Matrix.test_localization",
+    "tests.p47.test_incentive.Recorded.test_monitor",
+    "tests.p47.test_incentive.Recorded.test_shape"
+   ]
+  ],
+  "covers": "scripts/p47_run.py, p47_report.py, docs/evidence/p47/RESULTS.md"
+ },
+ "P47-15": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p47.test_incentive.StaticIndependence.test_agents_are_not_models"
+   ]
+  ],
+  "covers": "docs/evidence/p47/ASSUMPTIONS_AND_LIMITS.md section 1"
+ },
+ "P47-16": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p47.test_incentive.Recorded.test_shape",
+    "tests.p47.test_incentive.Matrix.test_scenario_counts"
+   ]
+  ],
+  "covers": "docs/evidence/p47/BENCHMARK.md; scripts/p47_run.py --check"
  }
 }
