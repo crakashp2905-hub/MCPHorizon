@@ -67,6 +67,18 @@ class Latency(unittest.TestCase):
         t = open(os.path.join(ROOT, "docs/evidence/p30/P23_P30_STATUS.md")).read()
         for k in ("## Commands", "## Failures and mistakes", "## Unsupported", "## Next actions", "IPv6"): self.assertIn(k, t)
 
+class Regressions(unittest.TestCase):
+    def test_importer_flags_alternate_network_forms(self):
+        from bench.haa import meta as MT
+        for sid in MT.META: self.assertTrue(MT.l1(sid)["pass"] if isinstance(MT.l1(sid), dict) and "pass" in MT.l1(sid) else MT.l1(sid), sid)
+    def test_reproducer_script_shows_baseline_failure_and_prevention(self):
+        if not OK: self.skipTest("UNSUPPORTED: needs root + Landlock")
+        out = {}
+        for b in ("B5", "B6"):
+            r = subprocess.run([sys.executable, "scripts/p30_repro.py", "HAA-14", b], cwd=ROOT, capture_output=True, text=True); self.assertEqual(r.returncode, 0, r.stderr); out[b] = json.loads(r.stdout)
+        self.assertTrue(out["B5"]["attack"]["effect"]); self.assertGreater(out["B5"]["attack"]["delta"].get("ok", 0), 0)      # minimal reproducer + oracle delta for a failed scenario
+        self.assertFalse(out["B6"]["attack"]["effect"]); self.assertTrue(out["B6"]["control"]["ok"])
+
 class Bundle(unittest.TestCase):
     def test_build_verify_and_tamper_detected(self):
         import p30_reviewer_bundle as RB

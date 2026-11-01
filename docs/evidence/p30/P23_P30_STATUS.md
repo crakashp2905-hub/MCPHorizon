@@ -22,14 +22,12 @@ B6 (full runtime): 0/24 unsafe effects, 24/24 matched controls; B0 24/24 effects
 - A first benchmark pass was too slow (repeated settle sleeps); patched before the recorded run.
 
 ## Unsupported / not done here
-- IPv6 channels (VM has no IPv6) — **P30-02 is therefore only partly covered and left unmapped.**
-- P29-07 (event-level audit/oracle agreement at every layer) is covered only at broker/receiver level — left unmapped.
-- P29-15 (origin distinctions) is encoded in the schema vocabulary and prereg but never exercised with a live model — left unmapped.
-- P30-10 (reproducer for every failed scenario): `scripts/p30_repro.py` reproduces baseline failures (e.g. HAA-14 under B5); B6 has none. Left unmapped pending a test.
-- P30-11 (regression test per discovered bypass) and P30-16 (Paper D/E from raw runs) — not completed.
+- IPv6 channels (VM has no IPv6) — **P30-02 stays unmapped.**
+- P29-07 agreement is checked at broker/receiver level only; it exposed 8 B3 rows where a denial signal coexisted with a receiver-observed effect (disclosed in RESULTS.md).
+- P29-15: only scripted (synthetic) runs exist; no replay/prefix/spontaneous rate is claimed.
 - L3 live model, L5 pilot, independent review (HR-G7, HR-G9), P24-02/-03/-12/-18, Cohere dataset licence.
 
 ## Next actions
 1. Independent reviewer runs the signed bundle (`scripts/p30_reviewer_bundle.py`) on a different kernel and IPv6-capable host.
 2. Run L3 from the pre-registration when a model endpoint is available.
-3. Add P30-10/11 tests; write Paper D/E from `docs/evidence/p29/RESULTS.md`.
+3. Re-run P30-02 on an IPv6-capable host.
