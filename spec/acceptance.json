@@ -10769,5 +10769,235 @@
    ]
   ],
   "covers": "docs/evidence/p44/TRUST_LIMITS_AND_POLICY_EXAMPLES.md; spec/reach_policy_examples.json"
+ },
+ "P45-01": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p45.test_privacy.Carriers.test_unit_ids"
+   ]
+  ],
+  "covers": "horizon/privacy/units.py; docs/evidence/p45/ASSUMPTIONS_AND_LIMITS.md"
+ },
+ "P45-02": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p45.test_privacy.LedgerTests"
+   ]
+  ],
+  "covers": "horizon/privacy/ledger.py"
+ },
+ "P45-03": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p45.test_privacy.Mechanisms",
+    "tests.p45.test_privacy.Accountants"
+   ]
+  ],
+  "covers": "horizon/privacy/mechanisms.py; horizon/privacy/accountant.py"
+ },
+ "P45-04": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p45.test_privacy.ServiceTests"
+   ]
+  ],
+  "covers": "horizon/privacy/service.py"
+ },
+ "P45-05": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p45.test_privacy.LedgerTests"
+   ]
+  ],
+  "covers": "horizon/privacy/ledger.py reserve/begin/commit/cancel"
+ },
+ "P45-06": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p45.test_privacy.LedgerTests.test_concurrent_threads_never_overcommit",
+    "tests.p45.test_privacy.LedgerTests.test_non_atomic_ablation_does_overcommit",
+    "tests.p45.test_privacy.LedgerTests.test_multiprocess_no_overcommit"
+   ]
+  ],
+  "covers": "horizon/privacy/ledger.py BEGIN IMMEDIATE"
+ },
+ "P45-07": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p45.test_privacy.Carriers"
+   ]
+  ],
+  "covers": "horizon/privacy/carriers.py"
+ },
+ "P45-08": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p45.test_privacy.ServiceTests.test_dp_and_raw_paths_share_no_accounting",
+    "tests.p45.test_privacy.ServiceTests.test_raw_requires_authorization_purpose_and_min_cell"
+   ]
+  ],
+  "covers": "horizon/privacy/service.py _dp/_raw"
+ },
+ "P45-09": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p45.test_privacy.ServiceTests.test_raw_requires_authorization_purpose_and_min_cell",
+    "tests.p45.test_privacy.ServiceTests.test_differencing_guard",
+    "tests.p45.test_privacy.ServiceTests.test_export_needs_bound_approval"
+   ]
+  ],
+  "covers": "horizon/privacy/service.py _raw/export_rows"
+ },
+ "P45-10": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p45.test_privacy.Scenarios.test_horizon_benign_completes",
+    "tests.p45.test_privacy.Scenarios.test_matched_public_structure_unrestricted",
+    "tests.p45.test_privacy.Scenarios.test_export_not_dp"
+   ]
+  ],
+  "covers": "horizon/privacy/scenarios.py B01-B07"
+ },
+ "P45-11": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p45.test_privacy.Scenarios.test_horizon_blocks_every_attack_for_each_accountant",
+    "tests.p45.test_privacy.Scenarios.test_baselines_each_lose_somewhere",
+    "tests.p45.test_privacy.Scenarios.test_each_ablation_loses_its_scenario"
+   ]
+  ],
+  "covers": "horizon/privacy/scenarios.py A01-A10"
+ },
+ "P45-12": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p45.test_privacy.Reference"
+   ]
+  ],
+  "covers": "horizon/privacy/reference.py; EX.differential"
+ },
+ "P45-13": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p45.test_privacy.LedgerTests",
+    "tests.p45.test_privacy.Scenarios.test_no_idempotency_resamples_and_disrupts",
+    "tests.p45.test_privacy.Scenarios.test_leaked_answers_count_even_when_cancelled"
+   ]
+  ],
+  "covers": "ledger lifecycle; scenarios A05/A05b/A06/B04"
+ },
+ "P45-14": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p45.test_privacy.Recorded"
+   ],
+   [
+    "python3",
+    "scripts/p45_report.py",
+    "--check"
+   ]
+  ],
+  "covers": "results/v2/p45-privacy; docs/evidence/p45/RESULTS.md"
+ },
+ "P45-15": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p45.test_privacy.Recorded.test_limits_recorded"
+   ]
+  ],
+  "covers": "docs/evidence/p45/ASSUMPTIONS_AND_LIMITS.md"
+ },
+ "P45-16": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p45.test_privacy.Modules.test_composition_is_repeatable",
+    "tests.p45.test_privacy.Modules.test_composition_experiment_bounded_for_horizon"
+   ],
+   [
+    "python3",
+    "scripts/p45_repeat.py"
+   ]
+  ],
+  "covers": "scripts/p45_repeat.py; docs/evidence/p45/REPEAT.md"
  }
 }
