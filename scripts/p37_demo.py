@@ -9,7 +9,8 @@ def main():
     head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True).stdout.strip(); work = tempfile.mkdtemp(prefix="h4demo-"); clone = os.path.join(work, "clone"); steps = []
     steps.append(sh(["git", "clone", "--quiet", "--no-hardlinks", ROOT, clone], work)); steps.append(sh(["git", "checkout", "--quiet", head], clone))
     env = {"PATH": os.environ["PATH"], "HOME": os.path.join(work, "home"), "LANG": "C.UTF-8", "PYTHONDONTWRITEBYTECODE": "1"}; os.makedirs(env["HOME"])
-    probe = subprocess.run(["unshare", "-n", "true"], capture_output=True)      # loopback inside a fresh netns is down: bench/h4/netns_lo.py brings only `lo` up before exec; netns = probe.returncode == 0; pre = ["unshare", "-n", sys.executable, "bench/h4/netns_lo.py"] if netns else []
+    # loopback inside a fresh netns is down: bench/h4/netns_lo.py brings only `lo` up before exec
+    probe = subprocess.run(["unshare", "-n", "true"], capture_output=True); netns = probe.returncode == 0; pre = ["unshare", "-n", sys.executable, "bench/h4/netns_lo.py"] if netns else []
     steps.append(sh(pre + ["python3", "-c", "import socket,sys\ns = socket.socket(); s.bind(('127.0.0.1', 0)); s.listen(); socket.create_connection(s.getsockname(), timeout=1); print('loopback reachable')\ntry:\n    socket.create_connection(('127.0.0.1', 9), timeout=1)\nexcept OSError as e: print('loopback+external connect refused/unreachable:', type(e).__name__)\ntry:\n    socket.create_connection(('192.0.2.1', 80), timeout=1); print('EXTERNAL REACHABLE'); sys.exit(1)\nexcept OSError as e: print('external (TEST-NET) unreachable:', type(e).__name__)"], clone, env))
     steps.append(sh(pre + ["python3", "-W", "ignore", "bench/h4/demo.py"], clone, env))
     steps.append(sh(pre + ["python3", "-W", "ignore", "-m", "unittest", "tests.p37.test_h4.Counts", "tests.p37.test_h4.Lint", "tests.p37.test_h4.Oracles", "-v"], clone, env))

@@ -130,7 +130,7 @@ class Results(unittest.TestCase):            # P37-12 / 15 / 16 against the comm
 class Demo(unittest.TestCase):               # P37-14
     def test_recorded_demo_is_a_real_clean_run(self):
         t = open(os.path.join(ROOT, "docs", "evidence", "p37", "DEMO.md")).read()
-        self.assertIn("ALL STEPS EXIT 0", t); self.assertIn("network namespace via `unshare -n`: **yes**", t); self.assertIn("DEMO PASS", t); self.assertIn("bench/h4/netns_lo.py python3 -W ignore bench/h4/demo.py", t); self.assertIn("loopback reachable", t); self.assertIn("external (TEST-NET) unreachable", t); self.assertNotIn("EXTERNAL REACHABLE", t)
+        self.assertIn("ALL STEPS EXIT 0", t); self.assertIn("network namespace via `unshare -n`: **yes**", t); self.assertIn("DEMO PASS", t); self.assertIn("bench/h4/netns_lo.py python3 -W ignore bench/h4/demo.py", t); self.assertIn("loopback reachable", t); self.assertIn("external (TEST-NET) unreachable", t); self.assertEqual(t.count("EXTERNAL REACHABLE"), 1)      # appears only inside the recorded command text, never in an output block
         import re; self.assertEqual(len(re.findall(r"exit code \*\*0\*\*", t)), 6)
     def test_unreachable_service_is_an_error_not_a_pass(self):
         import unittest.mock as mk; d = hieb.deploy(core.Env("B0"), copy.deepcopy(hieb.GOOD)); orig = hieb.G.http_call

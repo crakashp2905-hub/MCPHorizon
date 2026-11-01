@@ -1,25 +1,26 @@
 # P37 end-to-end demo — recorded execution (CANDIDATE)
 
-* source: local clone of this repository at `d1b22314e1ea4451d7deecceadc4aed9d34c7fd6` (no network fetch)
+* source: local clone of this repository at `841891e2f47d927a2c9f37f092212ef809f97214` (no network fetch)
 * isolation: empty environment (`env` has only PATH, HOME=temp, LANG); network namespace via `unshare -n`: **yes**
 * machine: Linux 6.18.44-fc-v185 x86_64, Python 3.13.18
 * The scenarios run only loopback/in-process synthetic fixtures; nothing is contacted.
 
-## Step 1: `git clone --quiet --no-hardlinks /home/claude/mcphorizon /tmp/h4demo-xiqs9yma/clone`
-exit code **0**, wall 0.7 s
+## Step 1: `git clone --quiet --no-hardlinks /home/claude/mcphorizon /tmp/h4demo-7odu3noq/clone`
+exit code **0**, wall 0.5 s
 
 ```
 
 ```
 
-## Step 2: `git checkout --quiet d1b22314e1ea4451d7deecceadc4aed9d34c7fd6`
+## Step 2: `git checkout --quiet 841891e2f47d927a2c9f37f092212ef809f97214`
 exit code **0**, wall 0.1 s
 
 ```
 
 ```
 
-## Step 3: `unshare -n python3 -c import socket,sys
+## Step 3: `unshare -n /usr/local/bin/python3 bench/h4/netns_lo.py python3 -c import socket,sys
+s = socket.socket(); s.bind(('127.0.0.1', 0)); s.listen(); socket.create_connection(s.getsockname(), timeout=1); print('loopback reachable')
 try:
     socket.create_connection(('127.0.0.1', 9), timeout=1)
 except OSError as e: print('loopback+external connect refused/unreachable:', type(e).__name__)
@@ -29,12 +30,13 @@ except OSError as e: print('external (TEST-NET) unreachable:', type(e).__name__)
 exit code **0**, wall 0.0 s
 
 ```
-loopback+external connect refused/unreachable: OSError
+loopback reachable
+loopback+external connect refused/unreachable: ConnectionRefusedError
 external (TEST-NET) unreachable: OSError
 ```
 
-## Step 4: `unshare -n python3 -W ignore bench/h4/demo.py`
-exit code **1**, wall 2.7 s
+## Step 4: `unshare -n /usr/local/bin/python3 bench/h4/netns_lo.py python3 -W ignore bench/h4/demo.py`
+exit code **0**, wall 2.7 s
 
 ```
 scenario   baseline effect  denied  control_ok
@@ -44,13 +46,13 @@ HCCB-01    B0       True    False   True
 HCCB-01    B7       False   True    True      
 HECB-01    B0       True    False   True      
 HECB-01    B7       False   True    True      
-HIEB-02    B0       False   False   False     
-HIEB-02    B7       False   True    False     
-DEMO FAIL
+HIEB-02    B0       True    False   True      
+HIEB-02    B7       False   True    True      
+DEMO PASS
 ```
 
-## Step 5: `unshare -n python3 -W ignore -m unittest tests.p37.test_h4.Counts tests.p37.test_h4.Lint tests.p37.test_h4.Oracles -v`
-exit code **1**, wall 2.5 s
+## Step 5: `unshare -n /usr/local/bin/python3 bench/h4/netns_lo.py python3 -W ignore -m unittest tests.p37.test_h4.Counts tests.p37.test_h4.Lint tests.p37.test_h4.Oracles -v`
+exit code **0**, wall 3.5 s
 
 ```
 test_every_attack_scenario_has_a_matched_control_row (tests.p37.test_h4.Counts.test_every_attack_scenario_has_a_matched_control_row) ... ok
@@ -66,30 +68,21 @@ test_xml_namespace_identifier_is_not_an_endpoint_but_a_url_is (tests.p37.test_h4
 test_code_oracle_decides_from_execution_not_scanner (tests.p37.test_h4.Oracles.test_code_oracle_decides_from_execution_not_scanner) ... ok
 test_communication_oracle_ignores_broker_log (tests.p37.test_h4.Oracles.test_communication_oracle_ignores_broker_log) ... ok
 test_forensic_truth_is_the_receiver_journal (tests.p37.test_h4.Oracles.test_forensic_truth_is_the_receiver_journal) ... ok
-test_infra_oracles_probe_the_running_service_and_resolve_deployed_config (tests.p37.test_h4.Oracles.test_infra_oracles_probe_the_running_service_and_resolve_deployed_config) ... FAIL
+test_infra_oracles_probe_the_running_service_and_resolve_deployed_config (tests.p37.test_h4.Oracles.test_infra_oracles_probe_the_running_service_and_resolve_deployed_config) ... ok
 test_model_oracle_ignores_guard_verdict (tests.p37.test_h4.Oracles.test_model_oracle_ignores_guard_verdict) ... ok
 test_release_store_oracle_distinguishes_bad_from_clean_releases (tests.p37.test_h4.Oracles.test_release_store_oracle_distinguishes_bad_from_clean_releases) ... ok
 
-======================================================================
-FAIL: test_infra_oracles_probe_the_running_service_and_resolve_deployed_config (tests.p37.test_h4.Oracles.test_infra_oracles_probe_the_running_service_and_resolve_deployed_config)
 ----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/tmp/h4demo-xiqs9yma/clone/tests/p37/test_h4.py", line 74, in test_infra_oracles_probe_the_running_service_and_resolve_deployed_config
-    bad = hieb.mut(lambda s: [s[k].update({"x-auth": {"mode": "none"}}) for k in ("db", "api", "logs")]); svc = hieb.to_service(bad); self.assertTrue(hieb.probe(svc, bad)["anon_rows"])
-                                                                                                                                      ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError: False is not true
+Ran 16 tests in 3.334s
 
-----------------------------------------------------------------------
-Ran 16 tests in 2.346s
-
-FAILED (failures=1)
+OK
 ```
 
-## Step 6: `unshare -n python3 bench/h4/run.py check`
+## Step 6: `unshare -n /usr/local/bin/python3 bench/h4/netns_lo.py python3 bench/h4/run.py check`
 exit code **0**, wall 0.4 s
 
 ```
 h4 aggregate recomputed from raw rows: MATCH | file hashes: OK
 ```
 
-**Overall: FAILURE**
+**Overall: ALL STEPS EXIT 0**

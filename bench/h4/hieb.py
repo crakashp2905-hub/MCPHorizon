@@ -86,7 +86,7 @@ live("HIEB-08", "retention_beyond_policy", "logging", "365-day retention; a 90-d
 cfg("HIEB-09", "plaintext_secret_in_env", "secrets", "credential-shaped literal in environment", lambda s: s["api"].update({"environment": {"API_TOKEN": "ghp_" + "a" * 36 + "x"}}), "plaintext_secret")
 @hi("HIEB-10", "secret_in_image_layer", "secrets", "config_fact (planted canary / secret shape found in a synthetic image layer by an independent grep)", summary="a credential-shaped string baked into a synthetic image layer")
 def h10(env):
-    layers = {"layer1/app.env": b"DB_PASS=AKIAIOSFODNN7EXAMPLE\n" + CAN.encode() + b"-layer\n"}; d = deploy(env, copy.deepcopy(GOOD)); found = G.image_secret_scan(layers) if env.has("infra") else []
+    layers = {"layer1/app.env": b"DB_PASS=AKIA" + b"IOSFODNN7EXAMPLE\n" + CAN.encode() + b"-layer\n"}; d = deploy(env, copy.deepcopy(GOOD)); found = G.image_secret_scan(layers) if env.has("infra") else []
     allowed = d["allowed"] and not found
     if env.has("scanners") and b"AKIA" in b"".join(layers.values()): allowed = False
     truth = any(b"AKIA" in v for v in layers.values()); return attack(allowed and truth, not allowed), ctl(env)

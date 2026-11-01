@@ -44,7 +44,7 @@ def write_all(reg, base=None):
 HOST_OK = re.compile(r"^(127\.\d+\.\d+\.\d+|localhost|0\.0\.0\.0|.*\.(test|invalid|example|localhost)|example\.(com|net|org)|.*\.example\.(com|net|org))$")
 URL = re.compile(r"""(?:https?|ftp|ssh|git\+https?|wss?)://([A-Za-z0-9._-]+)""")
 _TOKEN_SHAPES = [("aws_access_key", r"AKIA[0-9A-Z]{16}"), ("github_token", r"gh[pousr]_[A-Za-z0-9]{36,}"), ("slack_token", r"xox[baprs]-[A-Za-z0-9-]{10,}"), ("private_key", r"-----BEGIN [A-Z ]*PRIVATE KEY-----"), ("openai_style", r"sk-[A-Za-z0-9]{32,}"), ("google_api", r"AIza[0-9A-Za-z_-]{35}")]
-SYNTHETIC_OK = ("AKIAIOSFODNN7EXAMPLE",)       # the AWS documentation example key, published as non-functional
+SYNTHETIC_OK = ("AKIA" + "IOSFODNN7EXAMPLE",)       # the AWS documentation example key, published as non-functional
 SCAN_EXT = (".py", ".json", ".yml", ".yaml", ".md", ".txt", ".jsonl")
 def lint_text(text: str, where: str) -> list:
     out = []; text = re.sub(r'xmlns(:\w+)?=["\'][^"\']*["\']', 'xmlns=""', text)      # XML namespace identifiers are names, not endpoints

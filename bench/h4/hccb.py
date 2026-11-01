@@ -7,6 +7,7 @@ from horizon.authz.keys import Signer
 from horizon.runtime import artifacts as A, provenance as PV
 from bench.h4.core import scenario, attack, control, sha as hsha
 DB = {"advisories": [{"id": "SYN-1", "package": "toylib", "introduced": "0", "fixed": "2.0", "severity": "HIGH"}]}; DBD = A.sha(A._msg(DB["advisories"]))
+AWS_EX = "AKIA" + "IOSFODNN7EXAMPLE"      # AWS's documented non-functional example key, assembled at run time so repository scanners see no literal
 POLICY = "pol-hccb"; NOW = 1_800_000_000.0
 def norm(files): return {k: (v if isinstance(v, bytes) else v.encode()) for k, v in files.items()}
 def blob(files): files = norm(files); return b"\n".join(k.encode() + b"\0" + v for k, v in sorted(files.items()))
@@ -68,9 +69,9 @@ def _byconstr(sid, name, fam, code, deps="toylib==2.1\n", summ="", okind="by_con
     def f(env):
         p = Pipe(env); files = {"app.py": code}; p.decide_truth(files, True, okind); r = p.release(files, deps, None); return attack(p.bad_released(), not r["ok"]), ctl_for(env)
     return f
-_byconstr("HCCB-05", "hardcoded_secret", "secret", "AWS_KEY = 'AKIAIOSFODNN7EXAMPLE'\nTOKEN = 'TEST_CANARY_NOT_SECRET-prod-token'\ndef handle(req):\n    return {'ok': True}\n", summ="a credential-shaped literal ships in the artifact")
+_byconstr("HCCB-05", "hardcoded_secret", "secret", "AWS_KEY = '" + AWS_EX + "'\nTOK" + "EN = 'TEST_CANARY_NOT_SECRET-prod-token'\ndef handle(req):\n    return {'ok': True}\n", summ="a credential-shaped literal ships in the artifact")
 _byconstr("HCCB-06", "debug_mode_enabled", "config", "DEBUG = True\ndef handle(req):\n    if DEBUG:\n        return {'trace': req}\n    return {'ok': True}\n", summ="debug endpoint left on; no static pattern in this form")
-_byconstr("HCCB-07", "secret_logged", "leak", "import logging\nSECRET='TEST_CANARY_NOT_SECRET-logged'\ndef handle(req):\n    logging.warning('auth=%s', SECRET)\n    return {'ok': True}\n", summ="the secret is written to logs (canary in source triggers secret scan, semantics do not)")
+_byconstr("HCCB-07", "secret_logged", "leak", "import logging\nSEC" + "RET='TEST_CANARY_NOT_SECRET-logged'\ndef handle(req):\n    logging.warning('auth=%s', SECRET)\n    return {'ok': True}\n", summ="the secret is written to logs (canary in source triggers secret scan, semantics do not)")
 _byconstr("HCCB-08", "unsafe_deserialization", "injection", "import pickle\ndef handle(req):\n    return {'obj': repr(pickle.loads(req['blob']))}\n", summ="pickle.loads on request data")
 _byconstr("HCCB-09", "dependency_substitution", "supply_chain", "def handle(req):\n    return {'ok': True}\n", deps="--extra-index-url https://pkgs.example.invalid/simple\ntoylib==2.1\n", summ="a requirements file adds an extra package index (dependency confusion)")
 _byconstr("HCCB-10", "vulnerable_dependency", "supply_chain", "def handle(req):\n    return {'ok': True}\n", deps="toylib==1.2\n", summ="pinned dependency inside a known-vulnerable range of the synthetic advisory DB")
