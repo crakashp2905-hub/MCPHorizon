@@ -1,0 +1,212 @@
+{
+ "properties": [
+  {
+   "holds_on_suite": true,
+   "id": "C1",
+   "statement": "a migration is admitted only if the target's fresh, identity-bound attestation covers every mandatory control of the source contract"
+  },
+  {
+   "holds_on_suite": true,
+   "id": "C2",
+   "statement": "no raw credential or secret appears in a serialized envelope; the target receives a broker-issued, runtime-bound credential and the source's is revoked"
+  },
+  {
+   "holds_on_suite": true,
+   "id": "C3",
+   "statement": "transferred authority never exceeds the authoritative grant (permissions, principal chain, labels)"
+  },
+  {
+   "holds_on_suite": true,
+   "id": "C4",
+   "statement": "an envelope resumes at most once; a failed admission leaves the source unchanged or safe-stopped and consumes nothing"
+  },
+  {
+   "holds_on_suite": true,
+   "id": "C5",
+   "statement": "expired approvals are not carried; revoked policy handles and an unreadable revocation feed deny admission"
+  }
+ ],
+ "supported_targets": {
+  "cloud-broad": {
+   "admitted_for_the_task_contract": false,
+   "attestable": true,
+   "carrier": "mcp",
+   "sinks_mediated": true,
+   "supports": {
+    "approval": 1,
+    "budget": 1,
+    "label": 1,
+    "obligation": 1,
+    "revocation": 1
+   }
+  },
+  "cloud-nolabel": {
+   "admitted_for_the_task_contract": false,
+   "attestable": true,
+   "carrier": "mcp",
+   "sinks_mediated": true,
+   "supports": {
+    "approval": 1,
+    "budget": 1,
+    "egress": 2,
+    "obligation": 1,
+    "revocation": 1,
+    "secret_export": 1
+   }
+  },
+  "cloud-nosecret": {
+   "admitted_for_the_task_contract": false,
+   "attestable": true,
+   "carrier": "mcp",
+   "sinks_mediated": true,
+   "supports": {
+    "approval": 1,
+    "budget": 1,
+    "egress": 2,
+    "label": 1,
+    "obligation": 1,
+    "revocation": 1
+   }
+  },
+  "lenient": {
+   "admitted_for_the_task_contract": true,
+   "attestable": true,
+   "carrier": "mcp",
+   "sinks_mediated": true,
+   "supports": {
+    "approval": 1,
+    "budget": 1,
+    "egress": 1,
+    "label": 1,
+    "obligation": 1,
+    "revocation": 1,
+    "secret_export": 1
+   }
+  },
+  "sandbox-a": {
+   "admitted_for_the_task_contract": true,
+   "attestable": true,
+   "carrier": "mcp",
+   "sinks_mediated": true,
+   "supports": {
+    "approval": 1,
+    "budget": 1,
+    "egress": 2,
+    "label": 1,
+    "obligation": 1,
+    "revocation": 1,
+    "secret_export": 1
+   }
+  },
+  "sandbox-a2": {
+   "admitted_for_the_task_contract": true,
+   "attestable": true,
+   "carrier": "mcp",
+   "sinks_mediated": true,
+   "supports": {
+    "approval": 1,
+    "budget": 1,
+    "egress": 2,
+    "label": 1,
+    "obligation": 1,
+    "revocation": 1,
+    "secret_export": 1
+   }
+  },
+  "sandbox-b": {
+   "admitted_for_the_task_contract": true,
+   "attestable": true,
+   "carrier": "mcp",
+   "sinks_mediated": true,
+   "supports": {
+    "approval": 1,
+    "budget": 1,
+    "egress": 2,
+    "label": 1,
+    "obligation": 1,
+    "revocation": 1,
+    "secret_export": 1
+   }
+  },
+  "stronger": {
+   "admitted_for_the_task_contract": true,
+   "attestable": true,
+   "carrier": "mcp",
+   "sinks_mediated": true,
+   "supports": {
+    "approval": 1,
+    "attest_logs": 1,
+    "budget": 1,
+    "egress": 2,
+    "label": 1,
+    "obligation": 1,
+    "revocation": 1,
+    "secret_export": 1
+   }
+  },
+  "unknown-provider": {
+   "admitted_for_the_task_contract": false,
+   "attestable": false,
+   "carrier": "mcp",
+   "sinks_mediated": true,
+   "supports": {}
+  },
+  "unmediated-sink": {
+   "admitted_for_the_task_contract": false,
+   "attestable": true,
+   "carrier": "mcp",
+   "sinks_mediated": false,
+   "supports": {
+    "approval": 1,
+    "budget": 1,
+    "egress": 2,
+    "label": 1,
+    "obligation": 1,
+    "revocation": 1,
+    "secret_export": 1
+   }
+  },
+  "utcp-sandbox": {
+   "admitted_for_the_task_contract": true,
+   "attestable": true,
+   "carrier": "utcp",
+   "sinks_mediated": true,
+   "supports": {
+    "approval": 1,
+    "budget": 1,
+    "egress": 2,
+    "label": 1,
+    "obligation": 1,
+    "revocation": 1,
+    "secret_export": 1
+   }
+  }
+ },
+ "trust_gaps": [
+  {
+   "evidence": "U02 violation in results",
+   "gap": "the attestor is trusted: if it reports guarantees a runtime does not enforce, the module admits the move and the prohibited effect happens (U02)",
+   "id": "G1"
+  },
+  {
+   "evidence": "U03",
+   "gap": "attestation says what a runtime supports, not that every sink is mediated at the moment of use; an unmediated sink is detected only if the attestation says so (U03)",
+   "id": "G2"
+  },
+  {
+   "evidence": "U01",
+   "gap": "equivalence with an unknown provider cannot be established; such targets are denied and reported UNKNOWN (U01)",
+   "id": "G3"
+  },
+  {
+   "evidence": "not exercised",
+   "gap": "a compromised source can sign a malicious envelope; signature proves origin, not intent, and the no-widening check bounds it only against the authoritative grant",
+   "id": "G4"
+  },
+  {
+   "evidence": "B06",
+   "gap": "carrier adapters are modelled by a field (mcp/utcp), not wired through the real MCP/UTCP/Code Mode adapters",
+   "id": "G5"
+  }
+ ]
+}
