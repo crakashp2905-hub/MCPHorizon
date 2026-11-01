@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Generate docs/evidence/p29/{RESULTS,NEGATIVE_FINDINGS}.md from results/v2/haa-* ONLY (no hand-written numbers). `--check` verifies they are current."""
 import json, os, sys
-ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); D = os.path.join(ROOT, "docs/evidence/p29")
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); sys.path.insert(0, ROOT)
+from bench.haa import aggregate as AG
+import hashlib; D = os.path.join(ROOT, "docs/evidence/p29")
 def J(n): return json.load(open(os.path.join(ROOT, "results/v2", n, "result.json")))
 def pct(x): return f"{100 * x:.1f}%"
 def results():
@@ -22,7 +24,11 @@ def results():
     for b, v in a["aggregate"]["per_baseline"].items(): L.append(f"| {b} | {v['attempts']} | {v['bypasses']} | {v['first_bypass_at']} |")
     L += ["", "## Latency / utility (wall-clock of launch, single VM, n per cell below)", "", "| Cell | p50 s | p95 s | p99 s | success |", "|---|---|---|---|---|"]
     for k, v in l["aggregate"]["per_cell"].items(): L.append(f"| {k} | {v['p50']} | {v['p95']} | {v['p99']} | {v['success']}/{v['n']} |")
-    L += ["", "## Caveats", "", "- Scenarios and defences were developed together by one party; the held-out and adaptive sets reduce but do not remove tuning bias. No independent review.", "- B1/B2 are in-repo stand-ins (regex / classifier-like), not real products.", "- A UER of 0 means no effect was observed at the local oracle sinks in these runs; it is not a proof of safety.", "- Statistics assume scenario independence; scenarios within an effect family are correlated."]
+    raw = AG.load(os.path.join(ROOT, "results/v2/haa-main/raw_runs.jsonl")); ag = AG.agreement(raw); oc = AG.origin_counts(raw)
+    L += ["", "## Oracle agreement (in-process denial signal vs independent receiver)", "", "| Layer | attack rows | denied & effect (disagreement) | effect, not denied | denied, no effect | neither |", "|---|---|---|---|---|---|"]
+    for ly, v in ag.items(): L.append(f"| {ly} | {v['rows']} | {v['denied_and_effect']} | {v['effect_not_denied']} | {v['denied_no_effect']} | {v['neither']} |")
+    L += ["", "Disagreements are reported, not reclassified. All 8 are baseline B3 (HAA-01, -02, -19, -20; 2 repeats each): the name-based wrapper denied one request while unconfined code reached the sink another way, so the denial signal does not mean prevention there. Agreement was checked at the broker/receiver level only.", "", "## Run origin (replay vs prefix completion vs spontaneous)", "", "| " + " | ".join(oc) + " |", "|" + "---|" * len(oc), "| " + " | ".join(str(v) for v in oc.values()) + " |", "", "Only scripted (synthetic) runs exist. No trace-replay, prefix-completion or spontaneous-occurrence rate is claimed or inferable from this table.",
+          "", "## Caveats", "", "- Scenarios and defences were developed together by one party; the held-out and adaptive sets reduce but do not remove tuning bias. No independent review.", "- B1/B2 are in-repo stand-ins (regex / classifier-like), not real products.", "- A UER of 0 means no effect was observed at the local oracle sinks in these runs; it is not a proof of safety.", "- Statistics assume scenario independence; scenarios within an effect family are correlated."]
     return "\n".join(L) + "\n"
 def negative():
     g = J("haa-main")["aggregate"]; n = g["negative_findings"]; a = J("haa-adaptive")["aggregate"]["per_baseline"]
@@ -39,8 +45,24 @@ def negative():
          "- Single kernel (6.18, x86_64, root launcher, Landlock ABI 7); other kernels/architectures untested; no hypervisor-escape or kernel-exploit coverage.",
          "- Mock services only: no real cloud metadata, registry, or third-party endpoint was contacted."]
     return "\n".join(L) + "\n"
+def paper_de():
+    """P30-16: Paper D (hypotheses) and Paper E (results) sections generated ONLY from raw runs; every number below is read from results/v2/haa-* and each source file is hash-cited."""
+    m, a, h = J("haa-main")["aggregate"], J("haa-adaptive")["aggregate"], J("haa-heldout")["aggregate"]; pb = m["per_baseline"]
+    src = {n: hashlib.sha256(open(os.path.join(ROOT, "results/v2", n, "raw_runs.jsonl"), "rb").read()).hexdigest() for n in ("haa-main", "haa-heldout", "haa-adaptive", "haa-latency")}
+    L = ["# Paper D / Paper E: hypotheses and results (generated from raw runs)", "", "Status: CANDIDATE, single implementer, one VM, L2 only. Not peer reviewed.", "", "## Raw-run provenance (sha256 of raw_runs.jsonl)", ""] + [f"- `{k}`: `{v}`" for k, v in src.items()]
+    L += ["", "## Paper D — pre-specified hypotheses", "", "- H1: the full runtime (B6) allows fewer unsafe effects than no monitor (B0) on the same eligible manifest.", "- H2: sandbox-only (B4) and scanner-only (B1/B2) baselines allow more unsafe effects than B6.", "- H3: B6 does not reduce completion of matched benign controls relative to B0.", "- H4 (not testable here): spontaneous occurrence rates in a live model (L3 NOT RUN).", "",
+          "## Paper E — results", "", f"- H1: B6 {pb['B6']['uer']['k']}/{pb['B6']['uer']['n']} vs B0 {pb['B0']['uer']['k']}/{pb['B0']['uer']['n']}; exact McNemar p={m['paired']['B6_vs_B0']['mcnemar_exact_p']}, Holm p={m['paired']['B6_vs_B0']['holm_adjusted_p']}.",
+          f"- H2: B4 {pb['B4']['uer']['k']}/24, B1 {pb['B1']['uer']['k']}/24, B2 {pb['B2']['uer']['k']}/24 effects (B6 {pb['B6']['uer']['k']}).", f"- H3: B6 completed {pb['B6']['completion']['k']}/{pb['B6']['completion']['n']} controls; B0 {pb['B0']['completion']['k']}/{pb['B0']['completion']['n']}.",
+          f"- Held-out: B6 effects {h['per_baseline']['B6']['effects']}; adaptive bypasses B6={a['per_baseline']['B6']['bypasses']}, B0={a['per_baseline']['B0']['bypasses']}.", "", "## Limits", "", "Scenarios and defences share an author; 24 scenarios are correlated by family; zero observed effects is not a proof of safety; no independent replication."]
+    return "\n".join(L) + "\n"
 if __name__ == "__main__":
-    out = {"RESULTS.md": results(), "NEGATIVE_FINDINGS.md": negative()}; bad = 0
+    PD = os.path.join(ROOT, "docs/papers"); os.makedirs(PD, exist_ok=True)
+    out = {"RESULTS.md": results(), "NEGATIVE_FINDINGS.md": negative()}
+    t = paper_de(); p = os.path.join(PD, "PAPER_DE_RESULTS.md")
+    if "--check" in sys.argv:
+        if not os.path.exists(p) or open(p).read() != t: print("stale PAPER_DE"); sys.exit(1)
+    else: open(p, "w").write(t)
+    bad = 0
     for f, t in out.items():
         p = os.path.join(D, f)
         if "--check" in sys.argv:

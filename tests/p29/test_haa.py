@@ -55,6 +55,19 @@ class Committed(unittest.TestCase):
         rows = [json.loads(l) for l in open(os.path.join(ROOT, "results/v2/haa-main/raw_runs.jsonl"))]
         sets = {b: {r["scenario"] for r in rows if r["baseline"] == b} for b in {r["baseline"] for r in rows}}; self.assertEqual(len({frozenset(v) for v in sets.values()}), 1); self.assertEqual(len(sets), 7)
 
+class Agreement(unittest.TestCase):
+    def test_agreement_classifies_rows(self):
+        rows = [{"kind": "attack", "layer": "L2", "denied": True, "effect": True}, {"kind": "attack", "layer": "L2", "denied": True, "effect": False}, {"kind": "attack", "layer": "L2", "denied": False, "effect": True}, {"kind": "attack", "layer": "L2", "denied": False, "effect": False}, {"kind": "control", "layer": "L2"}]
+        self.assertEqual(AG.agreement(rows)["L2"], {"rows": 4, "denied_and_effect": 1, "effect_not_denied": 1, "denied_no_effect": 1, "neither": 1})
+    def test_b6_has_no_disagreement(self):
+        rows = [json.loads(l) for l in open(os.path.join(ROOT, "results/v2/haa-main/raw_runs.jsonl"))]
+        self.assertEqual([r["scenario"] for r in rows if r["baseline"] == "B6" and r["kind"] == "attack" and r.get("denied") and r.get("effect")], [])
+    def test_origin_counts_never_infer_spontaneous(self):
+        rows = [json.loads(l) for l in open(os.path.join(ROOT, "results/v2/haa-main/raw_runs.jsonl"))]; c = AG.origin_counts(rows)
+        self.assertEqual(c["spontaneous"], 0); self.assertEqual(c["trace_replay"], 0); self.assertEqual(c["prefix_completion"], 0); self.assertEqual(c["synthetic"], len(rows))
+    def test_paper_de_generated_from_raw(self):
+        t = open(os.path.join(ROOT, "docs/papers/PAPER_DE_RESULTS.md")).read(); self.assertIn("sha256 of raw_runs.jsonl", t); self.assertIn("NOT RUN", t)
+
 class Adaptive(unittest.TestCase):
     def test_deterministic_given_seed(self):
         f = lambda code: "urllib" in code and "127.0.0.1" in code

@@ -1,0 +1,9 @@
+services:
+  logs:
+    image: registry.test/logui:2@sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+    ports: ["127.0.0.1:3000:3000"]
+    x-auth: {mode: token}
+    x-log-ui: {auth: none, tenant_isolation: false}
+    x-retention-days: 365
+    x-deletion: {requires_role: user}
+    x-roles: [{name: app, superuser: true}, {name: ro, grants: [SELECT]}]

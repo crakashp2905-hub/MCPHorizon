@@ -48,8 +48,8 @@ Vocabulary per AGENTS.md/CLAUDE.md: CANDIDATE | FAILED | BLOCKED | NEEDS_APPROVA
 | P26 Credential broker, metadata & secret surfaces (18 of 18) | CANDIDATE; Linux root only | `horizon/runtime/{creds,mockservices,procs}.py`, `tests/p26` (17), `docs/runtime/CREDENTIAL_POLICY_REPORT.md`. Metadata listener bound on the real 169.254.169.254 alias (host loopback only): zero requests served. Found+fixed 2 sandbox bugs (inheritable fd leak, stdin never EOF) |
 | P27 Managed native execution (18 of 18) | CANDIDATE; Python top-level only | `horizon/runtime/managed.py`, `tests/p27` (15), `docs/evidence/p27/COVERAGE_AND_BOUNDARIES.md`. Existing JS isolated-vm Code Mode and real MCP/UTCP transports not run end to end; process observation is polling, not syscall tracing |
 | P28 Artifact assurance (18 of 18) | CANDIDATE; Python/bandit only | `horizon/runtime/artifacts.py`, `tests/p28` (16), `scripts/security_gate.py`, `bench/haa/fixtures/vuln`, `docs/evidence/p28/*`. SCA uses a synthetic 2-entry DB; bandit blocked 1/4 vulnerable fixtures, oracle caught 4/4 |
-| P29 HAA benchmark (16 of 18 mapped) | CANDIDATE; L2 only | `bench/haa/*`, `benchmarks/horizon-agent-anomaly`, `results/v2/haa-{main,heldout,adaptive,latency}`, `tests/p29`, `docs/evidence/p29/*`. B6 0/24 effects vs B0 24/24; L3/L5 NOT RUN; P29-07, -15 unmapped |
-| P30 Review hardening (14 of 18 mapped) | CANDIDATE; no independent review | `tests/p30`, `scripts/{hr_gates,p30_*}.py`, `horizon/runtime/events.py`, `docs/security/P30_*`, `docs/evidence/{HR_GATES.md,p30/*}`. HR-G7, HR-G9 NOT MET; IPv6 untested; P30-02, -10, -11, -16 unmapped (14 of 18 mapped) |
+| P29 HAA benchmark (18 of 18 mapped) | CANDIDATE; L2 only | `bench/haa/*`, `benchmarks/horizon-agent-anomaly`, `results/v2/haa-{main,heldout,adaptive,latency}`, `tests/p29`, `docs/evidence/p29/*`. B6 0/24 effects vs B0 24/24; L3/L5 NOT RUN; P29-07 agreement is broker/receiver level only; 8 B3 disagreements disclosed |
+| P30 Review hardening (17 of 18 mapped) | CANDIDATE; no independent review | `tests/p30`, `scripts/{hr_gates,p30_*}.py`, `horizon/runtime/events.py`, `docs/security/P30_*`, `docs/evidence/{HR_GATES.md,p30/*}`. HR-G7, HR-G9 NOT MET; IPv6 untested; P30-02 (IPv6 trials) unmapped: VM has no IPv6 |
 | P78–P82 | NOT STARTED | require B-01, B-05 |
 | P1–P54, P87–P94 research & engineering | NOT STARTED | depend on reviewed DAG and authorized budget (B-07) |
 | P91–P93 science/budget/customer validation | WAITING_EXTERNAL | needs real stakeholders |
@@ -81,3 +81,9 @@ Vocabulary per AGENTS.md/CLAUDE.md: CANDIDATE | FAILED | BLOCKED | NEEDS_APPROVA
 - `data/` is byte-identical to `MCPTox/def_tool/` (485/485 files): a second copy of the same dataset.
 - Legacy numbers in reports are unverified here; no experiment was re-run.
 - `scripts/task_inventory.py` ledger bootstrap runs (1,686 PENDING); its unit tests were not supplied (D-003).
+| P31 HorizonWeights intake (16 of 16 mapped) | CANDIDATE | `horizon/weights/intake.py`, `tests/p31`, `docs/evidence/p31/*`. Metadata authenticity only; behavioural trust always UNASSESSED; repo has no model-loading code to integrate |
+| P32 TriggerLab (16 of 16 mapped) | CANDIDATE; scripted toy subjects | `horizon/triggerlab`, `tests/p32`, `results/v2/p32-triggerlab`. No live model; B6 0/40 effects with exact 95% upper bound 0.0722 |
+| P33 HCCB code assurance (16 of 16 mapped) | CANDIDATE; scripted toy generators; no human adjudication | `horizon/codeassur`, `tests/p33`, `results/v2/p33-hccb`. Fixed a P28 defect (exception permit outliving its approval) |
+| P34 Agent containment (16 of 16 mapped) | CANDIDATE | `horizon/agents/isolation.py`, `tests/p34`. Explicit-state channels only; covert/timing channels not covered |
+| P35 Telemetry (15 of 16 mapped) | CANDIDATE | `horizon/telemetry`, `tests/p35`, `docs/evidence/p35/*`. P35-15 (independent review of key management) open |
+| P36 InfraGuard (16 of 16 mapped) | CANDIDATE; local synthetic services | `horizon/infraguard`, `tests/p36`, `results/v2/p36-checkov-compare`. Format-limited comparison vs checkov 3.2.0 |

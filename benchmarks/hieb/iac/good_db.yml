@@ -1,0 +1,19 @@
+services:
+  db:
+    image: registry.test/postgres:16@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    ports: ["127.0.0.1:5432:5432"]
+    environment: {POSTGRES_USER: app, POSTGRES_PASSWORD: "secret://vault/db-app"}
+    x-auth: {mode: password}
+    x-roles: [{name: app, grants: [SELECT, INSERT]}]
+    x-retention-days: 14
+    x-deletion: {requires_role: admin}
+  api:
+    image: registry.test/model-api:1@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+    ports: ["127.0.0.1:8080:8080"]
+    x-auth: {mode: token}
+    x-admin: {endpoints: ["/admin/config"]}
+  logs:
+    image: registry.test/logui:2@sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+    ports: ["127.0.0.1:3000:3000"]
+    x-auth: {mode: token}
+    x-log-ui: {auth: token, tenant_isolation: true}

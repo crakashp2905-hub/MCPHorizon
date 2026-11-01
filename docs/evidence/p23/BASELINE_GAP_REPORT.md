@@ -24,15 +24,10 @@ Status is derived: **MAPPED** = a passing acceptance command exists (still CANDI
 ## P28: 18/18 mapped
 
 
-## P29: 16/18 mapped
+## P29: 18/18 mapped
 
-- `P29-07` **UNMAPPED** — Implement audit-trail and oracle agreement checks across each test layer.
-- `P29-15` **UNMAPPED** — Distinguish Cohere trace replay prefix completion and spontaneous full-task occurrence.
 
-## P30: 14/18 mapped
+## P30: 17/18 mapped
 
 - `P30-02` **UNMAPPED** — Run safe unauthorized DNS IPv6 redirect and proxy bypass trials.
-- `P30-10` **UNMAPPED** — Collect effect oracle proof and minimum reproducer for every failed scenario.
-- `P30-11` **UNMAPPED** — Convert each discovered bypass into deterministic regression test and patch note.
-- `P30-16` **UNMAPPED** — Write Paper D and Paper E hypothesis/results sections only from verified raw runs.
 
