@@ -106,6 +106,8 @@ jobs:
       - run: python3 scripts/p50_mutants.py          # every mutant must be killed
       - run: python3 -W ignore -m unittest tests.p51.test_vision -v && python3 scripts/p51_report.py --check && python3 scripts/p51_run.py --check && python3 scripts/p51_browser.py --check
       - run: python3 scripts/p51_mutants.py          # every mutant must be killed
+      - run: python3 -W ignore -m unittest tests.p52.test_temporal -v && python3 scripts/p52_report.py --check && python3 scripts/p52_run.py --check
+      - run: python3 scripts/p52_mutants.py          # every mutant must be killed
       - run: python3 scripts/p38_casebook.py --check && python3 scripts/p38_compare.py --check && python3 scripts/p38_papers.py --check && python3 scripts/p38_gates.py --check
       - run: python3 -W ignore -m unittest tests.p11.test_paper -v
       - run: python3 paper/build.py --check

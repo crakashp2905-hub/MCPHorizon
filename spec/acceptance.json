@@ -12472,5 +12472,255 @@
    ]
   ],
   "covers": "docs/evidence/p51/ASSUMPTIONS_AND_LIMITS.md, RESULTS.md; browser version, flags, schemas, cases"
+ },
+ "P52-01": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p52.test_temporal.Core",
+    "tests.p52.test_temporal.Gates"
+   ]
+  ],
+  "covers": "horizon/temporal/core.py vector, slice_digest; docs/evidence/p52/ASSUMPTIONS_AND_LIMITS.md"
+ },
+ "P52-02": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p52.test_temporal.Core"
+   ]
+  ],
+  "covers": "horizon/temporal/core.py permits, slice_digest, RULES0"
+ },
+ "P52-03": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p52.test_temporal.Core",
+    "tests.p52.test_temporal.ApproverAndOracle",
+    "tests.p52.test_temporal.EachMechanismAlone"
+   ]
+  ],
+  "covers": "horizon/temporal/approver.py, core.py envelope; gate.py binding/actor/object/host/nonce/expiry"
+ },
+ "P52-04": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p52.test_temporal.Attacks",
+    "tests.p52.test_temporal.EachMechanismAlone"
+   ]
+  ],
+  "covers": "horizon/temporal/gate.py Gateway.begin/finish"
+ },
+ "P52-05": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p52.test_temporal.StoreTests"
+   ]
+  ],
+  "covers": "horizon/temporal/store.py cas_update, lww_update, threaded CAS"
+ },
+ "P52-06": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p52.test_temporal.Attacks",
+    "tests.p52.test_temporal.EachMechanismAlone"
+   ]
+  ],
+  "covers": "horizon/temporal/net.py, gate.py destination re-resolution, pin, redirect checks"
+ },
+ "P52-07": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p52.test_temporal.Benign",
+    "tests.p52.test_temporal.Attacks",
+    "tests.p52.test_temporal.EachMechanismAlone"
+   ]
+  ],
+  "covers": "horizon/temporal/world.py expand/dispatch (queued, retry, handoff, reapprove)"
+ },
+ "P52-08": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p52.test_temporal.Attacks"
+   ]
+  ],
+  "covers": "horizon/temporal/gate.py revocation, grant and policy-slice comparison"
+ },
+ "P52-09": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p52.test_temporal.Scheduler"
+   ]
+  ],
+  "covers": "horizon/temporal/world.py interleavings, explore"
+ },
+ "P52-10": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p52.test_temporal.Attacks"
+   ]
+  ],
+  "covers": "horizon/temporal/scenarios.py A01-A13"
+ },
+ "P52-11": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p52.test_temporal.Benign"
+   ]
+  ],
+  "covers": "horizon/temporal/scenarios.py B01-B10"
+ },
+ "P52-12": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p52.test_temporal.Attacks",
+    "tests.p52.test_temporal.StoreTests"
+   ]
+  ],
+  "covers": "A05, A06, A10, A11; threaded CAS/LWW store tests"
+ },
+ "P52-13": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p52.test_temporal.Experiment"
+   ],
+   [
+    "python3",
+    "scripts/p52_report.py",
+    "--check"
+   ],
+   [
+    "python3",
+    "scripts/p52_run.py",
+    "--check"
+   ]
+  ],
+  "covers": "horizon/temporal/experiment.py baselines vs gateway"
+ },
+ "P52-14": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p52.test_temporal.Experiment",
+    "tests.p52.test_temporal.ApproverAndOracle",
+    "tests.p52.test_temporal.Benign"
+   ],
+   [
+    "python3",
+    "scripts/p52_report.py",
+    "--check"
+   ],
+   [
+    "python3",
+    "scripts/p52_run.py",
+    "--check"
+   ]
+  ],
+  "covers": "stale-effect prevention, safe retry (B06), re-approvals; scripts/p52_bench.py (machine-specific, not recorded)"
+ },
+ "P52-15": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p52.test_temporal.Unsupported",
+    "tests.p52.test_temporal.Gates"
+   ]
+  ],
+  "covers": "U01, U02, F01, F02; docs/evidence/p52/ASSUMPTIONS_AND_LIMITS.md"
+ },
+ "P52-16": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p52.test_temporal.Recorded",
+    "tests.p52.test_temporal.Gates"
+   ],
+   [
+    "python3",
+    "scripts/p52_report.py",
+    "--check"
+   ],
+   [
+    "python3",
+    "scripts/p52_run.py",
+    "--check"
+   ]
+  ],
+  "covers": "results/v2/p52-temporal/invariants.json, result.json; docs/evidence/p52/RESULTS.md"
  }
 }
