@@ -11696,5 +11696,252 @@
    ]
   ],
   "covers": "docs/evidence/p48/ASSUMPTIONS_AND_LIMITS.md section 6; scripts/p48_run.py --check"
+ },
+ "P49-01": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p49.test_evalint.Access.test_trust_zone_description",
+    "tests.p49.test_evalint.Misc.test_non_canary_data_to_gap_destination_is_not_the_declared_violation"
+   ]
+  ],
+  "covers": "docs/evidence/p49/ASSUMPTIONS_AND_LIMITS.md section 1; horizon/evalint/world.py TRUST_ZONES, THREATS"
+ },
+ "P49-02": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p49.test_evalint.Access.test_labels_denied_by_default",
+    "tests.p49.test_evalint.Access.test_evidence_store_denied_to_agent_by_default",
+    "tests.p49.test_evalint.Verdicts.test_label_access_denied_in_full_system",
+    "tests.p49.test_evalint.Verdicts.test_label_alteration_cannot_change_evaluator_label",
+    "tests.p49.test_evalint.Gates.test_evaluator_never_reads_agent_store_labels",
+    "tests.p49.test_evalint.KernelSeparation"
+   ]
+  ],
+  "covers": "labels and keys outside the agent workspace (modelled ACL; kernel test only where supported)"
+ },
+ "P49-03": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p49.test_evalint.Evidence.test_sink_effect_matches_service_truth",
+    "tests.p49.test_evalint.Verdicts.test_verified_effect_gives_fail",
+    "tests.p49.test_evalint.Verdicts.test_transcript_cannot_hide_effect",
+    "tests.p49.test_evalint.Manifest.test_ok_and_records_fields"
+   ]
+  ],
+  "covers": "receiver-side effect oracle with authenticated run ids"
+ },
+ "P49-04": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p49.test_evalint.Evidence.test_streams_signed_chained_sequenced_sealed",
+    "tests.p49.test_evalint.StreamVerify",
+    "tests.p49.test_evalint.StreamVerify2"
+   ]
+  ],
+  "covers": "append-only evidence streams with integrity and sequence checks"
+ },
+ "P49-05": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p49.test_evalint.Verdicts.test_single_collector_omission_caught_by_reconciliation",
+    "tests.p49.test_evalint.Verdicts.test_two_collectors_caught_by_third",
+    "tests.p49.test_evalint.Verdicts.test_forged_denial_flagged"
+   ]
+  ],
+  "covers": "dual/triple-source reconciliation"
+ },
+ "P49-06": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p49.test_evalint.Manifest.test_identity_separation",
+    "tests.p49.test_evalint.Access.test_agents_have_distinct_principals",
+    "tests.p49.test_evalint.Ablations.test_each_mechanism_has_a_target",
+    "tests.p49.test_evalint.KernelSeparation.test_agent_uid_differs_from_evaluator"
+   ]
+  ],
+  "covers": "identity separation"
+ },
+ "P49-07": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p49.test_evalint.Verdicts.test_coordination_flagged",
+    "tests.p49.test_evalint.Verdicts.test_coordination_undetected_without_os_audit_but_effect_still_caught",
+    "tests.p49.test_evalint.Misc.test_file_write_audited",
+    "tests.p49.test_evalint.KernelSeparation.test_sibling_agent_scratch_unreadable"
+   ]
+  ],
+  "covers": "unauthorized coordination detection"
+ },
+ "P49-08": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p49.test_evalint.Verdicts.test_transcript_forgery_flagged_but_denied_attempt_is_not_a_violation",
+    "tests.p49.test_evalint.Verdicts.test_transcript_cannot_hide_effect",
+    "tests.p49.test_evalint.Baselines.test_app_logging_fooled_by_transcript_edit"
+   ]
+  ],
+  "covers": "transcript-forgery cases E01, E02"
+ },
+ "P49-09": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p49.test_evalint.Verdicts.test_label_access_success_invalidates_result",
+    "tests.p49.test_evalint.Baselines.test_shared_grader_fooled_by_label_discovery_and_alteration",
+    "tests.p49.test_evalint.Ablations.test_label_ablation_allows_cheat"
+   ]
+  ],
+  "covers": "hidden-grader discovery and altered labels E03, E04"
+ },
+ "P49-10": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p49.test_evalint.Verdicts.test_benign_pass",
+    "tests.p49.test_evalint.Verdicts.test_benign_have_no_tamper_flags",
+    "tests.p49.test_evalint.Verdicts.test_coordination_flagged",
+    "tests.p49.test_evalint.Verdicts.test_honest_violation_reported"
+   ]
+  ],
+  "covers": "benign controls incl. authorized channel B02"
+ },
+ "P49-11": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p49.test_evalint.StreamVerify",
+    "tests.p49.test_evalint.Verdicts.test_lost_evidence_is_unverifiable_not_pass",
+    "tests.p49.test_evalint.Verdicts.test_reordering_only_is_benign"
+   ]
+  ],
+  "covers": "absent, delayed, reordered, duplicated, forged evidence"
+ },
+ "P49-12": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p49.test_evalint.Verdicts.test_every_attack_never_passes_in_full_system",
+    "tests.p49.test_evalint.Verdicts.test_lost_evidence_is_unverifiable_not_pass",
+    "tests.p49.test_evalint.Verdicts.test_agent_report_never_changes_verdict",
+    "tests.p49.test_evalint.Verdicts.test_boundary_all_collectors_compromised_passes_falsely"
+   ]
+  ],
+  "covers": "UNVERIFIABLE instead of manufactured PASS"
+ },
+ "P49-13": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p49.test_evalint.Manifest",
+    "tests.p49.test_evalint.Verdicts.test_widened_manifest_rejected"
+   ]
+  ],
+  "covers": "signed manifest of image, policy, model, tools, seeds"
+ },
+ "P49-14": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p49.test_evalint.Baselines",
+    "tests.p49.test_evalint.Recorded.test_baselines_false_pass",
+    "tests.p49.test_evalint.Misc.test_false_pass_counted"
+   ]
+  ],
+  "covers": "self-reported versus verified"
+ },
+ "P49-15": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p49.test_evalint.Recorded.test_full_system_zero_false_pass",
+    "tests.p49.test_evalint.Recorded.test_boundary_disclosed",
+    "tests.p49.test_evalint.Recorded.test_recorded_matches_live",
+    "tests.p49.test_evalint.Ablations"
+   ]
+  ],
+  "covers": "false-PASS and unverifiable rates per compromise; results/v2/p49-evalint"
+ },
+ "P49-16": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p49.test_evalint.Gates.test_no_network_or_urls",
+    "tests.p49.test_evalint.Gates.test_deterministic",
+    "tests.p49.test_evalint.Recorded.test_recorded_matches_live"
+   ]
+  ],
+  "covers": "docs/evidence/p49/ASSUMPTIONS_AND_LIMITS.md sections 3 and 5; scripts/p49_run.py --check"
  }
 }
