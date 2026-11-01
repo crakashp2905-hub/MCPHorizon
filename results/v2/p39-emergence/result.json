@@ -1,0 +1,3940 @@
+{
+ "abstraction": "emergence-abs/1.0.0",
+ "baselines": {
+  "D0": {
+   "fn": 4,
+   "fp": 0,
+   "fpr": 0.0,
+   "fpr_ci": [
+    0.0,
+    0.016
+   ],
+   "precision": null,
+   "recall": 0.0,
+   "recall_ci": [
+    0.0,
+    0.4899
+   ],
+   "tn": 236,
+   "tp": 0,
+   "unknown": 0,
+   "unknown_that_leaked": 0
+  },
+  "D3": {
+   "fn": 0,
+   "fp": 116,
+   "fpr": 0.4915,
+   "fpr_ci": [
+    0.4284,
+    0.5549
+   ],
+   "precision": 0.0333,
+   "recall": 1.0,
+   "recall_ci": [
+    0.5101,
+    1.0
+   ],
+   "tn": 120,
+   "tp": 4,
+   "unknown": 0,
+   "unknown_that_leaked": 0
+  },
+  "direct_taint": {
+   "fn": 2,
+   "fp": 16,
+   "fpr": 0.0678,
+   "fpr_ci": [
+    0.0422,
+    0.1073
+   ],
+   "precision": 0.1111,
+   "recall": 0.5,
+   "recall_ci": [
+    0.15,
+    0.85
+   ],
+   "tn": 220,
+   "tp": 2,
+   "unknown": 0,
+   "unknown_that_leaked": 0
+  },
+  "emergence": {
+   "fn": 0,
+   "fp": 4,
+   "fpr": 0.0182,
+   "fpr_ci": [
+    0.0071,
+    0.0458
+   ],
+   "precision": 0.3333,
+   "recall": 1.0,
+   "recall_ci": [
+    0.3424,
+    1.0
+   ],
+   "tn": 216,
+   "tp": 2,
+   "unknown": 18,
+   "unknown_that_leaked": 2
+  },
+  "emergence_refined": {
+   "fn": 0,
+   "fp": 0,
+   "fpr": 0.0,
+   "fpr_ci": [
+    0.0,
+    0.0163
+   ],
+   "precision": 1.0,
+   "recall": 1.0,
+   "recall_ci": [
+    0.3424,
+    1.0
+   ],
+   "tn": 232,
+   "tp": 2,
+   "unknown": 6,
+   "unknown_that_leaked": 2
+  }
+ },
+ "corpus": {
+  "chains": 252,
+  "leaks": 4,
+  "oracle_blind": 12,
+  "rows": [
+   {
+    "blind": false,
+    "chain": "read_secret/get:A/ingest",
+    "journal_sha256": "57cac00831bb4d9a4b91055deeacc26cf5ab68dc03dd4436a03e8ff0149ea0b2",
+    "leak": false,
+    "ops": [
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/get:A/redir->B",
+    "journal_sha256": "c5f040ea5a31e3414450a8176733035a24e7a8adf3203e1ffec0ae4b96262976",
+    "leak": true,
+    "ops": [
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/get:C/redir->B",
+    "journal_sha256": "2d59216dad9d0c04ef78ecc1bd9293e4c4f55c8c611f9c32544750b5056d3732",
+    "leak": true,
+    "ops": [
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/get:C/x",
+    "journal_sha256": "cb2da143f1df7ab409eb17398efb6ed79af1dd4d26a60c236dc03070b37e04e7",
+    "leak": false,
+    "ops": [
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/post:A/ingest",
+    "journal_sha256": "20e12d23c70fbd2c5ce529cbaf5b9cc7d61ca9c73338d41df31899d5c1300c8b",
+    "leak": false,
+    "ops": [
+     "read_secret"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/post:C/x",
+    "journal_sha256": "c91a72a70c0a117553f5427a6164425eb491a209da79b9473cb96c4b0afb3526",
+    "leak": false,
+    "ops": [
+     "read_secret"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/get:A/ingest",
+    "journal_sha256": "c6bd8a0e1cf2e03b656392133cb5411f5fd9d40b4671fc56a0c0bfe45c24a29a",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/get:A/redir->B",
+    "journal_sha256": "06b238b6cc0bf6abe3714b312361cc35ceb28564127cd944fa73c11d0c62b302",
+    "leak": true,
+    "ops": [
+     "b64",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/get:C/redir->B",
+    "journal_sha256": "06d36337bfbd62285671cc4e1529a960907ef10d59d88ae291f63683e484e725",
+    "leak": true,
+    "ops": [
+     "b64",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/get:C/x",
+    "journal_sha256": "181c6e0a66cd875d3f8ec22ed0377773b7783db7f74dfbf813681a6445684ccc",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/post:A/ingest",
+    "journal_sha256": "24b686c4197ab396ee2c25d9828771efa322a04f097c110d371c8241ff68800c",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/post:C/x",
+    "journal_sha256": "38097f57fd982c99a34478a9a2136039fc26cb4b612581390af463973c7ed827",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/get:A/ingest",
+    "journal_sha256": "87a1f58af614997b34b89759d0a44bc108d5eba88cda08157b96ac3be36d78eb",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/get:A/redir->B",
+    "journal_sha256": "8b87a6542bfb9225439a527cba5b84a93bbcb9d3b3c8314c82f9fdee8d84b605",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/get:C/redir->B",
+    "journal_sha256": "57fd649c8c6b4fb280b06bd8a2adbf7902d5115da7fe6bf3394e66cd56aa8008",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/get:C/x",
+    "journal_sha256": "b9f0f16a22a6da4f4e7853a29d8069e55650bbb71b78b462719fa6306b39d449",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/post:A/ingest",
+    "journal_sha256": "8eca65c03ee76e35671f85f1431a00e7a139f86342f6fcd72d3a6df559e40a46",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/post:C/x",
+    "journal_sha256": "ed7b168379590a4595f508179585da57e4ba413c1f51e215d221adcbdf54ad39",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/get:A/ingest",
+    "journal_sha256": "31fcf610ec18430387b9575e76498997bcfa2e850af5d7a2a045d7ae1c3fc929",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/get:A/redir->B",
+    "journal_sha256": "ceab0f017478098fa3312f2afae54b9466fb4717bb8d2760d1cbdbf89882d2f6",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/get:C/redir->B",
+    "journal_sha256": "7a09b7519716e5b7d5b798c9183b808ed9f21dcc62094bb1ec357e9890c56151",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/get:C/x",
+    "journal_sha256": "5e6131c0e9933da602ab00896b2c50a75bdfe117b8d446e583320b6e3c24e707",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/post:A/ingest",
+    "journal_sha256": "49dfe24b9eea160fef52aa42391ab696d511ca8a28df6519cbbadfc4b11534d8",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/post:C/x",
+    "journal_sha256": "cfd74e14153db1573745b1cf497363268411ae745d02e833ff75720da5c1e051",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/get:A/ingest",
+    "journal_sha256": "dee27bc9047be4c4f33e383d7357a29a6c3878ccac175fa4ad28e6914bf988bb",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/get:A/redir->B",
+    "journal_sha256": "4b4c6e06f661c34e726d80a646810cb120a2034b3b8bdcd911f015096efbc9e2",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/get:C/redir->B",
+    "journal_sha256": "2a9d3d1630478eb451b5d5a25bd63ee1e928b130c1b9df950e64ca6152200f74",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/get:C/x",
+    "journal_sha256": "048d8f4dd5f85530cc4b164e8394fb1eadbcbf04a1e14a4816aadfdeb5f6ef62",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/post:A/ingest",
+    "journal_sha256": "263f0688e6c0c2d26b0c7cfe2238323fcede62dfe9094487d57b1f625c3df3cf",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/post:C/x",
+    "journal_sha256": "900695c902da66a29450bcf6bc30d92f9ab6cab720dd70fa30ab1b6c718918c4",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": true,
+    "chain": "read_secret/b64/b64/get:A/ingest",
+    "journal_sha256": "5195fd9e69cbc0c6227583c686d2d357d003e6f5c61b70df58dbfb0b7658126a",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": true,
+    "chain": "read_secret/b64/b64/get:A/redir->B",
+    "journal_sha256": "d92f7f4cf0bd1c619c615b4c30314cbe12ca3881293ee5788f70dba3a0d2c39e",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": true,
+    "chain": "read_secret/b64/b64/get:C/redir->B",
+    "journal_sha256": "11beb654404812f800704893d231ed51eaf7c23d149d810bd7521f912ffe8575",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": true,
+    "chain": "read_secret/b64/b64/get:C/x",
+    "journal_sha256": "6500995f6a25f4403ce182add45a60bb6f0cedb7a5a0130623dfcf0b9daad47a",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": true,
+    "chain": "read_secret/b64/b64/post:A/ingest",
+    "journal_sha256": "7b2a2ab103770e503c785a365887a274d7efcdade8b1ce94f3432ac8bcdaedd0",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": true,
+    "chain": "read_secret/b64/b64/post:C/x",
+    "journal_sha256": "cb642756b368a06e403aff12e13a0d7c595b2f49dc01f62879758eebdd964db0",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/hash/get:A/ingest",
+    "journal_sha256": "1a263a0e7fa81063f6e434e04707bb0fe01d5b64f946666e960d770fa7f24b0c",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/hash/get:A/redir->B",
+    "journal_sha256": "91b8dd88a48b84a0c190bda56ca819d5440d4c6d232456d8867e672e468e65dc",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/hash/get:C/redir->B",
+    "journal_sha256": "f5271a2fc09a29ea44051654c280704ee39bfdb3af1f8d63b23c82141e3af621",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/hash/get:C/x",
+    "journal_sha256": "80181c0e473b7f18cb21f6642277befa10caab6cde49ab8c01c03211c906f893",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/hash/post:A/ingest",
+    "journal_sha256": "3e4b277e6851f540eb5cd8d82363de748da3426f1ce9be58d72a4b9784c4ad22",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_secret"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/hash/post:C/x",
+    "journal_sha256": "085b3ff08047deb4ed4ae8da79ee82d3b8055bebf239ac65c594be3ac3e70b5e",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_secret"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/redact/get:A/ingest",
+    "journal_sha256": "31fcf610ec18430387b9575e76498997bcfa2e850af5d7a2a045d7ae1c3fc929",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/redact/get:A/redir->B",
+    "journal_sha256": "ceab0f017478098fa3312f2afae54b9466fb4717bb8d2760d1cbdbf89882d2f6",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/redact/get:C/redir->B",
+    "journal_sha256": "7a09b7519716e5b7d5b798c9183b808ed9f21dcc62094bb1ec357e9890c56151",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/redact/get:C/x",
+    "journal_sha256": "5e6131c0e9933da602ab00896b2c50a75bdfe117b8d446e583320b6e3c24e707",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/redact/post:A/ingest",
+    "journal_sha256": "49dfe24b9eea160fef52aa42391ab696d511ca8a28df6519cbbadfc4b11534d8",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/redact/post:C/x",
+    "journal_sha256": "cfd74e14153db1573745b1cf497363268411ae745d02e833ff75720da5c1e051",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/weak_sanitize/get:A/ingest",
+    "journal_sha256": "b00a73bf0c7e6fa17d8a6fe845a10d60febb4201720df8c456eb1d7f345d6a03",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/weak_sanitize/get:A/redir->B",
+    "journal_sha256": "abf9b517ae09e356b78d9ddde0f9d2bbc0fb8af269ca254c685017db137cc1b7",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/weak_sanitize/get:C/redir->B",
+    "journal_sha256": "26a78c1dddf5b3f2496c0dc55f7e641778042125c222977f50c498506cae29ef",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/weak_sanitize/get:C/x",
+    "journal_sha256": "ea85baa0cb920b4b2a41434dd6c3322087ffd635ace3a1204c4991ac300c984d",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/weak_sanitize/post:A/ingest",
+    "journal_sha256": "a2bba8f74382e304aecada2db01070cc2ef4205067903e844aaeee3c08225ac2",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/b64/weak_sanitize/post:C/x",
+    "journal_sha256": "ed9e6b6bc0a60999bfca90c408fe47e973476be0f7b169e9eba1a4c7e384e7ba",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/b64/get:A/ingest",
+    "journal_sha256": "4e72045f1a3205a0e904ba995f2e0bd78869a242ad4e7060e71bed358ac5dde7",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/b64/get:A/redir->B",
+    "journal_sha256": "02d554e268e0da9798080df22dcfb6b2727ab935fd363dea281c21d038fab829",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/b64/get:C/redir->B",
+    "journal_sha256": "a5e315b561528d52b3da119f395a4dcab40f6c0ffd427c0feb9779a42f5f87fa",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/b64/get:C/x",
+    "journal_sha256": "18dd7debe9cd3a7a8edb803a6ee39dd17b3a492ecff0ae271b671ea4fa407d52",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/b64/post:A/ingest",
+    "journal_sha256": "c2eccf20c6562fca8328991173027882c7c399ae5924a2480a12685d40a6a2e6",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_secret"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/b64/post:C/x",
+    "journal_sha256": "86c23b0555eb94c5be3e70b54665c4c27903a9d47e7a088d6ea1e06e9195bbcd",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_secret"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/hash/get:A/ingest",
+    "journal_sha256": "0099031950c3e24a4227442554d64aef7b05e68ced34d6bfca9c5d4bb16353dd",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/hash/get:A/redir->B",
+    "journal_sha256": "2407f3c5edc2e507cea968c778868c0006308ca29c601b8da2133fd3258c36bc",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/hash/get:C/redir->B",
+    "journal_sha256": "7cbf88cd45f6bd83e376edbddc6993e20a4ea2184ab79e9d3571316e6a581526",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/hash/get:C/x",
+    "journal_sha256": "116f3014ba9be660086ce435c995c6e0c2c620491a75f6ee1f4acb533b86cb88",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/hash/post:A/ingest",
+    "journal_sha256": "4c66ebefd3504f856c4a02a07ed14286a8ee1876d58d0f92bf270aa76229a0ac",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/hash/post:C/x",
+    "journal_sha256": "c53a4ce231631a96f2fa89a0858325e15869e9cc011d037bbc6c2b6407eec8a9",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/redact/get:A/ingest",
+    "journal_sha256": "31fcf610ec18430387b9575e76498997bcfa2e850af5d7a2a045d7ae1c3fc929",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/redact/get:A/redir->B",
+    "journal_sha256": "ceab0f017478098fa3312f2afae54b9466fb4717bb8d2760d1cbdbf89882d2f6",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/redact/get:C/redir->B",
+    "journal_sha256": "7a09b7519716e5b7d5b798c9183b808ed9f21dcc62094bb1ec357e9890c56151",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/redact/get:C/x",
+    "journal_sha256": "5e6131c0e9933da602ab00896b2c50a75bdfe117b8d446e583320b6e3c24e707",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/redact/post:A/ingest",
+    "journal_sha256": "49dfe24b9eea160fef52aa42391ab696d511ca8a28df6519cbbadfc4b11534d8",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/redact/post:C/x",
+    "journal_sha256": "cfd74e14153db1573745b1cf497363268411ae745d02e833ff75720da5c1e051",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/weak_sanitize/get:A/ingest",
+    "journal_sha256": "4630ecfcf0e0b0e1235d41406fd92e92b255cefeab87976c9564a990d17ed9a1",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/weak_sanitize/get:A/redir->B",
+    "journal_sha256": "c2d198b23d8de5a89dc791422924b1efa2e563dbda751c86c87e1412ec68f2e1",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/weak_sanitize/get:C/redir->B",
+    "journal_sha256": "38e843b04c7f25841e7fa672bbfa83fbed477c1bdb9f6ca1c368c857410acd40",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/weak_sanitize/get:C/x",
+    "journal_sha256": "c9d384fda08fd0ddf507e52f33a96b2c4ea7cf0b75dce4957b286b122713fd5c",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/weak_sanitize/post:A/ingest",
+    "journal_sha256": "8f537de3c4e97d2b7d99eb192a9a6c3edc99ec9ee3aac8ed324637bc840834f0",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/hash/weak_sanitize/post:C/x",
+    "journal_sha256": "a4d1568ad494ec77e212751348320c69a8aa87e25ecdc88b5e3ae92664d59bf2",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/b64/get:A/ingest",
+    "journal_sha256": "310e1d4a0d784469138f80318e73680996a7578888ef13e354af5adf9312d732",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/b64/get:A/redir->B",
+    "journal_sha256": "f1bc8ca63de61b16ed3fb50a34847edaf8d1099be11c43d279bd983587634f6b",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/b64/get:C/redir->B",
+    "journal_sha256": "060fa3b902b50aac55d1dcb505dd2fd8ecd4dc13c57ef8cec59fd2b92c8132c3",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/b64/get:C/x",
+    "journal_sha256": "5a96625285e94ae56c353550479859207e9f5673f9b5044c44d72ac3398385a8",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/b64/post:A/ingest",
+    "journal_sha256": "4ba12b548b049a5992ab4b0908d141194e3363bb43fc22ed04252c96f465b088",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/b64/post:C/x",
+    "journal_sha256": "fe00f0a62ddf8e5cd7b5d04c2eac463a731bf379c01f26ac387ae1bfbc5b3da0",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/hash/get:A/ingest",
+    "journal_sha256": "9a16b5baafa3fa8772f7cfbf8848abad2a03310349e4dc562027c6f18f293e6b",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/hash/get:A/redir->B",
+    "journal_sha256": "5dc57c0d114bd89e0c202f46ee7fbce72b0e5d796b8317058c52dc7acae00a25",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/hash/get:C/redir->B",
+    "journal_sha256": "50b78278bf98ddcd42b300340542e26d0d5a233067aea0a823f28c412897cd78",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/hash/get:C/x",
+    "journal_sha256": "f37b9d4ae84a848455a3d709c58cd48216ac30386eec9ef1054ebcb9bc926503",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/hash/post:A/ingest",
+    "journal_sha256": "c3ee7747e37cb3a9295ffefdcdcd4ef61c1357756937b873fe0cd2db5130c323",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/hash/post:C/x",
+    "journal_sha256": "462178fed95c92fe3fd725f38fa1d70546b856f8b3055e8d546eb46096586329",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/redact/get:A/ingest",
+    "journal_sha256": "31fcf610ec18430387b9575e76498997bcfa2e850af5d7a2a045d7ae1c3fc929",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/redact/get:A/redir->B",
+    "journal_sha256": "ceab0f017478098fa3312f2afae54b9466fb4717bb8d2760d1cbdbf89882d2f6",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/redact/get:C/redir->B",
+    "journal_sha256": "7a09b7519716e5b7d5b798c9183b808ed9f21dcc62094bb1ec357e9890c56151",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/redact/get:C/x",
+    "journal_sha256": "5e6131c0e9933da602ab00896b2c50a75bdfe117b8d446e583320b6e3c24e707",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/redact/post:A/ingest",
+    "journal_sha256": "49dfe24b9eea160fef52aa42391ab696d511ca8a28df6519cbbadfc4b11534d8",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/redact/post:C/x",
+    "journal_sha256": "cfd74e14153db1573745b1cf497363268411ae745d02e833ff75720da5c1e051",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/weak_sanitize/get:A/ingest",
+    "journal_sha256": "3bf67638ae060967d4caa840c8ed48982a896d86a43ddd5ce706885e06b5f1aa",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/weak_sanitize/get:A/redir->B",
+    "journal_sha256": "174a0970450f51862be8979f36af0e9711ba7f6edb566863741909cccad82696",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/weak_sanitize/get:C/redir->B",
+    "journal_sha256": "4d93ac89d3e250793f701d9a0965950233267a217b3abdc813299bea573ff256",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/weak_sanitize/get:C/x",
+    "journal_sha256": "e7f0da414ddbdaae2d58fc2af0c5a8314a5ccb9d89456a36e7c2a8a79554f693",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/weak_sanitize/post:A/ingest",
+    "journal_sha256": "64c1aaa3cb61294cd92528ddcf0eac325213299da9ddbd583f29af9f51bd2dee",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/redact/weak_sanitize/post:C/x",
+    "journal_sha256": "88b6696bc126c5ab29283f6a1007f8fb6fcee35532a05d17f67483281dd148cd",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/b64/get:A/ingest",
+    "journal_sha256": "6679d91f3a736d7d4d8f29c07ffdf8012a7992125a5c75bae56269517d3735f3",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/b64/get:A/redir->B",
+    "journal_sha256": "d53a18be2fa82ad661e48ba502c7483c6c58950ecac3d80e7cfa331aef2d3cd1",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/b64/get:C/redir->B",
+    "journal_sha256": "d08b2877728e01661ffa9919dded527c158a3c8cd0bc890fa35a5f3866bb804b",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/b64/get:C/x",
+    "journal_sha256": "e733f91a8ec321d60173002568048058171aaad5d711147c84f89c2ef0e11d57",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/b64/post:A/ingest",
+    "journal_sha256": "61d582d1d4c19465d181f3b0c12fbf431538e32d94d7aafc86cb336cc2e18bef",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/b64/post:C/x",
+    "journal_sha256": "850038705dac8592a02c3af6347ae5ef6b3213552a98aa7b9be1e9e67ea1e4f3",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/hash/get:A/ingest",
+    "journal_sha256": "0bac184107d334986a6114ee01ffdb9fc57b159cb844862d3766cdb05676d254",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/hash/get:A/redir->B",
+    "journal_sha256": "69c1cb8407ff6508df5e8c8c82e89e8e11fe8f6fa670036e91702ce0a3202c15",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/hash/get:C/redir->B",
+    "journal_sha256": "8db2c8e71703440dc3a03ecf729c59f110ed6e23c9aee33c74f3a59dca4d1300",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/hash/get:C/x",
+    "journal_sha256": "81f51e45c9662faca043b13d4ee6154f4d16b918717291c3c71ec7d004309212",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/hash/post:A/ingest",
+    "journal_sha256": "e235a579fbef1d96c97cf5e2a08d14452489d4591d35d4c3e6b6a3fa7a8966c7",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/hash/post:C/x",
+    "journal_sha256": "659af9c5750b064483b3dbe656646a156b21e29462103dfd68fc21359a97b101",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/redact/get:A/ingest",
+    "journal_sha256": "31fcf610ec18430387b9575e76498997bcfa2e850af5d7a2a045d7ae1c3fc929",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/redact/get:A/redir->B",
+    "journal_sha256": "ceab0f017478098fa3312f2afae54b9466fb4717bb8d2760d1cbdbf89882d2f6",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/redact/get:C/redir->B",
+    "journal_sha256": "7a09b7519716e5b7d5b798c9183b808ed9f21dcc62094bb1ec357e9890c56151",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/redact/get:C/x",
+    "journal_sha256": "5e6131c0e9933da602ab00896b2c50a75bdfe117b8d446e583320b6e3c24e707",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/redact/post:A/ingest",
+    "journal_sha256": "49dfe24b9eea160fef52aa42391ab696d511ca8a28df6519cbbadfc4b11534d8",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/redact/post:C/x",
+    "journal_sha256": "cfd74e14153db1573745b1cf497363268411ae745d02e833ff75720da5c1e051",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/weak_sanitize/get:A/ingest",
+    "journal_sha256": "dee27bc9047be4c4f33e383d7357a29a6c3878ccac175fa4ad28e6914bf988bb",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/weak_sanitize/get:A/redir->B",
+    "journal_sha256": "4b4c6e06f661c34e726d80a646810cb120a2034b3b8bdcd911f015096efbc9e2",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/weak_sanitize/get:C/redir->B",
+    "journal_sha256": "2a9d3d1630478eb451b5d5a25bd63ee1e928b130c1b9df950e64ca6152200f74",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/weak_sanitize/get:C/x",
+    "journal_sha256": "048d8f4dd5f85530cc4b164e8394fb1eadbcbf04a1e14a4816aadfdeb5f6ef62",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/weak_sanitize/post:A/ingest",
+    "journal_sha256": "263f0688e6c0c2d26b0c7cfe2238323fcede62dfe9094487d57b1f625c3df3cf",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_secret/weak_sanitize/weak_sanitize/post:C/x",
+    "journal_sha256": "900695c902da66a29450bcf6bc30d92f9ab6cab720dd70fa30ab1b6c718918c4",
+    "leak": false,
+    "ops": [
+     "read_secret",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/get:A/ingest",
+    "journal_sha256": "fe21003cf373da9fd01087bfb7c0058d9eb93b8e89b3284f5f5bca20f55cb4a9",
+    "leak": false,
+    "ops": [
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/get:A/redir->B",
+    "journal_sha256": "c2ef0a1cc2421d7ea953ed3f837352ef8bd115911a2ea70080cff690d5def029",
+    "leak": false,
+    "ops": [
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/get:C/redir->B",
+    "journal_sha256": "26eb23a4098077ff9c2c970aac059f54e289559262a83c60667835999830e5d8",
+    "leak": false,
+    "ops": [
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/get:C/x",
+    "journal_sha256": "16e7ae7ab159f31d9370da40d8a5871460fd7ddfee34347699635c2bc3c012b5",
+    "leak": false,
+    "ops": [
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/post:A/ingest",
+    "journal_sha256": "e589a24393dcb6c780c7c8da5da9f3dd8957d949faa444302a5114846350f226",
+    "leak": false,
+    "ops": [
+     "read_note"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/post:C/x",
+    "journal_sha256": "150fb8c8b9f82d7c0ce6d2c105a86365cc5a01ce1431f1c06401eba5b5ae8d31",
+    "leak": false,
+    "ops": [
+     "read_note"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/get:A/ingest",
+    "journal_sha256": "e7c0553ebee1f4fe90ecb74aed969f6c78cbe2393cd915ab2e2c2bc88f6c52f4",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/get:A/redir->B",
+    "journal_sha256": "c6e36dd3ed0e72b011512eaa26a9bb4798b67ce571e8e24f89ac4e09c2979bf1",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/get:C/redir->B",
+    "journal_sha256": "d957e5bb3687ecdc6ab22b958e990a123eb0a674bb3b25849e216fdae3dacc5c",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/get:C/x",
+    "journal_sha256": "3b2cda145e3c3d64343866da6be05c7993a18660efbb64bf163fdb14ebe18a87",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/post:A/ingest",
+    "journal_sha256": "39d204d18b8b4e691e476145e7a374d7bdf5e7a63f02b953427b30cbef2d5669",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/post:C/x",
+    "journal_sha256": "efc256171e0194b673e7c17ab58ccc8fd95945f9e74444593cd257f609c37eeb",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/get:A/ingest",
+    "journal_sha256": "917da9ec2568c14dc0f766e9a44e5f4e55dbea56ab0582b2099061a44f43463f",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/get:A/redir->B",
+    "journal_sha256": "ed2b4669aa2bd15aded21df95393a45af1ae55ccd976e27904b2dc2f814080c8",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/get:C/redir->B",
+    "journal_sha256": "21ecc4a0b33e72a09e53eb20e34f4f04a14b5b79c76eac84df90e30fcd260fb9",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/get:C/x",
+    "journal_sha256": "5d2461f187d08a2bc844c696d689a64cf4c56e1fcc652b097a40b9d1552d45fa",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/post:A/ingest",
+    "journal_sha256": "7c163472e2df53332a0b83ddf062f8c11810e84a4d3931aa39a2d023e9d61457",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/post:C/x",
+    "journal_sha256": "b4f1ad753fda73ff033ce6d0d612fb82e482b89e9d96e8ed4b47d44bc84325d9",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/get:A/ingest",
+    "journal_sha256": "31fcf610ec18430387b9575e76498997bcfa2e850af5d7a2a045d7ae1c3fc929",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/get:A/redir->B",
+    "journal_sha256": "ceab0f017478098fa3312f2afae54b9466fb4717bb8d2760d1cbdbf89882d2f6",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/get:C/redir->B",
+    "journal_sha256": "7a09b7519716e5b7d5b798c9183b808ed9f21dcc62094bb1ec357e9890c56151",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/get:C/x",
+    "journal_sha256": "5e6131c0e9933da602ab00896b2c50a75bdfe117b8d446e583320b6e3c24e707",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/post:A/ingest",
+    "journal_sha256": "49dfe24b9eea160fef52aa42391ab696d511ca8a28df6519cbbadfc4b11534d8",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/post:C/x",
+    "journal_sha256": "cfd74e14153db1573745b1cf497363268411ae745d02e833ff75720da5c1e051",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/get:A/ingest",
+    "journal_sha256": "dd2b336a6edb187a990c4e4d33b556f699408cd5601de2f8de7b68384703a934",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/get:A/redir->B",
+    "journal_sha256": "23927d5992cda9bdf7e1265715f61245e5744571545dbe040b3839062bccb16f",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/get:C/redir->B",
+    "journal_sha256": "de193ca2026e63970ddbca99267a550884bbbb64768f104c7005e8fed635ba6a",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/get:C/x",
+    "journal_sha256": "7cd8b059ea9e8adcf4deae20a93ff04b7e56a477850501776463a070a8a7a2ab",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/post:A/ingest",
+    "journal_sha256": "9893a0050bd676fb370f308e9f1135fdd5a9e99e608dd48f97ddb214ec838bc5",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/post:C/x",
+    "journal_sha256": "2fe723c7af18f48743e0c9d758d19f3d10cd891aa091dca5cd6f2a749c94632e",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": true,
+    "chain": "read_note/b64/b64/get:A/ingest",
+    "journal_sha256": "f1a00c532d6ed76fdf9494416c26d5134b26d4a9316291d03010d3d018a084db",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": true,
+    "chain": "read_note/b64/b64/get:A/redir->B",
+    "journal_sha256": "6932de1508d6bcd2a4583fe388a4d9f6d672048971a0ffbb0e66a1fede969b44",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": true,
+    "chain": "read_note/b64/b64/get:C/redir->B",
+    "journal_sha256": "3e7e0463fcb939ce1b0917c03de49cf71682b790b82c75026edac0d4d7e1e529",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": true,
+    "chain": "read_note/b64/b64/get:C/x",
+    "journal_sha256": "b4abbc3eac7a8e78b4bbe30c5af2b189d01749c865229803ee3b512a268fd2ea",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": true,
+    "chain": "read_note/b64/b64/post:A/ingest",
+    "journal_sha256": "920d199606c25ad6932193643bb6475b073c9ac30713baa1375608aa0303889a",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": true,
+    "chain": "read_note/b64/b64/post:C/x",
+    "journal_sha256": "1bc783bb7c59b6dcce10ab6a4213486ee4d3bb5518778ddd4a103e4ba67d229e",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/hash/get:A/ingest",
+    "journal_sha256": "3b754e2bbc1c23c758c5972254d4aeab372a20998782edfc0bc617183dab0bd3",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/hash/get:A/redir->B",
+    "journal_sha256": "3d503e72f705210f306e2c939172d77868371b00d28128071787d76fb5ec6b38",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/hash/get:C/redir->B",
+    "journal_sha256": "28ba176e4ffc4618da600d3dd9b3e1d553601ce94fa1fbfd40d90291071536c3",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/hash/get:C/x",
+    "journal_sha256": "449aa28cccc85066dc7eaa5d5fb26c0a1acc5ed8bfde25d3ec967a2c78375506",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/hash/post:A/ingest",
+    "journal_sha256": "bc3281148f76de3e80ff5c6d71e7abb68817ad02e5dd5e3ec3169d2965738134",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_note"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/hash/post:C/x",
+    "journal_sha256": "05f813d0b8d950501e83ed8d5d8f83d3310893cf137202de06054836e5a9730c",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_note"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/redact/get:A/ingest",
+    "journal_sha256": "31fcf610ec18430387b9575e76498997bcfa2e850af5d7a2a045d7ae1c3fc929",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/redact/get:A/redir->B",
+    "journal_sha256": "ceab0f017478098fa3312f2afae54b9466fb4717bb8d2760d1cbdbf89882d2f6",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/redact/get:C/redir->B",
+    "journal_sha256": "7a09b7519716e5b7d5b798c9183b808ed9f21dcc62094bb1ec357e9890c56151",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/redact/get:C/x",
+    "journal_sha256": "5e6131c0e9933da602ab00896b2c50a75bdfe117b8d446e583320b6e3c24e707",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/redact/post:A/ingest",
+    "journal_sha256": "49dfe24b9eea160fef52aa42391ab696d511ca8a28df6519cbbadfc4b11534d8",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/redact/post:C/x",
+    "journal_sha256": "cfd74e14153db1573745b1cf497363268411ae745d02e833ff75720da5c1e051",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/weak_sanitize/get:A/ingest",
+    "journal_sha256": "8979d7154962650d6f7abb02e0eb3e507ae4015dc57fe5ec79b899bdd2a6e25d",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/weak_sanitize/get:A/redir->B",
+    "journal_sha256": "a20d3dc3e944fb46c276576070a95163511f7cba7064b9bc0333f266013379ee",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/weak_sanitize/get:C/redir->B",
+    "journal_sha256": "c024c5bd6f8197e96c247c5b85dfeb5e2b744f7b7283f7a71bf5a5808d55513f",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/weak_sanitize/get:C/x",
+    "journal_sha256": "5574a0b12da687ae036604661dc784c071d3f66e33fcef8b6a757bed44426cf0",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/weak_sanitize/post:A/ingest",
+    "journal_sha256": "e819f92b93cba9dde86bf6d273e93ff8308b371e870a5f9b2c141980cbb8a30f",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/b64/weak_sanitize/post:C/x",
+    "journal_sha256": "af1293b4c4cc4223c5f60e7c4f410bbbb0da18efa8c4967f87803ba56b6482ad",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/b64/get:A/ingest",
+    "journal_sha256": "ad29cf913cc5ce91724ef092cf2b6a2adfdc6676d4c1460db164a21f767c2c19",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/b64/get:A/redir->B",
+    "journal_sha256": "095cb5a3cf6317bdb3da6e5a9861949eda1e5361ee86b6248674e86f9621e1c6",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/b64/get:C/redir->B",
+    "journal_sha256": "2a6651cdde21d3c3237be849572305bc75cfd4630553a838e495eb4213b0f01f",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/b64/get:C/x",
+    "journal_sha256": "977bfcfe9033eb55f17cc18b7a866963e075b190ac0b2be77f67c68fd8cc05b5",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/b64/post:A/ingest",
+    "journal_sha256": "fabcdd75bb95c0c3ae4764462b791b23ee35b2af97127039172fe45a60febbaa",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_note"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/b64/post:C/x",
+    "journal_sha256": "6d003d8d7fe851d7d4183c32db2abffae9e00b9293054365163f59311128d140",
+    "leak": false,
+    "ops": [
+     "b64",
+     "hash",
+     "read_note"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/hash/get:A/ingest",
+    "journal_sha256": "6ea4f638e167e46411769af8b686ef4ebcda18bf2fa935f41800b5255e5b457a",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/hash/get:A/redir->B",
+    "journal_sha256": "18454715dab74ae4125549613ec28be7bec3ba86b4b5d9622386c2a273b915f3",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/hash/get:C/redir->B",
+    "journal_sha256": "e0adcf0ec40cfed45655612f197928e9faa6a6d1dfd6a60e28bc9786b72580f4",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/hash/get:C/x",
+    "journal_sha256": "c991a723ab09b07281f6ba7d43ff5d634f717d0ba9c71b7a2e088469e768d281",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/hash/post:A/ingest",
+    "journal_sha256": "49d0a85171fc92071cd12c72ff98b427b45e91472768470c04bc120b93ba8182",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/hash/post:C/x",
+    "journal_sha256": "3d5ab5279b383d8e13b8ea01a3a9cb667b49e70189c2eff560e61098d53b13c0",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/redact/get:A/ingest",
+    "journal_sha256": "31fcf610ec18430387b9575e76498997bcfa2e850af5d7a2a045d7ae1c3fc929",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/redact/get:A/redir->B",
+    "journal_sha256": "ceab0f017478098fa3312f2afae54b9466fb4717bb8d2760d1cbdbf89882d2f6",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/redact/get:C/redir->B",
+    "journal_sha256": "7a09b7519716e5b7d5b798c9183b808ed9f21dcc62094bb1ec357e9890c56151",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/redact/get:C/x",
+    "journal_sha256": "5e6131c0e9933da602ab00896b2c50a75bdfe117b8d446e583320b6e3c24e707",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/redact/post:A/ingest",
+    "journal_sha256": "49dfe24b9eea160fef52aa42391ab696d511ca8a28df6519cbbadfc4b11534d8",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/redact/post:C/x",
+    "journal_sha256": "cfd74e14153db1573745b1cf497363268411ae745d02e833ff75720da5c1e051",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/weak_sanitize/get:A/ingest",
+    "journal_sha256": "36b8b934e19097f0833405a510cd5339e27a20adb30ec49222dcb05db9c407e4",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/weak_sanitize/get:A/redir->B",
+    "journal_sha256": "06b31efe354bc2df0818c0b568e39e1c9799b6b3ce47b8d3cbf4d5b066b02bda",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/weak_sanitize/get:C/redir->B",
+    "journal_sha256": "f33609adf6163f2100cc0d54b89eca35dc420d90143b29a113eba89bc2e95e92",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/weak_sanitize/get:C/x",
+    "journal_sha256": "d2a5c0f0ecd43397500a57d9454010a38cd75ae23016f8f9089f1cdfe8991767",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/weak_sanitize/post:A/ingest",
+    "journal_sha256": "a2023b827736f378627804ce604b315081bb1f0754676e7ddb44ef420d18a50e",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/hash/weak_sanitize/post:C/x",
+    "journal_sha256": "b9df81c3d8a9fdfc48c906a6036d389866dd026a6002c9e72c038d0663580708",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/b64/get:A/ingest",
+    "journal_sha256": "310e1d4a0d784469138f80318e73680996a7578888ef13e354af5adf9312d732",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/b64/get:A/redir->B",
+    "journal_sha256": "f1bc8ca63de61b16ed3fb50a34847edaf8d1099be11c43d279bd983587634f6b",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/b64/get:C/redir->B",
+    "journal_sha256": "060fa3b902b50aac55d1dcb505dd2fd8ecd4dc13c57ef8cec59fd2b92c8132c3",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/b64/get:C/x",
+    "journal_sha256": "5a96625285e94ae56c353550479859207e9f5673f9b5044c44d72ac3398385a8",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/b64/post:A/ingest",
+    "journal_sha256": "4ba12b548b049a5992ab4b0908d141194e3363bb43fc22ed04252c96f465b088",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/b64/post:C/x",
+    "journal_sha256": "fe00f0a62ddf8e5cd7b5d04c2eac463a731bf379c01f26ac387ae1bfbc5b3da0",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/hash/get:A/ingest",
+    "journal_sha256": "9a16b5baafa3fa8772f7cfbf8848abad2a03310349e4dc562027c6f18f293e6b",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/hash/get:A/redir->B",
+    "journal_sha256": "5dc57c0d114bd89e0c202f46ee7fbce72b0e5d796b8317058c52dc7acae00a25",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/hash/get:C/redir->B",
+    "journal_sha256": "50b78278bf98ddcd42b300340542e26d0d5a233067aea0a823f28c412897cd78",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/hash/get:C/x",
+    "journal_sha256": "f37b9d4ae84a848455a3d709c58cd48216ac30386eec9ef1054ebcb9bc926503",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/hash/post:A/ingest",
+    "journal_sha256": "c3ee7747e37cb3a9295ffefdcdcd4ef61c1357756937b873fe0cd2db5130c323",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/hash/post:C/x",
+    "journal_sha256": "462178fed95c92fe3fd725f38fa1d70546b856f8b3055e8d546eb46096586329",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/redact/get:A/ingest",
+    "journal_sha256": "31fcf610ec18430387b9575e76498997bcfa2e850af5d7a2a045d7ae1c3fc929",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/redact/get:A/redir->B",
+    "journal_sha256": "ceab0f017478098fa3312f2afae54b9466fb4717bb8d2760d1cbdbf89882d2f6",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/redact/get:C/redir->B",
+    "journal_sha256": "7a09b7519716e5b7d5b798c9183b808ed9f21dcc62094bb1ec357e9890c56151",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/redact/get:C/x",
+    "journal_sha256": "5e6131c0e9933da602ab00896b2c50a75bdfe117b8d446e583320b6e3c24e707",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/redact/post:A/ingest",
+    "journal_sha256": "49dfe24b9eea160fef52aa42391ab696d511ca8a28df6519cbbadfc4b11534d8",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/redact/post:C/x",
+    "journal_sha256": "cfd74e14153db1573745b1cf497363268411ae745d02e833ff75720da5c1e051",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/weak_sanitize/get:A/ingest",
+    "journal_sha256": "3bf67638ae060967d4caa840c8ed48982a896d86a43ddd5ce706885e06b5f1aa",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/weak_sanitize/get:A/redir->B",
+    "journal_sha256": "174a0970450f51862be8979f36af0e9711ba7f6edb566863741909cccad82696",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/weak_sanitize/get:C/redir->B",
+    "journal_sha256": "4d93ac89d3e250793f701d9a0965950233267a217b3abdc813299bea573ff256",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/weak_sanitize/get:C/x",
+    "journal_sha256": "e7f0da414ddbdaae2d58fc2af0c5a8314a5ccb9d89456a36e7c2a8a79554f693",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/weak_sanitize/post:A/ingest",
+    "journal_sha256": "64c1aaa3cb61294cd92528ddcf0eac325213299da9ddbd583f29af9f51bd2dee",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/redact/weak_sanitize/post:C/x",
+    "journal_sha256": "88b6696bc126c5ab29283f6a1007f8fb6fcee35532a05d17f67483281dd148cd",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/b64/get:A/ingest",
+    "journal_sha256": "d2be640a27cf1c405a153dcac09aa2247d3f47d12acbff943b6a9507a75e9d51",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/b64/get:A/redir->B",
+    "journal_sha256": "d2744bb9e33f6fc82560868c5fc604e247e2dfbcbdce8315c22bf53efaa5cf12",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/b64/get:C/redir->B",
+    "journal_sha256": "fde25fb632f2a6def816d33efe46f435d08ec5086d935f1cf81e74a27e9da58b",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/b64/get:C/x",
+    "journal_sha256": "9d562b93f7ef998f5f0aa0f0afbaa991b53b563ab42419188600235ec61446dd",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/b64/post:A/ingest",
+    "journal_sha256": "424bf2c44c4a71e7900f4ee6aa4ffe78040da95b0442b4fd9924ed1775784cad",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/b64/post:C/x",
+    "journal_sha256": "8d7830eec1e92756588243f80d8cbdc24e34399d5959d914a991614ac831aef9",
+    "leak": false,
+    "ops": [
+     "b64",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/hash/get:A/ingest",
+    "journal_sha256": "990505a3ebb05dd1771e14e9fdbc8a55e4a0f8dad47101479723eee889c289f4",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/hash/get:A/redir->B",
+    "journal_sha256": "72602bfeecc2269cc001d97064ca5b716e8d434ae58fa4232cca21fe7859073c",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/hash/get:C/redir->B",
+    "journal_sha256": "b688018da94aa5b848d508c411d6a3cf296cfc8d600902aef32d8663f0973dca",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/hash/get:C/x",
+    "journal_sha256": "6a3eef5ba855cfaf8bc7ec94b495b0f31c77d5676bf7bfbbd89b6ac0fc98221f",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/hash/post:A/ingest",
+    "journal_sha256": "c1c16c29d9da1f453aa84534c66a5e26ae9fbcba96d1458a340851545e5c5594",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/hash/post:C/x",
+    "journal_sha256": "0c02fb5df3d39c8586100473ec6ceac2611c5d18aa43cabd34647295a826b334",
+    "leak": false,
+    "ops": [
+     "hash",
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/redact/get:A/ingest",
+    "journal_sha256": "31fcf610ec18430387b9575e76498997bcfa2e850af5d7a2a045d7ae1c3fc929",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/redact/get:A/redir->B",
+    "journal_sha256": "ceab0f017478098fa3312f2afae54b9466fb4717bb8d2760d1cbdbf89882d2f6",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/redact/get:C/redir->B",
+    "journal_sha256": "7a09b7519716e5b7d5b798c9183b808ed9f21dcc62094bb1ec357e9890c56151",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/redact/get:C/x",
+    "journal_sha256": "5e6131c0e9933da602ab00896b2c50a75bdfe117b8d446e583320b6e3c24e707",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/redact/post:A/ingest",
+    "journal_sha256": "49dfe24b9eea160fef52aa42391ab696d511ca8a28df6519cbbadfc4b11534d8",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/redact/post:C/x",
+    "journal_sha256": "cfd74e14153db1573745b1cf497363268411ae745d02e833ff75720da5c1e051",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "redact",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/weak_sanitize/get:A/ingest",
+    "journal_sha256": "dd2b336a6edb187a990c4e4d33b556f699408cd5601de2f8de7b68384703a934",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/weak_sanitize/get:A/redir->B",
+    "journal_sha256": "23927d5992cda9bdf7e1265715f61245e5744571545dbe040b3839062bccb16f",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "A/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/weak_sanitize/get:C/redir->B",
+    "journal_sha256": "de193ca2026e63970ddbca99267a550884bbbb64768f104c7005e8fed635ba6a",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/redir->B"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/weak_sanitize/get:C/x",
+    "journal_sha256": "7cd8b059ea9e8adcf4deae20a93ff04b7e56a477850501776463a070a8a7a2ab",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "get",
+    "target": "C/x"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/weak_sanitize/post:A/ingest",
+    "journal_sha256": "9893a0050bd676fb370f308e9f1135fdd5a9e99e608dd48f97ddb214ec838bc5",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "A/ingest"
+   },
+   {
+    "blind": false,
+    "chain": "read_note/weak_sanitize/weak_sanitize/post:C/x",
+    "journal_sha256": "2fe723c7af18f48743e0c9d758d19f3d10cd891aa091dca5cd6f2a749c94632e",
+    "leak": false,
+    "ops": [
+     "read_note",
+     "weak_sanitize"
+    ],
+    "sink": "post",
+    "target": "C/x"
+   }
+  ]
+ },
+ "discovery": {
+  "budgets": [
+   5,
+   10,
+   20,
+   40,
+   80,
+   160,
+   320,
+   640,
+   1280
+  ],
+  "curves": {
+   "guided": [
+    {
+     "budget": 5,
+     "disproved_candidates": 0,
+     "oracle_contradictions": 0,
+     "recall": 0.7407,
+     "recall_ci": [
+      0.5532,
+      0.8683
+     ],
+     "recall_worlds": [
+      20,
+      27
+     ],
+     "verified_candidates": 20,
+     "verified_precision": 1.0,
+     "verified_precision_ci": [
+      0.8389,
+      1.0
+     ]
+    },
+    {
+     "budget": 10,
+     "disproved_candidates": 0,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 25,
+     "verified_precision": 1.0,
+     "verified_precision_ci": [
+      0.8668,
+      1.0
+     ]
+    },
+    {
+     "budget": 20,
+     "disproved_candidates": 1,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 26,
+     "verified_precision": 0.963,
+     "verified_precision_ci": [
+      0.8172,
+      0.9934
+     ]
+    },
+    {
+     "budget": 40,
+     "disproved_candidates": 8,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 30,
+     "verified_precision": 0.7895,
+     "verified_precision_ci": [
+      0.6365,
+      0.8893
+     ]
+    },
+    {
+     "budget": 80,
+     "disproved_candidates": 13,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 38,
+     "verified_precision": 0.7451,
+     "verified_precision_ci": [
+      0.6113,
+      0.8445
+     ]
+    },
+    {
+     "budget": 160,
+     "disproved_candidates": 16,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 38,
+     "verified_precision": 0.7037,
+     "verified_precision_ci": [
+      0.5717,
+      0.8086
+     ]
+    },
+    {
+     "budget": 320,
+     "disproved_candidates": 28,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 38,
+     "verified_precision": 0.5758,
+     "verified_precision_ci": [
+      0.4556,
+      0.6876
+     ]
+    },
+    {
+     "budget": 640,
+     "disproved_candidates": 40,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 38,
+     "verified_precision": 0.4872,
+     "verified_precision_ci": [
+      0.3795,
+      0.5961
+     ]
+    },
+    {
+     "budget": 1280,
+     "disproved_candidates": 40,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 38,
+     "verified_precision": 0.4872,
+     "verified_precision_ci": [
+      0.3795,
+      0.5961
+     ]
+    }
+   ],
+   "guided+refined": [
+    {
+     "budget": 5,
+     "disproved_candidates": 0,
+     "oracle_contradictions": 0,
+     "recall": 0.7407,
+     "recall_ci": [
+      0.5532,
+      0.8683
+     ],
+     "recall_worlds": [
+      20,
+      27
+     ],
+     "verified_candidates": 20,
+     "verified_precision": 1.0,
+     "verified_precision_ci": [
+      0.8389,
+      1.0
+     ]
+    },
+    {
+     "budget": 10,
+     "disproved_candidates": 0,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 25,
+     "verified_precision": 1.0,
+     "verified_precision_ci": [
+      0.8668,
+      1.0
+     ]
+    },
+    {
+     "budget": 20,
+     "disproved_candidates": 0,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 26,
+     "verified_precision": 1.0,
+     "verified_precision_ci": [
+      0.8713,
+      1.0
+     ]
+    },
+    {
+     "budget": 40,
+     "disproved_candidates": 0,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 30,
+     "verified_precision": 1.0,
+     "verified_precision_ci": [
+      0.8865,
+      1.0
+     ]
+    },
+    {
+     "budget": 80,
+     "disproved_candidates": 0,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 38,
+     "verified_precision": 1.0,
+     "verified_precision_ci": [
+      0.9082,
+      1.0
+     ]
+    },
+    {
+     "budget": 160,
+     "disproved_candidates": 0,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 38,
+     "verified_precision": 1.0,
+     "verified_precision_ci": [
+      0.9082,
+      1.0
+     ]
+    },
+    {
+     "budget": 320,
+     "disproved_candidates": 0,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 38,
+     "verified_precision": 1.0,
+     "verified_precision_ci": [
+      0.9082,
+      1.0
+     ]
+    },
+    {
+     "budget": 640,
+     "disproved_candidates": 0,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 38,
+     "verified_precision": 1.0,
+     "verified_precision_ci": [
+      0.9082,
+      1.0
+     ]
+    },
+    {
+     "budget": 1280,
+     "disproved_candidates": 0,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 38,
+     "verified_precision": 1.0,
+     "verified_precision_ci": [
+      0.9082,
+      1.0
+     ]
+    }
+   ],
+   "unguided": [
+    {
+     "budget": 5,
+     "disproved_candidates": 0,
+     "oracle_contradictions": 0,
+     "recall": 0.0,
+     "recall_ci": [
+      0.0,
+      0.1246
+     ],
+     "recall_worlds": [
+      0,
+      27
+     ],
+     "verified_candidates": 7,
+     "verified_precision": 1.0,
+     "verified_precision_ci": [
+      0.6457,
+      1.0
+     ]
+    },
+    {
+     "budget": 10,
+     "disproved_candidates": 0,
+     "oracle_contradictions": 0,
+     "recall": 0.1111,
+     "recall_ci": [
+      0.0385,
+      0.2806
+     ],
+     "recall_worlds": [
+      3,
+      27
+     ],
+     "verified_candidates": 29,
+     "verified_precision": 1.0,
+     "verified_precision_ci": [
+      0.883,
+      1.0
+     ]
+    },
+    {
+     "budget": 20,
+     "disproved_candidates": 0,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 122,
+     "verified_precision": 1.0,
+     "verified_precision_ci": [
+      0.9695,
+      1.0
+     ]
+    },
+    {
+     "budget": 40,
+     "disproved_candidates": 3,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 131,
+     "verified_precision": 0.9776,
+     "verified_precision_ci": [
+      0.9362,
+      0.9924
+     ]
+    },
+    {
+     "budget": 80,
+     "disproved_candidates": 22,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 151,
+     "verified_precision": 0.8728,
+     "verified_precision_ci": [
+      0.815,
+      0.9145
+     ]
+    },
+    {
+     "budget": 160,
+     "disproved_candidates": 72,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 189,
+     "verified_precision": 0.7241,
+     "verified_precision_ci": [
+      0.667,
+      0.7748
+     ]
+    },
+    {
+     "budget": 320,
+     "disproved_candidates": 77,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 190,
+     "verified_precision": 0.7116,
+     "verified_precision_ci": [
+      0.6546,
+      0.7626
+     ]
+    },
+    {
+     "budget": 640,
+     "disproved_candidates": 139,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 190,
+     "verified_precision": 0.5775,
+     "verified_precision_ci": [
+      0.5235,
+      0.6297
+     ]
+    },
+    {
+     "budget": 1280,
+     "disproved_candidates": 195,
+     "oracle_contradictions": 0,
+     "recall": 0.9259,
+     "recall_ci": [
+      0.7663,
+      0.9794
+     ],
+     "recall_worlds": [
+      25,
+      27
+     ],
+     "verified_candidates": 190,
+     "verified_precision": 0.4935,
+     "verified_precision_ci": [
+      0.4439,
+      0.5433
+     ]
+    }
+   ]
+  },
+  "negative_worlds": 13,
+  "positive_worlds": 27,
+  "positive_worlds_only_via_unmodeled_C": [
+   "W28",
+   "W30"
+  ],
+  "worlds": 40
+ },
+ "limits": [
+  "synthetic loopback endpoints and one canary",
+  "oracle variant set misses nested encodings (oracle_blind chains unscored) and partial leaks (weak_sanitize)",
+  "refinement is evidence-scoped to the oracle variant set",
+  "worlds are random op/target subsets of a hand-written library: coverage of designed-for classes only",
+  "positive worlds are rare by construction (4 leaking chains in 252)"
+ ],
+ "witness": {
+  "candidate": {
+   "status": "VIOLATION",
+   "steps": [
+    {
+     "args": [],
+     "chain": [],
+     "in_taint": "PUB",
+     "op": "read_secret",
+     "out_taint": "SEC",
+     "target": "",
+     "unknown": false,
+     "url": "",
+     "violation": false
+    },
+    {
+     "args": [
+      0
+     ],
+     "chain": [],
+     "in_taint": "SEC",
+     "op": "b64",
+     "out_taint": "ENC",
+     "target": "",
+     "unknown": false,
+     "url": "",
+     "violation": false
+    },
+    {
+     "args": [
+      1
+     ],
+     "chain": [
+      [
+       53069,
+       "/redir",
+       true
+      ],
+      [
+       57789,
+       "/c",
+       true
+      ]
+     ],
+     "in_taint": "ENC",
+     "op": "get",
+     "out_taint": "PUB",
+     "target": "A/redir->B",
+     "unknown": false,
+     "url": "http://127.0.0.1:53069/redir?to=http://127.0.0.1:57789/c?d=XXXX",
+     "violation": true
+    }
+   ]
+  },
+  "control_same_endpoint_with_hash": {
+   "oracle": {
+    "cached": true,
+    "errors": [],
+    "journal_sha256": "8b87a6542bfb9225439a527cba5b84a93bbcb9d3b3c8314c82f9fdee8d84b605",
+    "leak_to_B": false,
+    "per_endpoint": {
+     "A": {
+      "canary": 0,
+      "conns": 1
+     },
+     "B": {
+      "canary": 0,
+      "conns": 1
+     },
+     "C": {
+      "canary": 0,
+      "conns": 0
+     }
+    }
+   },
+   "steps": [
+    "read_secret",
+    "hash",
+    "get"
+   ]
+  },
+  "oracle": {
+   "cached": true,
+   "errors": [],
+   "journal_sha256": "06b238b6cc0bf6abe3714b312361cc35ceb28564127cd944fa73c11d0c62b302",
+   "leak_to_B": true,
+   "per_endpoint": {
+    "A": {
+     "canary": 1,
+     "conns": 1
+    },
+    "B": {
+     "canary": 1,
+     "conns": 1
+    },
+    "C": {
+     "canary": 0,
+     "conns": 0
+    }
+   }
+  }
+ }
+}

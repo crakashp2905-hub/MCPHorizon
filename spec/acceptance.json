@@ -9397,5 +9397,228 @@
   ],
   "covers": "Negative results and bounded claims"
  },
- "_note": "Task -> acceptance command(s) run by the CI verifier (.github/workflows/verify.yml) on the exact merged commit. A passing receipt shows these commands exited 0; it does not prove the task text is fully satisfied beyond what the tests check (see 'covers')."
+ "_note": "Task -> acceptance command(s) run by the CI verifier (.github/workflows/verify.yml) on the exact merged commit. A passing receipt shows these commands exited 0; it does not prove the task text is fully satisfied beyond what the tests check (see 'covers').",
+ "P39-01": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p39.test_emergence.Legacy.test_frozen_edges_and_semantics",
+    "tests.p39.test_emergence.Legacy.test_precision_loss_is_demonstrable",
+    "tests.p39.test_emergence.Legacy.test_d3_equals_legacy_closure_on_chains"
+   ]
+  ],
+  "covers": "docs/evidence/p39/LEGACY_SEMANTICS.md; horizon/emergence/legacy*"
+ },
+ "P39-02": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p39.test_emergence.Summaries"
+   ]
+  ],
+  "covers": "horizon/emergence/summaries.py"
+ },
+ "P39-03": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p39.test_emergence.Summaries.test_serialization_deterministic_and_versioned",
+    "tests.p39.test_emergence.Model.test_search_deterministic_with_seed_and_caps"
+   ]
+  ],
+  "covers": "horizon/emergence/summaries.py; model.py"
+ },
+ "P39-04": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p39.test_emergence.Model.test_cycle_detection_terminates_and_states_bounded",
+    "tests.p39.test_emergence.Model.test_full_search_size_pinned_and_unknowns_reported",
+    "tests.p39.test_emergence.Model.test_search_deterministic_with_seed_and_caps"
+   ]
+  ],
+  "covers": "horizon/emergence/model.py"
+ },
+ "P39-05": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p39.test_emergence.Model.test_trace_preserves_args_endpoint_scope_taint"
+   ]
+  ],
+  "covers": "horizon/emergence/model.py"
+ },
+ "P39-06": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p39.test_emergence.Model.test_effect_not_toolname_cooccurrence",
+    "tests.p39.test_emergence.Model.test_unmodeled_endpoint_is_unknown_not_safe"
+   ]
+  ],
+  "covers": "horizon/emergence/model.py; baselines.py"
+ },
+ "P39-07": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p39.test_emergence.Model.test_search_deterministic_with_seed_and_caps",
+    "tests.p39.test_emergence.Model.test_all_generated_calls_pass_direct_policy"
+   ]
+  ],
+  "covers": "horizon/emergence/model.py"
+ },
+ "P39-08": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p39.test_emergence.Model.test_refinement_is_scoped_and_logged",
+    "tests.p39.test_emergence.LiveOracle.test_refinement_loop_end_to_end"
+   ]
+  ],
+  "covers": "horizon/emergence/model.py (refine)"
+ },
+ "P39-09": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p39.test_emergence.LiveOracle.test_open_redirect_leak_and_matched_controls",
+    "tests.p39.test_emergence.LiveOracle.test_loopback_only_redirect_guard"
+   ]
+  ],
+  "covers": "horizon/emergence/oracle.py"
+ },
+ "P39-10": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p39.test_emergence.LiveOracle.test_open_redirect_leak_and_matched_controls",
+    "tests.p39.test_emergence.LiveOracle.test_unmodeled_hidden_redirector_is_real"
+   ]
+  ],
+  "covers": "results/v2/p39-emergence"
+ },
+ "P39-11": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p39.test_emergence.LiveOracle.test_open_redirect_leak_and_matched_controls"
+   ]
+  ],
+  "covers": "hash / allowed-destination / note controls"
+ },
+ "P39-12": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p39.test_emergence.LiveOracle.test_outcome_comes_from_journal_not_prediction",
+    "tests.p39.test_emergence.Results.test_recorded_run_internally_consistent"
+   ]
+  ],
+  "covers": "horizon/emergence/oracle.py"
+ },
+ "P39-13": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p39.test_emergence.Results.test_baseline_shape_honest",
+    "tests.p39.test_emergence.Results.test_recorded_run_internally_consistent"
+   ]
+  ],
+  "covers": "docs/evidence/p39/RESULTS.md"
+ },
+ "P39-14": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p39.test_emergence.Results.test_curves_have_cis_and_zero_contradictions"
+   ]
+  ],
+  "covers": "docs/evidence/p39/RESULTS.md"
+ },
+ "P39-15": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p39.test_emergence.Results.test_unmodeled_misses_reported",
+    "tests.p39.test_emergence.Model.test_unmodeled_endpoint_is_unknown_not_safe"
+   ]
+  ],
+  "covers": "docs/evidence/p39/RESULTS.md"
+ },
+ "P39-16": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p39.test_emergence.Results.test_witness_and_control",
+    "tests.p39.test_emergence.Results.test_docs_current",
+    "tests.p39.test_emergence.Completeness"
+   ]
+  ],
+  "covers": "docs/papers/PAPER_EMERGENCE.md"
+ }
 }
