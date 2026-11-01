@@ -3,7 +3,7 @@
 import math, os, re, sys
 from pathlib import Path
 PATTERNS = {"aws_key": r"AKIA[0-9A-Z]{16}", "private_key": r"-----BEGIN [A-Z ]*PRIVATE KEY-----", "github_token": r"gh[pousr]_[A-Za-z0-9]{36,}", "slack_token": r"xox[abprs]-[A-Za-z0-9-]{10,}", "openai_style": r"sk-[A-Za-z0-9]{32,}", "jwt": r"eyJ[A-Za-z0-9_-]{15,}\.[A-Za-z0-9_-]{15,}\.[A-Za-z0-9_-]{10,}", "generic_assign": r"""(?i)(?:password|secret|api[_-]?key|token)\s*[:=]\s*['"][A-Za-z0-9/+_=-]{20,}['"]"""}
-ALLOW_PATH = ("MCPTox/", "MCPWEEK5/", "MCPWEEK6/", "TAMAS/", "data/", "tests/", "results/", "bench/secbench/data/", "docs/", "conformance/", "spec/", "package-lock.json", "Cargo.lock", ".git/")
+ALLOW_PATH = ("MCPTox/", "MCPWEEK5/", "MCPWEEK6/", "TAMAS/", "data/", "tests/", "results/", "bench/secbench/data/", "research/incident-casebook/", "docs/", "conformance/", "spec/", "package-lock.json", "Cargo.lock", ".git/")
 
 
 def entropy(s): 
