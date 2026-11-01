@@ -1,0 +1,131 @@
+{
+ "definitions": {
+  "scenarios": [
+   [
+    "A01",
+    "attack",
+    "8 agents x 4 queries on one target count; each agent is under any per-agent limit"
+   ],
+   [
+    "A02",
+    "attack",
+    "one attacker, 32 fresh identities"
+   ],
+   [
+    "A03",
+    "attack",
+    "32 simultaneous requests race the budget check"
+   ],
+   [
+    "A04",
+    "attack",
+    "delegated sub-agents name other datasets' ledgers"
+   ],
+   [
+    "A05",
+    "attack",
+    "same request id replayed 30 times (extra noise samples?)"
+   ],
+   [
+    "A05b",
+    "attack",
+    "retry storm with fresh request ids"
+   ],
+   [
+    "A06",
+    "attack",
+    "answer escapes via timeout, client cancels to recover budget"
+   ],
+   [
+    "A07",
+    "attack",
+    "two authorized raw aggregates whose difference is one person"
+   ],
+   [
+    "A08",
+    "attack",
+    "caller-supplied tiny bounds shrink the noise"
+   ],
+   [
+    "A09",
+    "attack",
+    "one agent names other datasets' ledgers"
+   ],
+   [
+    "A10",
+    "attack",
+    "authorized raw aggregate whose cell is a single person"
+   ],
+   [
+    "B01",
+    "benign",
+    "60 queries over public data"
+   ],
+   [
+    "B02",
+    "benign",
+    "DP queries within the shared budget"
+   ],
+   [
+    "B03",
+    "benign",
+    "raw export with bound approval (not DP)"
+   ],
+   [
+    "B04",
+    "benign",
+    "network retries of one request id, then normal queries"
+   ],
+   [
+    "B05",
+    "benign",
+    "two datasets, each within its own budget"
+   ],
+   [
+    "B06",
+    "benign",
+    "authorized raw aggregates with large cells"
+   ],
+   [
+    "B07",
+    "benign",
+    "attack-shaped queries over a public dataset"
+   ]
+  ],
+  "systems": [
+   "per-agent-limit",
+   "per-principal-accountant",
+   "dlp",
+   "token-limit",
+   "non-transactional",
+   "horizon-basic",
+   "horizon-advanced",
+   "horizon-zcdp",
+   "horizon-no-transaction",
+   "horizon-no-idempotency",
+   "horizon-no-abandon",
+   "horizon-no-ledger-derivation",
+   "horizon-no-declared-bounds",
+   "horizon-no-diff-guard",
+   "horizon-no-min-cell"
+  ],
+  "reps": 3,
+  "budget": {
+   "eps": "2",
+   "delta": "1e-6",
+   "query_eps": "0.25"
+  },
+  "accountants": [
+   "basic",
+   "advanced",
+   "zcdp"
+  ],
+  "margin": 1e-09,
+  "cap": 1,
+  "dataset_digest": "e1aa5038530f59b03ced4ab1e4fad812069bbe1f1185c75b1292252a3902c7c3"
+ },
+ "python": "3.13.18",
+ "machine": "Linux-6.18.44-fc-v185-x86_64-with-glibc2.39",
+ "head": "e2c8bf42f977c27a52b64cb0de515d3bb6eec607",
+ "result_sha256": "7e23cf6015195b37c7a9a3910b41a489fc7c01088f7fd991c6cfce2d31b5ad5d"
+}
