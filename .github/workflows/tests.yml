@@ -91,6 +91,7 @@ jobs:
       - run: python3 -W ignore -m unittest tests.p43.test_mutation -v && python3 scripts/p43_report.py --check && python3 scripts/p43_run.py --check
       - run: python3 scripts/p43_mutants.py          # every mutant must be killed
       - run: python3 -W ignore -m unittest tests.p44.test_reach -v && python3 scripts/p44_report.py --check && python3 scripts/p44_run.py --check
+      - run: pip install pytest==8.3.5          # the CI python has no pytest; without it every pytest-based mutation script reports every mutant as killed
       - run: python3 scripts/p44_mutants.py          # every mutant must be killed
       - run: python3 -W ignore -m unittest tests.p45.test_privacy -v && python3 scripts/p45_report.py --check && python3 scripts/p45_run.py --check && python3 scripts/p45_repeat.py
       - run: python3 scripts/p45_mutants.py          # every mutant must be killed
@@ -111,7 +112,6 @@ jobs:
       - run: python3 -W ignore -m unittest tests.p53.test_continuity -v && python3 scripts/p53_report.py --check && python3 scripts/p53_run.py --check
       - run: python3 scripts/p53_mutants.py          # every mutant must be killed
       - run: python3 -W ignore -m unittest tests.p54.test_integration -v && python3 scripts/p54_report.py --check && python3 scripts/p54_run.py --check
-      - run: pip install pytest==8.3.5          # the CI python has no pytest; without it every pytest-based mutation script reports every mutant as killed
       - run: python3 scripts/p54_mutants.py          # every mutant must be killed
       - run: python3 scripts/p38_casebook.py --check && python3 scripts/p38_compare.py --check && python3 scripts/p38_papers.py --check && python3 scripts/p38_gates.py --check
       - run: python3 -W ignore -m unittest tests.p11.test_paper -v
