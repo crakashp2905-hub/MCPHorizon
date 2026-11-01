@@ -57,6 +57,7 @@ jobs:
       - run: python3 -W ignore -m unittest tests.p22.test_select -v
       - run: python3 -W ignore -m unittest tests.p23.test_p23 -v
       - run: python3 scripts/runtime_gap_report.py --check
+      - run: sudo -E env "PATH=$PATH" python3 scripts/p38_runner_check.py --require      # fail loudly if the kernel-isolation tests cannot run on this runner
       # Runtime tests need root (namespaces/Landlock/seccomp). They skip with a visible UNSUPPORTED message otherwise; the `-v` output records which.
       - run: sudo -E env "PATH=$PATH" python3 -W ignore -m unittest tests.p24.test_sandbox tests.p25.test_broker tests.p26.test_creds tests.p27.test_managed -v
       - run: pip install bandit==1.9.4
@@ -76,14 +77,19 @@ jobs:
       - run: sudo -E env "PATH=$PATH" python3 -W ignore -m unittest tests.p37.test_h4 -v
       - run: python3 bench/h4/run.py check
       - run: python3 bench/h4/report.py --check
+      - run: pip install pyyaml==6.0.3 && sudo -E env "PATH=$PATH" python3 -W ignore -m unittest tests.p38.test_p38 -v
+      - run: python3 scripts/p38_casebook.py --check && python3 scripts/p38_compare.py --check && python3 scripts/p38_papers.py --check && python3 scripts/p38_gates.py --check
       - run: python3 -W ignore -m unittest tests.p11.test_paper -v
       - run: python3 paper/build.py --check
       - run: python3 scripts/secret_scan.py
       - run: python3 scripts/sbom.py --out sbom.cdx.json
+      - run: python3 scripts/p38_release_bundle.py build release-evidence.tar && python3 scripts/p38_release_bundle.py verify release-evidence.tar      # ephemeral-key bundle: integrity only, not identity or independent review
       - uses: actions/upload-artifact@v4
         with:
-          name: sbom
-          path: sbom.cdx.json
+          name: sbom-and-evidence
+          path: |
+            sbom.cdx.json
+            release-evidence.tar
   cross-language-conformance:
     runs-on: ubuntu-latest
     steps:

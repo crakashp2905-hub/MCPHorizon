@@ -9,7 +9,7 @@
 * HMIB-19/20 use the P32 scripted toy model. **Live-model testing (L3) is NOT RUN.** A real backdoored model, a real agent runtime and real tool traffic have not been exercised.
 * HCCB: 4 of 18 scenario types have a behavioural exploit oracle; 11 use ground truth by construction (the defect was built in). Generated code comes from a scripted toy model, not an LLM.
 * HECB: single-process; no network, timing or resource-contention covert channels; collector death is simulated in-process (the real out-of-process collector is covered by P35 tests).
-* HIEB: 6 types are live loopback probes; 8 are configuration-fact oracles; **no off-loopback listener was ever bound**. B3 is an emulation of generic scanners, not a real scanner.
+* HIEB: 7 types are live loopback probes; 7 are configuration-fact oracles; **no off-loopback listener was ever bound**. B3 is an emulation of generic scanners, not a real scanner.
 * **Pilot / real-user deployment (L5) is NOT RUN.** No independent reviewer has reproduced or audited any of this (MG-G12 is not claimed here).
 
 ## Known uncovered case (a measured negative finding)
