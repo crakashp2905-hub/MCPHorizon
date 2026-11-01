@@ -90,6 +90,8 @@ jobs:
       - run: sudo -E env "PATH=$PATH" python3 scripts/p42_release_gate.py      # supported protection claims need live VERIFIED coverage now
       - run: python3 -W ignore -m unittest tests.p43.test_mutation -v && python3 scripts/p43_report.py --check && python3 scripts/p43_run.py --check
       - run: python3 scripts/p43_mutants.py          # every mutant must be killed
+      - run: python3 -W ignore -m unittest tests.p44.test_reach -v && python3 scripts/p44_report.py --check && python3 scripts/p44_run.py --check
+      - run: python3 scripts/p44_mutants.py          # every mutant must be killed
       - run: python3 scripts/p38_casebook.py --check && python3 scripts/p38_compare.py --check && python3 scripts/p38_papers.py --check && python3 scripts/p38_gates.py --check
       - run: python3 -W ignore -m unittest tests.p11.test_paper -v
       - run: python3 paper/build.py --check

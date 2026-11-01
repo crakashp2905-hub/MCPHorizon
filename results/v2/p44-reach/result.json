@@ -1,0 +1,2264 @@
+{
+ "a03_followup": {
+  "allowlist": {
+   "audit_detected": 0,
+   "first_call_violated": 3,
+   "runs": 3,
+   "second_call_violated": 3
+  },
+  "declaration": {
+   "audit_detected": 0,
+   "first_call_violated": 3,
+   "runs": 3,
+   "second_call_violated": 3
+  },
+  "pattern": {
+   "audit_detected": 0,
+   "first_call_violated": 3,
+   "runs": 3,
+   "second_call_violated": 3
+  },
+  "reach": {
+   "audit_detected": 3,
+   "first_call_violated": 3,
+   "runs": 3,
+   "second_call_violated": 0
+  },
+  "reach-no-attestation": {
+   "audit_detected": 3,
+   "first_call_violated": 3,
+   "runs": 3,
+   "second_call_violated": 0
+  },
+  "reach-no-canonicalization": {
+   "audit_detected": 3,
+   "first_call_violated": 3,
+   "runs": 3,
+   "second_call_violated": 0
+  },
+  "reach-no-fabric": {
+   "audit_detected": 0,
+   "first_call_violated": 3,
+   "runs": 3,
+   "second_call_violated": 3
+  },
+  "reach-no-label-binding": {
+   "audit_detected": 3,
+   "first_call_violated": 3,
+   "runs": 3,
+   "second_call_violated": 0
+  },
+  "reach-no-pinning": {
+   "audit_detected": 3,
+   "first_call_violated": 3,
+   "runs": 3,
+   "second_call_violated": 0
+  },
+  "reach-no-receipts": {
+   "audit_detected": 3,
+   "first_call_violated": 3,
+   "runs": 3,
+   "second_call_violated": 0
+  },
+  "reach-no-redirect-revalidation": {
+   "audit_detected": 3,
+   "first_call_violated": 3,
+   "runs": 3,
+   "second_call_violated": 0
+  },
+  "reach-no-unknown-blocking": {
+   "audit_detected": 3,
+   "first_call_violated": 3,
+   "runs": 3,
+   "second_call_violated": 0
+  }
+ },
+ "emergence_agreement": [
+  {
+   "a_redirect_known": true,
+   "agree": false,
+   "emergence": "ALLOW",
+   "known_c": false,
+   "reach": "DENY",
+   "sound": true,
+   "url": "A/ingest"
+  },
+  {
+   "a_redirect_known": true,
+   "agree": true,
+   "emergence": "DENY",
+   "known_c": false,
+   "reach": "DENY",
+   "sound": true,
+   "url": "A/redir->B"
+  },
+  {
+   "a_redirect_known": true,
+   "agree": true,
+   "emergence": "UNKNOWN",
+   "known_c": false,
+   "reach": "UNKNOWN",
+   "sound": true,
+   "url": "C/redir->B"
+  },
+  {
+   "a_redirect_known": false,
+   "agree": true,
+   "emergence": "ALLOW",
+   "known_c": false,
+   "reach": "ALLOW",
+   "sound": true,
+   "url": "A/ingest"
+  },
+  {
+   "a_redirect_known": false,
+   "agree": true,
+   "emergence": "ALLOW",
+   "known_c": false,
+   "reach": "ALLOW",
+   "sound": true,
+   "url": "A/redir->B"
+  },
+  {
+   "a_redirect_known": false,
+   "agree": true,
+   "emergence": "UNKNOWN",
+   "known_c": false,
+   "reach": "UNKNOWN",
+   "sound": true,
+   "url": "C/redir->B"
+  },
+  {
+   "a_redirect_known": true,
+   "agree": false,
+   "emergence": "ALLOW",
+   "known_c": true,
+   "reach": "DENY",
+   "sound": true,
+   "url": "A/ingest"
+  },
+  {
+   "a_redirect_known": true,
+   "agree": true,
+   "emergence": "DENY",
+   "known_c": true,
+   "reach": "DENY",
+   "sound": true,
+   "url": "A/redir->B"
+  },
+  {
+   "a_redirect_known": true,
+   "agree": true,
+   "emergence": "DENY",
+   "known_c": true,
+   "reach": "DENY",
+   "sound": true,
+   "url": "C/redir->B"
+  },
+  {
+   "a_redirect_known": false,
+   "agree": true,
+   "emergence": "ALLOW",
+   "known_c": true,
+   "reach": "ALLOW",
+   "sound": true,
+   "url": "A/ingest"
+  },
+  {
+   "a_redirect_known": false,
+   "agree": true,
+   "emergence": "ALLOW",
+   "known_c": true,
+   "reach": "ALLOW",
+   "sound": true,
+   "url": "A/redir->B"
+  },
+  {
+   "a_redirect_known": false,
+   "agree": true,
+   "emergence": "DENY",
+   "known_c": true,
+   "reach": "DENY",
+   "sound": true,
+   "url": "C/redir->B"
+  }
+ ],
+ "limits": [
+  "services, policy, scenarios and oracle clearance table are all written by the same author on one machine; loopback aliases stand in for real hosts and DNS is a mock resolver",
+  "the first use of an ATTESTED external service that lies (A03) is NOT prevented: attestation and signed receipts are claims about the service, and receipts omitted the hidden request; only an independent observer detects it, after the fact, by time window and marker content",
+  "controlled services are confined only because their outbound requests go through the fabric; a service that opens its own sockets must be confined by the P42 sandbox (calibration included when available), which this module does not replace",
+  "the sink oracle journals HTTP requests only; raw TCP bytes that never form a request would not be recorded (unobserved, not 'safe')",
+  "marker detection covers the canary and the known single-step derived forms only; a service that re-encodes the marker twice would not be seen by the oracle (UNKNOWN effect, not 'safe')",
+  "the strict allowlist baseline also checks every URL argument and resolves the name; it is a fair, not a weak, baseline, and it still cannot see a hidden secondary request",
+  "the 'tool-description' baseline trusts a self-declared forward list; no language model reads descriptions here",
+  "budgeted-reach timings are single-process Python microbenchmarks on synthetic graphs",
+  "no third-party host was contacted; remote effect descriptions from real services were not available to test"
+ ],
+ "observability": {
+  "O01#0": {
+   "oracle": "NO_EFFECT_OBSERVED",
+   "post_verdict": "UNKNOWN",
+   "receipt": "MISSING",
+   "verdict": "ALLOW"
+  },
+  "O01#1": {
+   "oracle": "NO_EFFECT_OBSERVED",
+   "post_verdict": "UNKNOWN",
+   "receipt": "MISSING",
+   "verdict": "ALLOW"
+  },
+  "O01#2": {
+   "oracle": "NO_EFFECT_OBSERVED",
+   "post_verdict": "UNKNOWN",
+   "receipt": "MISSING",
+   "verdict": "ALLOW"
+  },
+  "O02#0": {
+   "oracle": "NO_EFFECT_OBSERVED",
+   "post_verdict": "UNKNOWN",
+   "receipt": null,
+   "verdict": "UNKNOWN"
+  },
+  "O02#1": {
+   "oracle": "NO_EFFECT_OBSERVED",
+   "post_verdict": "UNKNOWN",
+   "receipt": null,
+   "verdict": "UNKNOWN"
+  },
+  "O02#2": {
+   "oracle": "NO_EFFECT_OBSERVED",
+   "post_verdict": "UNKNOWN",
+   "receipt": null,
+   "verdict": "UNKNOWN"
+  },
+  "O03#0": {
+   "oracle": "UNKNOWN",
+   "post_verdict": "ALLOW",
+   "receipt": null,
+   "verdict": "ALLOW"
+  },
+  "O03#1": {
+   "oracle": "UNKNOWN",
+   "post_verdict": "ALLOW",
+   "receipt": null,
+   "verdict": "ALLOW"
+  },
+  "O03#2": {
+   "oracle": "UNKNOWN",
+   "post_verdict": "ALLOW",
+   "receipt": null,
+   "verdict": "ALLOW"
+  }
+ },
+ "per_scenario": {
+  "A01": {
+   "kind": "attack",
+   "note": "controlled converter forwards the marker to an unauthorized endpoint through a hidden secondary request",
+   "systems": {
+    "allowlist": "VCA",
+    "declaration": "VCA",
+    "pattern": "VCA",
+    "reach": "-CA",
+    "reach-no-attestation": "-CA",
+    "reach-no-canonicalization": "-CA",
+    "reach-no-fabric": "VCA",
+    "reach-no-label-binding": "-CA",
+    "reach-no-pinning": "-CA",
+    "reach-no-receipts": "-CA",
+    "reach-no-redirect-revalidation": "-CA",
+    "reach-no-unknown-blocking": "-CA"
+   }
+  },
+  "A02": {
+   "kind": "attack",
+   "note": "external converter with an unverified, honest-looking declaration forwards the marker",
+   "systems": {
+    "allowlist": "VCA",
+    "declaration": "VCA",
+    "pattern": "VCA",
+    "reach": "-xU",
+    "reach-no-attestation": "VCA",
+    "reach-no-canonicalization": "-xU",
+    "reach-no-fabric": "-xU",
+    "reach-no-label-binding": "-xU",
+    "reach-no-pinning": "-xU",
+    "reach-no-receipts": "-xU",
+    "reach-no-redirect-revalidation": "-xU",
+    "reach-no-unknown-blocking": "VCU"
+   }
+  },
+  "A03": {
+   "kind": "attack",
+   "note": "ATTESTED external service lies and its signed receipts omit the secondary request: not preventable on first use; detectable by an independent observer",
+   "systems": {
+    "allowlist": "VCA",
+    "declaration": "VCA",
+    "pattern": "VCA",
+    "reach": "VCA",
+    "reach-no-attestation": "VCA",
+    "reach-no-canonicalization": "VCA",
+    "reach-no-fabric": "VCA",
+    "reach-no-label-binding": "VCA",
+    "reach-no-pinning": "VCA",
+    "reach-no-receipts": "VCA",
+    "reach-no-redirect-revalidation": "VCA",
+    "reach-no-unknown-blocking": "VCA"
+   }
+  },
+  "A04": {
+   "kind": "attack",
+   "note": "allowed partner is an open redirector to an unauthorized host",
+   "systems": {
+    "allowlist": "VCA",
+    "declaration": "VCA",
+    "pattern": "-xD",
+    "reach": "-xA",
+    "reach-no-attestation": "-xA",
+    "reach-no-canonicalization": "-xA",
+    "reach-no-fabric": "-xA",
+    "reach-no-label-binding": "-xA",
+    "reach-no-pinning": "-xA",
+    "reach-no-receipts": "-xA",
+    "reach-no-redirect-revalidation": "VCA",
+    "reach-no-unknown-blocking": "-xA"
+   }
+  },
+  "A05": {
+   "kind": "attack",
+   "note": "DNS answer changes between check and connect",
+   "systems": {
+    "allowlist": "VCA",
+    "declaration": "VCA",
+    "pattern": "-CA",
+    "reach": "-CA",
+    "reach-no-attestation": "-CA",
+    "reach-no-canonicalization": "-CA",
+    "reach-no-fabric": "-CA",
+    "reach-no-label-binding": "-CA",
+    "reach-no-pinning": "VCA",
+    "reach-no-receipts": "-CA",
+    "reach-no-redirect-revalidation": "-CA",
+    "reach-no-unknown-blocking": "-CA"
+   }
+  },
+  "A06a": {
+   "kind": "attack",
+   "note": "decimal IPv4 form of the unauthorized host",
+   "systems": {
+    "allowlist": "-xD",
+    "declaration": "-xD",
+    "pattern": "VCA",
+    "reach": "-xD",
+    "reach-no-attestation": "-xD",
+    "reach-no-canonicalization": "-xU",
+    "reach-no-fabric": "-xD",
+    "reach-no-label-binding": "-xD",
+    "reach-no-pinning": "-xD",
+    "reach-no-receipts": "-xD",
+    "reach-no-redirect-revalidation": "-xD",
+    "reach-no-unknown-blocking": "-xD"
+   }
+  },
+  "A06b": {
+   "kind": "attack",
+   "note": "hex IPv4 form",
+   "systems": {
+    "allowlist": "-xD",
+    "declaration": "-xD",
+    "pattern": "VCA",
+    "reach": "-xD",
+    "reach-no-attestation": "-xD",
+    "reach-no-canonicalization": "-xU",
+    "reach-no-fabric": "-xD",
+    "reach-no-label-binding": "-xD",
+    "reach-no-pinning": "-xD",
+    "reach-no-receipts": "-xD",
+    "reach-no-redirect-revalidation": "-xD",
+    "reach-no-unknown-blocking": "-xD"
+   }
+  },
+  "A06c": {
+   "kind": "attack",
+   "note": "IPv4-mapped IPv6 form",
+   "systems": {
+    "allowlist": "-xD",
+    "declaration": "-xD",
+    "pattern": "VCA",
+    "reach": "-xD",
+    "reach-no-attestation": "-xD",
+    "reach-no-canonicalization": "-xU",
+    "reach-no-fabric": "-xD",
+    "reach-no-label-binding": "-xD",
+    "reach-no-pinning": "-xD",
+    "reach-no-receipts": "-xD",
+    "reach-no-redirect-revalidation": "-xD",
+    "reach-no-unknown-blocking": "-xD"
+   }
+  },
+  "A06d": {
+   "kind": "attack",
+   "note": "userinfo makes the string look like the partner",
+   "systems": {
+    "allowlist": "-xD",
+    "declaration": "-xD",
+    "pattern": "-xD",
+    "reach": "-xU",
+    "reach-no-attestation": "-xU",
+    "reach-no-canonicalization": "-xD",
+    "reach-no-fabric": "-xU",
+    "reach-no-label-binding": "-xU",
+    "reach-no-pinning": "-xU",
+    "reach-no-receipts": "-xU",
+    "reach-no-redirect-revalidation": "-xU",
+    "reach-no-unknown-blocking": "-xU"
+   }
+  },
+  "A06e": {
+   "kind": "attack",
+   "note": "trailing-dot host",
+   "systems": {
+    "allowlist": "-xD",
+    "declaration": "-xD",
+    "pattern": "-xD",
+    "reach": "-xD",
+    "reach-no-attestation": "-xD",
+    "reach-no-canonicalization": "-xD",
+    "reach-no-fabric": "-xD",
+    "reach-no-label-binding": "-xD",
+    "reach-no-pinning": "-xD",
+    "reach-no-receipts": "-xD",
+    "reach-no-redirect-revalidation": "-xD",
+    "reach-no-unknown-blocking": "-xD"
+   }
+  },
+  "A06f": {
+   "kind": "attack",
+   "note": "octal IPv4 form",
+   "systems": {
+    "allowlist": "-xD",
+    "declaration": "-xD",
+    "pattern": "VCA",
+    "reach": "-xD",
+    "reach-no-attestation": "-xD",
+    "reach-no-canonicalization": "-xU",
+    "reach-no-fabric": "-xD",
+    "reach-no-label-binding": "-xD",
+    "reach-no-pinning": "-xD",
+    "reach-no-receipts": "-xD",
+    "reach-no-redirect-revalidation": "-xD",
+    "reach-no-unknown-blocking": "-xD"
+   }
+  },
+  "A07": {
+   "kind": "attack",
+   "note": "allowed relay forwards to an unauthorized destination named in its argument",
+   "systems": {
+    "allowlist": "-xD",
+    "declaration": "-xD",
+    "pattern": "-xD",
+    "reach": "-xD",
+    "reach-no-attestation": "-xD",
+    "reach-no-canonicalization": "-xD",
+    "reach-no-fabric": "-xD",
+    "reach-no-label-binding": "-xD",
+    "reach-no-pinning": "-xD",
+    "reach-no-receipts": "-xD",
+    "reach-no-redirect-revalidation": "-xD",
+    "reach-no-unknown-blocking": "-xD"
+   }
+  },
+  "A07b": {
+   "kind": "attack",
+   "note": "relay forwards to the authorized destination AND hides a second hop to an unauthorized one",
+   "systems": {
+    "allowlist": "VCA",
+    "declaration": "VCA",
+    "pattern": "VCA",
+    "reach": "-CA",
+    "reach-no-attestation": "-CA",
+    "reach-no-canonicalization": "-CA",
+    "reach-no-fabric": "VCA",
+    "reach-no-label-binding": "-CA",
+    "reach-no-pinning": "-CA",
+    "reach-no-receipts": "-CA",
+    "reach-no-redirect-revalidation": "-CA",
+    "reach-no-unknown-blocking": "-CA"
+   }
+  },
+  "A08": {
+   "kind": "attack",
+   "note": "publish the marker to a public-readable bucket",
+   "systems": {
+    "allowlist": "VCA",
+    "declaration": "VCA",
+    "pattern": "VCA",
+    "reach": "-xD",
+    "reach-no-attestation": "-xD",
+    "reach-no-canonicalization": "-xD",
+    "reach-no-fabric": "-xD",
+    "reach-no-label-binding": "-xD",
+    "reach-no-pinning": "-xD",
+    "reach-no-receipts": "-xD",
+    "reach-no-redirect-revalidation": "-xD",
+    "reach-no-unknown-blocking": "-xD"
+   }
+  },
+  "A09": {
+   "kind": "attack",
+   "note": "base64-derived payload with a false PUBLIC claim from the agent",
+   "systems": {
+    "allowlist": "VCA",
+    "declaration": "VCA",
+    "pattern": "VCA",
+    "reach": "-xD",
+    "reach-no-attestation": "-xD",
+    "reach-no-canonicalization": "-xD",
+    "reach-no-fabric": "-xD",
+    "reach-no-label-binding": "VCA",
+    "reach-no-pinning": "-xD",
+    "reach-no-receipts": "-xD",
+    "reach-no-redirect-revalidation": "-xD",
+    "reach-no-unknown-blocking": "-xD"
+   }
+  },
+  "B01": {
+   "kind": "benign",
+   "note": "honest controlled converter; marker in the document, sanitized output",
+   "systems": {
+    "allowlist": "-CA",
+    "declaration": "-CA",
+    "pattern": "-CA",
+    "reach": "-CA",
+    "reach-no-attestation": "-CA",
+    "reach-no-canonicalization": "-CA",
+    "reach-no-fabric": "-CA",
+    "reach-no-label-binding": "-CA",
+    "reach-no-pinning": "-CA",
+    "reach-no-receipts": "-CA",
+    "reach-no-redirect-revalidation": "-CA",
+    "reach-no-unknown-blocking": "-CA"
+   }
+  },
+  "B02": {
+   "kind": "benign",
+   "note": "approved redirect inside the authorized scope",
+   "systems": {
+    "allowlist": "-CA",
+    "declaration": "-CA",
+    "pattern": "-CA",
+    "reach": "-CA",
+    "reach-no-attestation": "-CA",
+    "reach-no-canonicalization": "-CA",
+    "reach-no-fabric": "-CA",
+    "reach-no-label-binding": "-CA",
+    "reach-no-pinning": "-CA",
+    "reach-no-receipts": "-CA",
+    "reach-no-redirect-revalidation": "-CA",
+    "reach-no-unknown-blocking": "-CA"
+   }
+  },
+  "B03": {
+   "kind": "benign",
+   "note": "public fetch, no sensitive data",
+   "systems": {
+    "allowlist": "-CA",
+    "declaration": "-CA",
+    "pattern": "-CA",
+    "reach": "-CA",
+    "reach-no-attestation": "-CA",
+    "reach-no-canonicalization": "-CA",
+    "reach-no-fabric": "-CA",
+    "reach-no-label-binding": "-CA",
+    "reach-no-pinning": "-CA",
+    "reach-no-receipts": "-CA",
+    "reach-no-redirect-revalidation": "-CA",
+    "reach-no-unknown-blocking": "-CA"
+   }
+  },
+  "B04": {
+   "kind": "benign",
+   "note": "relay to an authorized partner",
+   "systems": {
+    "allowlist": "-CA",
+    "declaration": "-CA",
+    "pattern": "-CA",
+    "reach": "-CA",
+    "reach-no-attestation": "-CA",
+    "reach-no-canonicalization": "-CA",
+    "reach-no-fabric": "-CA",
+    "reach-no-label-binding": "-CA",
+    "reach-no-pinning": "-CA",
+    "reach-no-receipts": "-CA",
+    "reach-no-redirect-revalidation": "-CA",
+    "reach-no-unknown-blocking": "-CA"
+   }
+  },
+  "B05": {
+   "kind": "benign",
+   "note": "attested external converter, honest, signed receipts",
+   "systems": {
+    "allowlist": "-CA",
+    "declaration": "-CA",
+    "pattern": "-CA",
+    "reach": "-CA",
+    "reach-no-attestation": "-CA",
+    "reach-no-canonicalization": "-CA",
+    "reach-no-fabric": "-CA",
+    "reach-no-label-binding": "-CA",
+    "reach-no-pinning": "-CA",
+    "reach-no-receipts": "-CA",
+    "reach-no-redirect-revalidation": "-CA",
+    "reach-no-unknown-blocking": "-CA"
+   }
+  },
+  "B06a": {
+   "kind": "benign",
+   "note": "upper case and trailing dot of an authorized host",
+   "systems": {
+    "allowlist": "-xD",
+    "declaration": "-xD",
+    "pattern": "-CA",
+    "reach": "-CA",
+    "reach-no-attestation": "-CA",
+    "reach-no-canonicalization": "-CA",
+    "reach-no-fabric": "-CA",
+    "reach-no-label-binding": "-CA",
+    "reach-no-pinning": "-CA",
+    "reach-no-receipts": "-CA",
+    "reach-no-redirect-revalidation": "-CA",
+    "reach-no-unknown-blocking": "-CA"
+   }
+  },
+  "B06b": {
+   "kind": "benign",
+   "note": "numeric form of the authorized host",
+   "systems": {
+    "allowlist": "-xD",
+    "declaration": "-xD",
+    "pattern": "-CA",
+    "reach": "-CA",
+    "reach-no-attestation": "-CA",
+    "reach-no-canonicalization": "-xU",
+    "reach-no-fabric": "-CA",
+    "reach-no-label-binding": "-CA",
+    "reach-no-pinning": "-CA",
+    "reach-no-receipts": "-CA",
+    "reach-no-redirect-revalidation": "-CA",
+    "reach-no-unknown-blocking": "-CA"
+   }
+  },
+  "B06c": {
+   "kind": "benign",
+   "note": "dot segments",
+   "systems": {
+    "allowlist": "-CA",
+    "declaration": "-CA",
+    "pattern": "-CA",
+    "reach": "-CA",
+    "reach-no-attestation": "-CA",
+    "reach-no-canonicalization": "-CA",
+    "reach-no-fabric": "-CA",
+    "reach-no-label-binding": "-CA",
+    "reach-no-pinning": "-CA",
+    "reach-no-receipts": "-CA",
+    "reach-no-redirect-revalidation": "-CA",
+    "reach-no-unknown-blocking": "-CA"
+   }
+  },
+  "B07": {
+   "kind": "benign",
+   "note": "sanitized (redacted) output published to the public bucket",
+   "systems": {
+    "allowlist": "-CA",
+    "declaration": "-CA",
+    "pattern": "-CA",
+    "reach": "-CA",
+    "reach-no-attestation": "-CA",
+    "reach-no-canonicalization": "-CA",
+    "reach-no-fabric": "-CA",
+    "reach-no-label-binding": "-CA",
+    "reach-no-pinning": "-CA",
+    "reach-no-receipts": "-CA",
+    "reach-no-redirect-revalidation": "-CA",
+    "reach-no-unknown-blocking": "-CA"
+   }
+  },
+  "B07b": {
+   "kind": "benign",
+   "note": "unverified external service handling public data only",
+   "systems": {
+    "allowlist": "-CA",
+    "declaration": "-CA",
+    "pattern": "-CA",
+    "reach": "-CA",
+    "reach-no-attestation": "-CA",
+    "reach-no-canonicalization": "-CA",
+    "reach-no-fabric": "-CA",
+    "reach-no-label-binding": "-CA",
+    "reach-no-pinning": "-CA",
+    "reach-no-receipts": "-CA",
+    "reach-no-redirect-revalidation": "-CA",
+    "reach-no-unknown-blocking": "-CA"
+   }
+  },
+  "B08": {
+   "kind": "benign",
+   "note": "redirect to another path on the same authorized authority",
+   "systems": {
+    "allowlist": "-CA",
+    "declaration": "-CA",
+    "pattern": "-CA",
+    "reach": "-CA",
+    "reach-no-attestation": "-CA",
+    "reach-no-canonicalization": "-CA",
+    "reach-no-fabric": "-CA",
+    "reach-no-label-binding": "-CA",
+    "reach-no-pinning": "-CA",
+    "reach-no-receipts": "-CA",
+    "reach-no-redirect-revalidation": "-CA",
+    "reach-no-unknown-blocking": "-CA"
+   }
+  },
+  "B09": {
+   "kind": "benign",
+   "note": "hash of the secret published",
+   "systems": {
+    "allowlist": "-CA",
+    "declaration": "-CA",
+    "pattern": "-CA",
+    "reach": "-CA",
+    "reach-no-attestation": "-CA",
+    "reach-no-canonicalization": "-CA",
+    "reach-no-fabric": "-CA",
+    "reach-no-label-binding": "-CA",
+    "reach-no-pinning": "-CA",
+    "reach-no-receipts": "-CA",
+    "reach-no-redirect-revalidation": "-CA",
+    "reach-no-unknown-blocking": "-CA"
+   }
+  },
+  "O01": {
+   "kind": "observability",
+   "note": "attested external service returns no receipt",
+   "systems": {
+    "allowlist": "-CA",
+    "declaration": "-CA",
+    "pattern": "-CA",
+    "reach": "-CA",
+    "reach-no-attestation": "-CA",
+    "reach-no-canonicalization": "-CA",
+    "reach-no-fabric": "-CA",
+    "reach-no-label-binding": "-CA",
+    "reach-no-pinning": "-CA",
+    "reach-no-receipts": "-CA",
+    "reach-no-redirect-revalidation": "-CA",
+    "reach-no-unknown-blocking": "-CA"
+   }
+  },
+  "O02": {
+   "kind": "observability",
+   "note": "destination that cannot be resolved",
+   "systems": {
+    "allowlist": "-xD",
+    "declaration": "-xD",
+    "pattern": "-xA",
+    "reach": "-xU",
+    "reach-no-attestation": "-xU",
+    "reach-no-canonicalization": "-xU",
+    "reach-no-fabric": "-xU",
+    "reach-no-label-binding": "-xU",
+    "reach-no-pinning": "-xU",
+    "reach-no-receipts": "-xU",
+    "reach-no-redirect-revalidation": "-xU",
+    "reach-no-unknown-blocking": "-xU"
+   }
+  },
+  "O03": {
+   "kind": "observability",
+   "note": "oracle journal unavailable: truth is UNKNOWN",
+   "systems": {
+    "allowlist": "?CA",
+    "declaration": "?CA",
+    "pattern": "?CA",
+    "reach": "?CA",
+    "reach-no-attestation": "?CA",
+    "reach-no-canonicalization": "?CA",
+    "reach-no-fabric": "?CA",
+    "reach-no-label-binding": "?CA",
+    "reach-no-pinning": "?CA",
+    "reach-no-receipts": "?CA",
+    "reach-no-redirect-revalidation": "?CA",
+    "reach-no-unknown-blocking": "?CA"
+   }
+  }
+ },
+ "reach_budget_study": [
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 10000
+   },
+   "edges": 10,
+   "exhausted": false,
+   "expanded": 11,
+   "graph": "chain",
+   "ms": 0.016,
+   "n": 10,
+   "reached": 10,
+   "reasons": [],
+   "unknown": false,
+   "verdict_if_n_forbidden": "DENY"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 200
+   },
+   "edges": 10,
+   "exhausted": false,
+   "expanded": 11,
+   "graph": "chain",
+   "ms": 0.005,
+   "n": 10,
+   "reached": 10,
+   "reasons": [],
+   "unknown": false,
+   "verdict_if_n_forbidden": "DENY"
+  },
+  {
+   "budget": {
+    "max_depth": 8,
+    "max_nodes": 10000
+   },
+   "edges": 10,
+   "exhausted": true,
+   "expanded": 9,
+   "graph": "chain",
+   "ms": 0.004,
+   "n": 10,
+   "reached": 8,
+   "reasons": [
+    "DEPTH_BUDGET"
+   ],
+   "unknown": true,
+   "verdict_if_n_forbidden": "UNKNOWN"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 10000
+   },
+   "edges": 100,
+   "exhausted": false,
+   "expanded": 101,
+   "graph": "chain",
+   "ms": 0.025,
+   "n": 100,
+   "reached": 100,
+   "reasons": [],
+   "unknown": false,
+   "verdict_if_n_forbidden": "DENY"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 200
+   },
+   "edges": 100,
+   "exhausted": false,
+   "expanded": 101,
+   "graph": "chain",
+   "ms": 0.025,
+   "n": 100,
+   "reached": 100,
+   "reasons": [],
+   "unknown": false,
+   "verdict_if_n_forbidden": "DENY"
+  },
+  {
+   "budget": {
+    "max_depth": 8,
+    "max_nodes": 10000
+   },
+   "edges": 100,
+   "exhausted": true,
+   "expanded": 9,
+   "graph": "chain",
+   "ms": 0.003,
+   "n": 100,
+   "reached": 8,
+   "reasons": [
+    "DEPTH_BUDGET"
+   ],
+   "unknown": true,
+   "verdict_if_n_forbidden": "UNKNOWN"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 10000
+   },
+   "edges": 1000,
+   "exhausted": false,
+   "expanded": 1001,
+   "graph": "chain",
+   "ms": 0.292,
+   "n": 1000,
+   "reached": 1000,
+   "reasons": [],
+   "unknown": false,
+   "verdict_if_n_forbidden": "DENY"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 200
+   },
+   "edges": 1000,
+   "exhausted": true,
+   "expanded": 200,
+   "graph": "chain",
+   "ms": 0.052,
+   "n": 1000,
+   "reached": 200,
+   "reasons": [
+    "NODE_BUDGET"
+   ],
+   "unknown": true,
+   "verdict_if_n_forbidden": "UNKNOWN"
+  },
+  {
+   "budget": {
+    "max_depth": 8,
+    "max_nodes": 10000
+   },
+   "edges": 1000,
+   "exhausted": true,
+   "expanded": 9,
+   "graph": "chain",
+   "ms": 0.003,
+   "n": 1000,
+   "reached": 8,
+   "reasons": [
+    "DEPTH_BUDGET"
+   ],
+   "unknown": true,
+   "verdict_if_n_forbidden": "UNKNOWN"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 10000
+   },
+   "edges": 5000,
+   "exhausted": false,
+   "expanded": 5001,
+   "graph": "chain",
+   "ms": 1.8,
+   "n": 5000,
+   "reached": 5000,
+   "reasons": [],
+   "unknown": false,
+   "verdict_if_n_forbidden": "DENY"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 200
+   },
+   "edges": 5000,
+   "exhausted": true,
+   "expanded": 200,
+   "graph": "chain",
+   "ms": 0.073,
+   "n": 5000,
+   "reached": 200,
+   "reasons": [
+    "NODE_BUDGET"
+   ],
+   "unknown": true,
+   "verdict_if_n_forbidden": "UNKNOWN"
+  },
+  {
+   "budget": {
+    "max_depth": 8,
+    "max_nodes": 10000
+   },
+   "edges": 5000,
+   "exhausted": true,
+   "expanded": 9,
+   "graph": "chain",
+   "ms": 0.005,
+   "n": 5000,
+   "reached": 8,
+   "reasons": [
+    "DEPTH_BUDGET"
+   ],
+   "unknown": true,
+   "verdict_if_n_forbidden": "UNKNOWN"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 10000
+   },
+   "edges": 30,
+   "exhausted": false,
+   "expanded": 5,
+   "graph": "dag-fan3",
+   "ms": 0.006,
+   "n": 10,
+   "reached": 4,
+   "reasons": [],
+   "unknown": false,
+   "verdict_if_n_forbidden": "DENY"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 200
+   },
+   "edges": 30,
+   "exhausted": false,
+   "expanded": 5,
+   "graph": "dag-fan3",
+   "ms": 0.003,
+   "n": 10,
+   "reached": 4,
+   "reasons": [],
+   "unknown": false,
+   "verdict_if_n_forbidden": "DENY"
+  },
+  {
+   "budget": {
+    "max_depth": 8,
+    "max_nodes": 10000
+   },
+   "edges": 30,
+   "exhausted": false,
+   "expanded": 5,
+   "graph": "dag-fan3",
+   "ms": 0.002,
+   "n": 10,
+   "reached": 4,
+   "reasons": [],
+   "unknown": false,
+   "verdict_if_n_forbidden": "DENY"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 10000
+   },
+   "edges": 300,
+   "exhausted": false,
+   "expanded": 41,
+   "graph": "dag-fan3",
+   "ms": 0.016,
+   "n": 100,
+   "reached": 40,
+   "reasons": [],
+   "unknown": false,
+   "verdict_if_n_forbidden": "DENY"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 200
+   },
+   "edges": 300,
+   "exhausted": false,
+   "expanded": 41,
+   "graph": "dag-fan3",
+   "ms": 0.014,
+   "n": 100,
+   "reached": 40,
+   "reasons": [],
+   "unknown": false,
+   "verdict_if_n_forbidden": "DENY"
+  },
+  {
+   "budget": {
+    "max_depth": 8,
+    "max_nodes": 10000
+   },
+   "edges": 300,
+   "exhausted": false,
+   "expanded": 41,
+   "graph": "dag-fan3",
+   "ms": 0.014,
+   "n": 100,
+   "reached": 40,
+   "reasons": [],
+   "unknown": false,
+   "verdict_if_n_forbidden": "DENY"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 10000
+   },
+   "edges": 3000,
+   "exhausted": false,
+   "expanded": 118,
+   "graph": "dag-fan3",
+   "ms": 0.047,
+   "n": 1000,
+   "reached": 117,
+   "reasons": [],
+   "unknown": false,
+   "verdict_if_n_forbidden": "DENY"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 200
+   },
+   "edges": 3000,
+   "exhausted": false,
+   "expanded": 118,
+   "graph": "dag-fan3",
+   "ms": 0.042,
+   "n": 1000,
+   "reached": 117,
+   "reasons": [],
+   "unknown": false,
+   "verdict_if_n_forbidden": "DENY"
+  },
+  {
+   "budget": {
+    "max_depth": 8,
+    "max_nodes": 10000
+   },
+   "edges": 3000,
+   "exhausted": true,
+   "expanded": 115,
+   "graph": "dag-fan3",
+   "ms": 0.04,
+   "n": 1000,
+   "reached": 114,
+   "reasons": [
+    "DEPTH_BUDGET"
+   ],
+   "unknown": true,
+   "verdict_if_n_forbidden": "DENY"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 10000
+   },
+   "edges": 15000,
+   "exhausted": false,
+   "expanded": 705,
+   "graph": "dag-fan3",
+   "ms": 0.341,
+   "n": 5000,
+   "reached": 704,
+   "reasons": [],
+   "unknown": false,
+   "verdict_if_n_forbidden": "DENY"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 200
+   },
+   "edges": 15000,
+   "exhausted": true,
+   "expanded": 200,
+   "graph": "dag-fan3",
+   "ms": 0.118,
+   "n": 5000,
+   "reached": 387,
+   "reasons": [
+    "NODE_BUDGET"
+   ],
+   "unknown": true,
+   "verdict_if_n_forbidden": "DENY"
+  },
+  {
+   "budget": {
+    "max_depth": 8,
+    "max_nodes": 10000
+   },
+   "edges": 15000,
+   "exhausted": true,
+   "expanded": 623,
+   "graph": "dag-fan3",
+   "ms": 0.259,
+   "n": 5000,
+   "reached": 622,
+   "reasons": [
+    "DEPTH_BUDGET"
+   ],
+   "unknown": true,
+   "verdict_if_n_forbidden": "DENY"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 10000
+   },
+   "edges": 10,
+   "exhausted": false,
+   "expanded": 10,
+   "graph": "cycle",
+   "ms": 0.007,
+   "n": 10,
+   "reached": 9,
+   "reasons": [],
+   "unknown": false,
+   "verdict_if_n_forbidden": "ALLOW"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 200
+   },
+   "edges": 10,
+   "exhausted": false,
+   "expanded": 10,
+   "graph": "cycle",
+   "ms": 0.004,
+   "n": 10,
+   "reached": 9,
+   "reasons": [],
+   "unknown": false,
+   "verdict_if_n_forbidden": "ALLOW"
+  },
+  {
+   "budget": {
+    "max_depth": 8,
+    "max_nodes": 10000
+   },
+   "edges": 10,
+   "exhausted": true,
+   "expanded": 9,
+   "graph": "cycle",
+   "ms": 0.004,
+   "n": 10,
+   "reached": 8,
+   "reasons": [
+    "DEPTH_BUDGET"
+   ],
+   "unknown": true,
+   "verdict_if_n_forbidden": "UNKNOWN"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 10000
+   },
+   "edges": 100,
+   "exhausted": false,
+   "expanded": 100,
+   "graph": "cycle",
+   "ms": 0.025,
+   "n": 100,
+   "reached": 99,
+   "reasons": [],
+   "unknown": false,
+   "verdict_if_n_forbidden": "ALLOW"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 200
+   },
+   "edges": 100,
+   "exhausted": false,
+   "expanded": 100,
+   "graph": "cycle",
+   "ms": 0.025,
+   "n": 100,
+   "reached": 99,
+   "reasons": [],
+   "unknown": false,
+   "verdict_if_n_forbidden": "ALLOW"
+  },
+  {
+   "budget": {
+    "max_depth": 8,
+    "max_nodes": 10000
+   },
+   "edges": 100,
+   "exhausted": true,
+   "expanded": 9,
+   "graph": "cycle",
+   "ms": 0.003,
+   "n": 100,
+   "reached": 8,
+   "reasons": [
+    "DEPTH_BUDGET"
+   ],
+   "unknown": true,
+   "verdict_if_n_forbidden": "UNKNOWN"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 10000
+   },
+   "edges": 1000,
+   "exhausted": false,
+   "expanded": 1000,
+   "graph": "cycle",
+   "ms": 0.257,
+   "n": 1000,
+   "reached": 999,
+   "reasons": [],
+   "unknown": false,
+   "verdict_if_n_forbidden": "ALLOW"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 200
+   },
+   "edges": 1000,
+   "exhausted": true,
+   "expanded": 200,
+   "graph": "cycle",
+   "ms": 0.046,
+   "n": 1000,
+   "reached": 200,
+   "reasons": [
+    "NODE_BUDGET"
+   ],
+   "unknown": true,
+   "verdict_if_n_forbidden": "UNKNOWN"
+  },
+  {
+   "budget": {
+    "max_depth": 8,
+    "max_nodes": 10000
+   },
+   "edges": 1000,
+   "exhausted": true,
+   "expanded": 9,
+   "graph": "cycle",
+   "ms": 0.003,
+   "n": 1000,
+   "reached": 8,
+   "reasons": [
+    "DEPTH_BUDGET"
+   ],
+   "unknown": true,
+   "verdict_if_n_forbidden": "UNKNOWN"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 10000
+   },
+   "edges": 5000,
+   "exhausted": false,
+   "expanded": 5000,
+   "graph": "cycle",
+   "ms": 1.43,
+   "n": 5000,
+   "reached": 4999,
+   "reasons": [],
+   "unknown": false,
+   "verdict_if_n_forbidden": "ALLOW"
+  },
+  {
+   "budget": {
+    "max_depth": 6000,
+    "max_nodes": 200
+   },
+   "edges": 5000,
+   "exhausted": true,
+   "expanded": 200,
+   "graph": "cycle",
+   "ms": 0.071,
+   "n": 5000,
+   "reached": 200,
+   "reasons": [
+    "NODE_BUDGET"
+   ],
+   "unknown": true,
+   "verdict_if_n_forbidden": "UNKNOWN"
+  },
+  {
+   "budget": {
+    "max_depth": 8,
+    "max_nodes": 10000
+   },
+   "edges": 5000,
+   "exhausted": true,
+   "expanded": 9,
+   "graph": "cycle",
+   "ms": 0.004,
+   "n": 5000,
+   "reached": 8,
+   "reasons": [
+    "DEPTH_BUDGET"
+   ],
+   "unknown": true,
+   "verdict_if_n_forbidden": "UNKNOWN"
+  },
+  {
+   "budget": {},
+   "edges": 50,
+   "exhausted": true,
+   "expanded": 9,
+   "graph": "chain-declared-edges",
+   "ms": 0.011,
+   "n": 50,
+   "reached": 8,
+   "reasons": [
+    "DEPTH_BUDGET",
+    "UNVERIFIED_EDGE 0->1 (declared)"
+   ],
+   "unknown": true,
+   "verdict_if_n_forbidden": "UNKNOWN"
+  }
+ ],
+ "reps": 3,
+ "runs": 1080,
+ "sandbox_bypass": {
+  "available": true,
+  "enforcing": {
+   "refused": null,
+   "seen_by_sink": false
+  },
+  "open": {
+   "refused": null,
+   "seen_by_sink": true
+  },
+  "why": "landlock abi 7"
+ },
+ "scenarios": [
+  {
+   "id": "A01",
+   "kind": "attack",
+   "note": "controlled converter forwards the marker to an unauthorized endpoint through a hidden secondary request"
+  },
+  {
+   "id": "A02",
+   "kind": "attack",
+   "note": "external converter with an unverified, honest-looking declaration forwards the marker"
+  },
+  {
+   "id": "A03",
+   "kind": "attack",
+   "note": "ATTESTED external service lies and its signed receipts omit the secondary request: not preventable on first use; detectable by an independent observer"
+  },
+  {
+   "id": "A04",
+   "kind": "attack",
+   "note": "allowed partner is an open redirector to an unauthorized host"
+  },
+  {
+   "id": "A05",
+   "kind": "attack",
+   "note": "DNS answer changes between check and connect"
+  },
+  {
+   "id": "A06a",
+   "kind": "attack",
+   "note": "decimal IPv4 form of the unauthorized host"
+  },
+  {
+   "id": "A06b",
+   "kind": "attack",
+   "note": "hex IPv4 form"
+  },
+  {
+   "id": "A06c",
+   "kind": "attack",
+   "note": "IPv4-mapped IPv6 form"
+  },
+  {
+   "id": "A06d",
+   "kind": "attack",
+   "note": "userinfo makes the string look like the partner"
+  },
+  {
+   "id": "A06e",
+   "kind": "attack",
+   "note": "trailing-dot host"
+  },
+  {
+   "id": "A06f",
+   "kind": "attack",
+   "note": "octal IPv4 form"
+  },
+  {
+   "id": "A07",
+   "kind": "attack",
+   "note": "allowed relay forwards to an unauthorized destination named in its argument"
+  },
+  {
+   "id": "A07b",
+   "kind": "attack",
+   "note": "relay forwards to the authorized destination AND hides a second hop to an unauthorized one"
+  },
+  {
+   "id": "A08",
+   "kind": "attack",
+   "note": "publish the marker to a public-readable bucket"
+  },
+  {
+   "id": "A09",
+   "kind": "attack",
+   "note": "base64-derived payload with a false PUBLIC claim from the agent"
+  },
+  {
+   "id": "B01",
+   "kind": "benign",
+   "note": "honest controlled converter; marker in the document, sanitized output"
+  },
+  {
+   "id": "B02",
+   "kind": "benign",
+   "note": "approved redirect inside the authorized scope"
+  },
+  {
+   "id": "B03",
+   "kind": "benign",
+   "note": "public fetch, no sensitive data"
+  },
+  {
+   "id": "B04",
+   "kind": "benign",
+   "note": "relay to an authorized partner"
+  },
+  {
+   "id": "B05",
+   "kind": "benign",
+   "note": "attested external converter, honest, signed receipts"
+  },
+  {
+   "id": "B06a",
+   "kind": "benign",
+   "note": "upper case and trailing dot of an authorized host"
+  },
+  {
+   "id": "B06b",
+   "kind": "benign",
+   "note": "numeric form of the authorized host"
+  },
+  {
+   "id": "B06c",
+   "kind": "benign",
+   "note": "dot segments"
+  },
+  {
+   "id": "B07",
+   "kind": "benign",
+   "note": "sanitized (redacted) output published to the public bucket"
+  },
+  {
+   "id": "B07b",
+   "kind": "benign",
+   "note": "unverified external service handling public data only"
+  },
+  {
+   "id": "B08",
+   "kind": "benign",
+   "note": "redirect to another path on the same authorized authority"
+  },
+  {
+   "id": "B09",
+   "kind": "benign",
+   "note": "hash of the secret published"
+  },
+  {
+   "id": "O01",
+   "kind": "observability",
+   "note": "attested external service returns no receipt"
+  },
+  {
+   "id": "O02",
+   "kind": "observability",
+   "note": "destination that cannot be resolved"
+  },
+  {
+   "id": "O03",
+   "kind": "observability",
+   "note": "oracle journal unavailable: truth is UNKNOWN"
+  }
+ ],
+ "summary": {
+  "allowlist": {
+   "attack_runs": 45,
+   "attacks_prevented": {
+    "ci": [
+     0.3294,
+     0.6092
+    ],
+    "k": 21,
+    "n": 45,
+    "rate": 0.4667
+   },
+   "attacks_with_forbidden_effect": {
+    "ci": [
+     0.3908,
+     0.6706
+    ],
+    "k": 24,
+    "n": 45,
+    "rate": 0.5333
+   },
+   "benign_blocked": 6,
+   "benign_completed": {
+    "ci": [
+     0.6811,
+     0.9213
+    ],
+    "k": 30,
+    "n": 36,
+    "rate": 0.8333
+   },
+   "benign_runs": 36,
+   "false_positives_on_approved_redirects_and_variants": {
+    "ci": [
+     0.1982,
+     0.6425
+    ],
+    "k": 6,
+    "n": 15,
+    "rate": 0.4
+   },
+   "ms_p50": 1.19,
+   "ms_p95": 2.5,
+   "redirect_and_rebind_race_catches": {
+    "ci": [
+     0.0,
+     0.3903
+    ],
+    "k": 0,
+    "n": 6,
+    "rate": 0.0
+   },
+   "unknown_blocked_attacks": 0,
+   "unresolved_destinations": 0
+  },
+  "declaration": {
+   "attack_runs": 45,
+   "attacks_prevented": {
+    "ci": [
+     0.3294,
+     0.6092
+    ],
+    "k": 21,
+    "n": 45,
+    "rate": 0.4667
+   },
+   "attacks_with_forbidden_effect": {
+    "ci": [
+     0.3908,
+     0.6706
+    ],
+    "k": 24,
+    "n": 45,
+    "rate": 0.5333
+   },
+   "benign_blocked": 6,
+   "benign_completed": {
+    "ci": [
+     0.6811,
+     0.9213
+    ],
+    "k": 30,
+    "n": 36,
+    "rate": 0.8333
+   },
+   "benign_runs": 36,
+   "false_positives_on_approved_redirects_and_variants": {
+    "ci": [
+     0.1982,
+     0.6425
+    ],
+    "k": 6,
+    "n": 15,
+    "rate": 0.4
+   },
+   "ms_p50": 0.91,
+   "ms_p95": 1.8,
+   "redirect_and_rebind_race_catches": {
+    "ci": [
+     0.0,
+     0.3903
+    ],
+    "k": 0,
+    "n": 6,
+    "rate": 0.0
+   },
+   "unknown_blocked_attacks": 0,
+   "unresolved_destinations": 0
+  },
+  "pattern": {
+   "attack_runs": 45,
+   "attacks_prevented": {
+    "ci": [
+     0.2136,
+     0.4793
+    ],
+    "k": 15,
+    "n": 45,
+    "rate": 0.3333
+   },
+   "attacks_with_forbidden_effect": {
+    "ci": [
+     0.5207,
+     0.7864
+    ],
+    "k": 30,
+    "n": 45,
+    "rate": 0.6667
+   },
+   "benign_blocked": 0,
+   "benign_completed": {
+    "ci": [
+     0.9036,
+     1.0
+    ],
+    "k": 36,
+    "n": 36,
+    "rate": 1.0
+   },
+   "benign_runs": 36,
+   "false_positives_on_approved_redirects_and_variants": {
+    "ci": [
+     0.0,
+     0.2039
+    ],
+    "k": 0,
+    "n": 15,
+    "rate": 0.0
+   },
+   "ms_p50": 1.0,
+   "ms_p95": 2.1,
+   "redirect_and_rebind_race_catches": {
+    "ci": [
+     0.6097,
+     1.0
+    ],
+    "k": 6,
+    "n": 6,
+    "rate": 1.0
+   },
+   "unknown_blocked_attacks": 0,
+   "unresolved_destinations": 0
+  },
+  "reach": {
+   "attack_runs": 45,
+   "attacks_prevented": {
+    "ci": [
+     0.8214,
+     0.9771
+    ],
+    "k": 42,
+    "n": 45,
+    "rate": 0.9333
+   },
+   "attacks_with_forbidden_effect": {
+    "ci": [
+     0.0229,
+     0.1786
+    ],
+    "k": 3,
+    "n": 45,
+    "rate": 0.0667
+   },
+   "benign_blocked": 0,
+   "benign_completed": {
+    "ci": [
+     0.9036,
+     1.0
+    ],
+    "k": 36,
+    "n": 36,
+    "rate": 1.0
+   },
+   "benign_runs": 36,
+   "false_positives_on_approved_redirects_and_variants": {
+    "ci": [
+     0.0,
+     0.2039
+    ],
+    "k": 0,
+    "n": 15,
+    "rate": 0.0
+   },
+   "ms_p50": 1.11,
+   "ms_p95": 2.76,
+   "redirect_and_rebind_race_catches": {
+    "ci": [
+     0.6097,
+     1.0
+    ],
+    "k": 6,
+    "n": 6,
+    "rate": 1.0
+   },
+   "unknown_blocked_attacks": 6,
+   "unresolved_destinations": 6
+  },
+  "reach-no-attestation": {
+   "attack_runs": 45,
+   "attacks_prevented": {
+    "ci": [
+     0.7382,
+     0.9374
+    ],
+    "k": 39,
+    "n": 45,
+    "rate": 0.8667
+   },
+   "attacks_with_forbidden_effect": {
+    "ci": [
+     0.0626,
+     0.2618
+    ],
+    "k": 6,
+    "n": 45,
+    "rate": 0.1333
+   },
+   "benign_blocked": 0,
+   "benign_completed": {
+    "ci": [
+     0.9036,
+     1.0
+    ],
+    "k": 36,
+    "n": 36,
+    "rate": 1.0
+   },
+   "benign_runs": 36,
+   "false_positives_on_approved_redirects_and_variants": {
+    "ci": [
+     0.0,
+     0.2039
+    ],
+    "k": 0,
+    "n": 15,
+    "rate": 0.0
+   },
+   "ms_p50": 1.19,
+   "ms_p95": 2.94,
+   "redirect_and_rebind_race_catches": {
+    "ci": [
+     0.6097,
+     1.0
+    ],
+    "k": 6,
+    "n": 6,
+    "rate": 1.0
+   },
+   "unknown_blocked_attacks": 3,
+   "unresolved_destinations": 6
+  },
+  "reach-no-canonicalization": {
+   "attack_runs": 45,
+   "attacks_prevented": {
+    "ci": [
+     0.8214,
+     0.9771
+    ],
+    "k": 42,
+    "n": 45,
+    "rate": 0.9333
+   },
+   "attacks_with_forbidden_effect": {
+    "ci": [
+     0.0229,
+     0.1786
+    ],
+    "k": 3,
+    "n": 45,
+    "rate": 0.0667
+   },
+   "benign_blocked": 3,
+   "benign_completed": {
+    "ci": [
+     0.7817,
+     0.9713
+    ],
+    "k": 33,
+    "n": 36,
+    "rate": 0.9167
+   },
+   "benign_runs": 36,
+   "false_positives_on_approved_redirects_and_variants": {
+    "ci": [
+     0.0705,
+     0.4519
+    ],
+    "k": 3,
+    "n": 15,
+    "rate": 0.2
+   },
+   "ms_p50": 1.17,
+   "ms_p95": 3.02,
+   "redirect_and_rebind_race_catches": {
+    "ci": [
+     0.6097,
+     1.0
+    ],
+    "k": 6,
+    "n": 6,
+    "rate": 1.0
+   },
+   "unknown_blocked_attacks": 15,
+   "unresolved_destinations": 3
+  },
+  "reach-no-fabric": {
+   "attack_runs": 45,
+   "attacks_prevented": {
+    "ci": [
+     0.6618,
+     0.891
+    ],
+    "k": 36,
+    "n": 45,
+    "rate": 0.8
+   },
+   "attacks_with_forbidden_effect": {
+    "ci": [
+     0.109,
+     0.3382
+    ],
+    "k": 9,
+    "n": 45,
+    "rate": 0.2
+   },
+   "benign_blocked": 0,
+   "benign_completed": {
+    "ci": [
+     0.9036,
+     1.0
+    ],
+    "k": 36,
+    "n": 36,
+    "rate": 1.0
+   },
+   "benign_runs": 36,
+   "false_positives_on_approved_redirects_and_variants": {
+    "ci": [
+     0.0,
+     0.2039
+    ],
+    "k": 0,
+    "n": 15,
+    "rate": 0.0
+   },
+   "ms_p50": 1.03,
+   "ms_p95": 2.45,
+   "redirect_and_rebind_race_catches": {
+    "ci": [
+     0.6097,
+     1.0
+    ],
+    "k": 6,
+    "n": 6,
+    "rate": 1.0
+   },
+   "unknown_blocked_attacks": 6,
+   "unresolved_destinations": 6
+  },
+  "reach-no-label-binding": {
+   "attack_runs": 45,
+   "attacks_prevented": {
+    "ci": [
+     0.7382,
+     0.9374
+    ],
+    "k": 39,
+    "n": 45,
+    "rate": 0.8667
+   },
+   "attacks_with_forbidden_effect": {
+    "ci": [
+     0.0626,
+     0.2618
+    ],
+    "k": 6,
+    "n": 45,
+    "rate": 0.1333
+   },
+   "benign_blocked": 0,
+   "benign_completed": {
+    "ci": [
+     0.9036,
+     1.0
+    ],
+    "k": 36,
+    "n": 36,
+    "rate": 1.0
+   },
+   "benign_runs": 36,
+   "false_positives_on_approved_redirects_and_variants": {
+    "ci": [
+     0.0,
+     0.2039
+    ],
+    "k": 0,
+    "n": 15,
+    "rate": 0.0
+   },
+   "ms_p50": 1.21,
+   "ms_p95": 3.14,
+   "redirect_and_rebind_race_catches": {
+    "ci": [
+     0.6097,
+     1.0
+    ],
+    "k": 6,
+    "n": 6,
+    "rate": 1.0
+   },
+   "unknown_blocked_attacks": 6,
+   "unresolved_destinations": 6
+  },
+  "reach-no-pinning": {
+   "attack_runs": 45,
+   "attacks_prevented": {
+    "ci": [
+     0.7382,
+     0.9374
+    ],
+    "k": 39,
+    "n": 45,
+    "rate": 0.8667
+   },
+   "attacks_with_forbidden_effect": {
+    "ci": [
+     0.0626,
+     0.2618
+    ],
+    "k": 6,
+    "n": 45,
+    "rate": 0.1333
+   },
+   "benign_blocked": 0,
+   "benign_completed": {
+    "ci": [
+     0.9036,
+     1.0
+    ],
+    "k": 36,
+    "n": 36,
+    "rate": 1.0
+   },
+   "benign_runs": 36,
+   "false_positives_on_approved_redirects_and_variants": {
+    "ci": [
+     0.0,
+     0.2039
+    ],
+    "k": 0,
+    "n": 15,
+    "rate": 0.0
+   },
+   "ms_p50": 1.21,
+   "ms_p95": 2.79,
+   "redirect_and_rebind_race_catches": {
+    "ci": [
+     0.1876,
+     0.8124
+    ],
+    "k": 3,
+    "n": 6,
+    "rate": 0.5
+   },
+   "unknown_blocked_attacks": 6,
+   "unresolved_destinations": 6
+  },
+  "reach-no-receipts": {
+   "attack_runs": 45,
+   "attacks_prevented": {
+    "ci": [
+     0.8214,
+     0.9771
+    ],
+    "k": 42,
+    "n": 45,
+    "rate": 0.9333
+   },
+   "attacks_with_forbidden_effect": {
+    "ci": [
+     0.0229,
+     0.1786
+    ],
+    "k": 3,
+    "n": 45,
+    "rate": 0.0667
+   },
+   "benign_blocked": 0,
+   "benign_completed": {
+    "ci": [
+     0.9036,
+     1.0
+    ],
+    "k": 36,
+    "n": 36,
+    "rate": 1.0
+   },
+   "benign_runs": 36,
+   "false_positives_on_approved_redirects_and_variants": {
+    "ci": [
+     0.0,
+     0.2039
+    ],
+    "k": 0,
+    "n": 15,
+    "rate": 0.0
+   },
+   "ms_p50": 1.06,
+   "ms_p95": 2.65,
+   "redirect_and_rebind_race_catches": {
+    "ci": [
+     0.6097,
+     1.0
+    ],
+    "k": 6,
+    "n": 6,
+    "rate": 1.0
+   },
+   "unknown_blocked_attacks": 6,
+   "unresolved_destinations": 6
+  },
+  "reach-no-redirect-revalidation": {
+   "attack_runs": 45,
+   "attacks_prevented": {
+    "ci": [
+     0.7382,
+     0.9374
+    ],
+    "k": 39,
+    "n": 45,
+    "rate": 0.8667
+   },
+   "attacks_with_forbidden_effect": {
+    "ci": [
+     0.0626,
+     0.2618
+    ],
+    "k": 6,
+    "n": 45,
+    "rate": 0.1333
+   },
+   "benign_blocked": 0,
+   "benign_completed": {
+    "ci": [
+     0.9036,
+     1.0
+    ],
+    "k": 36,
+    "n": 36,
+    "rate": 1.0
+   },
+   "benign_runs": 36,
+   "false_positives_on_approved_redirects_and_variants": {
+    "ci": [
+     0.0,
+     0.2039
+    ],
+    "k": 0,
+    "n": 15,
+    "rate": 0.0
+   },
+   "ms_p50": 1.24,
+   "ms_p95": 3.04,
+   "redirect_and_rebind_race_catches": {
+    "ci": [
+     0.1876,
+     0.8124
+    ],
+    "k": 3,
+    "n": 6,
+    "rate": 0.5
+   },
+   "unknown_blocked_attacks": 6,
+   "unresolved_destinations": 6
+  },
+  "reach-no-unknown-blocking": {
+   "attack_runs": 45,
+   "attacks_prevented": {
+    "ci": [
+     0.7382,
+     0.9374
+    ],
+    "k": 39,
+    "n": 45,
+    "rate": 0.8667
+   },
+   "attacks_with_forbidden_effect": {
+    "ci": [
+     0.0626,
+     0.2618
+    ],
+    "k": 6,
+    "n": 45,
+    "rate": 0.1333
+   },
+   "benign_blocked": 0,
+   "benign_completed": {
+    "ci": [
+     0.9036,
+     1.0
+    ],
+    "k": 36,
+    "n": 36,
+    "rate": 1.0
+   },
+   "benign_runs": 36,
+   "false_positives_on_approved_redirects_and_variants": {
+    "ci": [
+     0.0,
+     0.2039
+    ],
+    "k": 0,
+    "n": 15,
+    "rate": 0.0
+   },
+   "ms_p50": 1.28,
+   "ms_p95": 3.05,
+   "redirect_and_rebind_race_catches": {
+    "ci": [
+     0.6097,
+     1.0
+    ],
+    "k": 6,
+    "n": 6,
+    "rate": 1.0
+   },
+   "unknown_blocked_attacks": 0,
+   "unresolved_destinations": 6
+  }
+ },
+ "systems": [
+  "allowlist",
+  "pattern",
+  "declaration",
+  "reach",
+  "reach-no-canonicalization",
+  "reach-no-pinning",
+  "reach-no-redirect-revalidation",
+  "reach-no-label-binding",
+  "reach-no-attestation",
+  "reach-no-fabric",
+  "reach-no-receipts",
+  "reach-no-unknown-blocking"
+ ],
+ "unsupported_success_claims_O01": {
+  "allowlist": 3,
+  "declaration": 3,
+  "pattern": 3,
+  "reach": 0,
+  "reach-no-attestation": 0,
+  "reach-no-canonicalization": 0,
+  "reach-no-fabric": 0,
+  "reach-no-label-binding": 0,
+  "reach-no-pinning": 0,
+  "reach-no-receipts": 3,
+  "reach-no-redirect-revalidation": 0,
+  "reach-no-unknown-blocking": 0
+ },
+ "wall_s": 363.1
+}
