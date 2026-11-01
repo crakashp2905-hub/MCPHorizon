@@ -3,9 +3,10 @@
 This is a clean-environment reproduction BY THE AUTHOR. It is not independent reproduction: MG-G12 stays NOT MET until another maintainer does this."""
 import os, platform, shutil, subprocess, sys, tempfile, time
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# CleanRepro (a test class) is excluded from the p38 run below: it checks the record this very run produces
 CMDS = [["python3", "scripts/p38_runner_check.py", "--require"], ["python3", "scripts/p23_freeze.py", "--check"], ["python3", "scripts/hr_gates.py", "--check"], ["python3", "bench/h4/run.py", "check"], ["python3", "bench/h4/report.py", "--check"], ["python3", "bench/haa/aggregate.py", "results/v2/haa-main", "--check"],
         ["python3", "scripts/p38_casebook.py", "--check"], ["python3", "scripts/p38_compare.py", "--check"], ["python3", "scripts/p38_papers.py", "--check"], ["python3", "scripts/p38_gates.py", "--check"], ["python3", "scripts/p30_no_external.py"], ["python3", "scripts/p30_claims_audit.py"],
-        ["python3", "-W", "ignore", "-m", "unittest", "tests.p31.test_intake", "tests.p32.test_triggerlab", "tests.p36.test_guard", "tests.p37.test_h4"] + [f"tests.p38.test_p38.{c}" for c in ("Casebook", "Matrix", "Runner", "LayerDocs", "SinkRepro", "Drills", "Comparison", "Gates", "Papers", "Bundle")]      # CleanRepro is excluded: it checks the record this very run produces,
+        ["python3", "-W", "ignore", "-m", "unittest", "tests.p31.test_intake", "tests.p32.test_triggerlab", "tests.p36.test_guard", "tests.p37.test_h4"] + [f"tests.p38.test_p38.{c}" for c in ("Casebook", "Matrix", "Runner", "LayerDocs", "SinkRepro", "Drills", "Comparison", "Gates", "Papers", "Bundle")]  ,
         ["python3", "-W", "ignore", "-m", "unittest", "tests.p33.test_hccb", "tests.p34.test_isolation", "tests.p35.test_telemetry", "tests.p29.test_haa", "tests.p30.test_p30"]]
 def sh(cmd, cwd, env):
     t = time.time(); p = subprocess.run(cmd, cwd=cwd, env=env, capture_output=True, text=True, timeout=1500); o = (p.stdout + p.stderr).strip().splitlines(); return {"cmd": " ".join(cmd[3:] if cmd[:2] == ["unshare", "-n"] else cmd), "rc": p.returncode, "sec": round(time.time() - t, 1), "tail": "\n".join(o[-4:])}
