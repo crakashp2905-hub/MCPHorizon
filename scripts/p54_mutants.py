@@ -69,7 +69,7 @@ MUT = [(AU, 'if int(m.group(2)) <= maxphase: seen[m.group(1)] = int(m.group(2))'
 def main():
     d = tempfile.mkdtemp(prefix="p54m-base-"); os.chmod(d, 0o755); t = os.path.join(d, "t"); shutil.copytree(ROOT, t, ignore=ign)
     r = subprocess.run([sys.executable, "-W", "ignore", "-m", "pytest", "-x", "-q", "tests/p54", "-k", "not Recorded and not Docs", "-p", "no:cacheprovider"], cwd=t, capture_output=True, text=True, timeout=600); shutil.rmtree(d, ignore_errors=True)
-    if r.returncode: print("BASELINE FAILS ON THE UNMUTATED COPY: a killed mutant would prove nothing\n" + r.stdout[-800:]); sys.exit(3)
+    if r.returncode: print("BASELINE FAILS ON THE UNMUTATED COPY: a killed mutant would prove nothing\n" + (r.stdout + r.stderr)[-800:]); sys.exit(3)
     surv, ran = [], 0
     for f, a, b, why in [m for m in MUT if not sys.argv[1:] or any(x in m[3] for x in sys.argv[1:])]:
         d = tempfile.mkdtemp(prefix="p54m-"); os.chmod(d, 0o755); t = os.path.join(d, "t"); shutil.copytree(ROOT, t, ignore=ign); s = open(os.path.join(t, f)).read()

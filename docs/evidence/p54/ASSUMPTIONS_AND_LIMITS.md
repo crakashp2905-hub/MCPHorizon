@@ -25,6 +25,10 @@ P54 adds no mechanism. It audits, freezes, joins and re-checks the recorded evid
 * The browser adapter is recorded (P51) and is not re-run here. Native adapters are not available in this environment.
 * The static review is syntactic: it follows `import` statements and looks for call names. It does not see dynamic imports, reflection or code generated at run time.
 
+## A defect found in the CI mutation steps of P44-P53
+
+`scripts/p44_mutants.py` .. `p53_mutants.py` run each mutant under `python3 -m pytest`, and a failing exit code counts as KILLED. The CI python has no pytest (`No module named pytest`, confirmed in a diagnostic run), so in CI these steps would report every mutant as killed without running a test. They were run for real, with pytest, on the author's machine. P54's mutation script now first runs the unmutated copy and refuses to continue if it fails, and CI installs pytest before it. The earlier steps still run without pytest in CI until they are fixed in a follow-up change; until then their CI result is not evidence.
+
 ## Unsupported environments
 
 Windows and macOS, rootless containers without namespaces, kernels without seccomp or cgroups v2, and any run with outbound network are outside what was exercised. The scripts that need network namespaces fail rather than fall back. No claim is made for them, and they are not silently excluded from anything: they are simply not covered.
