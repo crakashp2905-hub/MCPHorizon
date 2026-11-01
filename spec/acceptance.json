@@ -12193,5 +12193,284 @@
    ]
   ],
   "covers": "docs/evidence/p50/ASSUMPTIONS_AND_LIMITS.md"
+ },
+ "P51-01": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p51.test_vision.Gates.test_no_third_party_hosts",
+    "tests.p51.test_vision.Gates.test_browser_is_loopback_only",
+    "tests.p51.test_vision.Gates.test_canary_is_synthetic",
+    "tests.p51.test_vision.Core.test_schemas_published"
+   ]
+  ],
+  "covers": "docs/evidence/p51/ASSUMPTIONS_AND_LIMITS.md section 1 (browser only; desktop not covered)"
+ },
+ "P51-02": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p51.test_vision.Core"
+   ]
+  ],
+  "covers": "horizon/vision/core.py ACTION_SCHEMA, BINDING_SCHEMA, EFFECT_SCHEMA, envelope"
+ },
+ "P51-03": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p51.test_vision.World",
+    "tests.p51.test_vision.BrowserLive",
+    "tests.p51.test_vision.Recorded.test_browser_attacks_reach_receiver_unguarded_and_not_guarded"
+   ]
+  ],
+  "covers": "horizon/vision/world.py model browser; horizon/vision/browser.py + browser_run.py real Chromium (live tests skip where unsupported)"
+ },
+ "P51-04": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p51.test_vision.World.test_binding_reports_browser_resolved_effect_and_frame",
+    "tests.p51.test_vision.World.test_reported_effect_can_differ_from_real",
+    "tests.p51.test_vision.GuardRules.test_cross_frame_untrusted_protected",
+    "tests.p51.test_vision.GuardRules.test_derived_effect_not_reported",
+    "tests.p51.test_vision.Gates.test_guard_never_reads_screenshot_fields",
+    "tests.p51.test_vision.Gates.test_guard_reads_page_reported_effect_only_in_the_ablation_branch",
+    "tests.p51.test_vision.BrowserLive.test_clobbered_form_action_derived_from_attribute"
+   ]
+  ],
+  "covers": "frame/navigation origin and effect from browser-derived binding, not screenshot text"
+ },
+ "P51-05": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p51.test_vision.GuardRules.test_element_mismatch",
+    "tests.p51.test_vision.GuardRules.test_stale_element",
+    "tests.p51.test_vision.GuardRules.test_input_changed",
+    "tests.p51.test_vision.World.test_digest_changes_when_effect_changes",
+    "tests.p51.test_vision.World.test_digest_ignores_unrelated_change",
+    "tests.p51.test_vision.Core.test_element_digest_binds_effect_and_frame",
+    "tests.p51.test_vision.Matrix.test_irrelevant_page_change_does_not_block"
+   ]
+  ],
+  "covers": "element id, element digest, input digest"
+ },
+ "P51-06": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p51.test_vision.GuardRules.test_upload_requires_approval",
+    "tests.p51.test_vision.GuardRules.test_download_requires_approval",
+    "tests.p51.test_vision.GuardRules.test_canary_to_unapproved_destination",
+    "tests.p51.test_vision.GuardRules.test_dest_per_kind",
+    "tests.p51.test_vision.Matrix.test_full_guard_reasons"
+   ]
+  ],
+  "covers": "upload, download, clipboard, navigation and submit sinks"
+ },
+ "P51-07": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p51.test_vision.GuardRules.test_approval_single_use",
+    "tests.p51.test_vision.GuardRules.test_approval_wrong_kind",
+    "tests.p51.test_vision.GuardRules.test_approval_wrong_role",
+    "tests.p51.test_vision.GuardRules.test_approval_bound_to_every_envelope_field",
+    "tests.p51.test_vision.GuardRules.test_expired_approval",
+    "tests.p51.test_vision.GuardRules.test_forged_token",
+    "tests.p51.test_vision.Gates.test_guard_modules_hold_no_issuer"
+   ]
+  ],
+  "covers": "shared HorizonPolicy authority; verifier only"
+ },
+ "P51-08": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p51.test_vision.World.test_hit_ignores_opacity_visual_does_not",
+    "tests.p51.test_vision.World.test_frame_opacity_hides_but_still_hit",
+    "tests.p51.test_vision.Matrix.test_full_guard_reasons",
+    "tests.p51.test_vision.Matrix.test_baselines_miss_attacks"
+   ]
+  ],
+  "covers": "scenarios A01, A02, A03, A11"
+ },
+ "P51-09": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p51.test_vision.Matrix.test_full_guard_no_prohibited_effect_anywhere",
+    "tests.p51.test_vision.Matrix.test_ablation_targets",
+    "tests.p51.test_vision.Recorded.test_browser_attacks_reach_receiver_unguarded_and_not_guarded"
+   ]
+  ],
+  "covers": "A03/A04/A10 and R03/R04"
+ },
+ "P51-10": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p51.test_vision.Matrix.test_benign_completed_except_unbindable",
+    "tests.p51.test_vision.Matrix.test_accessibility_paths_work",
+    "tests.p51.test_vision.Recorded.test_browser_benign_completed_except_script_handled"
+   ]
+  ],
+  "covers": "B01-B11 and R06-R11"
+ },
+ "P51-11": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p51.test_vision.Matrix.test_no_unjustified_confirmation_on_benign",
+    "tests.p51.test_vision.Matrix.test_justified_confirmations_resolved_with_an_approval",
+    "tests.p51.test_vision.Matrix.test_wrong_review_does_not_unlock",
+    "tests.p51.test_vision.GuardRules.test_upload_requires_approval"
+   ]
+  ],
+  "covers": "preflight on derived effect only"
+ },
+ "P51-12": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p51.test_vision.Oracle",
+    "tests.p51.test_vision.Recorded.test_browser_attacks_reach_receiver_unguarded_and_not_guarded"
+   ]
+  ],
+  "covers": "receiver-log oracle"
+ },
+ "P51-13": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p51.test_vision.Baselines",
+    "tests.p51.test_vision.Matrix.test_baselines_miss_attacks",
+    "tests.p51.test_vision.Matrix.test_screenshot_filter_false_blocks_benign",
+    "tests.p51.test_vision.Matrix.test_restrictive_rule_disrupts_benign",
+    "tests.p51.test_vision.Recorded.test_baselines_miss"
+   ]
+  ],
+  "covers": "screenshot, DOM-text, safe-browsing, tool-allowlist, restrictive rule"
+ },
+ "P51-14": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p51.test_vision.Property",
+    "tests.p51.test_vision.Matrix.test_accessibility_paths_work",
+    "tests.p51.test_vision.Matrix.test_deterministic",
+    "tests.p51.test_vision.Recorded.test_full_guard_zero_prohibited_effects"
+   ],
+   [
+    "env",
+    "N=100",
+    "python3",
+    "scripts/p51_bench.py"
+   ]
+  ],
+  "covers": "accuracy/task success/accessibility (model); latency via scripts/p51_bench.py and browser.json timing (machine-specific)"
+ },
+ "P51-15": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p51.test_vision.Matrix.test_unsupported_paths_are_unknown_not_allowed",
+    "tests.p51.test_vision.Matrix.test_unsupported_paths_would_violate_unguarded",
+    "tests.p51.test_vision.Matrix.test_telemetry_offline_fails_closed_on_both",
+    "tests.p51.test_vision.Recorded.test_browser_unknowns_reported_separately",
+    "tests.p51.test_vision.BrowserLive.test_script_handled_button_is_unknown"
+   ]
+  ],
+  "covers": "UNKNOWN for uninstrumented paths, reported separately"
+ },
+ "P51-16": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p51.test_vision.Gates",
+    "tests.p51.test_vision.Recorded"
+   ],
+   [
+    "python3",
+    "scripts/p51_report.py",
+    "--check"
+   ],
+   [
+    "python3",
+    "scripts/p51_run.py",
+    "--check"
+   ],
+   [
+    "python3",
+    "scripts/p51_browser.py",
+    "--check"
+   ]
+  ],
+  "covers": "docs/evidence/p51/ASSUMPTIONS_AND_LIMITS.md, RESULTS.md; browser version, flags, schemas, cases"
  }
 }
