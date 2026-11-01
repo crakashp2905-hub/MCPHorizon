@@ -1,0 +1,1 @@
+"""P47 HorizonIncentive: does optimization pressure make agents omit mandatory safety steps, and what stops that? Hard constraints are enforced independently of any reward model; nothing here infers motives."""
