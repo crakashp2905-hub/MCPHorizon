@@ -201,7 +201,8 @@ def exception_permit(signer: Signer, approval: dict, approver_pub: bytes, *, art
     """Release exception (P28-18): requires an authenticated ADMIN approval scoped to this artifact+destination. An agent/user role cannot mint one."""
     PV.check_approval(approval, approver_pub, policy_digest=policy_digest, want_scope={"artifact_sha256": artifact_sha256, "destination": destination}, now=now)
     if approval["body"]["role"] != "admin": raise PV.ApprovalError("ADMIN_REQUIRED")
-    return issue_permit(signer, artifact_sha256=artifact_sha256, destination=destination, evidence_digest=evidence_digest, now=now, exception={"approver": approval["body"]["approver"], "role": "admin"})
+    t = now if now is not None else time.time(); ttl = max(0, min(300, int(approval["body"]["exp"] - t)))        # the permit may never outlive the human approval that authorised it (fixed in P33: it used a fixed 300 s)
+    return issue_permit(signer, artifact_sha256=artifact_sha256, destination=destination, evidence_digest=evidence_digest, ttl_s=ttl, now=now, exception={"approver": approval["body"]["approver"], "role": "admin"})
 
 
 class MockRegistry:
