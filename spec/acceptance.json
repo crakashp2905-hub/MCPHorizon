@@ -9845,5 +9845,231 @@
    ]
   ],
   "covers": "docs/evidence/p40/OPERATORS_AND_LIMITS.md"
+ },
+ "P41-01": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p41.test_counterfactual.Schema"
+   ]
+  ],
+  "covers": "horizon/counterfactual/core.py; docs/evidence/p41/ASSUMPTIONS_AND_TAXONOMY.md"
+ },
+ "P41-02": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p41.test_counterfactual.Results.test_taxonomy_doc_covers_required_sections"
+   ]
+  ],
+  "covers": "docs/evidence/p41/ASSUMPTIONS_AND_TAXONOMY.md (snapshot isolation table)"
+ },
+ "P41-03": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p41.test_counterfactual.DbAdapter"
+   ]
+  ],
+  "covers": "horizon/counterfactual/core.py DbAdapter"
+ },
+ "P41-04": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p41.test_counterfactual.FileAndPublish.test_content_classification_and_public_rule",
+    "tests.p41.test_counterfactual.FileAndPublish.test_path_escape_unsupported_and_unverified_writer_escapes",
+    "tests.p41.test_counterfactual.FileAndPublish.test_symlink_escape_is_caught_by_realpath",
+    "tests.p41.test_counterfactual.FileAndPublish.test_file_commit_revalidates"
+   ]
+  ],
+  "covers": "horizon/counterfactual/core.py FileAdapter"
+ },
+ "P41-05": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p41.test_counterfactual.FileAndPublish.test_publication_manifest_and_review",
+    "tests.p41.test_counterfactual.FileAndPublish.test_delete_is_irreversible_review"
+   ]
+  ],
+  "covers": "horizon/counterfactual/core.py PublishAdapter"
+ },
+ "P41-06": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p41.test_counterfactual.Gate.test_binding_to_operation_digest",
+    "tests.p41.test_counterfactual.Gate.test_expiry_policy_revision_and_kind"
+   ]
+  ],
+  "covers": "horizon/counterfactual/commit.py Preflight/Gate"
+ },
+ "P41-07": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p41.test_counterfactual.DbAdapter.test_cas_commit_semantics",
+    "tests.p41.test_counterfactual.DbAdapter.test_coarse_version_check",
+    "tests.p41.test_counterfactual.FileAndPublish.test_file_commit_revalidates"
+   ]
+  ],
+  "covers": "horizon/counterfactual/core.py apply_verified"
+ },
+ "P41-08": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p41.test_counterfactual.Gate.test_expiry_policy_revision_and_kind",
+    "tests.p41.test_counterfactual.DbAdapter.test_cas_commit_semantics"
+   ]
+  ],
+  "covers": "horizon/counterfactual/commit.py"
+ },
+ "P41-09": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p41.test_counterfactual.Gate.test_block_and_review_handling",
+    "tests.p41.test_counterfactual.FileAndPublish.test_publication_manifest_and_review",
+    "tests.p41.test_counterfactual.DbAdapter.test_nondeterministic_is_flagged"
+   ]
+  ],
+  "covers": "core.decide; commit.Gate"
+ },
+ "P41-10": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p41.test_counterfactual.Gate.test_receipt_matches_approved_diff_when_verified",
+    "tests.p41.test_counterfactual.Receipt"
+   ]
+  ],
+  "covers": "horizon/counterfactual/receipt.py (separate process)"
+ },
+ "P41-11": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p41.test_counterfactual.Gate.test_severity_levels",
+    "tests.p41.test_counterfactual.Gate.test_degraded_mode_deviation_is_caught_and_rolled_back",
+    "tests.p41.test_counterfactual.Gate.test_rollback_verification_is_real"
+   ]
+  ],
+  "covers": "horizon/counterfactual/commit.py"
+ },
+ "P41-12": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p41.test_counterfactual.Scenarios.test_baselines_commit_broad_writes",
+    "tests.p41.test_counterfactual.Scenarios.test_counterfactual_no_unsafe_and_all_benign_complete"
+   ]
+  ],
+  "covers": "scenarios A01-A14"
+ },
+ "P41-13": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p41.test_counterfactual.Scenarios.test_counterfactual_no_unsafe_and_all_benign_complete",
+    "tests.p41.test_counterfactual.Scenarios.test_refusal_reasons",
+    "tests.p41.test_counterfactual.Scenarios.test_oracle_excludes_environment_race"
+   ]
+  ],
+  "covers": "scenarios B01-B10"
+ },
+ "P41-14": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p41.test_counterfactual.Results.test_recorded_summary",
+    "tests.p41.test_counterfactual.Scenarios.test_baselines_commit_broad_writes"
+   ]
+  ],
+  "covers": "docs/evidence/p41/RESULTS.md"
+ },
+ "P41-15": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p41.test_counterfactual.Results.test_recorded_summary",
+    "tests.p41.test_counterfactual.Results.test_docs_and_definitions_current"
+   ]
+  ],
+  "covers": "docs/evidence/p41/RESULTS.md"
+ },
+ "P41-16": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p41.test_counterfactual.Results.test_taxonomy_doc_covers_required_sections"
+   ]
+  ],
+  "covers": "docs/evidence/p41/ASSUMPTIONS_AND_TAXONOMY.md"
  }
 }
