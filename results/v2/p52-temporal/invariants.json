@@ -1,0 +1,1089 @@
+{
+ "counterexamples": [
+  {
+   "order": [
+    "approve",
+    "wait",
+    "reclassify",
+    "dispatch#1"
+   ],
+   "scenario": "A01",
+   "system": "one-time-check",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "OBJECT_CHANGED",
+      "POLICY_CHANGED",
+      "FORBIDDEN_BY_POLICY"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "swap",
+    "dispatch#1"
+   ],
+   "scenario": "A02",
+   "system": "one-time-check",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "OBJECT_CHANGED",
+      "CONTENT_CHANGED",
+      "CANARY_EXPORTED"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "revoke",
+    "dispatch#1"
+   ],
+   "scenario": "A03",
+   "system": "one-time-check",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "GRANT_CHANGED",
+      "FORBIDDEN_BY_POLICY"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "tighten",
+    "dispatch#1"
+   ],
+   "scenario": "A04",
+   "system": "one-time-check",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "POLICY_CHANGED",
+      "FORBIDDEN_BY_POLICY"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "dispatch#1"
+   ],
+   "scenario": "A05",
+   "system": "one-time-check",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": false,
+     "obj": "doc1",
+     "reasons": [
+      "EXPIRED_APPROVAL"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "d1#1",
+    "d2#1"
+   ],
+   "scenario": "A06",
+   "system": "one-time-check",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": false,
+     "obj": "doc1",
+     "reasons": [
+      "REPLAYED_APPROVAL"
+     ],
+     "seq": 2
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "rebind",
+    "dispatch#1"
+   ],
+   "scenario": "A07",
+   "system": "one-time-check",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "FORBIDDEN_BY_POLICY"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "redirect",
+    "dispatch#1"
+   ],
+   "scenario": "A08",
+   "system": "one-time-check",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "DESTINATION_ESCAPED"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "b_dispatch#1"
+   ],
+   "scenario": "A09",
+   "system": "one-time-check",
+   "violations": [
+    {
+     "actor": "agentB",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "NO_VALID_APPROVAL"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "w1",
+    "w2"
+   ],
+   "scenario": "A10",
+   "system": "one-time-check",
+   "violations": [
+    {
+     "actor": null,
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "LOST_UPDATE"
+     ],
+     "seq": 12
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "dispatch#1"
+   ],
+   "scenario": "A11",
+   "system": "one-time-check",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": false,
+     "obj": "doc1",
+     "reasons": [
+      "EXPIRED_APPROVAL"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "cancel",
+    "dispatch#1"
+   ],
+   "scenario": "A12",
+   "system": "one-time-check",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": false,
+     "obj": "doc1",
+     "reasons": [
+      "REVOKED_APPROVAL"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "reclassify",
+    "dispatch#1"
+   ],
+   "scenario": "A01",
+   "system": "jwt-expiry",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "OBJECT_CHANGED",
+      "POLICY_CHANGED",
+      "FORBIDDEN_BY_POLICY"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "swap",
+    "dispatch#1"
+   ],
+   "scenario": "A02",
+   "system": "jwt-expiry",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "OBJECT_CHANGED",
+      "CONTENT_CHANGED",
+      "CANARY_EXPORTED"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "revoke",
+    "dispatch#1"
+   ],
+   "scenario": "A03",
+   "system": "jwt-expiry",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "GRANT_CHANGED",
+      "FORBIDDEN_BY_POLICY"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "tighten",
+    "dispatch#1"
+   ],
+   "scenario": "A04",
+   "system": "jwt-expiry",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "POLICY_CHANGED",
+      "FORBIDDEN_BY_POLICY"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "d1#1",
+    "d2#1"
+   ],
+   "scenario": "A06",
+   "system": "jwt-expiry",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": false,
+     "obj": "doc1",
+     "reasons": [
+      "REPLAYED_APPROVAL"
+     ],
+     "seq": 2
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "rebind",
+    "dispatch#1"
+   ],
+   "scenario": "A07",
+   "system": "jwt-expiry",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "FORBIDDEN_BY_POLICY"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "redirect",
+    "dispatch#1"
+   ],
+   "scenario": "A08",
+   "system": "jwt-expiry",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "DESTINATION_ESCAPED"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "b_dispatch#1"
+   ],
+   "scenario": "A09",
+   "system": "jwt-expiry",
+   "violations": [
+    {
+     "actor": "agentB",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "NO_VALID_APPROVAL"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "w1",
+    "w2"
+   ],
+   "scenario": "A10",
+   "system": "jwt-expiry",
+   "violations": [
+    {
+     "actor": null,
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "LOST_UPDATE"
+     ],
+     "seq": 12
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "dispatch#1"
+   ],
+   "scenario": "A11",
+   "system": "jwt-expiry",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": false,
+     "obj": "doc1",
+     "reasons": [
+      "EXPIRED_APPROVAL"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "cancel",
+    "dispatch#1"
+   ],
+   "scenario": "A12",
+   "system": "jwt-expiry",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": false,
+     "obj": "doc1",
+     "reasons": [
+      "REVOKED_APPROVAL"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "d_other#1"
+   ],
+   "scenario": "A13",
+   "system": "jwt-expiry",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc2",
+     "reasons": [
+      "OBJECT_CHANGED",
+      "CONTENT_CHANGED",
+      "POLICY_CHANGED",
+      "FORBIDDEN_BY_POLICY"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "reclassify",
+    "dispatch#1"
+   ],
+   "scenario": "A01",
+   "system": "op-token-no-object",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "OBJECT_CHANGED",
+      "POLICY_CHANGED",
+      "FORBIDDEN_BY_POLICY"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "swap",
+    "dispatch#1"
+   ],
+   "scenario": "A02",
+   "system": "op-token-no-object",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "OBJECT_CHANGED",
+      "CONTENT_CHANGED",
+      "CANARY_EXPORTED"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "revoke",
+    "dispatch#1"
+   ],
+   "scenario": "A03",
+   "system": "op-token-no-object",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "GRANT_CHANGED",
+      "FORBIDDEN_BY_POLICY"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "tighten",
+    "dispatch#1"
+   ],
+   "scenario": "A04",
+   "system": "op-token-no-object",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "POLICY_CHANGED",
+      "FORBIDDEN_BY_POLICY"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "rebind",
+    "dispatch#1"
+   ],
+   "scenario": "A07",
+   "system": "op-token-no-object",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "FORBIDDEN_BY_POLICY"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "redirect",
+    "dispatch#1"
+   ],
+   "scenario": "A08",
+   "system": "op-token-no-object",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "DESTINATION_ESCAPED"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "w1",
+    "w2"
+   ],
+   "scenario": "A10",
+   "system": "op-token-no-object",
+   "violations": [
+    {
+     "actor": null,
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "LOST_UPDATE"
+     ],
+     "seq": 12
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "cancel",
+    "dispatch#1"
+   ],
+   "scenario": "A12",
+   "system": "op-token-no-object",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": false,
+     "obj": "doc1",
+     "reasons": [
+      "REVOKED_APPROVAL"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "d_other#1"
+   ],
+   "scenario": "A13",
+   "system": "op-token-no-object",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc2",
+     "reasons": [
+      "OBJECT_CHANGED",
+      "CONTENT_CHANGED",
+      "POLICY_CHANGED",
+      "FORBIDDEN_BY_POLICY"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "w1",
+    "w2"
+   ],
+   "scenario": "A10",
+   "system": "restrictive-rule",
+   "violations": [
+    {
+     "actor": null,
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "LOST_UPDATE"
+     ],
+     "seq": 12
+    }
+   ]
+  },
+  {
+   "order": [
+    "w1",
+    "w2"
+   ],
+   "scenario": "A10",
+   "system": "last-write-wins",
+   "violations": [
+    {
+     "actor": null,
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "LOST_UPDATE"
+     ],
+     "seq": 12
+    }
+   ]
+  },
+  {
+   "flagged_unknown": true,
+   "order": [
+    "approve",
+    "wait",
+    "dispatch#1",
+    "reclassify",
+    "dispatch#2"
+   ],
+   "scenario": "U01",
+   "system": "temporal",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "OBJECT_CHANGED",
+      "POLICY_CHANGED",
+      "FORBIDDEN_BY_POLICY"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "flagged_unknown": true,
+   "order": [
+    "approve",
+    "wait",
+    "dispatch#1",
+    "reclassify",
+    "flush"
+   ],
+   "scenario": "U02",
+   "system": "temporal",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "OBJECT_CHANGED",
+      "POLICY_CHANGED",
+      "FORBIDDEN_BY_POLICY"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "cancel",
+    "dispatch#1"
+   ],
+   "scenario": "A12",
+   "system": "temporal-no-revocation",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": false,
+     "obj": "doc1",
+     "reasons": [
+      "REVOKED_APPROVAL"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "rebind",
+    "dispatch#1"
+   ],
+   "scenario": "A07",
+   "system": "temporal-no-destination",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "FORBIDDEN_BY_POLICY"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "redirect",
+    "dispatch#1"
+   ],
+   "scenario": "A08",
+   "system": "temporal-no-redirect",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "DESTINATION_ESCAPED"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "d1#1",
+    "d2#1"
+   ],
+   "scenario": "A06",
+   "system": "temporal-no-nonce",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": false,
+     "obj": "doc1",
+     "reasons": [
+      "REPLAYED_APPROVAL"
+     ],
+     "seq": 2
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "dispatch#1"
+   ],
+   "scenario": "A05",
+   "system": "temporal-no-expiry",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": false,
+     "obj": "doc1",
+     "reasons": [
+      "EXPIRED_APPROVAL"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "dispatch#1"
+   ],
+   "scenario": "A11",
+   "system": "temporal-no-expiry",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": false,
+     "obj": "doc1",
+     "reasons": [
+      "EXPIRED_APPROVAL"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "dispatch#1"
+   ],
+   "scenario": "A11",
+   "system": "temporal-no-authoritative-clock",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": false,
+     "obj": "doc1",
+     "reasons": [
+      "EXPIRED_APPROVAL"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "dispatch#1",
+    "reclassify",
+    "dispatch#2"
+   ],
+   "scenario": "A01",
+   "system": "temporal-no-atomic",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "OBJECT_CHANGED",
+      "POLICY_CHANGED",
+      "FORBIDDEN_BY_POLICY"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "dispatch#1",
+    "swap",
+    "dispatch#2"
+   ],
+   "scenario": "A02",
+   "system": "temporal-no-atomic",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "OBJECT_CHANGED",
+      "CONTENT_CHANGED",
+      "CANARY_EXPORTED"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "dispatch#1",
+    "revoke",
+    "dispatch#2"
+   ],
+   "scenario": "A03",
+   "system": "temporal-no-atomic",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "GRANT_CHANGED",
+      "FORBIDDEN_BY_POLICY"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "dispatch#1",
+    "tighten",
+    "dispatch#2"
+   ],
+   "scenario": "A04",
+   "system": "temporal-no-atomic",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": true,
+     "obj": "doc1",
+     "reasons": [
+      "POLICY_CHANGED",
+      "FORBIDDEN_BY_POLICY"
+     ],
+     "seq": 1
+    }
+   ]
+  },
+  {
+   "order": [
+    "approve",
+    "wait",
+    "dispatch#1",
+    "cancel",
+    "dispatch#2"
+   ],
+   "scenario": "A12",
+   "system": "temporal-no-atomic",
+   "violations": [
+    {
+     "actor": "agentA",
+     "harm": false,
+     "obj": "doc1",
+     "reasons": [
+      "REVOKED_APPROVAL"
+     ],
+     "seq": 1
+    }
+   ]
+  }
+ ],
+ "invariants": [
+  {
+   "holds_on_suite": true,
+   "id": "I1",
+   "name": "NO_STALE_EFFECT",
+   "scope": "supported sink (conditional, atomic with the gateway), revocation feed up, authoritative clock",
+   "statement": "for every attack scenario and every interleaving of its steps, the full gateway produces no effect the oracle judges prohibited or stale"
+  },
+  {
+   "holds_on_suite": true,
+   "id": "I2",
+   "name": "BENIGN_LIVENESS",
+   "scope": "same as I1",
+   "statement": "for every benign scenario and every interleaving, the expected effect occurs exactly as expected, with a re-approval only where the state really changed"
+  },
+  {
+   "holds_on_suite": true,
+   "id": "I3",
+   "name": "UNKNOWN_NOT_VERIFIED",
+   "scope": "external sinks U01, U02",
+   "statement": "where the sink cannot be conditioned or applies the effect later, every violating interleaving is reported UNKNOWN by the gateway; none is reported as a verified success"
+  },
+  {
+   "holds_on_suite": true,
+   "id": "I4",
+   "name": "FAIL_CLOSED",
+   "scope": "feed offline scenarios F01, F02",
+   "statement": "with the revocation feed offline the gateway never produces an effect on a revoked approval; it returns UNKNOWN"
+  },
+  {
+   "holds_on_suite": true,
+   "id": "I5",
+   "name": "SINGLE_COMMIT",
+   "scope": "A10",
+   "statement": "for concurrent writers from one base version exactly one commits (compare-and-swap); no lost update is recorded"
+  }
+ ],
+ "note": "machine-checkable: scripts/p52_run.py recomputes holds_on_suite from the same code; a counterexample is an interleaving (ordered step labels) that makes the named system violate the oracle"
+}
