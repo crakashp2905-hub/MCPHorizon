@@ -10294,5 +10294,253 @@
    ]
   ],
   "covers": "scripts/p42_release_gate.py; spec/protection_claims.json (live gate runs in CI as root)"
+ },
+ "P43-01": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p43.test_mutation.IR"
+   ]
+  ],
+  "covers": "horizon/mutation/ir.py; docs/evidence/p43/ASSUMPTIONS_AND_TAXONOMY.md"
+ },
+ "P43-02": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p43.test_mutation.Operators.test_schema_fields_and_closed_vocabulary",
+    "tests.p43.test_mutation.Operators.test_all_covered_kinds",
+    "tests.p43.test_mutation.Operators.test_mutations_do_not_modify_their_input"
+   ]
+  ],
+  "covers": "horizon/mutation/operators.py"
+ },
+ "P43-03": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p43.test_mutation.Operators.test_protocol_swap_preserves_V_on_every_seed",
+    "tests.p43.test_mutation.Oracle.test_all_three_protocols_carry_the_canary",
+    "tests.p43.test_mutation.Oracle.test_wire_bytes_differ_across_protocols"
+   ]
+  ],
+  "covers": "horizon/mutation/operators.py OP-PROTO-SWAP"
+ },
+ "P43-04": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p43.test_mutation.Operators.test_role_transfer_prediction_is_unknown_without_delegation_link",
+    "tests.p43.test_mutation.Operators.test_role_transfer_authority_is_decided_by_oracle",
+    "tests.p43.test_mutation.Oracle.test_authorization_rules",
+    "tests.p43.test_mutation.Oracle.test_transitive_delegation"
+   ]
+  ],
+  "covers": "horizon/mutation/operators.py OP-ROLE-TRANSFER"
+ },
+ "P43-05": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p43.test_mutation.Operators.test_sink_before_approval_flips_to_violation",
+    "tests.p43.test_mutation.Operators.test_branch_flip_changes_executed_set_and_verdict",
+    "tests.p43.test_mutation.IR.test_feasibility_rejections",
+    "tests.p43.test_mutation.IR.test_branch_input_must_execute",
+    "tests.p43.test_mutation.Pipeline.test_branch_flip_never_enumerates_the_current_value"
+   ]
+  ],
+  "covers": "horizon/mutation/operators.py; horizon/mutation/ir.py::feasibility"
+ },
+ "P43-06": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p43.test_mutation.Operators.test_sanitize_insert_and_remove_are_inverse_in_effect",
+    "tests.p43.test_mutation.Oracle.test_clearing_transforms_are_checked_against_bytes",
+    "tests.p43.test_mutation.Oracle.test_partial_sanitizer_is_unknown_not_scored",
+    "tests.p43.test_mutation.Oracle.test_stacked_transform_disagreement_is_unknown"
+   ]
+  ],
+  "covers": "horizon/mutation/operators.py; horizon/mutation/oracle.py"
+ },
+ "P43-07": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p43.test_mutation.Operators.test_temporal_delay_makes_approval_stale_but_decision_time_is_kept",
+    "tests.p43.test_mutation.Detectors.test_lineage_v1_misses_delayed_approval_v2_catches"
+   ]
+  ],
+  "covers": "horizon/mutation/operators.py OP-TEMPORAL-DELAY"
+ },
+ "P43-08": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p43.test_mutation.Pipeline.test_generation_is_deterministic",
+    "tests.p43.test_mutation.Pipeline.test_provenance_chain_links_to_parent_digest",
+    "tests.p43.test_mutation.Pipeline.test_different_seed_changes_depth2_only"
+   ]
+  ],
+  "covers": "horizon/mutation/pipeline.py"
+ },
+ "P43-09": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p43.test_mutation.Oracle"
+   ]
+  ],
+  "covers": "horizon/mutation/oracle.py"
+ },
+ "P43-10": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p43.test_mutation.Pipeline.test_dedup_removes_exact_and_keeps_distinct_decision_time",
+    "tests.p43.test_mutation.Pipeline.test_dedup_near_duplicates_need_same_family_and_verdict"
+   ]
+  ],
+  "covers": "horizon/mutation/pipeline.py::dedup"
+ },
+ "P43-11": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p43.test_mutation.Pipeline.test_family_split_has_no_overlap_and_covers_all",
+    "tests.p43.test_mutation.Pipeline.test_mutants_never_change_root_family",
+    "tests.p43.test_mutation.Pipeline.test_random_split_mixes_families",
+    "tests.p43.test_mutation.Recorded.test_family_split_overlap_empty",
+    "tests.p43.test_mutation.Recorded.test_raw_random_split_overstates_vs_family_split"
+   ]
+  ],
+  "covers": "horizon/mutation/pipeline.py::split_by_family"
+ },
+ "P43-12": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p43.test_mutation.Pipeline.test_matched_pairs_share_tool_names_and_flip_truth",
+    "tests.p43.test_mutation.Pipeline.test_pair_with_different_tool_names_is_not_matched",
+    "tests.p43.test_mutation.Recorded.test_pairs_share_tool_names"
+   ]
+  ],
+  "covers": "horizon/mutation/pipeline.py::matched_pairs; horizon/mutation/seeds.py"
+ },
+ "P43-13": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p43.test_mutation.Recorded.test_llm_generator_not_claimed",
+    "tests.p43.test_mutation.Recorded.test_constrained_generator_has_no_invalid_but_random_does",
+    "tests.p43.test_mutation.Recorded.test_mutation_finds_a_failure_the_seeds_do_not",
+    "tests.p43.test_mutation.Pipeline.test_random_baseline_produces_invalid_graphs",
+    "tests.p43.test_mutation.Pipeline.test_lexical_baseline_changes_text_not_graph_structure"
+   ]
+  ],
+  "covers": "horizon/mutation/pipeline.py baselines; docs/evidence/p43/RESULTS.md (no LLM generator was run)"
+ },
+ "P43-14": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p43.test_mutation.Recorded.test_unknown_is_reported_separately_not_dropped",
+    "tests.p43.test_mutation.Recorded.test_report_and_docs_current",
+    "tests.p43.test_mutation.Recorded.test_experiment_rerun_matches_recorded_counts",
+    "tests.p43.test_mutation.Recorded.test_limits_state_same_author_and_declared_authority"
+   ]
+  ],
+  "covers": "horizon/mutation/experiment.py::relation_stats; docs/evidence/p43/RESULTS.md"
+ },
+ "P43-15": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p43.test_mutation.Minimizer",
+    "tests.p43.test_mutation.Recorded.test_minimizer_rows_valid"
+   ]
+  ],
+  "covers": "horizon/mutation/minimize.py"
+ },
+ "P43-16": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p43.test_mutation.Pipeline.test_release_manifest_reproducible_and_guarded",
+    "tests.p43.test_mutation.Pipeline.test_manifest_contains_no_secret_material",
+    "tests.p43.test_mutation.Pipeline.test_precondition_gate_rejects_and_counts_infeasible_candidates",
+    "tests.p43.test_mutation.Recorded.test_dataset_contains_only_synthetic_material"
+   ],
+   [
+    "python3",
+    "scripts/p43_run.py",
+    "--check"
+   ]
+  ],
+  "covers": "horizon/mutation/pipeline.py::release_manifest; results/v2/p43-mutation/release_manifest.json"
  }
 }
