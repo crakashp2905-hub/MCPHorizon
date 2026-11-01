@@ -50,10 +50,12 @@ class Receiver:
         self.ports, self.stats, self.ready = ports, os.path.join(workdir, "stats.jsonl"), os.path.join(workdir, "ready"); open(self.stats, "w").close()
     def start(self):
         self.p = subprocess.Popen([sys.executable, "-m", "horizon.runtime.receiver", ",".join(map(str, self.ports)), self.stats, self.ready], cwd=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        for _ in range(100):
+        for _ in range(400):
             if os.path.exists(self.ready): return self
+            if self.p.poll() is not None: raise RuntimeError("receiver exited early (rc=%s)" % self.p.returncode)
             time.sleep(0.05)
-        raise RuntimeError("receiver did not start")
+        self.p.kill(); self.p.wait()
+        raise RuntimeError("receiver did not start within 20s")
     def stop(self): self.p.kill(); self.p.wait()
     def rows(self, port=None): return [r for r in map(json.loads, open(self.stats).read().splitlines()) if port is None or r["port"] == port]
     def bytes(self, port): return sum(r["bytes"] for r in self.rows(port))
