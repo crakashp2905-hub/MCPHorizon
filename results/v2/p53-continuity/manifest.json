@@ -1,0 +1,2323 @@
+{
+ "definitions": {
+  "controls": {
+   "approval": 1,
+   "budget": 1,
+   "egress": 2,
+   "label": 1,
+   "obligation": 1,
+   "revocation": 1,
+   "secret_export": 1
+  },
+  "runtimes": {
+   "cloud-broad": {
+    "attestable": true,
+    "carrier": "mcp",
+    "defaults": {},
+    "sinks_mediated": true,
+    "supports": {
+     "approval": 1,
+     "budget": 1,
+     "label": 1,
+     "obligation": 1,
+     "revocation": 1
+    },
+    "vendor": "cloudco"
+   },
+   "cloud-nolabel": {
+    "attestable": true,
+    "carrier": "mcp",
+    "defaults": {},
+    "sinks_mediated": true,
+    "supports": {
+     "approval": 1,
+     "budget": 1,
+     "egress": 2,
+     "obligation": 1,
+     "revocation": 1,
+     "secret_export": 1
+    },
+    "vendor": "cloudco"
+   },
+   "cloud-nosecret": {
+    "attestable": true,
+    "carrier": "mcp",
+    "defaults": {},
+    "sinks_mediated": true,
+    "supports": {
+     "approval": 1,
+     "budget": 1,
+     "egress": 2,
+     "label": 1,
+     "obligation": 1,
+     "revocation": 1
+    },
+    "vendor": "cloudco"
+   },
+   "lenient": {
+    "attestable": true,
+    "carrier": "mcp",
+    "defaults": {
+     "approval": 1,
+     "budget": 1,
+     "egress": 1,
+     "label": 1,
+     "obligation": 1,
+     "revocation": 1,
+     "secret_export": 1
+    },
+    "sinks_mediated": true,
+    "supports": {
+     "approval": 1,
+     "budget": 1,
+     "egress": 1,
+     "label": 1,
+     "obligation": 1,
+     "revocation": 1,
+     "secret_export": 1
+    },
+    "vendor": "other"
+   },
+   "sandbox-a": {
+    "attestable": true,
+    "carrier": "mcp",
+    "defaults": {
+     "approval": 1,
+     "budget": 1,
+     "egress": 1,
+     "label": 1,
+     "obligation": 1,
+     "revocation": 1,
+     "secret_export": 1
+    },
+    "sinks_mediated": true,
+    "supports": {
+     "approval": 1,
+     "budget": 1,
+     "egress": 2,
+     "label": 1,
+     "obligation": 1,
+     "revocation": 1,
+     "secret_export": 1
+    },
+    "vendor": "acme"
+   },
+   "sandbox-a2": {
+    "attestable": true,
+    "carrier": "mcp",
+    "defaults": {
+     "approval": 1,
+     "budget": 1,
+     "egress": 1,
+     "label": 1,
+     "obligation": 1,
+     "revocation": 1,
+     "secret_export": 1
+    },
+    "sinks_mediated": true,
+    "supports": {
+     "approval": 1,
+     "budget": 1,
+     "egress": 2,
+     "label": 1,
+     "obligation": 1,
+     "revocation": 1,
+     "secret_export": 1
+    },
+    "vendor": "acme"
+   },
+   "sandbox-b": {
+    "attestable": true,
+    "carrier": "mcp",
+    "defaults": {
+     "approval": 1,
+     "budget": 1,
+     "egress": 1,
+     "label": 1,
+     "obligation": 1,
+     "revocation": 1,
+     "secret_export": 1
+    },
+    "sinks_mediated": true,
+    "supports": {
+     "approval": 1,
+     "budget": 1,
+     "egress": 2,
+     "label": 1,
+     "obligation": 1,
+     "revocation": 1,
+     "secret_export": 1
+    },
+    "vendor": "other"
+   },
+   "stronger": {
+    "attestable": true,
+    "carrier": "mcp",
+    "defaults": {
+     "approval": 1,
+     "attest_logs": 1,
+     "budget": 1,
+     "egress": 1,
+     "label": 1,
+     "obligation": 1,
+     "revocation": 1,
+     "secret_export": 1
+    },
+    "sinks_mediated": true,
+    "supports": {
+     "approval": 1,
+     "attest_logs": 1,
+     "budget": 1,
+     "egress": 2,
+     "label": 1,
+     "obligation": 1,
+     "revocation": 1,
+     "secret_export": 1
+    },
+    "vendor": "other"
+   },
+   "unknown-provider": {
+    "attestable": false,
+    "carrier": "mcp",
+    "defaults": {},
+    "sinks_mediated": true,
+    "supports": {},
+    "vendor": "mystery"
+   },
+   "unmediated-sink": {
+    "attestable": true,
+    "carrier": "mcp",
+    "defaults": {},
+    "sinks_mediated": false,
+    "supports": {
+     "approval": 1,
+     "budget": 1,
+     "egress": 2,
+     "label": 1,
+     "obligation": 1,
+     "revocation": 1,
+     "secret_export": 1
+    },
+    "vendor": "other"
+   },
+   "utcp-sandbox": {
+    "attestable": true,
+    "carrier": "utcp",
+    "defaults": {
+     "approval": 1,
+     "budget": 1,
+     "egress": 1,
+     "label": 1,
+     "obligation": 1,
+     "revocation": 1,
+     "secret_export": 1
+    },
+    "sinks_mediated": true,
+    "supports": {
+     "approval": 1,
+     "budget": 1,
+     "egress": 2,
+     "label": 1,
+     "obligation": 1,
+     "revocation": 1,
+     "secret_export": 1
+    },
+    "vendor": "other"
+   }
+  },
+  "scenarios": [
+   [
+    "A01",
+    "attack",
+    "a restricted local runtime resumes in a broad cloud runtime that cannot enforce the egress allowlist; the agent then sends to an unlisted host",
+    "cloud-broad",
+    [],
+    false,
+    false
+   ],
+   [
+    "A02",
+    "attack",
+    "the target cannot block credential export; the agent sends the credential to an allowed partner host",
+    "cloud-nosecret",
+    [],
+    false,
+    false
+   ],
+   [
+    "A03",
+    "attack",
+    "labels do not survive the move (or the target cannot enforce them); a CONFIDENTIAL document is sent to an external host",
+    "cloud-nolabel",
+    [],
+    false,
+    false
+   ],
+   [
+    "A04",
+    "attack",
+    "70 of the 100-unit budget is spent before the move; the target restarts the counter and 70 more are spent",
+    "lenient",
+    [],
+    false,
+    false
+   ],
+   [
+    "A05",
+    "attack",
+    "the pending audit obligation is dropped in the move; the task finishes without the audit",
+    "lenient",
+    [],
+    false,
+    false
+   ],
+   [
+    "A06",
+    "attack",
+    "the envelope is modified in transit to add a permission; the token covers the original",
+    "sandbox-b",
+    [],
+    false,
+    false
+   ],
+   [
+    "A07",
+    "attack",
+    "a buggy source signs an envelope with the labels and obligations sections missing (partial transfer)",
+    "sandbox-b",
+    [],
+    false,
+    false
+   ],
+   [
+    "A08",
+    "attack",
+    "the same envelope is resumed at a second runtime (replay); each copy spends 60 of the 100 units",
+    "sandbox-b",
+    [],
+    false,
+    false
+   ],
+   [
+    "A09",
+    "attack",
+    "the task's policy handle is revoked between freeze and resume; the target does not learn of it",
+    "sandbox-b",
+    [],
+    false,
+    false
+   ],
+   [
+    "A10",
+    "attack",
+    "the delete approval expires during the transfer; the target uses it",
+    "sandbox-b",
+    [],
+    false,
+    false
+   ],
+   [
+    "A11",
+    "attack",
+    "the target's attestation was made when it was strict; it has since been downgraded and the attestation is 120 s old",
+    "sandbox-b",
+    [],
+    false,
+    false
+   ],
+   [
+    "A12",
+    "attack",
+    "an attestation of another (strict) runtime is presented for a weak target",
+    "cloud-broad",
+    [],
+    false,
+    false
+   ],
+   [
+    "A13",
+    "attack",
+    "a call is in flight at the source when the state is captured; the original lands and the agent (and the target's retry logic) re-issues it at the target",
+    "sandbox-b",
+    [],
+    false,
+    false
+   ],
+   [
+    "A14",
+    "attack",
+    "the source is not stopped; after the target starts acting, the source (with its old credentials) acts too",
+    "sandbox-b",
+    [],
+    false,
+    false
+   ],
+   [
+    "B01",
+    "benign",
+    "migration to an equivalent attested sandbox; the authorized task continues",
+    "sandbox-b",
+    [
+     [
+      "egress",
+      "partner.test"
+     ],
+     [
+      "spend",
+      30
+     ],
+     [
+      "audit",
+      "ob1"
+     ],
+     [
+      "finish",
+      null
+     ]
+    ],
+    false,
+    false
+   ],
+   [
+    "B02",
+    "benign",
+    "migration to a stronger attested sandbox (extra non-mandatory capability)",
+    "stronger",
+    [
+     [
+      "egress",
+      "partner.test"
+     ],
+     [
+      "spend",
+      30
+     ],
+     [
+      "audit",
+      "ob1"
+     ],
+     [
+      "finish",
+      null
+     ]
+    ],
+    false,
+    false
+   ],
+   [
+    "B03",
+    "benign",
+    "migration to a sandbox that is weaker than the source but still meets the contract",
+    "lenient",
+    [
+     [
+      "egress",
+      "partner.test"
+     ],
+     [
+      "spend",
+      30
+     ],
+     [
+      "audit",
+      "ob1"
+     ],
+     [
+      "finish",
+      null
+     ]
+    ],
+    false,
+    false
+   ],
+   [
+    "B04",
+    "benign",
+    "migration with a still-valid delete approval, used on the target",
+    "sandbox-a2",
+    [
+     [
+      "act",
+      "delete"
+     ]
+    ],
+    false,
+    false
+   ],
+   [
+    "B05",
+    "benign",
+    "model-provider switch on an equivalent runtime of the same vendor",
+    "sandbox-a2",
+    [
+     [
+      "egress",
+      "partner.test"
+     ],
+     [
+      "spend",
+      30
+     ],
+     [
+      "audit",
+      "ob1"
+     ],
+     [
+      "finish",
+      null
+     ]
+    ],
+    false,
+    false
+   ],
+   [
+    "B06",
+    "benign",
+    "adapter migration (MCP to UTCP carrier) to an equivalent sandbox",
+    "utcp-sandbox",
+    [
+     [
+      "egress",
+      "partner.test"
+     ],
+     [
+      "spend",
+      30
+     ],
+     [
+      "audit",
+      "ob1"
+     ],
+     [
+      "finish",
+      null
+     ]
+    ],
+    false,
+    false
+   ],
+   [
+    "B07",
+    "benign",
+    "the target cannot meet the contract; admission fails, the source resumes and the task continues with unchanged authority (a justified denial)",
+    "cloud-broad",
+    [
+     [
+      "egress",
+      "partner.test"
+     ],
+     [
+      "spend",
+      30
+     ],
+     [
+      "audit",
+      "ob1"
+     ],
+     [
+      "finish",
+      null
+     ]
+    ],
+    false,
+    true
+   ],
+   [
+    "B08",
+    "benign",
+    "a call is in flight at capture time; it is applied exactly once even though the agent re-issues it after the move",
+    "sandbox-b",
+    [
+     [
+      "egress",
+      "partner.test"
+     ]
+    ],
+    true,
+    false
+   ],
+   [
+    "B09",
+    "benign",
+    "budget is spent partly before and partly after the move and stays within the cap",
+    "sandbox-b",
+    [
+     [
+      "spend",
+      30
+     ],
+     [
+      "spend",
+      50
+     ]
+    ],
+    false,
+    false
+   ],
+   [
+    "B10",
+    "benign",
+    "the audit obligation is fulfilled on the target and the task finishes",
+    "sandbox-a2",
+    [
+     [
+      "audit",
+      "ob1"
+     ],
+     [
+      "finish",
+      null
+     ]
+    ],
+    false,
+    false
+   ],
+   [
+    "U01",
+    "unknown",
+    "the target is from an unknown provider and cannot be attested",
+    "unknown-provider",
+    [],
+    false,
+    false
+   ],
+   [
+    "U02",
+    "unknown",
+    "the attestor is deceived: it reports the weak target as strict (outside the theorem's assumptions)",
+    "cloud-broad",
+    [],
+    false,
+    false
+   ],
+   [
+    "U03",
+    "unknown",
+    "the target is attested but its sinks are not mediated, so sink policy cannot be verified",
+    "unmediated-sink",
+    [],
+    false,
+    false
+   ],
+   [
+    "F01",
+    "failure",
+    "the revocation feed is offline and the task's handle has been revoked",
+    "sandbox-b",
+    [],
+    false,
+    false
+   ],
+   [
+    "F02",
+    "failure",
+    "the revocation feed is offline during a matched legitimate migration",
+    "sandbox-b",
+    [
+     [
+      "egress",
+      "partner.test"
+     ]
+    ],
+    false,
+    false
+   ]
+  ],
+  "sections": [
+   "v",
+   "task",
+   "chain",
+   "permissions",
+   "controls",
+   "labels",
+   "obligations",
+   "budgets",
+   "approvals",
+   "credentials",
+   "artifacts",
+   "policy",
+   "revocation",
+   "ops",
+   "provenance",
+   "iat",
+   "exp",
+   "resume_nonce"
+  ],
+  "systems": [
+   [
+    "state-serialization",
+    "baseline",
+    null
+   ],
+   [
+    "token-copying",
+    "baseline",
+    null
+   ],
+   [
+    "container-snapshot",
+    "baseline",
+    null
+   ],
+   [
+    "config-sync",
+    "baseline",
+    null
+   ],
+   [
+    "tool-name-check",
+    "baseline",
+    null
+   ],
+   [
+    "restrictive-rule",
+    "baseline",
+    null
+   ],
+   [
+    "continuity",
+    "continuity",
+    [
+     [
+      "approval_expiry",
+      true
+     ],
+     [
+      "att_fresh",
+      true
+     ],
+     [
+      "att_identity",
+      true
+     ],
+     [
+      "broker_rebind",
+      true
+     ],
+     [
+      "covers",
+      true
+     ],
+     [
+      "drain",
+      true
+     ],
+     [
+      "expiry",
+      true
+     ],
+     [
+      "fail_closed",
+      true
+     ],
+     [
+      "freeze",
+      true
+     ],
+     [
+      "labels_carry",
+      true
+     ],
+     [
+      "ledger",
+      true
+     ],
+     [
+      "nonce",
+      true
+     ],
+     [
+      "obligations_carry",
+      true
+     ],
+     [
+      "revocation",
+      true
+     ],
+     [
+      "rollback",
+      true
+     ],
+     [
+      "schema",
+      true
+     ],
+     [
+      "signature",
+      true
+     ],
+     [
+      "sink_policy",
+      true
+     ],
+     [
+      "widening",
+      true
+     ]
+    ]
+   ],
+   [
+    "continuity-no-signature",
+    "continuity",
+    [
+     [
+      "approval_expiry",
+      true
+     ],
+     [
+      "att_fresh",
+      true
+     ],
+     [
+      "att_identity",
+      true
+     ],
+     [
+      "broker_rebind",
+      true
+     ],
+     [
+      "covers",
+      true
+     ],
+     [
+      "drain",
+      true
+     ],
+     [
+      "expiry",
+      true
+     ],
+     [
+      "fail_closed",
+      true
+     ],
+     [
+      "freeze",
+      true
+     ],
+     [
+      "labels_carry",
+      true
+     ],
+     [
+      "ledger",
+      true
+     ],
+     [
+      "nonce",
+      true
+     ],
+     [
+      "obligations_carry",
+      true
+     ],
+     [
+      "revocation",
+      true
+     ],
+     [
+      "rollback",
+      true
+     ],
+     [
+      "schema",
+      true
+     ],
+     [
+      "signature",
+      false
+     ],
+     [
+      "sink_policy",
+      true
+     ],
+     [
+      "widening",
+      true
+     ]
+    ]
+   ],
+   [
+    "continuity-no-schema",
+    "continuity",
+    [
+     [
+      "approval_expiry",
+      true
+     ],
+     [
+      "att_fresh",
+      true
+     ],
+     [
+      "att_identity",
+      true
+     ],
+     [
+      "broker_rebind",
+      true
+     ],
+     [
+      "covers",
+      true
+     ],
+     [
+      "drain",
+      true
+     ],
+     [
+      "expiry",
+      true
+     ],
+     [
+      "fail_closed",
+      true
+     ],
+     [
+      "freeze",
+      true
+     ],
+     [
+      "labels_carry",
+      true
+     ],
+     [
+      "ledger",
+      true
+     ],
+     [
+      "nonce",
+      true
+     ],
+     [
+      "obligations_carry",
+      true
+     ],
+     [
+      "revocation",
+      true
+     ],
+     [
+      "rollback",
+      true
+     ],
+     [
+      "schema",
+      false
+     ],
+     [
+      "signature",
+      true
+     ],
+     [
+      "sink_policy",
+      true
+     ],
+     [
+      "widening",
+      true
+     ]
+    ]
+   ],
+   [
+    "continuity-no-nonce",
+    "continuity",
+    [
+     [
+      "approval_expiry",
+      true
+     ],
+     [
+      "att_fresh",
+      true
+     ],
+     [
+      "att_identity",
+      true
+     ],
+     [
+      "broker_rebind",
+      true
+     ],
+     [
+      "covers",
+      true
+     ],
+     [
+      "drain",
+      true
+     ],
+     [
+      "expiry",
+      true
+     ],
+     [
+      "fail_closed",
+      true
+     ],
+     [
+      "freeze",
+      true
+     ],
+     [
+      "labels_carry",
+      true
+     ],
+     [
+      "ledger",
+      true
+     ],
+     [
+      "nonce",
+      false
+     ],
+     [
+      "obligations_carry",
+      true
+     ],
+     [
+      "revocation",
+      true
+     ],
+     [
+      "rollback",
+      true
+     ],
+     [
+      "schema",
+      true
+     ],
+     [
+      "signature",
+      true
+     ],
+     [
+      "sink_policy",
+      true
+     ],
+     [
+      "widening",
+      true
+     ]
+    ]
+   ],
+   [
+    "continuity-no-expiry",
+    "continuity",
+    [
+     [
+      "approval_expiry",
+      true
+     ],
+     [
+      "att_fresh",
+      true
+     ],
+     [
+      "att_identity",
+      true
+     ],
+     [
+      "broker_rebind",
+      true
+     ],
+     [
+      "covers",
+      true
+     ],
+     [
+      "drain",
+      true
+     ],
+     [
+      "expiry",
+      false
+     ],
+     [
+      "fail_closed",
+      true
+     ],
+     [
+      "freeze",
+      true
+     ],
+     [
+      "labels_carry",
+      true
+     ],
+     [
+      "ledger",
+      true
+     ],
+     [
+      "nonce",
+      true
+     ],
+     [
+      "obligations_carry",
+      true
+     ],
+     [
+      "revocation",
+      true
+     ],
+     [
+      "rollback",
+      true
+     ],
+     [
+      "schema",
+      true
+     ],
+     [
+      "signature",
+      true
+     ],
+     [
+      "sink_policy",
+      true
+     ],
+     [
+      "widening",
+      true
+     ]
+    ]
+   ],
+   [
+    "continuity-no-widening",
+    "continuity",
+    [
+     [
+      "approval_expiry",
+      true
+     ],
+     [
+      "att_fresh",
+      true
+     ],
+     [
+      "att_identity",
+      true
+     ],
+     [
+      "broker_rebind",
+      true
+     ],
+     [
+      "covers",
+      true
+     ],
+     [
+      "drain",
+      true
+     ],
+     [
+      "expiry",
+      true
+     ],
+     [
+      "fail_closed",
+      true
+     ],
+     [
+      "freeze",
+      true
+     ],
+     [
+      "labels_carry",
+      true
+     ],
+     [
+      "ledger",
+      true
+     ],
+     [
+      "nonce",
+      true
+     ],
+     [
+      "obligations_carry",
+      true
+     ],
+     [
+      "revocation",
+      true
+     ],
+     [
+      "rollback",
+      true
+     ],
+     [
+      "schema",
+      true
+     ],
+     [
+      "signature",
+      true
+     ],
+     [
+      "sink_policy",
+      true
+     ],
+     [
+      "widening",
+      false
+     ]
+    ]
+   ],
+   [
+    "continuity-no-att-fresh",
+    "continuity",
+    [
+     [
+      "approval_expiry",
+      true
+     ],
+     [
+      "att_fresh",
+      false
+     ],
+     [
+      "att_identity",
+      true
+     ],
+     [
+      "broker_rebind",
+      true
+     ],
+     [
+      "covers",
+      true
+     ],
+     [
+      "drain",
+      true
+     ],
+     [
+      "expiry",
+      true
+     ],
+     [
+      "fail_closed",
+      true
+     ],
+     [
+      "freeze",
+      true
+     ],
+     [
+      "labels_carry",
+      true
+     ],
+     [
+      "ledger",
+      true
+     ],
+     [
+      "nonce",
+      true
+     ],
+     [
+      "obligations_carry",
+      true
+     ],
+     [
+      "revocation",
+      true
+     ],
+     [
+      "rollback",
+      true
+     ],
+     [
+      "schema",
+      true
+     ],
+     [
+      "signature",
+      true
+     ],
+     [
+      "sink_policy",
+      true
+     ],
+     [
+      "widening",
+      true
+     ]
+    ]
+   ],
+   [
+    "continuity-no-att-identity",
+    "continuity",
+    [
+     [
+      "approval_expiry",
+      true
+     ],
+     [
+      "att_fresh",
+      true
+     ],
+     [
+      "att_identity",
+      false
+     ],
+     [
+      "broker_rebind",
+      true
+     ],
+     [
+      "covers",
+      true
+     ],
+     [
+      "drain",
+      true
+     ],
+     [
+      "expiry",
+      true
+     ],
+     [
+      "fail_closed",
+      true
+     ],
+     [
+      "freeze",
+      true
+     ],
+     [
+      "labels_carry",
+      true
+     ],
+     [
+      "ledger",
+      true
+     ],
+     [
+      "nonce",
+      true
+     ],
+     [
+      "obligations_carry",
+      true
+     ],
+     [
+      "revocation",
+      true
+     ],
+     [
+      "rollback",
+      true
+     ],
+     [
+      "schema",
+      true
+     ],
+     [
+      "signature",
+      true
+     ],
+     [
+      "sink_policy",
+      true
+     ],
+     [
+      "widening",
+      true
+     ]
+    ]
+   ],
+   [
+    "continuity-no-covers",
+    "continuity",
+    [
+     [
+      "approval_expiry",
+      true
+     ],
+     [
+      "att_fresh",
+      true
+     ],
+     [
+      "att_identity",
+      true
+     ],
+     [
+      "broker_rebind",
+      true
+     ],
+     [
+      "covers",
+      false
+     ],
+     [
+      "drain",
+      true
+     ],
+     [
+      "expiry",
+      true
+     ],
+     [
+      "fail_closed",
+      true
+     ],
+     [
+      "freeze",
+      true
+     ],
+     [
+      "labels_carry",
+      true
+     ],
+     [
+      "ledger",
+      true
+     ],
+     [
+      "nonce",
+      true
+     ],
+     [
+      "obligations_carry",
+      true
+     ],
+     [
+      "revocation",
+      true
+     ],
+     [
+      "rollback",
+      true
+     ],
+     [
+      "schema",
+      true
+     ],
+     [
+      "signature",
+      true
+     ],
+     [
+      "sink_policy",
+      true
+     ],
+     [
+      "widening",
+      true
+     ]
+    ]
+   ],
+   [
+    "continuity-no-sink-policy",
+    "continuity",
+    [
+     [
+      "approval_expiry",
+      true
+     ],
+     [
+      "att_fresh",
+      true
+     ],
+     [
+      "att_identity",
+      true
+     ],
+     [
+      "broker_rebind",
+      true
+     ],
+     [
+      "covers",
+      true
+     ],
+     [
+      "drain",
+      true
+     ],
+     [
+      "expiry",
+      true
+     ],
+     [
+      "fail_closed",
+      true
+     ],
+     [
+      "freeze",
+      true
+     ],
+     [
+      "labels_carry",
+      true
+     ],
+     [
+      "ledger",
+      true
+     ],
+     [
+      "nonce",
+      true
+     ],
+     [
+      "obligations_carry",
+      true
+     ],
+     [
+      "revocation",
+      true
+     ],
+     [
+      "rollback",
+      true
+     ],
+     [
+      "schema",
+      true
+     ],
+     [
+      "signature",
+      true
+     ],
+     [
+      "sink_policy",
+      false
+     ],
+     [
+      "widening",
+      true
+     ]
+    ]
+   ],
+   [
+    "continuity-no-revocation",
+    "continuity",
+    [
+     [
+      "approval_expiry",
+      true
+     ],
+     [
+      "att_fresh",
+      true
+     ],
+     [
+      "att_identity",
+      true
+     ],
+     [
+      "broker_rebind",
+      true
+     ],
+     [
+      "covers",
+      true
+     ],
+     [
+      "drain",
+      true
+     ],
+     [
+      "expiry",
+      true
+     ],
+     [
+      "fail_closed",
+      true
+     ],
+     [
+      "freeze",
+      true
+     ],
+     [
+      "labels_carry",
+      true
+     ],
+     [
+      "ledger",
+      true
+     ],
+     [
+      "nonce",
+      true
+     ],
+     [
+      "obligations_carry",
+      true
+     ],
+     [
+      "revocation",
+      false
+     ],
+     [
+      "rollback",
+      true
+     ],
+     [
+      "schema",
+      true
+     ],
+     [
+      "signature",
+      true
+     ],
+     [
+      "sink_policy",
+      true
+     ],
+     [
+      "widening",
+      true
+     ]
+    ]
+   ],
+   [
+    "continuity-no-fail-closed",
+    "continuity",
+    [
+     [
+      "approval_expiry",
+      true
+     ],
+     [
+      "att_fresh",
+      true
+     ],
+     [
+      "att_identity",
+      true
+     ],
+     [
+      "broker_rebind",
+      true
+     ],
+     [
+      "covers",
+      true
+     ],
+     [
+      "drain",
+      true
+     ],
+     [
+      "expiry",
+      true
+     ],
+     [
+      "fail_closed",
+      false
+     ],
+     [
+      "freeze",
+      true
+     ],
+     [
+      "labels_carry",
+      true
+     ],
+     [
+      "ledger",
+      true
+     ],
+     [
+      "nonce",
+      true
+     ],
+     [
+      "obligations_carry",
+      true
+     ],
+     [
+      "revocation",
+      true
+     ],
+     [
+      "rollback",
+      true
+     ],
+     [
+      "schema",
+      true
+     ],
+     [
+      "signature",
+      true
+     ],
+     [
+      "sink_policy",
+      true
+     ],
+     [
+      "widening",
+      true
+     ]
+    ]
+   ],
+   [
+    "continuity-no-approval-expiry",
+    "continuity",
+    [
+     [
+      "approval_expiry",
+      false
+     ],
+     [
+      "att_fresh",
+      true
+     ],
+     [
+      "att_identity",
+      true
+     ],
+     [
+      "broker_rebind",
+      true
+     ],
+     [
+      "covers",
+      true
+     ],
+     [
+      "drain",
+      true
+     ],
+     [
+      "expiry",
+      true
+     ],
+     [
+      "fail_closed",
+      true
+     ],
+     [
+      "freeze",
+      true
+     ],
+     [
+      "labels_carry",
+      true
+     ],
+     [
+      "ledger",
+      true
+     ],
+     [
+      "nonce",
+      true
+     ],
+     [
+      "obligations_carry",
+      true
+     ],
+     [
+      "revocation",
+      true
+     ],
+     [
+      "rollback",
+      true
+     ],
+     [
+      "schema",
+      true
+     ],
+     [
+      "signature",
+      true
+     ],
+     [
+      "sink_policy",
+      true
+     ],
+     [
+      "widening",
+      true
+     ]
+    ]
+   ],
+   [
+    "continuity-no-freeze",
+    "continuity",
+    [
+     [
+      "approval_expiry",
+      true
+     ],
+     [
+      "att_fresh",
+      true
+     ],
+     [
+      "att_identity",
+      true
+     ],
+     [
+      "broker_rebind",
+      true
+     ],
+     [
+      "covers",
+      true
+     ],
+     [
+      "drain",
+      true
+     ],
+     [
+      "expiry",
+      true
+     ],
+     [
+      "fail_closed",
+      true
+     ],
+     [
+      "freeze",
+      false
+     ],
+     [
+      "labels_carry",
+      true
+     ],
+     [
+      "ledger",
+      true
+     ],
+     [
+      "nonce",
+      true
+     ],
+     [
+      "obligations_carry",
+      true
+     ],
+     [
+      "revocation",
+      true
+     ],
+     [
+      "rollback",
+      true
+     ],
+     [
+      "schema",
+      true
+     ],
+     [
+      "signature",
+      true
+     ],
+     [
+      "sink_policy",
+      true
+     ],
+     [
+      "widening",
+      true
+     ]
+    ]
+   ],
+   [
+    "continuity-no-drain",
+    "continuity",
+    [
+     [
+      "approval_expiry",
+      true
+     ],
+     [
+      "att_fresh",
+      true
+     ],
+     [
+      "att_identity",
+      true
+     ],
+     [
+      "broker_rebind",
+      true
+     ],
+     [
+      "covers",
+      true
+     ],
+     [
+      "drain",
+      false
+     ],
+     [
+      "expiry",
+      true
+     ],
+     [
+      "fail_closed",
+      true
+     ],
+     [
+      "freeze",
+      true
+     ],
+     [
+      "labels_carry",
+      true
+     ],
+     [
+      "ledger",
+      true
+     ],
+     [
+      "nonce",
+      true
+     ],
+     [
+      "obligations_carry",
+      true
+     ],
+     [
+      "revocation",
+      true
+     ],
+     [
+      "rollback",
+      true
+     ],
+     [
+      "schema",
+      true
+     ],
+     [
+      "signature",
+      true
+     ],
+     [
+      "sink_policy",
+      true
+     ],
+     [
+      "widening",
+      true
+     ]
+    ]
+   ],
+   [
+    "continuity-no-ledger",
+    "continuity",
+    [
+     [
+      "approval_expiry",
+      true
+     ],
+     [
+      "att_fresh",
+      true
+     ],
+     [
+      "att_identity",
+      true
+     ],
+     [
+      "broker_rebind",
+      true
+     ],
+     [
+      "covers",
+      true
+     ],
+     [
+      "drain",
+      true
+     ],
+     [
+      "expiry",
+      true
+     ],
+     [
+      "fail_closed",
+      true
+     ],
+     [
+      "freeze",
+      true
+     ],
+     [
+      "labels_carry",
+      true
+     ],
+     [
+      "ledger",
+      false
+     ],
+     [
+      "nonce",
+      true
+     ],
+     [
+      "obligations_carry",
+      true
+     ],
+     [
+      "revocation",
+      true
+     ],
+     [
+      "rollback",
+      true
+     ],
+     [
+      "schema",
+      true
+     ],
+     [
+      "signature",
+      true
+     ],
+     [
+      "sink_policy",
+      true
+     ],
+     [
+      "widening",
+      true
+     ]
+    ]
+   ],
+   [
+    "continuity-no-obligations-carry",
+    "continuity",
+    [
+     [
+      "approval_expiry",
+      true
+     ],
+     [
+      "att_fresh",
+      true
+     ],
+     [
+      "att_identity",
+      true
+     ],
+     [
+      "broker_rebind",
+      true
+     ],
+     [
+      "covers",
+      true
+     ],
+     [
+      "drain",
+      true
+     ],
+     [
+      "expiry",
+      true
+     ],
+     [
+      "fail_closed",
+      true
+     ],
+     [
+      "freeze",
+      true
+     ],
+     [
+      "labels_carry",
+      true
+     ],
+     [
+      "ledger",
+      true
+     ],
+     [
+      "nonce",
+      true
+     ],
+     [
+      "obligations_carry",
+      false
+     ],
+     [
+      "revocation",
+      true
+     ],
+     [
+      "rollback",
+      true
+     ],
+     [
+      "schema",
+      true
+     ],
+     [
+      "signature",
+      true
+     ],
+     [
+      "sink_policy",
+      true
+     ],
+     [
+      "widening",
+      true
+     ]
+    ]
+   ],
+   [
+    "continuity-no-labels-carry",
+    "continuity",
+    [
+     [
+      "approval_expiry",
+      true
+     ],
+     [
+      "att_fresh",
+      true
+     ],
+     [
+      "att_identity",
+      true
+     ],
+     [
+      "broker_rebind",
+      true
+     ],
+     [
+      "covers",
+      true
+     ],
+     [
+      "drain",
+      true
+     ],
+     [
+      "expiry",
+      true
+     ],
+     [
+      "fail_closed",
+      true
+     ],
+     [
+      "freeze",
+      true
+     ],
+     [
+      "labels_carry",
+      false
+     ],
+     [
+      "ledger",
+      true
+     ],
+     [
+      "nonce",
+      true
+     ],
+     [
+      "obligations_carry",
+      true
+     ],
+     [
+      "revocation",
+      true
+     ],
+     [
+      "rollback",
+      true
+     ],
+     [
+      "schema",
+      true
+     ],
+     [
+      "signature",
+      true
+     ],
+     [
+      "sink_policy",
+      true
+     ],
+     [
+      "widening",
+      true
+     ]
+    ]
+   ],
+   [
+    "continuity-no-broker-rebind",
+    "continuity",
+    [
+     [
+      "approval_expiry",
+      true
+     ],
+     [
+      "att_fresh",
+      true
+     ],
+     [
+      "att_identity",
+      true
+     ],
+     [
+      "broker_rebind",
+      false
+     ],
+     [
+      "covers",
+      true
+     ],
+     [
+      "drain",
+      true
+     ],
+     [
+      "expiry",
+      true
+     ],
+     [
+      "fail_closed",
+      true
+     ],
+     [
+      "freeze",
+      true
+     ],
+     [
+      "labels_carry",
+      true
+     ],
+     [
+      "ledger",
+      true
+     ],
+     [
+      "nonce",
+      true
+     ],
+     [
+      "obligations_carry",
+      true
+     ],
+     [
+      "revocation",
+      true
+     ],
+     [
+      "rollback",
+      true
+     ],
+     [
+      "schema",
+      true
+     ],
+     [
+      "signature",
+      true
+     ],
+     [
+      "sink_policy",
+      true
+     ],
+     [
+      "widening",
+      true
+     ]
+    ]
+   ],
+   [
+    "continuity-no-rollback",
+    "continuity",
+    [
+     [
+      "approval_expiry",
+      true
+     ],
+     [
+      "att_fresh",
+      true
+     ],
+     [
+      "att_identity",
+      true
+     ],
+     [
+      "broker_rebind",
+      true
+     ],
+     [
+      "covers",
+      true
+     ],
+     [
+      "drain",
+      true
+     ],
+     [
+      "expiry",
+      true
+     ],
+     [
+      "fail_closed",
+      true
+     ],
+     [
+      "freeze",
+      true
+     ],
+     [
+      "labels_carry",
+      true
+     ],
+     [
+      "ledger",
+      true
+     ],
+     [
+      "nonce",
+      true
+     ],
+     [
+      "obligations_carry",
+      true
+     ],
+     [
+      "revocation",
+      true
+     ],
+     [
+      "rollback",
+      false
+     ],
+     [
+      "schema",
+      true
+     ],
+     [
+      "signature",
+      true
+     ],
+     [
+      "sink_policy",
+      true
+     ],
+     [
+      "widening",
+      true
+     ]
+    ]
+   ]
+  ]
+ },
+ "python": "3.13.18",
+ "machine": "Linux-6.18.44-fc-v185-x86_64-with-glibc2.39",
+ "head": "ddcf683129b894cd86a87adff6770d5fbcc5166c",
+ "result_sha256": "35adce99592f40c1b5e51f94349047c1709a2226c15f977535667301c2457d50"
+}

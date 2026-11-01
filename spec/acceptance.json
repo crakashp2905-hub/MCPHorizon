@@ -12722,5 +12722,251 @@
    ]
   ],
   "covers": "results/v2/p52-temporal/invariants.json, result.json; docs/evidence/p52/RESULTS.md"
+ },
+ "P53-01": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p53.test_continuity.Core",
+    "tests.p53.test_continuity.Gates"
+   ]
+  ],
+  "covers": "horizon/continuity/core.py SECTIONS, validate, covers; docs/evidence/p53/ASSUMPTIONS_AND_LIMITS.md"
+ },
+ "P53-02": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p53.test_continuity.Core",
+    "tests.p53.test_continuity.AdmissionDetails"
+   ]
+  ],
+  "covers": "horizon/continuity/migrate.py checkpoint token, admit (signature, expiry, policy/revocation handle)"
+ },
+ "P53-03": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p53.test_continuity.Core",
+    "tests.p53.test_continuity.Attacks"
+   ]
+  ],
+  "covers": "envelope chain, labels, obligations; core.widening; A06, A07"
+ },
+ "P53-04": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p53.test_continuity.Services",
+    "tests.p53.test_continuity.Benign"
+   ]
+  ],
+  "covers": "horizon/continuity/services.py Ledger; budget pointer in envelope; B09"
+ },
+ "P53-05": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p53.test_continuity.Core",
+    "tests.p53.test_continuity.Services",
+    "tests.p53.test_continuity.Benign"
+   ]
+  ],
+  "covers": "core.validate raw-credential rejection; services.Broker rebind; B01 credential rebinding"
+ },
+ "P53-06": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p53.test_continuity.Services",
+    "tests.p53.test_continuity.AdmissionDetails"
+   ]
+  ],
+  "covers": "services.Attestor, attestation claim (runtime id, guarantees, sink mediation, expiry)"
+ },
+ "P53-07": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p53.test_continuity.EachMechanismAlone",
+    "tests.p53.test_continuity.AdmissionDetails",
+    "tests.p53.test_continuity.Attacks"
+   ]
+  ],
+  "covers": "migrate.Continuity.admit"
+ },
+ "P53-08": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p53.test_continuity.Attacks",
+    "tests.p53.test_continuity.AdmissionDetails",
+    "tests.p53.test_continuity.RuntimeOps"
+   ]
+  ],
+  "covers": "freeze, drain, checkpoint; A13, A14"
+ },
+ "P53-09": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p53.test_continuity.Benign",
+    "tests.p53.test_continuity.AdmissionDetails",
+    "tests.p53.test_continuity.Unsupported"
+   ]
+  ],
+  "covers": "migrate.Continuity.resume; sink-policy verification"
+ },
+ "P53-10": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p53.test_continuity.Benign",
+    "tests.p53.test_continuity.Unsupported"
+   ]
+  ],
+  "covers": "migrate.Continuity.fail: rollback and safe-stop; B07"
+ },
+ "P53-11": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p53.test_continuity.Attacks"
+   ]
+  ],
+  "covers": "A01, A02, A03 restricted-to-weaker runtime migrations"
+ },
+ "P53-12": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p53.test_continuity.Benign"
+   ]
+  ],
+  "covers": "B01-B10 equivalent, stronger and weaker-but-sufficient targets"
+ },
+ "P53-13": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p53.test_continuity.Attacks",
+    "tests.p53.test_continuity.Unsupported"
+   ]
+  ],
+  "covers": "A09, A10, F01 revocation and approval expiry during transfer"
+ },
+ "P53-14": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p53.test_continuity.Attacks",
+    "tests.p53.test_continuity.EachMechanismAlone"
+   ]
+  ],
+  "covers": "A06 forged, A07 partial, A08 replay, missing labels"
+ },
+ "P53-15": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p53.test_continuity.Experiment",
+    "tests.p53.test_continuity.Attacks"
+   ],
+   [
+    "python3",
+    "scripts/p53_report.py",
+    "--check"
+   ],
+   [
+    "python3",
+    "scripts/p53_run.py",
+    "--check"
+   ]
+  ],
+  "covers": "horizon/continuity/experiment.py baselines vs module"
+ },
+ "P53-16": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p53.test_continuity.Recorded",
+    "tests.p53.test_continuity.Gates"
+   ],
+   [
+    "python3",
+    "scripts/p53_report.py",
+    "--check"
+   ],
+   [
+    "python3",
+    "scripts/p53_run.py",
+    "--check"
+   ]
+  ],
+  "covers": "results/v2/p53-continuity/trust_gaps.json, result.json; docs/evidence/p53"
  }
 }
