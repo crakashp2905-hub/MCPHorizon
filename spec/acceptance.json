@@ -11484,5 +11484,217 @@
    ]
   ],
   "covers": "docs/evidence/p47/BENCHMARK.md; scripts/p47_run.py --check"
+ },
+ "P48-01": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p48.test_consent.Manifest",
+    "tests.p48.test_consent.Envelope",
+    "tests.p48.test_consent.Isolated.test_forged_baseline_is_accepted",
+    "tests.p48.test_consent.Policy.test_policy_digest_changes_with_content"
+   ]
+  ],
+  "covers": "horizon/consent/core.py manifest, envelope; service.py claim"
+ },
+ "P48-02": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p48.test_consent.View",
+    "tests.p48.test_consent.Manifest.test_manifest_independent_of_agent_prose"
+   ]
+  ],
+  "covers": "horizon/consent/core.py derive_view; service.py present"
+ },
+ "P48-03": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p48.test_consent.View.test_view_names_all_required_fields",
+    "tests.p48.test_consent.View.test_external_marked",
+    "tests.p48.test_consent.View.test_unknown_stated"
+   ]
+  ],
+  "covers": "derive_view names receiver, scope, classification, irreversibility"
+ },
+ "P48-04": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p48.test_consent.Monitor",
+    "tests.p48.test_consent.Oracle.test_monitor_never_reads_ledger_or_sink",
+    "tests.p48.test_consent.Oracle.test_modules_never_self_sign"
+   ]
+  ],
+  "covers": "horizon/consent/monitor.py"
+ },
+ "P48-05": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p48.test_consent.Isolated.test_wrong_tenant_claim",
+    "tests.p48.test_consent.Isolated.test_wrong_task_claim",
+    "tests.p48.test_consent.Isolated.test_wrong_token_artifact",
+    "tests.p48.test_consent.Isolated.test_all_dual_control_tokens_consumed",
+    "tests.p48.test_consent.Monitor.test_ablation_targets",
+    "tests.p48.test_consent.Monitor.test_denial_reasons_reported"
+   ]
+  ],
+  "covers": "replay across agents, tenants, tasks, arguments"
+ },
+ "P48-06": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p48.test_consent.Monitor.test_every_attack_blocked_by_full_system",
+    "tests.p48.test_consent.Monitor.test_denial_reasons_reported",
+    "tests.p48.test_consent.Envelope.test_content_change_detected",
+    "tests.p48.test_consent.Envelope.test_receiver_change_detected"
+   ]
+  ],
+  "covers": "invalidation on artifact, destination, policy, version change (A01-A04, A14)"
+ },
+ "P48-07": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p48.test_consent.Monitor.test_ablation_targets",
+    "tests.p48.test_consent.Isolated.test_agent_cannot_approve_itself",
+    "tests.p48.test_consent.Monitor.test_dual_control_needs_two_distinct_approvers"
+   ]
+  ],
+  "covers": "separation of duties, authority, dual control"
+ },
+ "P48-08": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p48.test_consent.Gates.test_compare_screen_golden",
+    "tests.p48.test_consent.Gates.test_compare_screen_is_read_only_text",
+    "tests.p48.test_consent.Reviewer.test_faithfulness_counts",
+    "tests.p48.test_consent.Reviewer.test_faithfulness_omitted_and_misleading"
+   ]
+  ],
+  "covers": "horizon/consent/review.py compare_screen, faithfulness (structural, not human)"
+ },
+ "P48-09": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p48.test_consent.Monitor.test_every_attack_blocked_by_full_system",
+    "tests.p48.test_consent.Monitor.test_deception_needs_manifest_display",
+    "tests.p48.test_consent.Baselines.test_none_violates_everything"
+   ]
+  ],
+  "covers": "21 adversarial scenarios incl. post-approval substitution and hidden destinations"
+ },
+ "P48-10": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p48.test_consent.Monitor.test_every_benign_completes",
+    "tests.p48.test_consent.Monitor.test_diff_display_also_clean",
+    "tests.p48.test_consent.Envelope.test_bounds_allow_subset"
+   ]
+  ],
+  "covers": "8 benign controls incl. bounded approvals and legitimate edits"
+ },
+ "P48-11": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p48.test_consent.Oracle"
+   ]
+  ],
+  "covers": "horizon/consent/oracle.py independent oracle"
+ },
+ "P48-14": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p48.test_consent.Baselines",
+    "tests.p48.test_consent.Recorded.test_baselines_fail",
+    "tests.p48.test_consent.Recorded.test_full_system_zero",
+    "tests.p48.test_consent.Monitor.test_deception_needs_manifest_display"
+   ]
+  ],
+  "covers": "button, free-form, signed-args (crypto binding alone), diff-summary comparisons; results/v2/p48-consent"
+ },
+ "P48-15": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p48.test_consent.Gates.test_synthetic_canary_only"
+   ]
+  ],
+  "covers": "docs/evidence/p48/ASSUMPTIONS_AND_LIMITS.md section 4"
+ },
+ "P48-16": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p48.test_consent.Gates.test_synthetic_canary_only",
+    "tests.p48.test_consent.Recorded.test_recorded_matches_live",
+    "tests.p48.test_consent.Recorded.test_redundant_flags_disclosed"
+   ]
+  ],
+  "covers": "docs/evidence/p48/ASSUMPTIONS_AND_LIMITS.md section 6; scripts/p48_run.py --check"
  }
 }

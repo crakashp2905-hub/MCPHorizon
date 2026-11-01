@@ -1,0 +1,1 @@
+"""P48 HorizonConsent: bind approvals to faithful, effect-derived descriptions and to the exact effect at commit time. Integrity of approvals only; nothing here judges whether a human decision was wise."""
