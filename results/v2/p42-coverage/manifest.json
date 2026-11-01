@@ -1,0 +1,127 @@
+{
+ "definitions": {
+  "inventory": [
+   [
+    "FILE-WRITE-OUTSIDE",
+    "FILE",
+    "open(2) O_WRONLY|O_CREAT outside the run scratch",
+    "horizon/runtime/sandbox.py: Landlock fs + mount mask",
+    "fs-manifest (separate process, hash diff)"
+   ],
+   [
+    "FILE-DELETE-OUTSIDE",
+    "FILE",
+    "unlink(2) outside the run scratch",
+    "horizon/runtime/sandbox.py: Landlock fs",
+    "fs-manifest (separate process, hash diff)"
+   ],
+   [
+    "CRED-READ",
+    "CREDENTIAL",
+    "open(2) O_RDONLY on a credential file",
+    "horizon/runtime/sandbox.py: Landlock fs + mount mask",
+    null
+   ],
+   [
+    "NET-TCP-DIRECT",
+    "NETWORK",
+    "connect(2)/send(2) via the Python socket module",
+    "horizon/runtime/sandbox.py: netns + seccomp + Landlock tcp",
+    "tcp-receiver (separate process, canary + variants)"
+   ],
+   [
+    "NET-UDP-DIRECT",
+    "NETWORK",
+    "sendto(2) UDP datagram",
+    "horizon/runtime/sandbox.py: netns + seccomp",
+    "udp-observer (separate process)"
+   ],
+   [
+    "NET-NATIVE-LIBC",
+    "NETWORK",
+    "raw libc socket/connect/send through ctypes (bypasses Python wrappers)",
+    "horizon/runtime/sandbox.py: netns + seccomp",
+    "tcp-receiver (separate process, canary + variants)"
+   ],
+   [
+    "PROC-CHILD-WRITE",
+    "PROCESS",
+    "effect performed by a child process",
+    "horizon/runtime/sandbox.py: confinement inherited by descendants",
+    "fs-manifest (separate process, hash diff)"
+   ],
+   [
+    "PROC-BACKGROUND-WRITE",
+    "PROCESS",
+    "effect performed by a detached background job after the launcher returns",
+    "horizon/runtime/sandbox.py: Landlock + pid-namespace teardown",
+    "fs-manifest (separate process, hash diff)"
+   ],
+   [
+    "PROC-SPAWN-LONG",
+    "PROCESS",
+    "creation of a long-lived child process",
+    null,
+    "proc-sampler (separate process, 20 ms poll of /proc)"
+   ],
+   [
+    "PROC-SPAWN-FAST",
+    "PROCESS",
+    "creation of a child that exits immediately",
+    null,
+    "proc-sampler (separate process, 20 ms poll of /proc)"
+   ],
+   [
+    "DB-BROAD-WRITE",
+    "DATABASE",
+    "UPDATE touching more rows than the contract allows",
+    "horizon/counterfactual/commit.py: Gate (contract + commit-time re-derivation)",
+    "db-receipt (separate read-only process)"
+   ],
+   [
+    "CONNECTOR-UNRECORDED-CALL",
+    "CONNECTOR",
+    "protected connector call while the collector is unreachable",
+    "horizon/telemetry/collector.py: ProtectedExecutor (fail closed)",
+    "receiver-journal (own signing key)"
+   ],
+   [
+    "BROWSER-ACTION",
+    "BROWSER",
+    "browser automation action (navigate/click/submit)",
+    null,
+    null
+   ]
+  ],
+  "families": [
+   "FILE",
+   "CREDENTIAL",
+   "NETWORK",
+   "PROCESS",
+   "DATABASE",
+   "CONNECTOR",
+   "BROWSER"
+  ],
+  "claims_sha256": "c1ed4c320f6575747da43d28f9c93d98ea7f4f5a5c222910e4176c33b88a1470",
+  "reps": 3,
+  "ttl_s": 3600,
+  "regressions": [
+   "R1",
+   "R2",
+   "R3",
+   "R4",
+   "R5-delete",
+   "R5-reorder",
+   "R5-forge",
+   "R6",
+   "R7",
+   "R8",
+   "R9"
+  ]
+ },
+ "python": "3.13.18",
+ "machine": "Linux-6.18.44-fc-v185-x86_64-with-glibc2.39",
+ "head": "2dfae2e0cbdca32584511946deab6f816071fc28",
+ "result_sha256": "a6d2dd8efe2a851b895f6fbd4fd6df9237c8bef4b0d13e56888c4bf5b3080a90",
+ "bundle_digest": "eb3281f2fe5fecc6649d41e29ec209214ce3c24c8cbdeda50aa02127d3e96e69"
+}

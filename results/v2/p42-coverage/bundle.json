@@ -1,0 +1,432 @@
+{
+ "bundle_digest": "eb3281f2fe5fecc6649d41e29ec209214ce3c24c8cbdeda50aa02127d3e96e69",
+ "components": {
+  "enforcement_code": "1fc817db5a4bda126eb9585f5a4fdb038a1a729370c4f8d7e4294fe9ed788c70",
+  "kernel": "6.18.44-fc-v185",
+  "observer_code": "55b3db1adb525fbdbe65d9dd67b2a2089706d961eb86b339a72028350e678e7e",
+  "plugins": "361e812a97d3a51d8c083193d9ca16e8ee934e82c84b1a15607f2c04474e4fca",
+  "policy_revision": "pol-1",
+  "sandbox_code": "2383b6f234a270d9d5b4ce21f2bae3dd127147b2ef9c77bd8073a7957c27c51f",
+  "sandbox_policy": "sha256:856dbcbc8efcaeaccff4dd4c26bcd39b6910fab04ae914fe175e56a07d3fd9de"
+ },
+ "environment": {
+  "kernel": "6.18.44-fc-v185",
+  "machine": "x86_64",
+  "plugin_files": [
+   "__init__.py",
+   "__pycache__",
+   "mcp",
+   "utcp"
+  ],
+  "python": "3.13.18",
+  "sandbox": "landlock abi 7",
+  "sandbox_usable": true,
+  "uid": 0
+ },
+ "issued_at": 1793503701,
+ "ratios": {
+  "ALL": {
+   "MISSING": 4,
+   "UNKNOWN": 0,
+   "VERIFIED": 9,
+   "sinks": 13,
+   "verified_ratio": 0.6923
+  },
+  "BROWSER": {
+   "MISSING": 1,
+   "UNKNOWN": 0,
+   "VERIFIED": 0,
+   "sinks": 1,
+   "verified_ratio": 0.0
+  },
+  "CONNECTOR": {
+   "MISSING": 0,
+   "UNKNOWN": 0,
+   "VERIFIED": 1,
+   "sinks": 1,
+   "verified_ratio": 1.0
+  },
+  "CREDENTIAL": {
+   "MISSING": 1,
+   "UNKNOWN": 0,
+   "VERIFIED": 0,
+   "sinks": 1,
+   "verified_ratio": 0.0
+  },
+  "DATABASE": {
+   "MISSING": 0,
+   "UNKNOWN": 0,
+   "VERIFIED": 1,
+   "sinks": 1,
+   "verified_ratio": 1.0
+  },
+  "FILE": {
+   "MISSING": 0,
+   "UNKNOWN": 0,
+   "VERIFIED": 2,
+   "sinks": 2,
+   "verified_ratio": 1.0
+  },
+  "NETWORK": {
+   "MISSING": 0,
+   "UNKNOWN": 0,
+   "VERIFIED": 3,
+   "sinks": 3,
+   "verified_ratio": 1.0
+  },
+  "PROCESS": {
+   "MISSING": 2,
+   "UNKNOWN": 0,
+   "VERIFIED": 2,
+   "sinks": 4,
+   "verified_ratio": 0.5
+  }
+ },
+ "schema": "coverage-bundle/1.0.0",
+ "sinks": [
+  {
+   "enforcement": [
+    "VERIFIED",
+    "effect absent in 3/3 enforcing runs; present in 3/3 weakened runs"
+   ],
+   "enforcement_point": "horizon/runtime/sandbox.py: Landlock fs + mount mask",
+   "family": "FILE",
+   "id": "FILE-WRITE-OUTSIDE",
+   "interface": "open(2) O_WRONLY|O_CREAT outside the run scratch",
+   "note": "",
+   "observation": [
+    "VERIFIED",
+    "observer saw the effect in 3/3 calibration runs"
+   ],
+   "observation_channel": "fs-manifest (separate process, hash diff)",
+   "overall": "VERIFIED",
+   "strong_seen": [
+    false,
+    false,
+    false
+   ],
+   "weak_seen": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "enforcement": [
+    "VERIFIED",
+    "effect absent in 3/3 enforcing runs; present in 3/3 weakened runs"
+   ],
+   "enforcement_point": "horizon/runtime/sandbox.py: Landlock fs",
+   "family": "FILE",
+   "id": "FILE-DELETE-OUTSIDE",
+   "interface": "unlink(2) outside the run scratch",
+   "note": "",
+   "observation": [
+    "VERIFIED",
+    "observer saw the effect in 3/3 calibration runs"
+   ],
+   "observation_channel": "fs-manifest (separate process, hash diff)",
+   "overall": "VERIFIED",
+   "strong_seen": [
+    false,
+    false,
+    false
+   ],
+   "weak_seen": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "enforcement": [
+    "UNKNOWN",
+    "enforcement can only be self-reported by the confined process"
+   ],
+   "enforcement_point": "horizon/runtime/sandbox.py: Landlock fs + mount mask",
+   "family": "CREDENTIAL",
+   "id": "CRED-READ",
+   "interface": "open(2) O_RDONLY on a credential file",
+   "note": "a read leaves no host-side trace; only the later exfiltration is observable",
+   "observation": [
+    "MISSING",
+    "no independent observation channel exists for this sink"
+   ],
+   "observation_channel": null,
+   "overall": "MISSING",
+   "strong_seen": [
+    null,
+    null,
+    null
+   ],
+   "weak_seen": [
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "enforcement": [
+    "VERIFIED",
+    "effect absent in 3/3 enforcing runs; present in 3/3 weakened runs"
+   ],
+   "enforcement_point": "horizon/runtime/sandbox.py: netns + seccomp + Landlock tcp",
+   "family": "NETWORK",
+   "id": "NET-TCP-DIRECT",
+   "interface": "connect(2)/send(2) via the Python socket module",
+   "note": "",
+   "observation": [
+    "VERIFIED",
+    "observer saw the effect in 3/3 calibration runs"
+   ],
+   "observation_channel": "tcp-receiver (separate process, canary + variants)",
+   "overall": "VERIFIED",
+   "strong_seen": [
+    false,
+    false,
+    false
+   ],
+   "weak_seen": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "enforcement": [
+    "VERIFIED",
+    "effect absent in 3/3 enforcing runs; present in 3/3 weakened runs"
+   ],
+   "enforcement_point": "horizon/runtime/sandbox.py: netns + seccomp",
+   "family": "NETWORK",
+   "id": "NET-UDP-DIRECT",
+   "interface": "sendto(2) UDP datagram",
+   "note": "",
+   "observation": [
+    "VERIFIED",
+    "observer saw the effect in 3/3 calibration runs"
+   ],
+   "observation_channel": "udp-observer (separate process)",
+   "overall": "VERIFIED",
+   "strong_seen": [
+    false,
+    false,
+    false
+   ],
+   "weak_seen": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "enforcement": [
+    "VERIFIED",
+    "effect absent in 3/3 enforcing runs; present in 3/3 weakened runs"
+   ],
+   "enforcement_point": "horizon/runtime/sandbox.py: netns + seccomp",
+   "family": "NETWORK",
+   "id": "NET-NATIVE-LIBC",
+   "interface": "raw libc socket/connect/send through ctypes (bypasses Python wrappers)",
+   "note": "",
+   "observation": [
+    "VERIFIED",
+    "observer saw the effect in 3/3 calibration runs"
+   ],
+   "observation_channel": "tcp-receiver (separate process, canary + variants)",
+   "overall": "VERIFIED",
+   "strong_seen": [
+    false,
+    false,
+    false
+   ],
+   "weak_seen": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "enforcement": [
+    "VERIFIED",
+    "effect absent in 3/3 enforcing runs; present in 3/3 weakened runs"
+   ],
+   "enforcement_point": "horizon/runtime/sandbox.py: confinement inherited by descendants",
+   "family": "PROCESS",
+   "id": "PROC-CHILD-WRITE",
+   "interface": "effect performed by a child process",
+   "note": "",
+   "observation": [
+    "VERIFIED",
+    "observer saw the effect in 3/3 calibration runs"
+   ],
+   "observation_channel": "fs-manifest (separate process, hash diff)",
+   "overall": "VERIFIED",
+   "strong_seen": [
+    false,
+    false,
+    false
+   ],
+   "weak_seen": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "enforcement": [
+    "VERIFIED",
+    "effect absent in 3/3 enforcing runs; present in 3/3 weakened runs"
+   ],
+   "enforcement_point": "horizon/runtime/sandbox.py: Landlock + pid-namespace teardown",
+   "family": "PROCESS",
+   "id": "PROC-BACKGROUND-WRITE",
+   "interface": "effect performed by a detached background job after the launcher returns",
+   "note": "",
+   "observation": [
+    "VERIFIED",
+    "observer saw the effect in 3/3 calibration runs"
+   ],
+   "observation_channel": "fs-manifest (separate process, hash diff)",
+   "overall": "VERIFIED",
+   "strong_seen": [
+    false,
+    false,
+    false
+   ],
+   "weak_seen": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "enforcement": [
+    "MISSING",
+    "no enforcement point claims this sink"
+   ],
+   "enforcement_point": null,
+   "family": "PROCESS",
+   "id": "PROC-SPAWN-LONG",
+   "interface": "creation of a long-lived child process",
+   "note": "no control claims to prevent spawning",
+   "observation": [
+    "VERIFIED",
+    "observer saw the effect in 3/3 calibration runs"
+   ],
+   "observation_channel": "proc-sampler (separate process, 20 ms poll of /proc)",
+   "overall": "MISSING",
+   "strong_seen": [
+    true,
+    true,
+    true
+   ],
+   "weak_seen": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "enforcement": [
+    "MISSING",
+    "no enforcement point claims this sink"
+   ],
+   "enforcement_point": null,
+   "family": "PROCESS",
+   "id": "PROC-SPAWN-FAST",
+   "interface": "creation of a child that exits immediately",
+   "note": "a poller can miss short-lived processes",
+   "observation": [
+    "UNKNOWN",
+    "observer saw 0/3 calibration effects (blind, or effect did not happen)"
+   ],
+   "observation_channel": "proc-sampler (separate process, 20 ms poll of /proc)",
+   "overall": "MISSING",
+   "strong_seen": [
+    false,
+    false,
+    false
+   ],
+   "weak_seen": [
+    false,
+    false,
+    false
+   ]
+  },
+  {
+   "enforcement": [
+    "VERIFIED",
+    "effect absent in 3/3 enforcing runs; present in 3/3 weakened runs"
+   ],
+   "enforcement_point": "horizon/counterfactual/commit.py: Gate (contract + commit-time re-derivation)",
+   "family": "DATABASE",
+   "id": "DB-BROAD-WRITE",
+   "interface": "UPDATE touching more rows than the contract allows",
+   "note": "",
+   "observation": [
+    "VERIFIED",
+    "observer saw the effect in 3/3 calibration runs"
+   ],
+   "observation_channel": "db-receipt (separate read-only process)",
+   "overall": "VERIFIED",
+   "strong_seen": [
+    false,
+    false,
+    false
+   ],
+   "weak_seen": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "enforcement": [
+    "VERIFIED",
+    "effect absent in 3/3 enforcing runs; present in 3/3 weakened runs"
+   ],
+   "enforcement_point": "horizon/telemetry/collector.py: ProtectedExecutor (fail closed)",
+   "family": "CONNECTOR",
+   "id": "CONNECTOR-UNRECORDED-CALL",
+   "interface": "protected connector call while the collector is unreachable",
+   "note": "",
+   "observation": [
+    "VERIFIED",
+    "observer saw the effect in 3/3 calibration runs"
+   ],
+   "observation_channel": "receiver-journal (own signing key)",
+   "overall": "VERIFIED",
+   "strong_seen": [
+    false,
+    false,
+    false
+   ],
+   "weak_seen": [
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "enforcement": [
+    "MISSING",
+    "no enforcement point"
+   ],
+   "enforcement_point": null,
+   "family": "BROWSER",
+   "id": "BROWSER-ACTION",
+   "interface": "browser automation action (navigate/click/submit)",
+   "note": "no browser control exists in this repository",
+   "observation": [
+    "MISSING",
+    "no observation channel"
+   ],
+   "observation_channel": null,
+   "overall": "MISSING",
+   "strong_seen": [],
+   "weak_seen": []
+  }
+ ],
+ "ttl_s": 3600
+}
