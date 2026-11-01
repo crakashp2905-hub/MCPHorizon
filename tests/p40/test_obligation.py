@@ -55,7 +55,7 @@ class Structure(unittest.TestCase):
     def test_token_checks(self):
         f = Fx(); tok = f.ci.issue("TEST_STATUS", principal="p", artifact=ART, claim={"result": "pass"}); v = f.a.verifier()
         v.verify(tok)
-        h, p, s = tok.split("."); self.assertEqual(self._code(v, h + "." + p + "." + s[:-2] + "AA"), "BAD_SIGNATURE")
+        h, p, s = tok.split("."); self.assertEqual(self._code(v, h + "." + p + "." + ("B" if s[0] != "B" else "C") + s[1:]), "BAD_SIGNATURE")
         f.t[0] += 601; self.assertEqual(self._code(v, tok), "EXPIRED")
         other = HorizonPolicy("pol-1", clock=lambda: 1000); other.register_issuer("ci", {"TEST_STATUS"}); o = other.register_issuer("ci", {"TEST_STATUS"})        # different kid from anything in f.a
         self.assertEqual(self._code(f.a.verifier(), o.issue("TEST_STATUS", principal="p", artifact=ART, now=1000)), "UNTRUSTED_ISSUER")
@@ -111,7 +111,8 @@ class Engine(unittest.TestCase):
         for carrier, back in ((E.to_mcp_meta, E.from_mcp_meta), (E.to_http_headers, E.from_http_headers)):
             t2 = f.eng.import_(back(carrier(sealed))); self.assertEqual(set(t2.satisfied), set(f.task.satisfied)); self.assertTrue(f.eng.request(t2, "deploy_prod", ARGS, op_id="h" + carrier.__name__))
             f.eng.ver.seen.clear()
-        with self.assertRaises(EvidenceError): f.eng.import_(sealed[:-3] + "AAA")
+        b0, s0 = sealed.split("."); 
+        with self.assertRaises(EvidenceError): f.eng.import_(b0 + "." + ("B" if s0[0] != "B" else "C") + s0[1:])
         body, sig = sealed.split("."); import base64
         forged = base64.urlsafe_b64encode(json.dumps({"x": 1}).encode()).rstrip(b"=").decode() + "." + sig
         with self.assertRaises(EvidenceError): f.eng.import_(forged)
