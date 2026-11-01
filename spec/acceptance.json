@@ -10999,5 +10999,245 @@
    ]
   ],
   "covers": "scripts/p45_repeat.py; docs/evidence/p45/REPEAT.md"
+ },
+ "P46-01": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p46.test_downgrade.OrderLaws",
+    "tests.p46.test_downgrade.Classify"
+   ]
+  ],
+  "covers": "horizon/downgrade/order.py; docs/evidence/p46/ASSUMPTIONS_AND_LIMITS.md"
+ },
+ "P46-02": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p46.test_downgrade.EngineTests.test_nonwaivable_dimension_blocks",
+    "tests.p46.test_downgrade.EngineTests.test_downgrade_in_waivable_dimension_is_review"
+   ]
+  ],
+  "covers": "horizon/downgrade/engine.py (floor with non-waivable set); scenarios.FD"
+ },
+ "P46-03": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p46.test_downgrade.Registry"
+   ]
+  ],
+  "covers": "horizon/downgrade/manifest.py"
+ },
+ "P46-04": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p46.test_downgrade.EngineTests.test_floor_token_must_bind_this_floor",
+    "tests.p46.test_downgrade.EngineTests.test_floor_token_must_be_for_this_task",
+    "tests.p46.test_downgrade.EngineTests.test_floor_token_must_be_a_floor_claim",
+    "tests.p46.test_downgrade.EngineTests.test_delegation_cannot_weaken",
+    "tests.p46.test_downgrade.EngineTests.test_delegation_can_tighten",
+    "tests.p46.test_downgrade.Live.test_guard_rejects_weakened_delegation"
+   ]
+  ],
+  "covers": "horizon/downgrade/engine.py bind/delegate"
+ },
+ "P46-05": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p46.test_downgrade.EngineTests",
+    "tests.p46.test_downgrade.StaticIndependence.test_engine_never_imports_scenarios_or_network",
+    "tests.p46.test_downgrade.Live.test_codemode_cannot_bypass"
+   ]
+  ],
+  "covers": "horizon/downgrade/engine.py"
+ },
+ "P46-06": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p46.test_downgrade.Classify",
+    "tests.p46.test_downgrade.EngineTests.test_unattested_strong_claims_are_blocked",
+    "tests.p46.test_downgrade.EngineTests.test_incomparable_is_review",
+    "tests.p46.test_downgrade.EngineTests.test_choose_blocks_when_nothing_acceptable"
+   ]
+  ],
+  "covers": "horizon/downgrade/order.py, engine.py"
+ },
+ "P46-07": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p46.test_downgrade.Live.test_codemode_cannot_bypass"
+   ]
+  ],
+  "covers": "horizon/downgrade/gateway.py (utcp, mcp, codemode adapters)"
+ },
+ "P46-08": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p46.test_downgrade.Injector"
+   ]
+  ],
+  "covers": "horizon/downgrade/scenarios.py Injector"
+ },
+ "P46-09": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p46.test_downgrade.Live.test_oracle_sees_weaker_endpoint_use",
+    "tests.p46.test_downgrade.Live.test_oracle_sees_missing_audit_entry",
+    "tests.p46.test_downgrade.Live.test_oracle_sees_region",
+    "tests.p46.test_downgrade.Live.test_oracle_sees_side_sink_copy",
+    "tests.p46.test_downgrade.Live.test_oracle_sees_authn_downgrade",
+    "tests.p46.test_downgrade.StaticIndependence.test_oracle_does_not_use_enforcement_state"
+   ]
+  ],
+  "covers": "horizon/downgrade/network.py, scenarios.observe"
+ },
+ "P46-10": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p46.test_downgrade.Live.test_guard_recovers_with_peer",
+    "tests.p46.test_downgrade.Live.test_offline_spool_completes_without_network_effect",
+    "tests.p46.test_downgrade.Live.test_approved_necessary_fallback_completes_and_is_not_a_violation",
+    "tests.p46.test_downgrade.Recorded.test_attacks_and_benign_are_paired"
+   ]
+  ],
+  "covers": "scenarios B01-B07"
+ },
+ "P46-11": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p46.test_downgrade.Credentials",
+    "tests.p46.test_downgrade.Live.test_oracle_sees_scope_escalation",
+    "tests.p46.test_downgrade.Live.test_oracle_sees_missing_audit_entry",
+    "tests.p46.test_downgrade.Live.test_guard_stops_unaudited_mock_with_review_not_effect"
+   ]
+  ],
+  "covers": "horizon/downgrade/engine.py CredentialBroker"
+ },
+ "P46-12": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p46.test_downgrade.EngineTests.test_cache_hit_then_invalidated_by_profile_change",
+    "tests.p46.test_downgrade.EngineTests.test_cache_invalidated_by_revocation",
+    "tests.p46.test_downgrade.EngineTests.test_cache_invalidated_by_policy_version",
+    "tests.p46.test_downgrade.EngineTests.test_cache_invalidated_by_attestation_expiry",
+    "tests.p46.test_downgrade.EngineTests.test_cache_keyed_by_floor",
+    "tests.p46.test_downgrade.Live.test_guard_survives_profile_update",
+    "tests.p46.test_downgrade.Recorded.test_parity_and_cache"
+   ]
+  ],
+  "covers": "horizon/downgrade/manifest.py Cache"
+ },
+ "P46-13": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p46.test_downgrade.Recorded.test_every_baseline_has_unauthorized_effects",
+    "tests.p46.test_downgrade.Recorded.test_every_ablation_is_worse_somewhere_or_documented"
+   ]
+  ],
+  "covers": "results/v2/p46-downgrade"
+ },
+ "P46-14": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p46.test_downgrade.Recorded.test_guard_no_unauthorized_effect_and_no_false_blocks",
+    "tests.p46.test_downgrade.Recorded.test_run_shape"
+   ]
+  ],
+  "covers": "scripts/p46_run.py, p46_report.py, docs/evidence/p46/RESULTS.md"
+ },
+ "P46-15": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p46.test_downgrade.Approvals"
+   ]
+  ],
+  "covers": "horizon/downgrade/engine.py render_ux; docs/evidence/p46/APPROVAL_UX.md"
+ },
+ "P46-16": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p46.test_downgrade.OrderLaws",
+    "tests.p46.test_downgrade.ScalarScoreCounterexamples"
+   ]
+  ],
+  "covers": "docs/evidence/p46/ASSUMPTIONS_AND_LIMITS.md"
  }
 }

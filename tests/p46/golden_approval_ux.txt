@@ -1,0 +1,17 @@
+APPROVAL NEEDED — fallback would lower a mandatory guarantee
+
+Task: t1    Requested by: agent-1
+Action: export on w via tool export_report (credential scope: read)
+Action id: sha256:084eef307532dc8c
+
+guarantee    required                 original endpoint        this fallback            result
+audit        remote_tamper_evident    remote_tamper_evident    remote_tamper_evident    ok
+authn        oauth                    oauth                    oauth                    ok
+egress       mediated                 mediated                 mediated                 ok
+region       eu                       eu                       eu                       ok
+scope        read                     read                     read                     ok
+transport    tls1.3                   tls1.3                   tls1.2                   WEAKER THAN REQUIRED
+
+Why it needs you: transport:UNSAT
+Approving authorizes THIS action once, for 300 seconds. It does not lower the task's floor, and it cannot be reused for another endpoint, tool, argument or credential scope.
+You cannot approve a request you made yourself.

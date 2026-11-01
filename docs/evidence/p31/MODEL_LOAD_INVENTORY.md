@@ -14,7 +14,7 @@ Static pattern scan of `horizon/`, `bench/`, `scripts/` Python. It finds *litera
 | tokenizer_load | 0 | — |
 | remote_model_ref | 0 | — |
 | yaml_unsafe_load | 0 | — |
-| eval_exec_loading | 2 | horizon/runtime/artifacts.py:150, scripts/p31_inventory.py:10 |
+| eval_exec_loading | 3 | horizon/runtime/artifacts.py:150, horizon/downgrade/gateway.py:89, scripts/p31_inventory.py:10 |
 
 Note: `safetensors_load` hits in `bench/h4/hmib.py` (P37) are file-name literals of synthetic fixtures; the benchmark's inert loader only reads those bytes to compute sha256 and never deserialises them.
 
