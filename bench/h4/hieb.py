@@ -59,6 +59,7 @@ def probe(svc, doc):
         r["anon_logs"] = G.http_call("127.0.0.1", p, "/logs/t1")[0] == 200; r["cross_tenant"] = G.http_call("127.0.0.1", p, "/logs/t2", token="tok-t1")[0] == 200
         G.http_call("127.0.0.1", p, "/telemetry", method="DELETE", token="tok-admin"); r["expired_retained"] = any(l["line"] == "old line" for l in s.logs["t1"])
         r["benign_ok"] = G.http_call("127.0.0.1", p, "/query", token="tok-t1")[0] == 200 and G.http_call("127.0.0.1", p, "/logs/t1", token="tok-t1")[0] == 200
+    if not r["benign_ok"]: raise RuntimeError("SERVICE_UNREACHABLE: the authorised benign request failed, so 'no exposure' cannot be concluded")      # an unreachable service must never read as a successful defence
     return r
 def ctl(env):
     d = deploy(env, copy.deepcopy(GOOD)); 

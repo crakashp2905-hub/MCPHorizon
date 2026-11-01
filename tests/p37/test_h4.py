@@ -130,8 +130,15 @@ class Results(unittest.TestCase):            # P37-12 / 15 / 16 against the comm
 class Demo(unittest.TestCase):               # P37-14
     def test_recorded_demo_is_a_real_clean_run(self):
         t = open(os.path.join(ROOT, "docs", "evidence", "p37", "DEMO.md")).read()
-        self.assertIn("ALL STEPS EXIT 0", t); self.assertIn("network namespace via `unshare -n`: **yes**", t); self.assertIn("DEMO PASS", t); self.assertIn("python3 -W ignore bench/h4/demo.py", t); self.assertIn("external (TEST-NET) unreachable", t); self.assertNotIn("EXTERNAL REACHABLE", t)
+        self.assertIn("ALL STEPS EXIT 0", t); self.assertIn("network namespace via `unshare -n`: **yes**", t); self.assertIn("DEMO PASS", t); self.assertIn("bench/h4/netns_lo.py python3 -W ignore bench/h4/demo.py", t); self.assertIn("loopback reachable", t); self.assertIn("external (TEST-NET) unreachable", t); self.assertNotIn("EXTERNAL REACHABLE", t)
         import re; self.assertEqual(len(re.findall(r"exit code \*\*0\*\*", t)), 6)
+    def test_unreachable_service_is_an_error_not_a_pass(self):
+        import unittest.mock as mk; d = hieb.deploy(core.Env("B0"), copy.deepcopy(hieb.GOOD)); orig = hieb.G.http_call
+        with mk.patch.object(hieb.G, "http_call", lambda *a, **k: (0, {"error": "unreachable"})):
+            with self.assertRaises(RuntimeError): hieb.probe(d["svc"], d["doc"])
+        rows = core.run_one(core.REGISTRY["HIEB-02"], "B0")
+        with mk.patch.object(hieb.G, "http_call", lambda *a, **k: (0, {"error": "unreachable"})): rows = core.run_one(core.REGISTRY["HIEB-02"], "B0")
+        self.assertTrue(any(r.get("error") for r in rows)); self.assertFalse([r for r in rows if r["kind"] == "control"][0]["ok"])
     def test_demo_driver_fails_closed_when_guard_does_not_block(self):
         import subprocess; env = dict(os.environ); r = subprocess.run([sys.executable, "-W", "ignore", "-c", "import sys; sys.path.insert(0, %r)\nfrom bench.h4 import core\ncore.BASELINES['B7'] = (frozenset(), 'x')\nimport runpy\nrunpy.run_path(%r, run_name='__main__')" % (ROOT, os.path.join(ROOT, "bench", "h4", "demo.py"))], capture_output=True, text=True, env=env, cwd=ROOT); self.assertEqual(r.returncode, 1); self.assertIn("DEMO FAIL", r.stdout)
 if __name__ == "__main__": unittest.main()
