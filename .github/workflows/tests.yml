@@ -110,6 +110,8 @@ jobs:
       - run: python3 scripts/p52_mutants.py          # every mutant must be killed
       - run: python3 -W ignore -m unittest tests.p53.test_continuity -v && python3 scripts/p53_report.py --check && python3 scripts/p53_run.py --check
       - run: python3 scripts/p53_mutants.py          # every mutant must be killed
+      - run: python3 -W ignore -m unittest tests.p54.test_integration -v && python3 scripts/p54_report.py --check && python3 scripts/p54_run.py --check
+      - run: python3 scripts/p54_mutants.py          # every mutant must be killed
       - run: python3 scripts/p38_casebook.py --check && python3 scripts/p38_compare.py --check && python3 scripts/p38_papers.py --check && python3 scripts/p38_gates.py --check
       - run: python3 -W ignore -m unittest tests.p11.test_paper -v
       - run: python3 paper/build.py --check

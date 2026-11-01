@@ -1,0 +1,474 @@
+{
+ "definitions": {
+  "audit_total": 710,
+  "gates": [
+   [
+    "ES-G1",
+    "Existing P0-P38 evidence audit and immutable baseline hashes",
+    [
+     "every_blocked_task_labelled",
+     "freeze_matches_tree",
+     "task_id_count_is_710"
+    ]
+   ],
+   [
+    "ES-G2",
+    "Unified identities and effect semantics reused across modules",
+    [
+     "no_signer_or_authority_created_outside_fixtures_and_evidence_services",
+     "one_receipt_issuer_verifies_all_15"
+    ]
+   ],
+   [
+    "ES-G3",
+    "Provenance and effect oracle distinguishes data transfer from tool coexistence",
+    [
+     "P39_attacks_detected",
+     "P39_benign_chains_reported",
+     "P39_oracle_independent_of_system_code"
+    ]
+   ],
+   [
+    "ES-G4",
+    "Verified emergent candidate in synthetic environment with matched safe control",
+    [
+     "P43_oracle_independent",
+     "P43_pair_complete",
+     "matched_benign_control_exists"
+    ]
+   ],
+   [
+    "ES-G5",
+    "Typed obligation prevents commit after omitted or stale prerequisite",
+    [
+     "P40_oracle_independent",
+     "P40_pair_complete"
+    ]
+   ],
+   [
+    "ES-G6",
+    "Counterfactual detects broad unauthorized change but permits correct scoped change",
+    [
+     "P41_oracle_independent",
+     "P41_pair_complete"
+    ]
+   ],
+   [
+    "ES-G7",
+    "Monitor declares UNKNOWN on simulated blind spot",
+    [
+     "P42_healthy_control_no_false_alarm",
+     "P42_observers_independent",
+     "P42_regressions_detected",
+     "P53_feed_offline_is_unknown_not_effect"
+    ]
+   ],
+   [
+    "ES-G8",
+    "Mutation oracle distinguishes true verdict-preserving vs flipping variants",
+    [
+     "P43_flips_detected",
+     "P43_oracle_independent",
+     "P43_preserving_variants_passed"
+    ]
+   ],
+   [
+    "ES-G9",
+    "Indirect remote effects evaluated with appropriate trust and visibility",
+    [
+     "P44_judged_by_independent_receiver",
+     "P44_redirect_and_rebind_headline_present",
+     "P44_unprevented_attacks_disclosed"
+    ]
+   ],
+   [
+    "ES-G10",
+    "Privacy/budget ledger prevents concurrent task overspend",
+    [
+     "P45_oracle_independent",
+     "P45_pair_complete",
+     "P50_oracle_independent",
+     "P50_pair_complete",
+     "budget_concurrent",
+     "privacy_concurrent"
+    ]
+   ],
+   [
+    "ES-G11",
+    "Fallback, migration and temporal checks preserve the mandatory security floor",
+    [
+     "P46_attacks_prevented",
+     "P52_attacks_prevented",
+     "P53_attacks_prevented",
+     "continuity_replay",
+     "temporal_cas_and_control"
+    ]
+   ],
+   [
+    "ES-G12",
+    "Verified approval binds to exact committed effect",
+    [
+     "P48_oracle_independent",
+     "P48_pair_complete",
+     "P52_oracle_independent",
+     "P52_pair_complete"
+    ]
+   ],
+   [
+    "ES-G13",
+    "Browser tests use trusted origin plus server-side effect oracle",
+    [
+     "P51_attacks_prevented",
+     "P51_oracle_is_server_side_and_independent",
+     "browser_run_recorded"
+    ]
+   ],
+   [
+    "ES-G14",
+    "Adversarial evaluator tampering yields UNKNOWN or verified rejection",
+    [
+     "P49_oracle_independent",
+     "no_false_pass_within_assumptions",
+     "receipt_tamper_cases_not_intact",
+     "weak_graders_do_false_pass_on_same_runs"
+    ]
+   ],
+   [
+    "ES-G15",
+    "All modules have paired controls, fair baselines and statistical/error reports",
+    [
+     "every_module_has_baselines_or_ablations",
+     "every_module_has_paired_attack_and_benign",
+     "every_module_has_wilson_intervals",
+     "negative_findings_listed"
+    ]
+   ],
+   [
+    "ES-G16",
+    "Independent clean-environment reproduction and exact scope-limited claims",
+    []
+   ]
+  ],
+  "modules": [
+   [
+    "P39",
+    "emergence",
+    "p39-emergence",
+    [
+     "horizon/emergence/oracle.py"
+    ],
+    [
+     "horizon/emergence/model.py",
+     "horizon/emergence/baselines.py"
+    ]
+   ],
+   [
+    "P40",
+    "obligation",
+    "p40-obligation",
+    [
+     "horizon/obligation/services.py"
+    ],
+    [
+     "horizon/obligation/engine.py",
+     "horizon/obligation/infer.py"
+    ]
+   ],
+   [
+    "P41",
+    "counterfactual",
+    "p41-counterfactual",
+    [
+     "horizon/counterfactual/registry.py"
+    ],
+    [
+     "horizon/counterfactual/core.py",
+     "horizon/counterfactual/commit.py"
+    ]
+   ],
+   [
+    "P42",
+    "coverage",
+    "p42-coverage",
+    [
+     "horizon/coverage/harness.py",
+     "horizon/coverage/observers.py"
+    ],
+    [
+     "horizon/coverage/engine.py"
+    ]
+   ],
+   [
+    "P43",
+    "mutation",
+    "p43-mutation",
+    [
+     "horizon/mutation/oracle.py"
+    ],
+    [
+     "horizon/mutation/detectors.py"
+    ]
+   ],
+   [
+    "P44",
+    "reach",
+    "p44-reach",
+    [
+     "horizon/reach/network.py"
+    ],
+    [
+     "horizon/reach/broker.py"
+    ]
+   ],
+   [
+    "P45",
+    "privacy",
+    "p45-privacy",
+    [
+     "horizon/privacy/reference.py"
+    ],
+    [
+     "horizon/privacy/accountant.py",
+     "horizon/privacy/ledger.py"
+    ]
+   ],
+   [
+    "P46",
+    "downgrade",
+    "p46-downgrade",
+    [
+     "horizon/downgrade/network.py"
+    ],
+    [
+     "horizon/downgrade/engine.py",
+     "horizon/downgrade/gateway.py"
+    ]
+   ],
+   [
+    "P47",
+    "incentive",
+    "p47-incentive",
+    [
+     "horizon/incentive/oracle.py"
+    ],
+    [
+     "horizon/incentive/monitor.py",
+     "horizon/incentive/preflight.py"
+    ]
+   ],
+   [
+    "P48",
+    "consent",
+    "p48-consent",
+    [
+     "horizon/consent/oracle.py"
+    ],
+    [
+     "horizon/consent/monitor.py",
+     "horizon/consent/core.py"
+    ]
+   ],
+   [
+    "P49",
+    "evalint",
+    "p49-evalint",
+    [
+     "horizon/evalint/evaluator.py"
+    ],
+    [
+     "horizon/evalint/world.py"
+    ]
+   ],
+   [
+    "P50",
+    "budget",
+    "p50-budget",
+    [
+     "horizon/budget/sinks.py"
+    ],
+    [
+     "horizon/budget/ledger.py",
+     "horizon/budget/broker.py"
+    ]
+   ],
+   [
+    "P51",
+    "vision",
+    "p51-vision",
+    [
+     "horizon/vision/world.py"
+    ],
+    [
+     "horizon/vision/guard.py"
+    ]
+   ],
+   [
+    "P52",
+    "temporal",
+    "p52-temporal",
+    [
+     "horizon/temporal/oracle.py"
+    ],
+    [
+     "horizon/temporal/gate.py",
+     "horizon/temporal/approver.py"
+    ]
+   ],
+   [
+    "P53",
+    "continuity",
+    "p53-continuity",
+    [
+     "horizon/continuity/oracle.py"
+    ],
+    [
+     "horizon/continuity/migrate.py",
+     "horizon/continuity/runtime.py"
+    ]
+   ]
+  ],
+  "parity": [
+   60,
+   54
+  ],
+  "protocol_paths": [
+   "mcp_modern",
+   "mcp_legacy",
+   "utcp",
+   "code_mode"
+  ],
+  "state_machine_checks": [
+   "budget: concurrent reserves never exceed the cap",
+   "budget: a retried request id is charged once; a reused id with another query is refused",
+   "privacy: concurrent reserves never exceed epsilon",
+   "temporal: with CAS exactly one concurrent writer wins and no update is lost",
+   "temporal (control): last-writer-wins loses updates, so the oracle can see them",
+   "continuity: a replayed signed envelope is refused and spends the shared budget once",
+   "continuity: a source that keeps running after migration is stopped (no double spend)"
+  ]
+ },
+ "environment": {
+  "datasets": "synthetic scenarios defined in the module packages; hashes in module manifests",
+  "git_head": "3546420272476190eabfe62d96a1f8a338595b33",
+  "images": "none: no container image is built or published by P54",
+  "implementation": "CPython",
+  "lockfiles": {
+   "codemode/package-lock.json": "sha256:0d7a43def6caccb4b9ea1f18f186512462d7c8ffc3efe296ecb2c0f7969c3238",
+   "conformance/rust/Cargo.lock": "sha256:48d3f5e8b069fb99533f4847e024069631bdcbd4f42770562fe9284099af9972",
+   "conformance/ts/package-lock.json": "sha256:6bb323523822e8315d5e00a6b131ab2241bbaa093e8d140fae57c58e3a9856df",
+   "core/Cargo.lock": "sha256:508165c1b59c12f33d11f1a873a9852d27fed90689d40c3368527febed55678d",
+   "sdk-ts/package-lock.json": "sha256:602b43596e84c3499b9e3809cec3c305bda1b39a9d240d34528551835bd6f1d6",
+   "third_party_pins/npm/package-lock.json": "sha256:5bb6b3e038f0552424694ce2ddcb7dafed87e6c9e28e82cd9d6081b27147ceb2"
+  },
+  "models": "none: no live model is used by any of P39..P54",
+  "module_manifests": {
+   "P39": {
+    "definitions_digest": "sha256:cb91e03778d9f745ba6887de4f2140158e5b93454219145f02105928cbd2c737",
+    "head": "523c410794ae5efd5cfeac8667d9b93c79e6b96f",
+    "python": "3.13.18",
+    "result_sha256": "f9f7944a03f2c5db46e989437f2bf8cf3dc037b6cbc324b7d352e5533c7b9a2f"
+   },
+   "P40": {
+    "definitions_digest": "sha256:66855f6f0ea29920b4e115155aa862bf6ce8253ac220481ea859bd7b5b6e3a47",
+    "head": "0e2b7c854f942416940344e031e3934d5d5c33cb",
+    "python": "3.13.18",
+    "result_sha256": "6dfee855537f3080a5633cda06b3d722e06f412f7f4b834a1fdc40887db01490"
+   },
+   "P41": {
+    "definitions_digest": "sha256:6909d4d6711d6c288dcdf7613c44dc49f103465ad7d6c091c6adfc4e2c5d9854",
+    "head": "6adc20522926fdfa7343689cc1d0dc5490f97c9e",
+    "python": "3.13.18",
+    "result_sha256": "194d104e0ae4937157e1fc9aaf90cff94ac2b45c8c3e407145784b63abd1dbe1"
+   },
+   "P42": {
+    "definitions_digest": "sha256:eaf7cd455527b0aaaf5080466ce5ea551dc7e6e97fd4705843894fdab7e69e9b",
+    "head": "2dfae2e0cbdca32584511946deab6f816071fc28",
+    "python": "3.13.18",
+    "result_sha256": "a6d2dd8efe2a851b895f6fbd4fd6df9237c8bef4b0d13e56888c4bf5b3080a90"
+   },
+   "P43": {
+    "definitions_digest": "sha256:97679bf9eb9ccfcdcff67b5fc79c0819cba73cdc6656de1141f997cd431f4b3c",
+    "head": "5ba3beb3b0c1ad6eda0feff0a78ed48d9a2730aa",
+    "python": "3.13.18",
+    "result_sha256": "8cbf5793d53e73f3a6242433048fdea76cac4d8b02397c61d3b1a2c1da893e5b"
+   },
+   "P44": {
+    "definitions_digest": "sha256:7d4662979e6dd52f19308c3f310447e3ff635759103578ca438babeceec8b18e",
+    "head": "318bd90e7deba70c774e4a0721ae0dc2f797688e",
+    "python": "3.13.18",
+    "result_sha256": "1cbb681f881d6d4cafc57cceb0e6b26cd083150bf4829999cecb4eef75857a5f"
+   },
+   "P45": {
+    "definitions_digest": "sha256:de6b970ff6d3e52aa278da419230ad6c0013cef5fb6d47b8037013fa1406a780",
+    "head": "e2c8bf42f977c27a52b64cb0de515d3bb6eec607",
+    "python": "3.13.18",
+    "result_sha256": "7e23cf6015195b37c7a9a3910b41a489fc7c01088f7fd991c6cfce2d31b5ad5d"
+   },
+   "P46": {
+    "definitions_digest": "sha256:5e0adeafa5c4a64ad883dc9dabb00230bb481f1c9a794447b3b66615a2c01de2",
+    "head": "b78f11f95c4717c1550c575ee93bf6fa296bb7a3",
+    "python": "3.13.18",
+    "result_sha256": "e72e8b84aa0feaaf3d01efc6be9c2fab02d0f2066fcd3e5ada92c91e565aa60a"
+   },
+   "P47": {
+    "definitions_digest": "sha256:b7a3e0e6357b72186ff8124abe665ee25802a160b40e2ba0fa345f56e50ffc22",
+    "head": "177abf042188561e0fc69f52d0a273ef7d4051ef",
+    "python": "3.13.18",
+    "result_sha256": "a6635121de076f11cda7986a708b325b4b65dc692926d8461089943ffe9b2b23"
+   },
+   "P48": {
+    "definitions_digest": "sha256:be614bb2c4997a177ae848c426048e13ee83b6e6f9741b145a648f8916520cdd",
+    "head": "308e426a690b10ba9b0329c0b67a8dfeaca5ae95",
+    "python": "3.13.18",
+    "result_sha256": "455032bb4b736a22094dfadd21a45237be05237d97137bacd52fa45577a00869"
+   },
+   "P49": {
+    "definitions_digest": "sha256:0d544dafdec6a84b2454aad371b834fcf6433758ece4cc57faaa896ba93f192a",
+    "head": "f620b451c1b39fb2464c75785968f333406dec6b",
+    "python": "3.13.18",
+    "result_sha256": "10569eeef71a1274e6e421d7f260a17434f82fd1aba9e3a55925eb878c4ca4b8"
+   },
+   "P50": {
+    "definitions_digest": "sha256:689db739da4ec88b679d02123574b562cbbc82b18cecca4b4eb85b8cb73e5481",
+    "head": "cba04ed35e7edbe05a60bf398e5ffc0dacfc161f",
+    "python": "3.13.18",
+    "result_sha256": "d320ba1855ec8f06b24bca96843ba8515a08aa959ca63f9c1a4dfecd7321383e"
+   },
+   "P51": {
+    "definitions_digest": "sha256:d5789828a2dad0e59cc9a10607a56323e34fb87b28012696bb68f7c35bdc810a",
+    "head": "0556584a29c346139bed14f1ddbfb334d403cc78",
+    "python": "3.13.18",
+    "result_sha256": "d70a900c881baee17c933d33ccb2b712fa4a7253b508b96dbb33d852c14f14bf"
+   },
+   "P52": {
+    "definitions_digest": "sha256:892bfcba82931b7fcab817ce251ce89bda76887a3821744f689d634ed187bad6",
+    "head": "aa741d7f3700ea8761b7e3440bdf254c0c933e00",
+    "python": "3.13.18",
+    "result_sha256": "8e9b95b199a04262f05580e6d839360bbd195232ee0fb41188e646c67a583be2"
+   },
+   "P53": {
+    "definitions_digest": "sha256:ae971f172879e997f498ed437d5b05d91774acc8c59e65c64a298ecddcab6961",
+    "head": "ddcf683129b894cd86a87adff6770d5fbcc5166c",
+    "python": "3.13.18",
+    "result_sha256": "35adce99592f40c1b5e51f94349047c1709a2226c15f977535667301c2457d50"
+   }
+  },
+  "platform": "Linux-6.18.44-fc-v185-x86_64-with-glibc2.39",
+  "python": "3.13.18",
+  "seeds": {
+   "P43": [
+    43,
+    160
+   ],
+   "P54_protocol_parity": [
+    54,
+    60
+   ],
+   "note": "other modules' seeds are fixed in their code and listed in their manifests"
+  },
+  "stdlib_only_python": true
+ },
+ "machine": "Linux-6.18.44-fc-v185-x86_64-with-glibc2.39",
+ "python": "3.13.18",
+ "result_sha256": "260f803083cd1824128b8aceaa7182480ebb088a9d55a321236b1b861df2e01e"
+}

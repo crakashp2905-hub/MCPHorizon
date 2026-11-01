@@ -12968,5 +12968,166 @@
    ]
   ],
   "covers": "results/v2/p53-continuity/trust_gaps.json, result.json; docs/evidence/p53"
+ },
+ "P54-01": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p54.test_integration.Audit",
+    "tests.p54.test_integration.Registry"
+   ],
+   [
+    "python3",
+    "scripts/p54_run.py",
+    "--check"
+   ],
+   [
+    "python3",
+    "scripts/p54_report.py",
+    "--check"
+   ]
+  ],
+  "covers": "integration/audit.py: P0..P38 phase audit, BLOCKED labels; docs/evidence/p54/RESULTS.md"
+ },
+ "P54-02": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p54.test_integration.Audit"
+   ],
+   [
+    "python3",
+    "scripts/p54_run.py",
+    "--check"
+   ]
+  ],
+  "covers": "integration/audit.py freeze/check; results/v2/p54-integration/freeze.json (710 task IDs + prior artifact hashes)"
+ },
+ "P54-03": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p54.test_integration.Registry",
+    "tests.p54.test_integration.Docs"
+   ]
+  ],
+  "covers": "docs/adr/ADR-0054-policy-ownership.md; integration/registry.py module contracts and headline schema"
+ },
+ "P54-06": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p54.test_integration.Protocols"
+   ]
+  ],
+  "covers": "integration/protocols.py: parity over MCP modern/legacy, UTCP, Code Mode; P50 carrier codec; browser recorded, not run; P14 expected discrepancy only"
+ },
+ "P54-07": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p54.test_integration.Reproduce",
+    "tests.p54.test_integration.Receipts"
+   ],
+   [
+    "python3",
+    "scripts/p54_run.py",
+    "--check"
+   ]
+  ],
+  "covers": "integration/reproduce.py: 11 modules rerun and equal to recorded headline; P39-P42 own --check plus live tests (numbers not recomputed)"
+ },
+ "P54-09": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p54.test_integration.Review",
+    "tests.p54.test_integration.Receipts"
+   ],
+   [
+    "python3",
+    "scripts/p54_run.py",
+    "--check"
+   ]
+  ],
+  "covers": "integration/review.py oracle independence for every module (P39 flagged), integration/receipts.py evidence binding"
+ },
+ "P54-10": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p54.test_integration.Tamper"
+   ],
+   [
+    "python3",
+    "scripts/p54_run.py",
+    "--check"
+   ]
+  ],
+  "covers": "integration/tamper.py: evaluator tamper, receipt tamper, lost feed; X01 reported as outside assumptions"
+ },
+ "P54-11": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p54.test_integration.StateMachines"
+   ]
+  ],
+  "covers": "integration/statemachine.py: budget, privacy, temporal CAS (+LWW control), continuity replay and dual run"
+ },
+ "P54-14": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "tests.p54.test_integration.Stats"
+   ],
+   [
+    "python3",
+    "scripts/p54_run.py",
+    "--check"
+   ],
+   [
+    "python3",
+    "scripts/p54_report.py",
+    "--check"
+   ]
+  ],
+  "covers": "integration/stats.py: per-family Wilson tables and negative findings read from recorded results"
  }
 }
