@@ -4,6 +4,10 @@ from horizon.infraguard import guard as G
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); IAC = os.path.join(ROOT, "benchmarks/hieb/iac")
 def lint_file(n, **kw): p = os.path.join(IAC, n); return G.lint_text(open(p).read(), os.path.relpath(p, ROOT), **kw)
 def rules(fs): return sorted({f["rule"] for f in fs})
+class Boundary(unittest.TestCase):
+    def test_integrate_vs_build_boundary_documented(self):
+        t = open(os.path.join(ROOT, "docs/evidence/p36/INTEGRATE_VS_BUILD.md")).read()
+        for k in ("Integrate", "Build narrowly", "Forbidden by default", "Non-goals"): self.assertIn(k, t)
 class LocalOnly(unittest.TestCase):
     def test_scan_allowed_default_deny(self):
         for h in ("127.0.0.1", "localhost", "::1", "[::1]", "svc.test", "a.example", "x.localhost"): self.assertTrue(G.scan_allowed(h), h)

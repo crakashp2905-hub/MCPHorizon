@@ -81,3 +81,9 @@ Vocabulary per AGENTS.md/CLAUDE.md: CANDIDATE | FAILED | BLOCKED | NEEDS_APPROVA
 - `data/` is byte-identical to `MCPTox/def_tool/` (485/485 files): a second copy of the same dataset.
 - Legacy numbers in reports are unverified here; no experiment was re-run.
 - `scripts/task_inventory.py` ledger bootstrap runs (1,686 PENDING); its unit tests were not supplied (D-003).
+| P31 HorizonWeights intake (16 of 16 mapped) | CANDIDATE | `horizon/weights/intake.py`, `tests/p31`, `docs/evidence/p31/*`. Metadata authenticity only; behavioural trust always UNASSESSED; repo has no model-loading code to integrate |
+| P32 TriggerLab (16 of 16 mapped) | CANDIDATE; scripted toy subjects | `horizon/triggerlab`, `tests/p32`, `results/v2/p32-triggerlab`. No live model; B6 0/40 effects with exact 95% upper bound 0.0722 |
+| P33 HCCB code assurance (16 of 16 mapped) | CANDIDATE; scripted toy generators; no human adjudication | `horizon/codeassur`, `tests/p33`, `results/v2/p33-hccb`. Fixed a P28 defect (exception permit outliving its approval) |
+| P34 Agent containment (16 of 16 mapped) | CANDIDATE | `horizon/agents/isolation.py`, `tests/p34`. Explicit-state channels only; covert/timing channels not covered |
+| P35 Telemetry (15 of 16 mapped) | CANDIDATE | `horizon/telemetry`, `tests/p35`, `docs/evidence/p35/*`. P35-15 (independent review of key management) open |
+| P36 InfraGuard (16 of 16 mapped) | CANDIDATE; local synthetic services | `horizon/infraguard`, `tests/p36`, `results/v2/p36-checkov-compare`. Format-limited comparison vs checkov 3.2.0 |

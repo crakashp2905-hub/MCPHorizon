@@ -69,6 +69,10 @@ jobs:
       - run: python3 scripts/hr_gates.py --check
       - run: python3 scripts/p30_no_external.py
       - run: python3 scripts/p30_claims_audit.py
+      - run: pip install pyyaml==6.0.3
+      - run: python3 -W ignore -m unittest tests.p31.test_intake tests.p32.test_triggerlab tests.p36.test_guard -v
+      - run: sudo -E env "PATH=$PATH" python3 -W ignore -m unittest tests.p33.test_hccb tests.p34.test_isolation tests.p35.test_telemetry -v
+      - run: python3 scripts/p31_inventory.py --check
       - run: python3 -W ignore -m unittest tests.p11.test_paper -v
       - run: python3 paper/build.py --check
       - run: python3 scripts/secret_scan.py
