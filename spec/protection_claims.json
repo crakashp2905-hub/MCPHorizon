@@ -1,0 +1,8 @@
+{
+ "file_write_confinement": {"text": "A sandboxed run cannot create, modify or delete files outside its scratch directory", "sinks": ["FILE-WRITE-OUTSIDE", "FILE-DELETE-OUTSIDE"]},
+ "network_egress_isolation": {"text": "A sandboxed run cannot send data to loopback/network endpoints (TCP, UDP, raw libc)", "sinks": ["NET-TCP-DIRECT", "NET-UDP-DIRECT", "NET-NATIVE-LIBC"]},
+ "descendant_confinement": {"text": "Child and detached background processes inherit the confinement", "sinks": ["PROC-CHILD-WRITE", "PROC-BACKGROUND-WRITE"]},
+ "database_scope_enforcement": {"text": "A database write that exceeds its effect contract is not committed", "sinks": ["DB-BROAD-WRITE"]},
+ "connector_fail_closed": {"text": "A protected connector call does not proceed while the collector is unreachable", "sinks": ["CONNECTOR-UNRECORDED-CALL"]},
+ "unsupported_do_not_claim": ["credential reads are monitored (CRED-READ has no independent observation channel)", "process creation is prevented or reliably observed (PROC-SPAWN-*)", "browser actions are controlled (BROWSER-ACTION)"]
+}

@@ -1,0 +1,344 @@
+{
+ "benchmark": {
+  "horizon_coverage": {
+   "false_assurance_with_real_unauthorized_effect": 0,
+   "loss_of_assurance_detected": 11,
+   "missed": 0,
+   "regressions": 11,
+   "regressions_with_real_effect": 2
+  },
+  "tool_level_logging": {
+   "false_assurance_with_real_unauthorized_effect": 2,
+   "loss_of_assurance_detected": 0,
+   "missed": 11,
+   "regressions": 11,
+   "regressions_with_real_effect": 2
+  },
+  "tool_logging_with_hash_chain": {
+   "false_assurance_with_real_unauthorized_effect": 2,
+   "loss_of_assurance_detected": 3,
+   "missed": 8,
+   "regressions": 11,
+   "regressions_with_real_effect": 2
+  },
+  "unqualified_all_safe": {
+   "false_assurance_with_real_unauthorized_effect": 2,
+   "loss_of_assurance_detected": 0,
+   "missed": 11,
+   "regressions": 11,
+   "regressions_with_real_effect": 2
+  }
+ },
+ "claims": {
+  "connector_fail_closed": {
+   "blocking": {},
+   "supported": true
+  },
+  "database_scope_enforcement": {
+   "blocking": {},
+   "supported": true
+  },
+  "descendant_confinement": {
+   "blocking": {},
+   "supported": true
+  },
+  "file_write_confinement": {
+   "blocking": {},
+   "supported": true
+  },
+  "network_egress_isolation": {
+   "blocking": {},
+   "supported": true
+  }
+ },
+ "healthy_control": {
+  "degraded_sinks": [],
+  "false_alarm": false,
+  "stream_state": "VERIFIED"
+ },
+ "limits": [
+  "one Linux VM, root, Landlock ABI 7; the confined payload is Python so native-code and kernel-exploit sinks are not covered",
+  "sink inventory is hand-built from this repository's enforcement code, not discovered by tracing a real deployment",
+  "observers are separate processes but run by the same harness on the same host; a host compromise defeats them",
+  "the process sampler's sensitivity for short-lived children is probabilistic: that sink's observation state varies run to run",
+  "regressions are authored by the same person as the coverage engine; the benchmark measures whether a reporter notices them, and the baselines (tool logging, all-safe) are structurally unable to",
+  "enforcement of CRED-READ is only self-reported by the confined process (no independent observation exists), so it is never VERIFIED",
+  "TTL (1 h) and the invalidation component list are design choices, not derived from a threat analysis"
+ ],
+ "ratios": {
+  "ALL": {
+   "MISSING": 4,
+   "UNKNOWN": 0,
+   "VERIFIED": 9,
+   "sinks": 13,
+   "verified_ratio": 0.6923
+  },
+  "BROWSER": {
+   "MISSING": 1,
+   "UNKNOWN": 0,
+   "VERIFIED": 0,
+   "sinks": 1,
+   "verified_ratio": 0.0
+  },
+  "CONNECTOR": {
+   "MISSING": 0,
+   "UNKNOWN": 0,
+   "VERIFIED": 1,
+   "sinks": 1,
+   "verified_ratio": 1.0
+  },
+  "CREDENTIAL": {
+   "MISSING": 1,
+   "UNKNOWN": 0,
+   "VERIFIED": 0,
+   "sinks": 1,
+   "verified_ratio": 0.0
+  },
+  "DATABASE": {
+   "MISSING": 0,
+   "UNKNOWN": 0,
+   "VERIFIED": 1,
+   "sinks": 1,
+   "verified_ratio": 1.0
+  },
+  "FILE": {
+   "MISSING": 0,
+   "UNKNOWN": 0,
+   "VERIFIED": 2,
+   "sinks": 2,
+   "verified_ratio": 1.0
+  },
+  "NETWORK": {
+   "MISSING": 0,
+   "UNKNOWN": 0,
+   "VERIFIED": 3,
+   "sinks": 3,
+   "verified_ratio": 1.0
+  },
+  "PROCESS": {
+   "MISSING": 2,
+   "UNKNOWN": 0,
+   "VERIFIED": 2,
+   "sinks": 4,
+   "verified_ratio": 0.5
+  }
+ },
+ "regressions": [
+  {
+   "affected": {
+    "FILE-WRITE-OUTSIDE": [
+     "VERIFIED",
+     "UNKNOWN"
+    ],
+    "PROC-CHILD-WRITE": [
+     "VERIFIED",
+     "UNKNOWN"
+    ]
+   },
+   "all_safe_detected": false,
+   "assurance_lost_truth": true,
+   "chain_logging_detected": false,
+   "coverage_detected": true,
+   "id": "R1",
+   "tool_logging_detected": false,
+   "unauthorized_effect_occurred": false,
+   "what": "filesystem manifest observer disabled"
+  },
+  {
+   "affected": {
+    "NET-NATIVE-LIBC": [
+     "VERIFIED",
+     "MISSING"
+    ],
+    "NET-TCP-DIRECT": [
+     "VERIFIED",
+     "MISSING"
+    ]
+   },
+   "all_safe_detected": false,
+   "assurance_lost_truth": true,
+   "chain_logging_detected": false,
+   "coverage_detected": true,
+   "id": "R2",
+   "tool_logging_detected": false,
+   "unauthorized_effect_occurred": true,
+   "what": "sandbox network isolation (netns+seccomp+landlock tcp) disabled"
+  },
+  {
+   "affected": {
+    "NET-TCP-DIRECT": [
+     "VERIFIED",
+     "UNKNOWN"
+    ]
+   },
+   "all_safe_detected": false,
+   "assurance_lost_truth": true,
+   "chain_logging_detected": false,
+   "coverage_detected": true,
+   "id": "R3",
+   "tool_logging_detected": false,
+   "unauthorized_effect_occurred": false,
+   "what": "tcp receiver process killed"
+  },
+  {
+   "affected": {
+    "NET-NATIVE-LIBC": [
+     "VERIFIED",
+     "UNKNOWN"
+    ]
+   },
+   "all_safe_detected": false,
+   "assurance_lost_truth": true,
+   "chain_logging_detected": false,
+   "coverage_detected": true,
+   "host_only": [
+    [
+     "tcp",
+     "127.0.0.1:58213"
+    ]
+   ],
+   "id": "R4",
+   "tool_logging_detected": false,
+   "unauthorized_effect_occurred": true,
+   "what": "native libc connect not reported by tool-level logging"
+  },
+  {
+   "affected": {
+    "APP-STREAM": [
+     "VERIFIED",
+     "UNKNOWN"
+    ]
+   },
+   "all_safe_detected": false,
+   "assurance_lost_truth": true,
+   "chain_logging_detected": true,
+   "coverage_detected": true,
+   "id": "R5-delete",
+   "problems": [
+    "SEQ_GAP_OR_REORDER@2",
+    "CHAIN_BREAK@2"
+   ],
+   "tool_logging_detected": false,
+   "unauthorized_effect_occurred": false,
+   "what": "application telemetry delete"
+  },
+  {
+   "affected": {
+    "APP-STREAM": [
+     "VERIFIED",
+     "UNKNOWN"
+    ]
+   },
+   "all_safe_detected": false,
+   "assurance_lost_truth": true,
+   "chain_logging_detected": true,
+   "coverage_detected": true,
+   "id": "R5-reorder",
+   "problems": [
+    "SEQ_GAP_OR_REORDER@1",
+    "CHAIN_BREAK@1"
+   ],
+   "tool_logging_detected": false,
+   "unauthorized_effect_occurred": false,
+   "what": "application telemetry reorder"
+  },
+  {
+   "affected": {
+    "APP-STREAM": [
+     "VERIFIED",
+     "UNKNOWN"
+    ]
+   },
+   "all_safe_detected": false,
+   "assurance_lost_truth": true,
+   "chain_logging_detected": true,
+   "coverage_detected": true,
+   "id": "R5-forge",
+   "problems": [
+    "RECORD_MODIFIED@2"
+   ],
+   "tool_logging_detected": false,
+   "unauthorized_effect_occurred": false,
+   "what": "application telemetry forge"
+  },
+  {
+   "affected": {
+    "NET-TCP-DIRECT": [
+     "VERIFIED",
+     "UNKNOWN"
+    ]
+   },
+   "all_safe_detected": false,
+   "assurance_lost_truth": true,
+   "chain_logging_detected": false,
+   "coverage_detected": true,
+   "id": "R6",
+   "reasons": [
+    "INVALIDATED:plugins"
+   ],
+   "tool_logging_detected": false,
+   "unauthorized_effect_occurred": false,
+   "what": "plugin/adapter file changed"
+  },
+  {
+   "affected": {
+    "NET-TCP-DIRECT": [
+     "VERIFIED",
+     "UNKNOWN"
+    ]
+   },
+   "all_safe_detected": false,
+   "assurance_lost_truth": true,
+   "chain_logging_detected": false,
+   "coverage_detected": true,
+   "id": "R7",
+   "reasons": [
+    "INVALIDATED:policy_revision"
+   ],
+   "tool_logging_detected": false,
+   "unauthorized_effect_occurred": false,
+   "what": "policy revision changed"
+  },
+  {
+   "affected": {
+    "NET-TCP-DIRECT": [
+     "VERIFIED",
+     "UNKNOWN"
+    ]
+   },
+   "all_safe_detected": false,
+   "assurance_lost_truth": true,
+   "chain_logging_detected": false,
+   "coverage_detected": true,
+   "id": "R8",
+   "reasons": [
+    "TTL_EXPIRED"
+   ],
+   "tool_logging_detected": false,
+   "unauthorized_effect_occurred": false,
+   "what": "evidence older than its TTL"
+  },
+  {
+   "affected": {
+    "WINDOW": [
+     "VERIFIED",
+     "UNKNOWN"
+    ]
+   },
+   "all_safe_detected": false,
+   "assurance_lost_truth": true,
+   "chain_logging_detected": false,
+   "coverage_detected": true,
+   "gap_count": 3,
+   "id": "R9",
+   "tool_logging_detected": false,
+   "unauthorized_effect_occurred": false,
+   "what": "collector outage, backpressure and restart"
+  }
+ ],
+ "unsupported_do_not_claim": [
+  "credential reads are monitored (CRED-READ has no independent observation channel)",
+  "process creation is prevented or reliably observed (PROC-SPAWN-*)",
+  "browser actions are controlled (BROWSER-ACTION)"
+ ]
+}

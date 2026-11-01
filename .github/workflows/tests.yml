@@ -82,6 +82,12 @@ jobs:
       - run: python3 scripts/p39_mutants.py          # every mutant must be killed
       - run: python3 -W ignore -m unittest tests.p40.test_obligation -v && python3 scripts/p40_report.py --check && python3 scripts/p40_run.py --check
       - run: python3 scripts/p40_mutants.py          # every mutant must be killed
+      - run: python3 -W ignore -m unittest tests.p41.test_counterfactual -v && python3 scripts/p41_report.py --check && python3 scripts/p41_run.py --check
+      - run: python3 scripts/p41_mutants.py          # every mutant must be killed
+      - run: sudo -E env "PATH=$PATH" python3 -W ignore -m unittest tests.p42.test_coverage -v      # live sandbox sink tests need root
+      - run: python3 scripts/p42_report.py --check && python3 scripts/p42_run.py --check
+      - run: python3 scripts/p42_mutants.py          # every mutant must be killed
+      - run: sudo -E env "PATH=$PATH" python3 scripts/p42_release_gate.py      # supported protection claims need live VERIFIED coverage now
       - run: python3 scripts/p38_casebook.py --check && python3 scripts/p38_compare.py --check && python3 scripts/p38_papers.py --check && python3 scripts/p38_gates.py --check
       - run: python3 -W ignore -m unittest tests.p11.test_paper -v
       - run: python3 paper/build.py --check
