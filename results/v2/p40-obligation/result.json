@@ -1,0 +1,3984 @@
+{
+ "differential": {
+  "allow_decisions_in_reference": 618,
+  "examples": [],
+  "max_len": 6,
+  "mismatches": 0,
+  "sequences": 55986
+ },
+ "limits": [
+  "scenario scripts and the obligation catalog were written by the same author as the engine",
+  "'static' is a presence/order check on a run record: one plausible CI-lint baseline, not every workflow analyser",
+  "evidence services are in-process threads with their own keys; only the deploy target is a separate process",
+  "ground truth for expected commits is by construction; commits are read from the deploy journal",
+  "reference model is exhaustive only up to length 6 over a 6-letter alphabet and encodes the same stated semantics (latest counted approval)",
+  "no real CI/approval systems; timing is wall-clock on one VM"
+ ],
+ "per_scenario": {
+  "A01": {
+   "desc": "no evidence at all",
+   "expected": 0,
+   "kind": "attack",
+   "nogate": [
+    1,
+    1,
+    1
+   ],
+   "runtime": [
+    0,
+    0,
+    0
+   ],
+   "runtime_reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.sig",
+    "MISSING:prod.tests"
+   ],
+   "static": [
+    0,
+    0,
+    0
+   ]
+  },
+  "A02": {
+   "desc": "test step skipped",
+   "expected": 0,
+   "kind": "attack",
+   "nogate": [
+    1,
+    1,
+    1
+   ],
+   "runtime": [
+    0,
+    0,
+    0
+   ],
+   "runtime_reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.tests",
+    "REJECTED:ORDER_VIOLATION:prod.approval"
+   ],
+   "static": [
+    0,
+    0,
+    0
+   ]
+  },
+  "A03": {
+   "desc": "expired approval",
+   "expected": 0,
+   "kind": "attack",
+   "nogate": [
+    1,
+    1,
+    1
+   ],
+   "runtime": [
+    0,
+    0,
+    0
+   ],
+   "runtime_reasons": [
+    "EVIDENCE_EXPIRED:prod.approval"
+   ],
+   "static": [
+    1,
+    1,
+    1
+   ]
+  },
+  "A04": {
+   "desc": "evidence for a different artifact digest",
+   "expected": 0,
+   "kind": "attack",
+   "nogate": [
+    1,
+    1,
+    1
+   ],
+   "runtime": [
+    0,
+    0,
+    0
+   ],
+   "runtime_reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.tests",
+    "REJECTED:ARTIFACT_MISMATCH:prod.approval",
+    "REJECTED:ARTIFACT_MISMATCH:prod.tests",
+    "REJECTED:ARTIFACT_MISMATCH:stg.tests"
+   ],
+   "static": [
+    1,
+    1,
+    1
+   ]
+  },
+  "A05": {
+   "desc": "approval bound to different arguments",
+   "expected": 0,
+   "kind": "attack",
+   "nogate": [
+    1,
+    1,
+    1
+   ],
+   "runtime": [
+    0,
+    0,
+    0
+   ],
+   "runtime_reasons": [
+    "ARGS_MISMATCH:prod.approval"
+   ],
+   "static": [
+    1,
+    1,
+    1
+   ]
+  },
+  "A06": {
+   "desc": "self-approval",
+   "expected": 0,
+   "kind": "attack",
+   "nogate": [
+    1,
+    1,
+    1
+   ],
+   "runtime": [
+    0,
+    0,
+    0
+   ],
+   "runtime_reasons": [
+    "MISSING:prod.approval",
+    "REJECTED:SELF_APPROVAL:prod.approval"
+   ],
+   "static": [
+    1,
+    1,
+    1
+   ]
+  },
+  "A07": {
+   "desc": "forged evidence (untrusted key)",
+   "expected": 0,
+   "kind": "attack",
+   "nogate": [
+    1,
+    1,
+    1
+   ],
+   "runtime": [
+    0,
+    0,
+    0
+   ],
+   "runtime_reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.tests",
+    "REJECTED:EVIDENCE_BAD_SIGNATURE:eyJhbGciOiJF",
+    "REJECTED:ORDER_VIOLATION:prod.approval"
+   ],
+   "static": [
+    1,
+    1,
+    1
+   ]
+  },
+  "A08": {
+   "desc": "failing test status",
+   "expected": 0,
+   "kind": "attack",
+   "nogate": [
+    1,
+    1,
+    1
+   ],
+   "runtime": [
+    0,
+    0,
+    0
+   ],
+   "runtime_reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.tests",
+    "REJECTED:CLAIM_MISMATCH:prod.tests",
+    "REJECTED:CLAIM_MISMATCH:stg.tests",
+    "REJECTED:ORDER_VIOLATION:prod.approval"
+   ],
+   "static": [
+    1,
+    1,
+    1
+   ]
+  },
+  "A09": {
+   "desc": "stale object version",
+   "expected": 0,
+   "kind": "attack",
+   "nogate": [
+    1,
+    1,
+    1
+   ],
+   "runtime": [
+    0,
+    0,
+    0
+   ],
+   "runtime_reasons": [
+    "STALE_EVIDENCE:prod.approval",
+    "STALE_EVIDENCE:prod.sig",
+    "STALE_EVIDENCE:prod.tests"
+   ],
+   "static": [
+    1,
+    1,
+    1
+   ]
+  },
+  "A10": {
+   "desc": "single-use approval replayed on a second branch",
+   "expected": 1,
+   "kind": "attack",
+   "nogate": [
+    2,
+    2,
+    2
+   ],
+   "runtime": [
+    1,
+    1,
+    1
+   ],
+   "runtime_reasons": [
+    "REPLAY"
+   ],
+   "static": [
+    2,
+    2,
+    2
+   ]
+  },
+  "A11": {
+   "desc": "action after cancellation",
+   "expected": 0,
+   "kind": "attack",
+   "nogate": [
+    1,
+    1,
+    1
+   ],
+   "runtime": [
+    0,
+    0,
+    0
+   ],
+   "runtime_reasons": [
+    "CANCELLED"
+   ],
+   "static": [
+    1,
+    1,
+    1
+   ]
+  },
+  "A12": {
+   "desc": "approval before tests (order)",
+   "expected": 0,
+   "kind": "attack",
+   "nogate": [
+    1,
+    1,
+    1
+   ],
+   "runtime": [
+    0,
+    0,
+    0
+   ],
+   "runtime_reasons": [
+    "MISSING:prod.approval",
+    "REJECTED:ORDER_VIOLATION:prod.approval"
+   ],
+   "static": [
+    0,
+    0,
+    0
+   ]
+  },
+  "A13": {
+   "desc": "post-action smoke test never presented; later release",
+   "expected": 1,
+   "kind": "attack",
+   "nogate": [
+    2,
+    2,
+    2
+   ],
+   "runtime": [
+    1,
+    1,
+    1
+   ],
+   "runtime_reasons": [
+    "FROZEN_POST_OBLIGATION"
+   ],
+   "static": [
+    2,
+    2,
+    2
+   ]
+  },
+  "A14": {
+   "desc": "obligations dropped at agent handoff",
+   "expected": 0,
+   "kind": "attack",
+   "nogate": [
+    1,
+    1,
+    1
+   ],
+   "runtime": [
+    0,
+    0,
+    0
+   ],
+   "runtime_reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.sig",
+    "MISSING:prod.tests"
+   ],
+   "static": [
+    1,
+    1,
+    1
+   ]
+  },
+  "B01": {
+   "desc": "all evidence valid",
+   "expected": 1,
+   "kind": "benign",
+   "nogate": [
+    1,
+    1,
+    1
+   ],
+   "runtime": [
+    1,
+    1,
+    1
+   ],
+   "runtime_reasons": [],
+   "static": [
+    1,
+    1,
+    1
+   ]
+  },
+  "B02": {
+   "desc": "alternative trustworthy CI + second approver",
+   "expected": 1,
+   "kind": "benign",
+   "nogate": [
+    1,
+    1,
+    1
+   ],
+   "runtime": [
+    1,
+    1,
+    1
+   ],
+   "runtime_reasons": [],
+   "static": [
+    0,
+    0,
+    0
+   ]
+  },
+  "B03": {
+   "desc": "non-consequential operation",
+   "expected": 1,
+   "kind": "benign",
+   "nogate": [
+    1,
+    1,
+    1
+   ],
+   "runtime": [
+    1,
+    1,
+    1
+   ],
+   "runtime_reasons": [],
+   "static": [
+    1,
+    1,
+    1
+   ]
+  },
+  "B04": {
+   "desc": "retry after success (idempotent)",
+   "expected": 1,
+   "kind": "benign",
+   "nogate": [
+    2,
+    2,
+    2
+   ],
+   "runtime": [
+    1,
+    1,
+    1
+   ],
+   "runtime_reasons": [],
+   "static": [
+    2,
+    2,
+    2
+   ]
+  },
+  "B05": {
+   "desc": "handoff with obligations preserved",
+   "expected": 1,
+   "kind": "benign",
+   "nogate": [
+    1,
+    1,
+    1
+   ],
+   "runtime": [
+    1,
+    1,
+    1
+   ],
+   "runtime_reasons": [],
+   "static": [
+    1,
+    1,
+    1
+   ]
+  },
+  "B06": {
+   "desc": "approval used 1 s before expiry",
+   "expected": 1,
+   "kind": "benign",
+   "nogate": [
+    1,
+    1,
+    1
+   ],
+   "runtime": [
+    1,
+    1,
+    1
+   ],
+   "runtime_reasons": [],
+   "static": [
+    1,
+    1,
+    1
+   ]
+  },
+  "B07": {
+   "desc": "smoke test in time; second release",
+   "expected": 2,
+   "kind": "benign",
+   "nogate": [
+    2,
+    2,
+    2
+   ],
+   "runtime": [
+    2,
+    2,
+    2
+   ],
+   "runtime_reasons": [],
+   "static": [
+    2,
+    2,
+    2
+   ]
+  },
+  "B08": {
+   "desc": "signature first, then tests, then approval",
+   "expected": 1,
+   "kind": "benign",
+   "nogate": [
+    1,
+    1,
+    1
+   ],
+   "runtime": [
+    1,
+    1,
+    1
+   ],
+   "runtime_reasons": [],
+   "static": [
+    1,
+    1,
+    1
+   ]
+  },
+  "B09": {
+   "desc": "staging release needs tests only",
+   "expected": 1,
+   "kind": "benign",
+   "nogate": [
+    1,
+    1,
+    1
+   ],
+   "runtime": [
+    1,
+    1,
+    1
+   ],
+   "runtime_reasons": [],
+   "static": [
+    1,
+    1,
+    1
+   ]
+  },
+  "B10": {
+   "desc": "cancelling one branch does not affect another",
+   "expected": 1,
+   "kind": "benign",
+   "nogate": [
+    1,
+    1,
+    1
+   ],
+   "runtime": [
+    1,
+    1,
+    1
+   ],
+   "runtime_reasons": [],
+   "static": [
+    1,
+    1,
+    1
+   ]
+  },
+  "B11": {
+   "desc": "expired approval replaced by fresh evidence",
+   "expected": 1,
+   "kind": "benign",
+   "nogate": [
+    1,
+    1,
+    1
+   ],
+   "runtime": [
+    1,
+    1,
+    1
+   ],
+   "runtime_reasons": [],
+   "static": [
+    1,
+    1,
+    1
+   ]
+  }
+ },
+ "rows": [
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 0,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 5.23,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A01",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 0,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 0.01,
+   "observed_commits": 0,
+   "reasons": [
+    "STATIC"
+   ],
+   "rep": 0,
+   "scenario": "A01",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 0,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 0.03,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.sig",
+    "MISSING:prod.tests"
+   ],
+   "rep": 0,
+   "scenario": "A01",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 0,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 0.53,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A01",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 0,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 0.0,
+   "observed_commits": 0,
+   "reasons": [
+    "STATIC"
+   ],
+   "rep": 1,
+   "scenario": "A01",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 0,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 0.02,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.sig",
+    "MISSING:prod.tests"
+   ],
+   "rep": 1,
+   "scenario": "A01",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 0,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 0.37,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A01",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 0,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 0.0,
+   "observed_commits": 0,
+   "reasons": [
+    "STATIC"
+   ],
+   "rep": 2,
+   "scenario": "A01",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 0,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 0.02,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.sig",
+    "MISSING:prod.tests"
+   ],
+   "rep": 2,
+   "scenario": "A01",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.37,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A02",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.36,
+   "observed_commits": 0,
+   "reasons": [
+    "STATIC"
+   ],
+   "rep": 0,
+   "scenario": "A02",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.83,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.tests",
+    "REJECTED:ORDER_VIOLATION:prod.approval"
+   ],
+   "rep": 0,
+   "scenario": "A02",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.58,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A02",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.2,
+   "observed_commits": 0,
+   "reasons": [
+    "STATIC"
+   ],
+   "rep": 1,
+   "scenario": "A02",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.63,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.tests",
+    "REJECTED:ORDER_VIOLATION:prod.approval"
+   ],
+   "rep": 1,
+   "scenario": "A02",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.64,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A02",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.16,
+   "observed_commits": 0,
+   "reasons": [
+    "STATIC"
+   ],
+   "rep": 2,
+   "scenario": "A02",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.57,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.tests",
+    "REJECTED:ORDER_VIOLATION:prod.approval"
+   ],
+   "rep": 2,
+   "scenario": "A02",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.02,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A03",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.02,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A03",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.47,
+   "observed_commits": 0,
+   "reasons": [
+    "EVIDENCE_EXPIRED:prod.approval"
+   ],
+   "rep": 0,
+   "scenario": "A03",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.08,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A03",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.91,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A03",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.48,
+   "observed_commits": 0,
+   "reasons": [
+    "EVIDENCE_EXPIRED:prod.approval"
+   ],
+   "rep": 1,
+   "scenario": "A03",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.92,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A03",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.02,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A03",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.6,
+   "observed_commits": 0,
+   "reasons": [
+    "EVIDENCE_EXPIRED:prod.approval"
+   ],
+   "rep": 2,
+   "scenario": "A03",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.08,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A04",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.9,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A04",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.05,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.tests",
+    "REJECTED:ARTIFACT_MISMATCH:prod.approval",
+    "REJECTED:ARTIFACT_MISMATCH:prod.tests",
+    "REJECTED:ARTIFACT_MISMATCH:stg.tests"
+   ],
+   "rep": 0,
+   "scenario": "A04",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.88,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A04",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.91,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A04",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.16,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.tests",
+    "REJECTED:ARTIFACT_MISMATCH:prod.approval",
+    "REJECTED:ARTIFACT_MISMATCH:prod.tests",
+    "REJECTED:ARTIFACT_MISMATCH:stg.tests"
+   ],
+   "rep": 1,
+   "scenario": "A04",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.8,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A04",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.89,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A04",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.06,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.tests",
+    "REJECTED:ARTIFACT_MISMATCH:prod.approval",
+    "REJECTED:ARTIFACT_MISMATCH:prod.tests",
+    "REJECTED:ARTIFACT_MISMATCH:stg.tests"
+   ],
+   "rep": 2,
+   "scenario": "A04",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.93,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A05",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.81,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A05",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.42,
+   "observed_commits": 0,
+   "reasons": [
+    "ARGS_MISMATCH:prod.approval"
+   ],
+   "rep": 0,
+   "scenario": "A05",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.9,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A05",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.9,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A05",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.55,
+   "observed_commits": 0,
+   "reasons": [
+    "ARGS_MISMATCH:prod.approval"
+   ],
+   "rep": 1,
+   "scenario": "A05",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.07,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A05",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.93,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A05",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.43,
+   "observed_commits": 0,
+   "reasons": [
+    "ARGS_MISMATCH:prod.approval"
+   ],
+   "rep": 2,
+   "scenario": "A05",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.68,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A06",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.61,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A06",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.82,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "REJECTED:SELF_APPROVAL:prod.approval"
+   ],
+   "rep": 0,
+   "scenario": "A06",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.68,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A06",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.63,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A06",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.87,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "REJECTED:SELF_APPROVAL:prod.approval"
+   ],
+   "rep": 1,
+   "scenario": "A06",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.69,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A06",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.61,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A06",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.88,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "REJECTED:SELF_APPROVAL:prod.approval"
+   ],
+   "rep": 2,
+   "scenario": "A06",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.72,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A07",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.79,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A07",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.02,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.tests",
+    "REJECTED:EVIDENCE_BAD_SIGNATURE:eyJhbGciOiJF",
+    "REJECTED:ORDER_VIOLATION:prod.approval"
+   ],
+   "rep": 0,
+   "scenario": "A07",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.73,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A07",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.71,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A07",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.88,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.tests",
+    "REJECTED:EVIDENCE_BAD_SIGNATURE:eyJhbGciOiJF",
+    "REJECTED:ORDER_VIOLATION:prod.approval"
+   ],
+   "rep": 1,
+   "scenario": "A07",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.71,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A07",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.84,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A07",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 2,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.96,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.tests",
+    "REJECTED:EVIDENCE_BAD_SIGNATURE:eyJhbGciOiJF",
+    "REJECTED:ORDER_VIOLATION:prod.approval"
+   ],
+   "rep": 2,
+   "scenario": "A07",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.94,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A08",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.87,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A08",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.16,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.tests",
+    "REJECTED:CLAIM_MISMATCH:prod.tests",
+    "REJECTED:CLAIM_MISMATCH:stg.tests",
+    "REJECTED:ORDER_VIOLATION:prod.approval"
+   ],
+   "rep": 0,
+   "scenario": "A08",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.55,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A08",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.96,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A08",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.1,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.tests",
+    "REJECTED:CLAIM_MISMATCH:prod.tests",
+    "REJECTED:CLAIM_MISMATCH:stg.tests",
+    "REJECTED:ORDER_VIOLATION:prod.approval"
+   ],
+   "rep": 1,
+   "scenario": "A08",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.09,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A08",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.0,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A08",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.18,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.tests",
+    "REJECTED:CLAIM_MISMATCH:prod.tests",
+    "REJECTED:CLAIM_MISMATCH:stg.tests",
+    "REJECTED:ORDER_VIOLATION:prod.approval"
+   ],
+   "rep": 2,
+   "scenario": "A08",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.02,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A09",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.94,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A09",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.5,
+   "observed_commits": 0,
+   "reasons": [
+    "STALE_EVIDENCE:prod.approval",
+    "STALE_EVIDENCE:prod.sig",
+    "STALE_EVIDENCE:prod.tests"
+   ],
+   "rep": 0,
+   "scenario": "A09",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.98,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A09",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.94,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A09",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.41,
+   "observed_commits": 0,
+   "reasons": [
+    "STALE_EVIDENCE:prod.approval",
+    "STALE_EVIDENCE:prod.sig",
+    "STALE_EVIDENCE:prod.tests"
+   ],
+   "rep": 1,
+   "scenario": "A09",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.98,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A09",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.96,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A09",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.47,
+   "observed_commits": 0,
+   "reasons": [
+    "STALE_EVIDENCE:prod.approval",
+    "STALE_EVIDENCE:prod.sig",
+    "STALE_EVIDENCE:prod.tests"
+   ],
+   "rep": 2,
+   "scenario": "A09",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.43,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A10",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.41,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A10",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 3.34,
+   "observed_commits": 1,
+   "reasons": [
+    "REPLAY"
+   ],
+   "rep": 0,
+   "scenario": "A10",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.39,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A10",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.35,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A10",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 3.56,
+   "observed_commits": 1,
+   "reasons": [
+    "REPLAY"
+   ],
+   "rep": 1,
+   "scenario": "A10",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.58,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A10",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.25,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A10",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 3.4,
+   "observed_commits": 1,
+   "reasons": [
+    "REPLAY"
+   ],
+   "rep": 2,
+   "scenario": "A10",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.0,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A11",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.99,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A11",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.57,
+   "observed_commits": 0,
+   "reasons": [
+    "CANCELLED"
+   ],
+   "rep": 0,
+   "scenario": "A11",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.07,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A11",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.11,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A11",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.64,
+   "observed_commits": 0,
+   "reasons": [
+    "CANCELLED"
+   ],
+   "rep": 1,
+   "scenario": "A11",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.0,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A11",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.04,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A11",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.48,
+   "observed_commits": 0,
+   "reasons": [
+    "CANCELLED"
+   ],
+   "rep": 2,
+   "scenario": "A11",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.97,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A12",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.56,
+   "observed_commits": 0,
+   "reasons": [
+    "STATIC"
+   ],
+   "rep": 0,
+   "scenario": "A12",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.34,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "REJECTED:ORDER_VIOLATION:prod.approval"
+   ],
+   "rep": 0,
+   "scenario": "A12",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.14,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A12",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.64,
+   "observed_commits": 0,
+   "reasons": [
+    "STATIC"
+   ],
+   "rep": 1,
+   "scenario": "A12",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.43,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "REJECTED:ORDER_VIOLATION:prod.approval"
+   ],
+   "rep": 1,
+   "scenario": "A12",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.03,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A12",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.62,
+   "observed_commits": 0,
+   "reasons": [
+    "STATIC"
+   ],
+   "rep": 2,
+   "scenario": "A12",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.24,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "REJECTED:ORDER_VIOLATION:prod.approval"
+   ],
+   "rep": 2,
+   "scenario": "A12",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 1,
+   "http_calls": 4,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.8,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A13",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 1,
+   "http_calls": 4,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.75,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A13",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 4,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 4.06,
+   "observed_commits": 1,
+   "reasons": [
+    "FROZEN_POST_OBLIGATION"
+   ],
+   "rep": 0,
+   "scenario": "A13",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 1,
+   "http_calls": 4,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.89,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A13",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 1,
+   "http_calls": 4,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.62,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A13",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 4,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 4.21,
+   "observed_commits": 1,
+   "reasons": [
+    "FROZEN_POST_OBLIGATION"
+   ],
+   "rep": 1,
+   "scenario": "A13",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 1,
+   "http_calls": 4,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.78,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A13",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 1,
+   "http_calls": 4,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.82,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A13",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 4,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 4.04,
+   "observed_commits": 1,
+   "reasons": [
+    "FROZEN_POST_OBLIGATION"
+   ],
+   "rep": 2,
+   "scenario": "A13",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.11,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A14",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.03,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "A14",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.42,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.sig",
+    "MISSING:prod.tests"
+   ],
+   "rep": 0,
+   "scenario": "A14",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.06,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A14",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.97,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "A14",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.34,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.sig",
+    "MISSING:prod.tests"
+   ],
+   "rep": 1,
+   "scenario": "A14",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.11,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A14",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 1.99,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "A14",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 0,
+   "http_calls": 3,
+   "kind": "attack",
+   "missing": 0,
+   "ms": 2.32,
+   "observed_commits": 0,
+   "reasons": [
+    "MISSING:prod.approval",
+    "MISSING:prod.sig",
+    "MISSING:prod.tests"
+   ],
+   "rep": 2,
+   "scenario": "A14",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.06,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B01",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.07,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B01",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.89,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B01",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.16,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B01",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.06,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B01",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.96,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B01",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.04,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B01",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 1.96,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B01",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.88,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B01",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.18,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B02",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 1,
+   "ms": 1.65,
+   "observed_commits": 0,
+   "reasons": [
+    "STATIC"
+   ],
+   "rep": 0,
+   "scenario": "B02",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.86,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B02",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.04,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B02",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 1,
+   "ms": 1.6,
+   "observed_commits": 0,
+   "reasons": [
+    "STATIC"
+   ],
+   "rep": 1,
+   "scenario": "B02",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.91,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B02",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.14,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B02",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 1,
+   "ms": 1.6,
+   "observed_commits": 0,
+   "reasons": [
+    "STATIC"
+   ],
+   "rep": 2,
+   "scenario": "B02",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.08,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B02",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 0,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 0.36,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B03",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 0,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 0.34,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B03",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 0,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 0.35,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B03",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 0,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 0.32,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B03",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 0,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 0.29,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B03",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 0,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 0.28,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B03",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 0,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 0.29,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B03",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 0,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 0.29,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B03",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 0,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 0.29,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B03",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.5,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B04",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.36,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B04",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.0,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B04",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.35,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B04",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.39,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B04",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.01,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B04",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.42,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B04",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 1,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.4,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B04",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.1,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B04",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.14,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B05",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 1.99,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B05",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.51,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B05",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.12,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B05",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.06,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B05",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.69,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B05",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.23,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B05",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.23,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B05",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.59,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B05",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.2,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B06",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.16,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B06",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.06,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B06",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.17,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B06",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.06,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B06",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.07,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B06",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.1,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B06",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.1,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B06",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.22,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B06",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 2,
+   "http_calls": 5,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.62,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B07",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 2,
+   "http_calls": 5,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.35,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B07",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 2,
+   "http_calls": 5,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 4.92,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B07",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 2,
+   "http_calls": 5,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.5,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B07",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 2,
+   "http_calls": 5,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.31,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B07",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 2,
+   "http_calls": 5,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 5.28,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B07",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 2,
+   "http_calls": 5,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.41,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B07",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 2,
+   "http_calls": 5,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.47,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B07",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 2,
+   "http_calls": 5,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 5.54,
+   "observed_commits": 2,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B07",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.19,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B08",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.17,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B08",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.07,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B08",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.09,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B08",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.05,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B08",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.1,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B08",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.12,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B08",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.11,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B08",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.12,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B08",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 1,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 0.92,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B09",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 1,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 0.93,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B09",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 1,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 1.25,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B09",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 1,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 0.92,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B09",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 1,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 0.89,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B09",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 1,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 1.29,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B09",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 1,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 0.93,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B09",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 1,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 0.96,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B09",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 1,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 1.23,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B09",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.11,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B10",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.06,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B10",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.36,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B10",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.18,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B10",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.29,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B10",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.12,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B10",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.41,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B10",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 2.21,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B10",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 3,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.25,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B10",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 6,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.8,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B11",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 6,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.52,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B11",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 6,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 4.99,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 0,
+   "scenario": "B11",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 6,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.76,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B11",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 6,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.51,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B11",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 6,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 5.01,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 1,
+   "scenario": "B11",
+   "system": "runtime"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 6,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.52,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B11",
+   "system": "nogate"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 6,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 3.43,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B11",
+   "system": "static"
+  },
+  {
+   "error": null,
+   "excess": 0,
+   "expected_commits": 1,
+   "http_calls": 6,
+   "kind": "benign",
+   "missing": 0,
+   "ms": 5.33,
+   "observed_commits": 1,
+   "reasons": [],
+   "rep": 2,
+   "scenario": "B11",
+   "system": "runtime"
+  }
+ ],
+ "summary": {
+  "nogate": {
+   "attack_block_ci": [
+    0.0,
+    0.0838
+   ],
+   "attack_block_rate": 0.0,
+   "attack_runs": 42,
+   "attacks_with_no_unsafe_commit": 0,
+   "benign_blocked": 0,
+   "benign_ci": [
+    0.7643,
+    0.9686
+   ],
+   "benign_completed_correctly": 30,
+   "benign_completion_rate": 0.9091,
+   "benign_duplicate_commits": 3,
+   "benign_runs": 33,
+   "errors": 0,
+   "mean_http_calls": 2.8,
+   "median_ms": 2.08,
+   "unsafe_excess_commits": 42
+  },
+  "runtime": {
+   "attack_block_ci": [
+    0.9162,
+    1.0
+   ],
+   "attack_block_rate": 1.0,
+   "attack_runs": 42,
+   "attacks_with_no_unsafe_commit": 42,
+   "benign_blocked": 0,
+   "benign_ci": [
+    0.8957,
+    1.0
+   ],
+   "benign_completed_correctly": 33,
+   "benign_completion_rate": 1.0,
+   "benign_duplicate_commits": 0,
+   "benign_runs": 33,
+   "errors": 0,
+   "mean_http_calls": 2.8,
+   "median_ms": 2.5,
+   "unsafe_excess_commits": 0
+  },
+  "static": {
+   "attack_block_ci": [
+    0.1171,
+    0.3594
+   ],
+   "attack_block_rate": 0.2143,
+   "attack_runs": 42,
+   "attacks_with_no_unsafe_commit": 9,
+   "benign_blocked": 3,
+   "benign_ci": [
+    0.6561,
+    0.9139
+   ],
+   "benign_completed_correctly": 27,
+   "benign_completion_rate": 0.8182,
+   "benign_duplicate_commits": 3,
+   "benign_runs": 33,
+   "errors": 0,
+   "mean_http_calls": 2.8,
+   "median_ms": 1.97,
+   "unsafe_excess_commits": 33
+  }
+ }
+}
