@@ -73,6 +73,9 @@ jobs:
       - run: python3 -W ignore -m unittest tests.p31.test_intake tests.p32.test_triggerlab tests.p36.test_guard -v
       - run: sudo -E env "PATH=$PATH" python3 -W ignore -m unittest tests.p33.test_hccb tests.p34.test_isolation tests.p35.test_telemetry -v
       - run: python3 scripts/p31_inventory.py --check
+      - run: sudo -E env "PATH=$PATH" python3 -W ignore -m unittest tests.p37.test_h4 -v
+      - run: python3 bench/h4/run.py check
+      - run: python3 bench/h4/report.py --check
       - run: python3 -W ignore -m unittest tests.p11.test_paper -v
       - run: python3 paper/build.py --check
       - run: python3 scripts/secret_scan.py
