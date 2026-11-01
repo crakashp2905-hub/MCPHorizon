@@ -1,0 +1,700 @@
+{
+ "definitions": {
+  "scenarios": [
+   [
+    "A01",
+    "attack",
+    "convert",
+    "http://converter.test:{P}/convert",
+    "SEC",
+    "http://public.test:{P}/doc",
+    null,
+    null,
+    [
+     [
+      "converter.test",
+      "att-ctl"
+     ]
+    ],
+    [
+     [
+      "converter_mode",
+      "hidden_forward"
+     ]
+    ],
+    [],
+    false,
+    null
+   ],
+   [
+    "A02",
+    "attack",
+    "convert",
+    "http://ext-converter.test:{P}/convert",
+    "SEC",
+    "http://public.test:{P}/doc",
+    null,
+    null,
+    [
+     [
+      "ext-converter.test",
+      "unverified"
+     ]
+    ],
+    [],
+    [
+     [
+      "converter_mode",
+      "hidden_forward"
+     ]
+    ],
+    false,
+    null
+   ],
+   [
+    "A03",
+    "attack",
+    "convert",
+    "http://ext-converter.test:{P}/convert",
+    "SEC",
+    "http://public.test:{P}/doc",
+    null,
+    null,
+    [
+     [
+      "ext-converter.test",
+      "att-ext"
+     ]
+    ],
+    [],
+    [
+     [
+      "converter_mode",
+      "hidden_forward"
+     ],
+     [
+      "receipts",
+      "omit_secondary"
+     ]
+    ],
+    false,
+    "audit"
+   ],
+   [
+    "A04",
+    "attack",
+    "send",
+    "http://partner.test:{P}/redir?to=http://evil.test:{P}/c?d={d}",
+    "SEC",
+    null,
+    null,
+    null,
+    [],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "A05",
+    "attack",
+    "send",
+    "http://rebind.test:{P}/c?d={d}",
+    "SEC",
+    null,
+    null,
+    null,
+    [],
+    [],
+    [],
+    true,
+    null
+   ],
+   [
+    "A06a",
+    "attack",
+    "send",
+    "http://2130706692:{P}/c?d={d}",
+    "SEC",
+    null,
+    null,
+    null,
+    [],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "A06b",
+    "attack",
+    "send",
+    "http://0x7f000104:{P}/c?d={d}",
+    "SEC",
+    null,
+    null,
+    null,
+    [],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "A06c",
+    "attack",
+    "send",
+    "http://[::ffff:127.0.1.4]:{P}/c?d={d}",
+    "SEC",
+    null,
+    null,
+    null,
+    [],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "A06d",
+    "attack",
+    "send",
+    "http://partner.test@evil.test:{P}/c?d={d}",
+    "SEC",
+    null,
+    null,
+    null,
+    [],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "A06e",
+    "attack",
+    "send",
+    "http://evil.test.:{P}/c?d={d}",
+    "SEC",
+    null,
+    null,
+    null,
+    [],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "A06f",
+    "attack",
+    "send",
+    "http://0177.0.1.4:{P}/c?d={d}",
+    "SEC",
+    null,
+    null,
+    null,
+    [],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "A07",
+    "attack",
+    "relay",
+    "http://relay.test:{P}/relay",
+    "SEC",
+    null,
+    "http://evil.test:{P}/hook",
+    null,
+    [
+     [
+      "relay.test",
+      "att-ctl"
+     ]
+    ],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "A07b",
+    "attack",
+    "relay",
+    "http://relay.test:{P}/relay",
+    "SEC",
+    null,
+    "http://partner.test:{P}/hook",
+    null,
+    [
+     [
+      "relay.test",
+      "att-ctl"
+     ]
+    ],
+    [
+     [
+      "relay_mode",
+      "double_hop"
+     ]
+    ],
+    [],
+    false,
+    null
+   ],
+   [
+    "A08",
+    "attack",
+    "send",
+    "http://store.test:{P}/bucket/k1",
+    "SEC",
+    null,
+    null,
+    null,
+    [],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "A09",
+    "attack",
+    "send",
+    "http://store.test:{P}/bucket/k2",
+    "SECb64",
+    null,
+    null,
+    "PUBLIC",
+    [],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "B01",
+    "benign",
+    "convert",
+    "http://converter.test:{P}/convert",
+    "SEC",
+    "http://public.test:{P}/doc",
+    null,
+    null,
+    [
+     [
+      "converter.test",
+      "att-ctl"
+     ]
+    ],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "B02",
+    "benign",
+    "send",
+    "http://partner.test:{P}/redir?to=http://partner2.test:{P}/c?d={d}",
+    "SEC",
+    null,
+    null,
+    null,
+    [],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "B03",
+    "benign",
+    "send",
+    "http://public.test:{P}/doc",
+    "PUB",
+    null,
+    null,
+    null,
+    [],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "B04",
+    "benign",
+    "relay",
+    "http://relay.test:{P}/relay",
+    "SEC",
+    null,
+    "http://partner.test:{P}/hook",
+    null,
+    [
+     [
+      "relay.test",
+      "att-ctl"
+     ]
+    ],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "B05",
+    "benign",
+    "convert",
+    "http://ext-converter.test:{P}/convert",
+    "SEC",
+    "http://public.test:{P}/doc",
+    null,
+    null,
+    [
+     [
+      "ext-converter.test",
+      "att-ext"
+     ]
+    ],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "B06a",
+    "benign",
+    "send",
+    "http://PARTNER.test.:{P}/c?d={d}",
+    "SEC",
+    null,
+    null,
+    null,
+    [],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "B06b",
+    "benign",
+    "send",
+    "http://127.0.1.2:{P}/c?d={d}",
+    "SEC",
+    null,
+    null,
+    null,
+    [],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "B06c",
+    "benign",
+    "send",
+    "http://partner.test:{P}/a/../c?d={d}",
+    "SEC",
+    null,
+    null,
+    null,
+    [],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "B07",
+    "benign",
+    "send",
+    "http://store.test:{P}/bucket/ok",
+    "SECred",
+    null,
+    null,
+    null,
+    [],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "B07b",
+    "benign",
+    "convert",
+    "http://ext-converter.test:{P}/convert",
+    "PUB",
+    "http://public.test:{P}/doc",
+    null,
+    null,
+    [
+     [
+      "ext-converter.test",
+      "unverified"
+     ]
+    ],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "B08",
+    "benign",
+    "send",
+    "http://partner.test:{P}/redir?to=http://partner.test:{P}/other?d={d}",
+    "SEC",
+    null,
+    null,
+    null,
+    [],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "B09",
+    "benign",
+    "send",
+    "http://store.test:{P}/bucket/h",
+    "SEChash",
+    null,
+    null,
+    null,
+    [],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "O01",
+    "observability",
+    "convert",
+    "http://ext-converter.test:{P}/convert",
+    "SEC",
+    "http://public.test:{P}/doc",
+    null,
+    null,
+    [
+     [
+      "ext-converter.test",
+      "att-ext"
+     ]
+    ],
+    [],
+    [
+     [
+      "receipts",
+      "off"
+     ]
+    ],
+    false,
+    null
+   ],
+   [
+    "O02",
+    "observability",
+    "send",
+    "http://nowhere.test:{P}/c?d={d}",
+    "SEC",
+    null,
+    null,
+    null,
+    [],
+    [],
+    [],
+    false,
+    null
+   ],
+   [
+    "O03",
+    "observability",
+    "send",
+    "http://partner.test:{P}/c?d={d}",
+    "SEC",
+    null,
+    null,
+    null,
+    [],
+    [],
+    [],
+    false,
+    null
+   ]
+  ],
+  "systems": [
+   "allowlist",
+   "pattern",
+   "declaration",
+   "reach",
+   "reach-no-canonicalization",
+   "reach-no-pinning",
+   "reach-no-redirect-revalidation",
+   "reach-no-label-binding",
+   "reach-no-attestation",
+   "reach-no-fabric",
+   "reach-no-receipts",
+   "reach-no-unknown-blocking"
+  ],
+  "reps": 3,
+  "configs": {
+   "reach": {
+    "canonicalize": true,
+    "pin": true,
+    "revalidate_redirects": true,
+    "bind_labels": true,
+    "require_attestation": true,
+    "fabric": true,
+    "require_receipts": true,
+    "unknown_blocks": true
+   },
+   "reach-no-canonicalization": {
+    "canonicalize": false,
+    "pin": true,
+    "revalidate_redirects": true,
+    "bind_labels": true,
+    "require_attestation": true,
+    "fabric": true,
+    "require_receipts": true,
+    "unknown_blocks": true
+   },
+   "reach-no-pinning": {
+    "canonicalize": true,
+    "pin": false,
+    "revalidate_redirects": true,
+    "bind_labels": true,
+    "require_attestation": true,
+    "fabric": true,
+    "require_receipts": true,
+    "unknown_blocks": true
+   },
+   "reach-no-redirect-revalidation": {
+    "canonicalize": true,
+    "pin": true,
+    "revalidate_redirects": false,
+    "bind_labels": true,
+    "require_attestation": true,
+    "fabric": true,
+    "require_receipts": true,
+    "unknown_blocks": true
+   },
+   "reach-no-label-binding": {
+    "canonicalize": true,
+    "pin": true,
+    "revalidate_redirects": true,
+    "bind_labels": false,
+    "require_attestation": true,
+    "fabric": true,
+    "require_receipts": true,
+    "unknown_blocks": true
+   },
+   "reach-no-attestation": {
+    "canonicalize": true,
+    "pin": true,
+    "revalidate_redirects": true,
+    "bind_labels": true,
+    "require_attestation": false,
+    "fabric": true,
+    "require_receipts": true,
+    "unknown_blocks": true
+   },
+   "reach-no-fabric": {
+    "canonicalize": true,
+    "pin": true,
+    "revalidate_redirects": true,
+    "bind_labels": true,
+    "require_attestation": true,
+    "fabric": false,
+    "require_receipts": true,
+    "unknown_blocks": true
+   },
+   "reach-no-receipts": {
+    "canonicalize": true,
+    "pin": true,
+    "revalidate_redirects": true,
+    "bind_labels": true,
+    "require_attestation": true,
+    "fabric": true,
+    "require_receipts": false,
+    "unknown_blocks": true
+   },
+   "reach-no-unknown-blocking": {
+    "canonicalize": true,
+    "pin": true,
+    "revalidate_redirects": true,
+    "bind_labels": true,
+    "require_attestation": true,
+    "fabric": true,
+    "require_receipts": true,
+    "unknown_blocks": false
+   }
+  },
+  "policy": {
+   "clearance": {
+    "public.test": "PUBLIC",
+    "evil.test": "PUBLIC",
+    "store.test": "PUBLIC",
+    "partner.test": "SECRET",
+    "partner2.test": "SECRET"
+   },
+   "grants": {
+    "analyst": [
+     "converter.test",
+     "evil.test",
+     "ext-converter.test",
+     "partner.test",
+     "partner2.test",
+     "public.test",
+     "relay.test",
+     "store.test"
+    ],
+    "intern": [
+     "public.test"
+    ]
+   },
+   "service_clearance": {
+    "converter.test": "SECRET",
+    "relay.test": "SECRET",
+    "ext-converter.test": "SECRET"
+   }
+  },
+  "oracle_secret_ok": [
+   "127.0.1.2",
+   "127.0.1.3"
+  ],
+  "hosts": {
+   "public.test": "127.0.1.1",
+   "partner.test": "127.0.1.2",
+   "partner2.test": "127.0.1.3",
+   "evil.test": "127.0.1.4",
+   "converter.test": "127.0.1.5",
+   "relay.test": "127.0.1.6",
+   "store.test": "127.0.1.7",
+   "ext-converter.test": "127.0.1.8"
+  },
+  "url_corpus_digest": "c4c887930a71efb6862ab739b10376f12c2919deec42cd024926e69dfdd5c375",
+  "allow_hosts": [
+   "public.test",
+   "partner.test",
+   "partner2.test",
+   "store.test",
+   "converter.test",
+   "relay.test",
+   "ext-converter.test",
+   "rebind.test"
+  ]
+ },
+ "python": "3.13.18",
+ "machine": "Linux-6.18.44-fc-v185-x86_64-with-glibc2.39",
+ "head": "318bd90e7deba70c774e4a0721ae0dc2f797688e",
+ "result_sha256": "1cbb681f881d6d4cafc57cceb0e6b26cd083150bf4829999cecb4eef75857a5f"
+}
