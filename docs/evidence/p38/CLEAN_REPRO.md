@@ -1,6 +1,6 @@
 # P38-16 clean-environment reproduction — author-run (NOT independent)
 
-* commit: `4fd94b90ae95a0e387e4e421ad2dae40a4474dcf`
+* commit: `bbd0cebec44053bf580cf720458dd88ba1087efc`
 * fresh `git clone` of the local repository, empty environment (PATH, HOME=temp, LANG), network namespace with only loopback up
 * machine: Linux 6.18.44-fc-v185 x86_64, Python 3.13.18
 * **Who ran this:** the author of the code under test. MG-G12 requires a different maintainer; this file does not satisfy it.
@@ -19,8 +19,8 @@
 | 10 | `bench/h4/netns_lo.py python3 scripts/p38_gates.py --check` | 0 | 0.1 |
 | 11 | `bench/h4/netns_lo.py python3 scripts/p30_no_external.py` | 0 | 0.0 |
 | 12 | `bench/h4/netns_lo.py python3 scripts/p30_claims_audit.py` | 0 | 0.0 |
-| 13 | `bench/h4/netns_lo.py python3 -W ignore -m unittest tests.p31.test_intake tests.p32.test_triggerlab tests.p36.test_guard tests.p37.test_h4 tests.p38.test_p38.Casebook tests.p38.test_p38.Matrix tests.p38.test_p38.Runner tests.p38.test_p38.LayerDocs tests.p38.test_p38.SinkRepro tests.p38.test_p38.Drills tests.p38.test_p38.Comparison tests.p38.test_p38.Gates tests.p38.test_p38.Papers tests.p38.test_p38.Bundle` | 1 | 15.2 |
-| 14 | `bench/h4/netns_lo.py python3 -W ignore -m unittest tests.p33.test_hccb tests.p34.test_isolation tests.p35.test_telemetry tests.p29.test_haa tests.p30.test_p30` | 0 | 38.0 |
+| 13 | `bench/h4/netns_lo.py python3 -W ignore -m unittest tests.p31.test_intake tests.p32.test_triggerlab tests.p36.test_guard tests.p37.test_h4 tests.p38.test_p38.Casebook tests.p38.test_p38.Matrix tests.p38.test_p38.Runner tests.p38.test_p38.LayerDocs tests.p38.test_p38.SinkRepro tests.p38.test_p38.Drills tests.p38.test_p38.Comparison tests.p38.test_p38.Gates tests.p38.test_p38.Papers tests.p38.test_p38.Bundle` | 0 | 15.1 |
+| 14 | `bench/h4/netns_lo.py python3 -W ignore -m unittest tests.p33.test_hccb tests.p34.test_isolation tests.p35.test_telemetry tests.p29.test_haa tests.p30.test_p30` | 0 | 37.8 |
 
 ## Output tails
 
@@ -75,16 +75,16 @@ claims audit: PASS
 **13.** `bench/h4/netns_lo.py python3 -W ignore -m unittest tests.p31.test_intake tests.p32.test_triggerlab tests.p36.test_guard tests.p37.test_h4 tests.p38.test_p38.Casebook tests.p38.test_p38.Matrix tests.p38.test_p38.Runner tests.p38.test_p38.LayerDocs tests.p38.test_p38.SinkRepro tests.p38.test_p38.Drills tests.p38.test_p38.Comparison tests.p38.test_p38.Gates tests.p38.test_p38.Papers tests.p38.test_p38.Bundle`
 ```
 ----------------------------------------------------------------------
-Ran 131 tests in 14.973s
+Ran 132 tests in 14.939s
 
-FAILED (failures=2)
+OK
 ```
 **14.** `bench/h4/netns_lo.py python3 -W ignore -m unittest tests.p33.test_hccb tests.p34.test_isolation tests.p35.test_telemetry tests.p29.test_haa tests.p30.test_p30`
 ```
 ----------------------------------------------------------------------
-Ran 105 tests in 37.839s
+Ran 105 tests in 37.588s
 
 OK
 ```
 
-**Overall: FAILURE**
+**Overall: ALL COMMANDS EXIT 0**
