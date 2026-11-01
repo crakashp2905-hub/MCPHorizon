@@ -1,0 +1,108 @@
+{
+ "caveats": [
+  "fixtures were written by the InfraGuard author in InfraGuard's own annotated format; this favours InfraGuard",
+  "checkov does not parse this format (frameworks listed per row), so most checkov 'no findings' are UNSUPPORTED, not PASS",
+  "checkov covers a far larger space (Terraform, Kubernetes, CloudFormation, secrets, ...) that InfraGuard does not attempt",
+  "a fair breadth comparison would need real Terraform/Kubernetes fixtures and was not done"
+ ],
+ "checkov_detected": 1,
+ "checkov_false_positives": 0,
+ "checkov_unsupported_format": 4,
+ "checkov_version": "3.2.0",
+ "infraguard_detected": 4,
+ "infraguard_false_positives": 0,
+ "n_bad": 4,
+ "n_good": 1,
+ "rows": [
+  {
+   "checkov": {
+    "checks": [],
+    "failed": 0,
+    "frameworks": [],
+    "parsed": false
+   },
+   "checkov_flags": false,
+   "checkov_supports_format": false,
+   "expected_bad": true,
+   "fixture": "bad_admin_exposed.yml",
+   "infraguard_flags": true,
+   "infraguard_rules": [
+    "IG001",
+    "IG004",
+    "IG009"
+   ]
+  },
+  {
+   "checkov": {
+    "checks": [],
+    "failed": 0,
+    "frameworks": [],
+    "parsed": false
+   },
+   "checkov_flags": false,
+   "checkov_supports_format": false,
+   "expected_bad": true,
+   "fixture": "bad_logui_retention_roles.yml",
+   "infraguard_flags": true,
+   "infraguard_rules": [
+    "IG006",
+    "IG007",
+    "IG008"
+   ]
+  },
+  {
+   "checkov": {
+    "checks": [],
+    "failed": 0,
+    "frameworks": [],
+    "parsed": false
+   },
+   "checkov_flags": false,
+   "checkov_supports_format": false,
+   "expected_bad": true,
+   "fixture": "bad_public_db.yml",
+   "infraguard_flags": true,
+   "infraguard_rules": [
+    "IG001",
+    "IG002",
+    "IG003",
+    "IG005",
+    "IG009"
+   ]
+  },
+  {
+   "checkov": {
+    "checks": [
+     "CKV_SECRET_6"
+    ],
+    "failed": 1,
+    "frameworks": [
+     "secrets"
+    ],
+    "parsed": true
+   },
+   "checkov_flags": true,
+   "checkov_supports_format": true,
+   "expected_bad": true,
+   "fixture": "bad_secret_env.yml",
+   "infraguard_flags": true,
+   "infraguard_rules": [
+    "IG005"
+   ]
+  },
+  {
+   "checkov": {
+    "checks": [],
+    "failed": 0,
+    "frameworks": [],
+    "parsed": false
+   },
+   "checkov_flags": false,
+   "checkov_supports_format": false,
+   "expected_bad": false,
+   "fixture": "good_db.yml",
+   "infraguard_flags": false,
+   "infraguard_rules": []
+  }
+ ]
+}

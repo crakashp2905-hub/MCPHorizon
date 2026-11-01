@@ -1,0 +1,6 @@
+services:
+  api:
+    image: registry.test/model-api:1@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+    ports: ["127.0.0.1:8080:8080", "9090:9090"]
+    x-auth: {mode: token}
+    x-admin: {endpoints: ["/admin/config", "/admin/debug"]}
