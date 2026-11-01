@@ -80,6 +80,8 @@ jobs:
       - run: pip install pyyaml==6.0.3 && sudo -E env "PATH=$PATH" python3 -W ignore -m unittest tests.p38.test_p38 -v
       - run: python3 -W ignore -m unittest tests.p39.test_emergence -v && python3 scripts/p39_report.py --check && python3 scripts/p39_run.py --check
       - run: python3 scripts/p39_mutants.py          # every mutant must be killed
+      - run: python3 -W ignore -m unittest tests.p40.test_obligation -v && python3 scripts/p40_report.py --check && python3 scripts/p40_run.py --check
+      - run: python3 scripts/p40_mutants.py          # every mutant must be killed
       - run: python3 scripts/p38_casebook.py --check && python3 scripts/p38_compare.py --check && python3 scripts/p38_papers.py --check && python3 scripts/p38_gates.py --check
       - run: python3 -W ignore -m unittest tests.p11.test_paper -v
       - run: python3 paper/build.py --check
