@@ -123,6 +123,10 @@ class Results(unittest.TestCase):            # P37-12 / 15 / 16 against the comm
         rows = list(csv.reader(open(os.path.join(RES, "aggregate_v1.csv")))); self.assertEqual(rows[0][0], "schema_version"); self.assertEqual(len(rows), 1 + len(core.MAIN)); self.assertEqual(rows[1][0], "h4-aggregate-1.0.0")
         for f in ("fig_effect_by_baseline.svg", "fig_scenario_matrix.svg"): self.assertTrue(open(os.path.join(RES, f)).read().startswith("<svg"))
         rp = json.load(open(os.path.join(RES, "repro_manifest.json"))); self.assertEqual(len(rp["git_commit"]), 40); self.assertEqual(len(rp["scenario_manifest_digests"]), 74); self.assertEqual(set(rp["baselines"]), set(core.BASELINES))
+    def test_scenario_manifests_still_match_the_ones_the_write_once_run_used(self):
+        import hashlib; rp = json.load(open(os.path.join(RES, "repro_manifest.json")))["scenario_manifest_digests"]; ms = M.emit(core.REGISTRY)
+        sha = lambda o: hashlib.sha256(json.dumps(o, sort_keys=True, default=str).encode()).hexdigest()
+        self.assertEqual([k for k in ms if sha(ms[k]) != rp.get(k)], [])      # a scenario edited after the run would silently detach the results from the code
     def test_split_leakage_recorded_clean(self): self.assertEqual(load()["splits"]["leakage"]["straddling_families"], {})
     def test_scenario_counts(self): self.assertEqual(load()["scenario_counts"], {"HMIB": 20, "HCCB": 18, "HECB": 20, "HIEB": 16})
     def test_synthetic_only_is_stated(self):

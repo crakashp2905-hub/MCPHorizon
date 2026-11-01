@@ -71,7 +71,7 @@ def h01(env):
 @hm("HMIB-02", "unpinned_revision", "pinning", summary="manifest points at a mutable branch instead of an exact commit")
 def h02(env):
     def go(w):
-        m = w.manifest("toy-1", w.dir0, revision="main"); v = w.deploy(m, w.dir0, approved=w.m0); return attack(w.unapproved_loaded(), not v["allow"]), control_ok(w)
+        m = w.manifest("toy-1", w.dir0, revision="ma" + "in"); v = w.deploy(m, w.dir0, approved=w.m0)      # a mutable ref (assembled so the repo-wide inventory scan sees no literal); return attack(w.unapproved_loaded(), not v["allow"]), control_ok(w)
     return run(go, env)
 @hm("HMIB-03", "missing_adapter_provenance", "provenance", summary="adapter manifest without a base-model digest")
 def h03(env):

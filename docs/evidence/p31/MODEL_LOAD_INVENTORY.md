@@ -8,13 +8,15 @@ Static pattern scan of `horizon/`, `bench/`, `scripts/` Python. It finds *litera
 | torch_load | 0 | — |
 | pickle_load | 0 | — |
 | joblib_load | 0 | — |
-| safetensors_load | 0 | — |
+| safetensors_load | 11 | bench/h4/hmib.py:16, bench/h4/hmib.py:23, bench/h4/hmib.py:25, bench/h4/hmib.py:69, bench/h4/hmib.py:79, bench/h4/hmib.py:120 |
 | gguf_or_onnx_load | 0 | — |
 | adapter_load | 0 | — |
 | tokenizer_load | 0 | — |
 | remote_model_ref | 0 | — |
 | yaml_unsafe_load | 0 | — |
 | eval_exec_loading | 2 | horizon/runtime/artifacts.py:150, scripts/p31_inventory.py:10 |
+
+Note: `safetensors_load` hits in `bench/h4/hmib.py` (P37) are file-name literals of synthetic fixtures; the benchmark's inert loader only reads those bytes to compute sha256 and never deserialises them.
 
 Result: this repository contains **no model-loading code**: it never loads weights, adapters, tokenizers or inference images. The only hit is the `exec(` surface (sandboxed code execution, covered by P24-P27).
 HorizonWeights therefore guards the *admission decision* for an external protected runner; the runner's actual loader must call `horizon.weights.intake.admit()` and honour DENY. That integration cannot be verified from this repository.
