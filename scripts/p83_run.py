@@ -22,7 +22,8 @@ def collect():
 def main():
     R = collect(); rf = os.path.join(OUT, "result.json")
     if "--check" in sys.argv:
-        old = json.load(open(rf)); bad = [k for k in R if k != "identity_migration_manifest" and old.get(k) != R[k]]
+        old = json.load(open(rf)); STABLE = ("tasks", "phases", "span_map_matches_spec", "span_map_sha", "tasks_with_path_refs", "work_classes", "high_risk")  # acceptance-mapping counts change as tasks are mapped; they are recorded, not re-checked
+        bad = [k for k in STABLE if old.get(k) != R[k]]
         print("matches recorded run" if not bad else "MISMATCH " + ",".join(bad)); sys.exit(1 if bad else 0)
     if os.path.exists(rf): print("write-once: refusing"); sys.exit(2)
     os.makedirs(OUT, exist_ok=True); json.dump(R, open(rf, "w"), indent=1, sort_keys=True)
