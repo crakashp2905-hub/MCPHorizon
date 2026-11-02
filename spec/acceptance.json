@@ -14144,5 +14144,107 @@
    ]
   ],
   "covers": "version drift or failed conformance downgrades claimed protection (fail closed)"
+ },
+ "P85-02": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_verifier2.py"
+   ]
+  ],
+  "covers": "replay happens in a clean clone at the exact commit; uncommitted worker changes are ignored; private evaluation assets NOT separately modelled"
+ },
+ "P85-06": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_verifier2.py"
+   ]
+  ],
+  "covers": "verdict comes only from the verifier's own replay of the declared command; worker claims are not inputs"
+ },
+ "P85-12": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_verifier2.py"
+   ]
+  ],
+  "covers": "receipts signed with verifier keys that workers lack; forgery, swapped fields, replay, expiry and revocation rejected (local keystore; no HSM)"
+ },
+ "P77-01": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_supervisor.py"
+   ]
+  ],
+  "covers": "workers cannot self-verify or set VERIFIED; only the verifier path can (local-trust, one process)"
+ },
+ "P77-15": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_supervisor.py"
+   ]
+  ],
+  "covers": "failed verification never promotes a candidate to VERIFIED"
+ },
+ "P76-03": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_recovery.py"
+   ]
+  ],
+  "covers": "journal bound to the plan digest and tamper-evident; VERIFIED states bound to the plan digest"
  }
 }
