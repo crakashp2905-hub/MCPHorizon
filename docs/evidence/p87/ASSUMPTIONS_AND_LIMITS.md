@@ -1,0 +1,4 @@
+# P87 delegation chains (CANDIDATE)
+`horizon/a2a/delegation.py`: HMAC-signed attenuating grants (tenant, audience, scope, expiry, depth, parent digest); verifier re-checks every link (signature, revocation, expiry, tenant, parent linkage, issuer continuity, no scope/lifetime expansion, audience, operation, single-use replay); tenant callback allowlist; remote agent cards as untrusted data; artifact influence gate; idempotent handoff steps.
+Evidence: 26 tests (`tests/p87`), 34 mutants killed, synthetic two-agent matrix `results/v2/p87-delegation/`.
+Limits: no A2A spec/SDK pinned (P87-01), no wire protocol, no real remote agents, no network failure/partial-state test (P87-14), no cross-protocol lineage (P87-15), no per-version coverage (P87-16), single shared HMAC authority (not asymmetric), replay set is in-memory. CG-11 is NOT passed.

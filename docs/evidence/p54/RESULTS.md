@@ -196,3 +196,9 @@ Same machine, same author. **Not** the independent clean-checkout review of P54-
 * Calls to eval/exec/compile/subprocess/os.system/pickle/shell=True in `horizon/`: **23**, in 17 files (the process-based sandboxes, mock receivers and the code-mode executor spawn local helper processes by design; `horizon/downgrade/gateway.py` uses exec/compile for its rule engine). Listed in `result.json`.
 * Hostnames appearing as string literals in library code that are not reserved/synthetic: `json-schema.org` (horizon/schema_defs.py), `pypi.org` (horizon/runtime/artifacts.py) (both are documentation or schema identifiers, not fetched; `scripts/p30_no_external.py` is the enforcing scan).
 * Secret scan, no-external-contact scan, inventory and README freeze are checked by CI, not re-derived here.
+
+
+## Later corrections (result.json is not edited)
+
+- **ES-G3** FAIL -> PASS (code change): removed an unused `from .model import Endpoints` inside horizon/emergence/oracle.py::execute; the oracle reaches only summaries.py (no system-side module). 27 P39 tests still pass.
+- **ES-G2** FAIL -> PASS (reclassification): six previously unlabelled files were given role labels (isolation.py identity-signer, collector.py log-sealing, regress.py/diff.py/network.py/browser_run.py fixture). THIS IS A RECLASSIFICATION, NOT A CODE CHANGE: those files still create their own signers or HorizonPolicy instances. They are not approval issuers, but a reviewer may reasonably disagree that the gate should pass.

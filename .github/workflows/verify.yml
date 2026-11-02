@@ -23,7 +23,8 @@ jobs:
           node-version: '22'
       - uses: dtolnay/rust-toolchain@stable
       - run: pip install 'cryptography==50.0.1' pyyaml==6.0.3 bandit==1.9.4          # the acceptance commands import these; without them 110+ commands failed on import
-      - run: python3 scripts/ci_verify.py
+      - run: cd codemode && npm ci          # Code Mode runner (isolated-vm); without it P14 parity and P6 acceptance fail
+      - run: python3 scripts/ci_verify.py        # root-needing sandbox commands are wrapped in sudo inside the script
       - uses: actions/upload-artifact@v4
         if: always()
         with:

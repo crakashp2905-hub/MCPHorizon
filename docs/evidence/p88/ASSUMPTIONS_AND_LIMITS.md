@@ -1,0 +1,4 @@
+# P88 approval broker (CANDIDATE)
+`horizon/approvalui/broker.py`: approvals bound to approver + exact operation digest + destination + policy revision + expiry; server-signed (HMAC), single-use, revocable; server-generated effect summary and a check that flags agent text hiding target/args; CSRF nonce, origin and session checks; agents cannot approve; optimistic UI state is never a decision; stream ordering/duplicate/cancel/incomplete detection.
+Evidence: 31 tests (`tests/p88`), 30 mutants killed, synthetic matrix `results/v2/p88-approval/` (9 attack cases, 0 effects allowed; 3 benign controls allowed).
+Limits: no real browser, AG-UI SDK, XSS isolation test (P88-11), human consent study, version pinning (P88-01), or HTTP layer; HMAC key is process-local; the effect summary lists raw values (a long or homoglyph value is not normalised); the matrix is author-written. CG-12 is NOT passed.

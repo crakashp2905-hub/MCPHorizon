@@ -21,6 +21,11 @@ def main():
     if "--check" in sys.argv:
         rec = json.load(open(os.path.join(OUT, "manifest.json")))["definitions"]; R = EX.collect(reproduce=False, freeze=fr); cur = J(defs(R)); bad = [k for k in cur if rec.get(k) != cur[k]]
         old = json.load(open(os.path.join(OUT, "result.json"))); st = {g["id"]: g["status"] for g in R["gates"]}; ost = {g["id"]: g["status"] for g in old["gates"]}
+        cf = os.path.join(OUT, "corrections.json")
+        if os.path.exists(cf):
+            for c in json.load(open(cf))["corrections"]:
+                if ost.get(c["gate"]) != c["from"]: bad.append("correction %s starts from %s but recorded %s" % (c["gate"], c["from"], ost.get(c["gate"])))
+                ost[c["gate"]] = c["to"]
         if st != ost: bad.append("gate statuses")
         if R["freeze_diff"]: bad.append("frozen artifacts changed: %s" % R["freeze_diff"][:3])
         print("definitions, gate statuses and frozen artifacts match the recorded run" if not bad else "MISMATCH " + ",".join(map(str, bad))); sys.exit(1 if bad else 0)

@@ -16,7 +16,7 @@ def cycle(led, i, lat):
     t = time.perf_counter(); led.reserve("T", "lead", "r%s" % i, "d", {"requests": 1}); led.start("r%s" % i); led.commit("r%s" % i, {"requests": 1}); lat.append(time.perf_counter() - t)
 
 
-def main(n=int(os.environ.get("N", "500"))):
+def main(n=int(sys.argv[1] if len(sys.argv) > 1 else os.environ.get("N", "500"))):
     out = {"machine": platform.platform(), "python": platform.python_version(), "n": n}
     for name, path in (("memory", ":memory:"), ("file", os.path.join(tempfile.mkdtemp(), "l.db"))):
         A, led = mk(path); lat = []; t0 = time.perf_counter()

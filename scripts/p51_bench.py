@@ -5,7 +5,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); sys.path.ins
 from horizon.vision import experiment as X, scenarios as SC, guard as G
 from horizon.hpolicy.authority import HorizonPolicy
 
-def main(n=int(os.environ.get("N", "2000"))):
+def main(n=int(sys.argv[1] if len(sys.argv) > 1 else os.environ.get("N", "2000"))):
     clk = lambda: 1_000_000.0; A = HorizonPolicy("pol-1", clock=clk); g = G.Guard(A.verifier(), clk); task = SC.task()
     b = {"instrumented": True, "effect": {"kind": "SUBMIT", "dest": "https://app.test", "data": "plain", "resource": "/p"}, "reported": {}, "element": {"id": "e", "digest": "d"}, "frame_origin": "https://app.test", "top_origin": "https://app.test", "input_digest": "i", "tab": "t1"}
     act = {"op": "click", "intent": "e", "observed": "d", "tab": "t1"}; lat = []

@@ -12168,10 +12168,9 @@
     "tests.p50.test_budget.Matrix.test_full_system_never_over_budget"
    ],
    [
-    "env",
-    "N=60",
     "python3",
-    "scripts/p50_bench.py"
+    "scripts/p50_bench.py",
+    "60"
    ]
   ],
   "covers": "results/v2/p50-budget (over-budget rate, completion); throughput and tail latency via scripts/p50_bench.py (machine-specific, not recorded)"
@@ -12419,10 +12418,9 @@
     "tests.p51.test_vision.Recorded.test_full_guard_zero_prohibited_effects"
    ],
    [
-    "env",
-    "N=100",
     "python3",
-    "scripts/p51_bench.py"
+    "scripts/p51_bench.py",
+    "100"
    ]
   ],
   "covers": "accuracy/task success/accessibility (model); latency via scripts/p51_bench.py and browser.json timing (machine-specific)"
@@ -13486,5 +13484,855 @@
    ]
   ],
   "covers": "RC-R-gated tasks stay unready until signed"
+ },
+ "P88-03": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p88"
+   ]
+  ],
+  "covers": "approval bound to authenticated approver, operation digest, destination and expiry"
+ },
+ "P88-04": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p88"
+   ]
+  ],
+  "covers": "server-generated effect summary; agent text hiding target/args flagged"
+ },
+ "P88-05": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p88"
+   ]
+  ],
+  "covers": "optimistic UI state is not a decision"
+ },
+ "P88-06": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p88"
+   ]
+  ],
+  "covers": "replay, duplicate submission and stale policy revision rejected"
+ },
+ "P88-07": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p88"
+   ]
+  ],
+  "covers": "changed args/target between approval and effect denied"
+ },
+ "P88-08": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p88"
+   ]
+  ],
+  "covers": "NEEDS_APPROVAL, APPROVED, DENIED, UNKNOWN and INCOMPLETE states defined"
+ },
+ "P88-09": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p88"
+   ]
+  ],
+  "covers": "stream ordering, duplicate, gap, cancellation checks (synchronous model only)"
+ },
+ "P88-10": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p88"
+   ]
+  ],
+  "covers": "origin, session and CSRF protections on approval actions"
+ },
+ "P88-13": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p88"
+   ]
+  ],
+  "covers": "revocation before delayed effect denies it"
+ },
+ "P88-15": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p88"
+   ]
+  ],
+  "covers": "approvals by agent principals rejected"
+ },
+ "P88-14": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p88"
+   ]
+  ],
+  "covers": "interrupted stream reports INCOMPLETE (decision semantics only; audit receipt not implemented)"
+ },
+ "P87-02": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p87"
+   ]
+  ],
+  "covers": "principal/tenant/scope grant model"
+ },
+ "P87-03": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p87"
+   ]
+  ],
+  "covers": "remote agent descriptions returned as untrusted data"
+ },
+ "P87-04": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p87"
+   ]
+  ],
+  "covers": "audience-bound, scoped, expiring delegation credentials checked at the boundary"
+ },
+ "P87-06": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p87"
+   ]
+  ],
+  "covers": "cross-tenant delegation and foreign callback destinations refused"
+ },
+ "P87-08": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p87"
+   ]
+  ],
+  "covers": "delegation-chain privilege and lifetime expansion detected even when correctly signed"
+ },
+ "P87-10": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p87"
+   ]
+  ],
+  "covers": "received artifacts gated before influencing protected actions"
+ },
+ "P87-11": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p87"
+   ]
+  ],
+  "covers": "local two-agent authorized delegation with unauthorized controls (synthetic)"
+ },
+ "P87-13": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p87"
+   ]
+  ],
+  "covers": "replayed, expired and wrong-audience credentials rejected"
+ },
+ "P89-02": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p89"
+   ]
+  ],
+  "covers": "skill inventory schema with publisher, version, digest, license (registry only; no real skills)"
+ },
+ "P89-03": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p89"
+   ]
+  ],
+  "covers": "HMAC-signed allowlist independent of skill text"
+ },
+ "P89-05": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p89"
+   ]
+  ],
+  "covers": "dependencies must be allowed; remote-installer patterns flagged (regex)"
+ },
+ "P89-06": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p89"
+   ]
+  ],
+  "covers": "privilege expansion on update requires re-approval"
+ },
+ "P89-07": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p89"
+   ]
+  ],
+  "covers": "quarantine, revocation and rollback to the prior active version"
+ },
+ "P89-09": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p89"
+   ]
+  ],
+  "covers": "poisoned skill text claiming pre-approval denied (synthetic harmless payload)"
+ },
+ "P89-10": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p89"
+   ]
+  ],
+  "covers": "AGENTS.md/CLAUDE.md-style text cannot widen signed policy; may narrow"
+ },
+ "P89-14": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p89"
+   ]
+  ],
+  "covers": "skill doc text is data and cannot grant setup privileges"
+ },
+ "P89-15": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p89"
+   ]
+  ],
+  "covers": "provenance report per install/update decision"
+ },
+ "P91-02": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p91"
+   ]
+  ],
+  "covers": "preregistration record: primary metric, unit, threshold frozen; post-data change refused (record only)"
+ },
+ "P91-04": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p91"
+   ]
+  ],
+  "covers": "Wilson precision / sample-size computation"
+ },
+ "P91-05": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p91"
+   ]
+  ],
+  "covers": "cluster bootstrap resamples whole clusters"
+ },
+ "P91-06": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p91"
+   ]
+  ],
+  "covers": "paired exact McNemar and Holm correction"
+ },
+ "P91-07": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p91"
+   ]
+  ],
+  "covers": "tuning/confirmatory split audit by id and template"
+ },
+ "P91-10": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p91"
+   ]
+  ],
+  "covers": "explicit go/revise/stop decision rule"
+ },
+ "P91-11": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p91"
+   ]
+  ],
+  "covers": "correctly executed negative result yields STOP, not a fabricated improvement"
+ },
+ "P91-12": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p91"
+   ]
+  ],
+  "covers": "split overlap (leakage) audit; control labelling/telemetry audits NOT covered"
+ },
+ "P92-03": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p91"
+   ]
+  ],
+  "covers": "per-task spend ceiling"
+ },
+ "P92-05": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p91"
+   ]
+  ],
+  "covers": "stop-before-charge at the cap"
+ },
+ "P92-06": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p91"
+   ]
+  ],
+  "covers": "verifier budget reserved from worker spend"
+ },
+ "P92-12": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p91"
+   ]
+  ],
+  "covers": "quota exhaustion yields zero post-limit accepted charges (synthetic, in-process)"
+ },
+ "P92-17": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p91"
+   ]
+  ],
+  "covers": "actual-versus-forecast variance report (function)"
+ },
+ "P90-03": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p90"
+   ]
+  ],
+  "covers": "adapter contract requiring principal, run, task, tool-call and artifact lineage (no real framework)"
+ },
+ "P90-06": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p90"
+   ]
+  ],
+  "covers": "bounded queue, cancellation, idempotency-keyed retry (model)"
+ },
+ "P90-09": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p90"
+   ]
+  ],
+  "covers": "direct subprocess/raw-network paths outside claimed coverage unless OS-protected"
+ },
+ "P90-10": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p90"
+   ]
+  ],
+  "covers": "six support levels defined with enforcing/non-enforcing distinction"
+ },
+ "P90-11": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p90"
+   ]
+  ],
+  "covers": "coverage matrix generated from conformance rows"
+ },
+ "P90-12": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p90"
+   ]
+  ],
+  "covers": "version drift or failed conformance downgrades claimed protection (fail closed)"
+ },
+ "P85-02": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_verifier2.py"
+   ]
+  ],
+  "covers": "replay happens in a clean clone at the exact commit; uncommitted worker changes are ignored; private evaluation assets NOT separately modelled"
+ },
+ "P85-06": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_verifier2.py"
+   ]
+  ],
+  "covers": "verdict comes only from the verifier's own replay of the declared command; worker claims are not inputs"
+ },
+ "P85-12": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_verifier2.py"
+   ]
+  ],
+  "covers": "receipts signed with verifier keys that workers lack; forgery, swapped fields, replay, expiry and revocation rejected (local keystore; no HSM)"
+ },
+ "P77-01": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_supervisor.py"
+   ]
+  ],
+  "covers": "workers cannot self-verify or set VERIFIED; only the verifier path can (local-trust, one process)"
+ },
+ "P77-15": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_supervisor.py"
+   ]
+  ],
+  "covers": "failed verification never promotes a candidate to VERIFIED"
+ },
+ "P76-03": {
+  "cmds": [
+   [
+    "python3",
+    "-W",
+    "ignore",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/supervisor",
+    "-p",
+    "test_recovery.py"
+   ]
+  ],
+  "covers": "journal bound to the plan digest and tamper-evident; VERIFIED states bound to the plan digest"
+ },
+ "P55-13": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p55"
+   ]
+  ],
+  "covers": "feature flags: unreviewed modules cannot enter the mandatory path"
+ },
+ "P57-07": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p55"
+   ]
+  ],
+  "covers": "structured redacted errors with stable codes (a few token shapes only)"
+ },
+ "P57-14": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p55"
+   ]
+  ],
+  "covers": "metrics are local-only by default and refuse raw-content labels"
+ },
+ "P57-15": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p55"
+   ]
+  ],
+  "covers": "audit versus enforce semantics; fail-safe deny when PDP/PEP missing (rule only)"
+ },
+ "P59-10": {
+  "cmds": [
+   [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/p55"
+   ]
+  ],
+  "covers": "effect receipts distinguish attempted/blocked/committed/unknown; blocked needs sink observation"
+ },
+ "P55-15": {
+  "cmds": [
+   [
+    "python3",
+    "-c",
+    "import os,sys;sys.exit(0 if os.path.getsize('docs/implementation/PRODUCT_STATUS.md')>200 else 1)"
+   ]
+  ],
+  "covers": "PRODUCT_STATUS.md exists with status vocabulary and evidence references"
+ },
+ "P55-16": {
+  "cmds": [
+   [
+    "python3",
+    "-c",
+    "import os,sys;sys.exit(0 if os.path.getsize('docs/implementation/PRODUCT_BLOCKERS.md')>200 else 1)"
+   ]
+  ],
+  "covers": "PRODUCT_BLOCKERS.md exists, ranked"
  }
 }
