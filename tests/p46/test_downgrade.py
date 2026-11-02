@@ -155,6 +155,19 @@ class EngineTests(Tokens):
         self.pub("p", SC.mk(), True); ctx = self.bind(); c = SC.cand("c", "p", ("read",)); self.eng.evaluate(ctx, c); self.reg.revoke("p", "k"); self.assertEqual(self.eng.evaluate(ctx, c).outcome, "BLOCK")
     def test_cache_invalidated_by_policy_version(self):
         self.pub("p", SC.mk(), True); ctx = self.bind(); c = SC.cand("c", "p", ("read",)); self.eng.evaluate(ctx, c); self.eng.pv = "pol-2"; h = self.eng.cache.hits; self.eng.evaluate(ctx, c); self.assertEqual(self.eng.cache.hits, h)
+    def test_policy_version_change_clears_the_cache_itself(self):
+        self.pub("p", SC.mk(), True); ctx = self.bind(); c = SC.cand("c", "p", ("read",)); self.eng.evaluate(ctx, c); inv = self.eng.cache.invalidations; self.eng.pv = "pol-2"; self.eng.evaluate(ctx, c)
+        self.assertEqual(self.eng.cache.invalidations, inv + 1)        # the key also changes with the policy version, so only the counter shows that the cache was cleared
+    def test_revoked_profile_is_reported_as_revoked(self):
+        self.pub("p", SC.mk(), True); ctx = self.bind(); c = SC.cand("c", "p", ("read",)); self.reg.revoke("p", "k"); d = self.eng.evaluate(ctx, c)
+        self.assertEqual((d.outcome, d.classification, d.reasons), ("BLOCK", "REVOKED", ["PROFILE_REVOKED"]))
+    def test_a_context_whose_floor_is_weaker_than_the_bound_floor_is_blocked(self):
+        import dataclasses
+        self.pub("w", SC.mk(transport="tls1.2"), True); ctx = self.bind(); weak = dataclasses.replace(ctx, floor={**ctx.floor, "transport": "tls1.2"}); c = SC.cand("c", "w", ("read",))
+        d = self.eng.evaluate(weak, c); self.assertEqual(d.outcome, "BLOCK"); self.assertIn("FLOOR_WEAKENED", json.dumps(d.d())); self.assertNotEqual(self.eng.evaluate(ctx, c).outcome, "ADMIT")
+    def test_delegation_never_loosens_a_stricter_parent_floor(self):
+        root = {**SC.FD, "transport": "tls1.2"}; e = self.eng; ctx = e.bind("t8", root, SC.NONWAIVABLE, self.floor_tok("t8", root), "a"); strict = e.delegate(ctx, "mid", extra={"transport": "tls1.3"})
+        sub = e.delegate(strict, "leaf", claimed_floor=dict(root)); self.assertEqual(strict.floor["transport"], "tls1.3"); self.assertEqual(sub.floor["transport"], "tls1.3")
     def test_cache_invalidated_by_attestation_expiry(self):
         self.pub("p", SC.mk(), True, ttl=30); ctx = self.bind(); c = SC.cand("c", "p", ("read",)); self.assertEqual(self.eng.evaluate(ctx, c).outcome, "ADMIT"); self.t[0] += 31; self.assertNotEqual(self.eng.evaluate(ctx, c).outcome, "ADMIT")
     def test_cache_keyed_by_floor(self):
@@ -287,6 +300,9 @@ class Live(unittest.TestCase):
     def test_ablation_scalar_score(self): self.assertTrue(any(self.go(s, "guard-scalar-score")["violated"] for s in ("A03", "A09", "A11")))
     def test_ablation_no_incomparable_review(self): self.assertTrue(self.go("A09", "guard-no-incomparable-review")["violated"])
     def test_ablation_no_approval_binding(self): self.assertTrue(self.go("A12", "guard-no-approval-binding")["violated"])
+    def test_review_without_approval_never_reaches_approval_checking(self):
+        run = SC.Run(self.env, "guard", 0, "A04"); run.prefix = "noappr-1"; res = SC.scenario_fail_over(self.env, run, SC.FD, [SC.cand("tls12", "tls12_eu", ("read",))])
+        self.assertIsNotNone(res["review"]); self.assertNotIn("approval", res)       # with no token the loop stops before check_approval ever runs
     def test_review_without_approval_stops(self):
         run = SC.Run(self.env, "guard", 0, "A04"); run.prefix = "noappr-0"; res = SC.scenario_fail_over(self.env, run, SC.FD, [SC.cand("tls12", "tls12_eu", ("read",))]); ob = SC.observe(self.env, run.prefix, SC.FD)
         self.assertFalse(res["completed"]); self.assertIsNotNone(res["review"]); self.assertEqual(ob["violations"], [])
