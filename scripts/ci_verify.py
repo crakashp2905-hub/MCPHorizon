@@ -9,6 +9,10 @@ sha = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True
 if subprocess.run(["git", "status", "--porcelain"], cwd=ROOT, capture_output=True, text=True).stdout.strip():
     raise SystemExit("dirty checkout; refusing to verify")
 lock = json.loads((ROOT / "spec/plan.lock").read_text()); acc = json.loads((ROOT / "spec/acceptance.json").read_text())
+# Commands that exercise kernel sandboxing (chown, uid drop, /var/lib/hz-runs) need root, exactly as in tests.yml. The allowlist
+# still applies to the ORIGINAL command (python3 only); only the privilege wrapper is added, and only for these module families.
+ROOT_MODULES = ("tests.p24.", "tests.p25.", "tests.p26.", "tests.p27.", "tests.p28.", "tests.p29.", "tests.p30.", "tests.p33.", "tests.p34.", "tests.p35.", "tests.p37.", "tests.p38.", "tests.p42.", "scripts/security_gate.py", "scripts/p42_release_gate.py", "scripts/p38_runner_check.py")
+def needs_root(cmd): return any(m in " ".join(cmd) for m in ROOT_MODULES)
 cache, receipts = {}, []
 for task, spec in acc.items():
     if task.startswith("_"): continue
@@ -17,7 +21,8 @@ for task, spec in acc.items():
         if cmd[0] not in ("python3",): raise SystemExit(f"command not allowed: {cmd}")
         key = tuple(cmd)
         if key not in cache:
-            t0 = time.time(); p = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, timeout=1800)
+            run_cmd = (["sudo", "-E", "env", "PATH=" + os.environ.get("PATH", "")] + cmd) if needs_root(cmd) and os.geteuid() != 0 else cmd
+            t0 = time.time(); p = subprocess.run(run_cmd, cwd=ROOT, capture_output=True, text=True, timeout=1800)
             cache[key] = (p.returncode, hashlib.sha256((p.stdout + p.stderr).encode()).hexdigest(), round(time.time() - t0, 1))
             print(f"$ {' '.join(cmd)} -> exit {p.returncode}", flush=True)
             if p.returncode: print((p.stdout + p.stderr)[-2000:])
