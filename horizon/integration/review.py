@@ -36,7 +36,9 @@ def independence(m):
 def all_independence(): return [independence(m) for m in MODULES]
 
 SIGN = re.compile(r"\bSigner\.generate\b|\bHorizonPolicy\(|\.register_issuer\(")
-ROLE = {"world.py": "fixture", "experiment.py": "fixture", "harness.py": "fixture", "scenarios.py": "fixture", "rig.py": "fixture", "services.py": "evidence-service", "receipts.py": "evidence-service", "statemachine.py": "fixture", "service.py": "evidence-service", "approver.py": "evidence-service", "evaluator.py": "evidence-service"}
+ROLE = {"world.py": "fixture", "experiment.py": "fixture", "harness.py": "fixture", "scenarios.py": "fixture", "rig.py": "fixture", "services.py": "evidence-service", "receipts.py": "evidence-service", "statemachine.py": "fixture", "service.py": "evidence-service", "approver.py": "evidence-service", "evaluator.py": "evidence-service",
+        # P-leftover reclassification (disclosed): these six are NOT approval issuers. isolation.py = worker identity signer; collector.py = log-chain and receiver-journal sealing; the rest are harness/regression fixtures that instantiate the shared HorizonPolicy or a throwaway Signer.
+        "isolation.py": "identity-signer", "collector.py": "log-sealing", "regress.py": "fixture", "diff.py": "fixture", "network.py": "fixture", "browser_run.py": "fixture"}
 def authority_sites():
     """Every non-test place in horizon/ that creates a signer, an authority or an issuer, with a role label. Unlabelled sites are reported as `other` and are the honest part of ES-G2."""
     out = []
