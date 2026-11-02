@@ -25,8 +25,8 @@
 | P73 | 18 | 0 | 18 | 10 | 1 | 5 | 0 | 2 |
 | P74 | 18 | 0 | 18 | 13 | 0 | 4 | 0 | 1 |
 | P75 | 18 | 4 | 14 | 12 | 0 | 2 | 0 | 0 |
-| P76 | 18 | 12 | 6 | 6 | 0 | 0 | 0 | 0 |
-| P77 | 18 | 6 | 12 | 10 | 1 | 0 | 0 | 1 |
+| P76 | 18 | 13 | 5 | 5 | 0 | 0 | 0 | 0 |
+| P77 | 18 | 8 | 10 | 8 | 1 | 0 | 0 | 1 |
 | P78 | 18 | 2 | 16 | 16 | 0 | 0 | 0 | 0 |
 | P79 | 18 | 5 | 13 | 11 | 0 | 0 | 0 | 2 |
 | P80 | 18 | 3 | 15 | 13 | 0 | 2 | 0 | 0 |
@@ -34,7 +34,7 @@
 | P82 | 18 | 2 | 16 | 15 | 0 | 1 | 0 | 0 |
 | P83 | 18 | 10 | 8 | 6 | 0 | 1 | 0 | 1 |
 | P84 | 18 | 14 | 4 | 4 | 0 | 0 | 0 | 0 |
-| P85 | 18 | 7 | 11 | 8 | 1 | 1 | 0 | 1 |
+| P85 | 18 | 10 | 8 | 6 | 0 | 1 | 0 | 1 |
 | P86 | 18 | 13 | 5 | 5 | 0 | 0 | 0 | 0 |
 | P87 | 18 | 8 | 10 | 9 | 0 | 0 | 0 | 1 |
 | P88 | 18 | 11 | 7 | 5 | 0 | 0 | 0 | 2 |
@@ -45,6 +45,6 @@
 | P93 | 18 | 0 | 18 | 9 | 4 | 5 | 0 | 0 |
 | P94 | 18 | 0 | 18 | 17 | 0 | 1 | 0 | 0 |
 
-**Total P55–P94: 720 tasks, 129 mapped, 591 unmapped.**
+**Total P55–P94: 720 tasks, 135 mapped, 585 unmapped.**
 
 P55–P74 (product) are gated on a signed RC-R research handoff, customers, legal terms, pricing validation and pilots that do not exist; they are intentionally not started. Unmapped CODE-class tasks in P75–P94 are not done yet or need real providers, reviewers or sign-offs even if classified CODE.
