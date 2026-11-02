@@ -5,6 +5,12 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); sys.path.ins
 D = os.path.join(ROOT, "results/v2/p54-integration"); R = json.load(open(os.path.join(D, "result.json"))); M = json.load(open(os.path.join(D, "manifest.json")))
 OUT = os.path.join(ROOT, "docs/evidence/p54/RESULTS.md")
 c = lambda x: "%d/%d [%.2f, %.2f]" % (x["k"], x["n"], x["ci"][0], x["ci"][1])
+def corrections_md():
+    f = os.path.join(D, "corrections.json")
+    if not os.path.exists(f): return []
+    L = ["", "## Later corrections (result.json is not edited)", ""]
+    for c in json.load(open(f))["corrections"]: L.append("- **%s** %s -> %s (%s): %s" % (c["gate"], c["from"], c["to"], c["kind"], c["change"]))
+    return L
 def build():
     L = ["# P54 results — integration and assurance (CANDIDATE)", "", "Generated from `results/v2/p54-integration/result.json` (write-once). This phase adds **no new mechanism**: it audits, freezes, joins and re-checks the evidence of P39–P53. Nothing here is VERIFIED, and a PASS below means only that the named checks held on the candidate evidence in this repository.", "",
          "## ES-G1..ES-G16", "", "| gate | status | what it requires | failed checks | note |", "|---|---|---|---|---|"]
@@ -35,7 +41,7 @@ def build():
     for x in R["reproduction"]: L.append("| %s | %s | %s | %s |" % (x["module"], x["level"], x["ok"], x.get("note", "fresh run's paired headline equals the recorded one") if x["level"] != "module-tests" else x["output"]) if x["level"] == "rerun" else "| %s | %s + module tests | %s | `--check`: %s; tests: %s |" % (x["module"], x["level"], x["ok"], x["output"], x["module_tests"]["output"]))
     r = R["review"]; L += ["", "## Static review (P54-12)", "", "* Calls to eval/exec/compile/subprocess/os.system/pickle/shell=True in `horizon/`: **%d**, in %d files (the process-based sandboxes, mock receivers and the code-mode executor spawn local helper processes by design; `horizon/downgrade/gateway.py` uses exec/compile for its rule engine). Listed in `result.json`." % (len(r["dangerous_calls"]), len({d["file"] for d in r["dangerous_calls"]})),
           "* Hostnames appearing as string literals in library code that are not reserved/synthetic: %s (both are documentation or schema identifiers, not fetched; `scripts/p30_no_external.py` is the enforcing scan)." % (", ".join("`%s` (%s)" % (h, ", ".join(f)) for h, f in r["non_reserved_hosts"].items()) or "none"), "* Secret scan, no-external-contact scan, inventory and README freeze are checked by CI, not re-derived here.", ""]
-    return "\n".join(L)
+    L += corrections_md(); return "\n".join(L)
 def main():
     t = build()
     if "--check" in sys.argv: ok = os.path.exists(OUT) and open(OUT).read() == t; print("up to date" if ok else "STALE"); sys.exit(0 if ok else 1)

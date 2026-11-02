@@ -42,7 +42,6 @@ class Oracle:
 
     def execute(self, steps, targets=None):
         """Run the steps; return {leak, per_port: {port: {conns, canary}}, journal_sha256, rows}. Deterministic runs are memoized by their concrete request (the memoized result came from a real execution)."""
-        from .model import Endpoints
         tg = self.eps.targets(); vals = []; reqs = []
         for s in steps:
             if s.op in ("get", "post"):

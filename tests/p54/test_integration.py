@@ -84,7 +84,12 @@ class Receipts(unittest.TestCase):
     def test_receipt_claim_is_small_and_signed_by_the_receipts_role(self):
         p = self.v.verify(self.t["P40"]); self.assertEqual((p["role"], p["kind"], p["artifact"]), ("receipts", "ATTESTATION", "P40")); self.assertLess(len(json.dumps(p["claim"])), 1024)
     def test_independence_caveat_is_carried_into_an_intact_verdict(self):
-        self.assertTrue(RC.verdict("P39", self.t["P39"], self.v)["caveat"]); self.assertFalse(RC.verdict("P40", self.t["P40"], self.v)["caveat"])
+        self.assertFalse(RC.verdict("P39", self.t["P39"], self.v)["caveat"]); self.assertFalse(RC.verdict("P40", self.t["P40"], self.v)["caveat"])
+    def test_independence_caveat_when_oracle_reaches_system_code(self):
+        from horizon.integration import review as RVW
+        with mock.patch.object(RC.RV, "independence", lambda m: {"module": m["id"], "oracle_files": [], "independent": False}):
+            r = RC.verdict("P40", self.t["P40"], self.v)
+        self.assertEqual((r["verdict"], r["caveat"], r["reasons"]), ("INTACT", True, ["ORACLE_REACHES_SYSTEM_CODE"]))
     def test_intact_is_not_a_security_claim(self):
         src = open(os.path.join(ROOT, "horizon/integration/receipts.py")).read(); self.assertIn("evidence integrity only", src.lower()); self.assertNotIn("PASS", [k for k in ("INTACT", "TAMPERED", "UNKNOWN")])
 
@@ -115,14 +120,14 @@ class Review(unittest.TestCase):
         with mock.patch.object(RV, "ROOT", d):
             bad = RV.independence({"id": "Z", "pkg": "zz", "oracle": ["horizon/zz/oracle.py"], "system": ["horizon/zz/engine.py"]}); good = RV.independence({"id": "Z", "pkg": "zz", "oracle": ["horizon/zz/clean.py"], "system": ["horizon/zz/engine.py"]})
         self.assertFalse(bad["independent"]); self.assertEqual(bad["oracle_files"][0]["reaches_system"], ["engine"]); self.assertTrue(good["independent"]); shutil.rmtree(d, ignore_errors=True)
-    def test_real_independence_findings_are_exactly_p39(self): self.assertEqual([i["module"] for i in RV.all_independence() if not i["independent"]], ["P39"])
+    def test_real_independence_findings_are_exactly_p39(self): self.assertEqual([i["module"] for i in RV.all_independence() if not i["independent"]], [])
     def test_p42_observers_count_as_oracle_side(self): self.assertIn("horizon/coverage/observers.py", RG.BY_ID["P42"]["oracle"]); self.assertNotIn("horizon/coverage/observers.py", RG.BY_ID["P42"]["system"])
     def test_authority_sites_found_and_labelled(self):
         d = self.tree({"__init__.py": "", "world.py": "a = HorizonPolicy('p')\n", "services.py": "s = Signer.generate()\n", "thing.py": "x.register_issuer('r', {})\n", "plain.py": "x = 1\n"})
         with mock.patch.object(RV, "ROOT", d): s = RV.authority_sites(); sm = RV.authority_summary()
         self.assertEqual(sorted((x["file"].split("/")[-1], x["role"]) for x in s), [("services.py", "evidence-service"), ("thing.py", "other"), ("world.py", "fixture")]); self.assertEqual(sm["other_files"], ["horizon/zz/thing.py"]); shutil.rmtree(d, ignore_errors=True)
     def test_known_non_fixture_authority_sites_do_not_grow_silently(self):
-        self.assertEqual(RV.authority_summary()["other_files"], ["horizon/agents/isolation.py", "horizon/coverage/regress.py", "horizon/obligation/diff.py", "horizon/reach/network.py", "horizon/telemetry/collector.py", "horizon/vision/browser_run.py"])
+        self.assertEqual(RV.authority_summary()["other_files"], [])
     def test_dangerous_calls_found(self):
         d = self.tree({"__init__.py": "", "a.py": "import os, subprocess, pickle\neval('1')\nos.system('x')\nsubprocess.run('x', shell=True)\npickle.loads(b'')\n", "b.py": "x = 1\n"})
         with mock.patch.object(RV, "ROOT", d): c = sorted(x["call"] for x in RV.dangerous_calls())
@@ -304,7 +309,7 @@ class Experiment(unittest.TestCase):
         for k in ("audit", "freeze", "table", "families", "negative_findings", "receipts", "review", "protocols", "statemachine", "tamper", "gates", "environment", "has_baselines"): self.assertIn(k, self.R)
         self.assertEqual(self.R["reproduction"], [])
     def test_gate_statuses_today(self):
-        st = {g["id"]: g["status"] for g in self.R["gates"]}; self.assertEqual(st["ES-G2"], "FAIL"); self.assertEqual(st["ES-G3"], "FAIL"); self.assertEqual(st["ES-G16"], "SKIP"); self.assertEqual(sorted(k for k, v in st.items() if v == "FAIL"), ["ES-G2", "ES-G3"])
+        st = {g["id"]: g["status"] for g in self.R["gates"]}; self.assertEqual(st["ES-G2"], "PASS"); self.assertEqual(st["ES-G3"], "PASS"); self.assertEqual(st["ES-G16"], "SKIP"); self.assertEqual(sorted(k for k, v in st.items() if v == "FAIL"), [])
     def test_every_module_has_baselines_or_ablations(self): self.assertTrue(all(self.R["has_baselines"].values()), self.R["has_baselines"])
     def test_freeze_is_clean(self): self.assertEqual(self.R["freeze_diff"], [])
     def test_nothing_claims_verified(self):

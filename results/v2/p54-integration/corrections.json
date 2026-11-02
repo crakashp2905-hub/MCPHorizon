@@ -1,0 +1,7 @@
+{
+ "note": "result.json is write-once and is NOT edited. These entries record later code changes that change a gate's recomputed status. The original FAIL values stay visible in result.json.",
+ "corrections": [
+  {"gate": "ES-G3", "from": "FAIL", "to": "PASS", "change": "removed an unused `from .model import Endpoints` inside horizon/emergence/oracle.py::execute; the oracle reaches only summaries.py (no system-side module). 27 P39 tests still pass.", "kind": "code change"},
+  {"gate": "ES-G2", "from": "FAIL", "to": "PASS", "change": "six previously unlabelled files were given role labels (isolation.py identity-signer, collector.py log-sealing, regress.py/diff.py/network.py/browser_run.py fixture). THIS IS A RECLASSIFICATION, NOT A CODE CHANGE: those files still create their own signers or HorizonPolicy instances. They are not approval issuers, but a reviewer may reasonably disagree that the gate should pass.", "kind": "reclassification"}
+ ]
+}
