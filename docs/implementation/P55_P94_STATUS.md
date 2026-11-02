@@ -4,11 +4,11 @@
 
 | phase | tasks | mapped | unmapped | unmapped CODE | unmapped EXPERIMENT | unmapped EXTERNAL | unmapped DECISION | unmapped LIVE_EFFECT |
 |---|---|---|---|---|---|---|---|---|
-| P55 | 18 | 0 | 18 | 11 | 0 | 5 | 2 | 0 |
+| P55 | 18 | 3 | 15 | 8 | 0 | 5 | 2 | 0 |
 | P56 | 18 | 0 | 18 | 16 | 0 | 1 | 0 | 1 |
-| P57 | 18 | 0 | 18 | 12 | 0 | 2 | 1 | 3 |
+| P57 | 18 | 3 | 15 | 9 | 0 | 2 | 1 | 3 |
 | P58 | 18 | 0 | 18 | 14 | 1 | 2 | 1 | 0 |
-| P59 | 18 | 0 | 18 | 17 | 0 | 1 | 0 | 0 |
+| P59 | 18 | 1 | 17 | 16 | 0 | 1 | 0 | 0 |
 | P60 | 18 | 0 | 18 | 15 | 0 | 3 | 0 | 0 |
 | P61 | 18 | 0 | 18 | 15 | 0 | 1 | 0 | 2 |
 | P62 | 18 | 0 | 18 | 16 | 1 | 0 | 0 | 1 |
@@ -45,6 +45,6 @@
 | P93 | 18 | 0 | 18 | 9 | 4 | 5 | 0 | 0 |
 | P94 | 18 | 0 | 18 | 17 | 0 | 1 | 0 | 0 |
 
-**Total P55–P94: 720 tasks, 135 mapped, 585 unmapped.**
+**Total P55–P94: 720 tasks, 142 mapped, 578 unmapped.**
 
 P55–P74 (product) are gated on a signed RC-R research handoff, customers, legal terms, pricing validation and pilots that do not exist; they are intentionally not started. Unmapped CODE-class tasks in P75–P94 are not done yet or need real providers, reviewers or sign-offs even if classified CODE.
