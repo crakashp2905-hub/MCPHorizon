@@ -28,7 +28,7 @@ M = [
  ("horizon/plan/profiles.py", "if not (cm and orc)", "if not (cm or orc)"),
 ]
 def run():
-    try: return subprocess.run([sys.executable, "-m", "unittest", "discover", "-s", "tests/p83"], capture_output=True, timeout=60).returncode
+    try: return subprocess.run([sys.executable, "-B", "-m", "unittest", "discover", "-s", "tests/p83"], capture_output=True, timeout=60, env=dict(os.environ, PYTHONDONTWRITEBYTECODE="1")).returncode
     except subprocess.TimeoutExpired: return 99  # hang counts as killed
 if run() != 0: print("baseline fails"); sys.exit(2)
 surv = []
