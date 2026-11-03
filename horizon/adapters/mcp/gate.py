@@ -74,17 +74,23 @@ class McpGate:
     def _err(self, rid, code, msg, data=None): return {"jsonrpc": "2.0", "id": rid, "error": {"code": code, "message": msg, **({"data": data} if data else {})}}
     def _deny(self, rid, dec): return self._err(rid, E_DENIED, "denied by policy", {"verdict": dec.get("verdict"), "reason_codes": dec.get("reason_codes", [])})
 
-    def cancel(self, principal: str, rid) -> None: self.cancelled.add((principal, rid))
+    @staticmethod
+    def _rid(rid): return (type(rid).__name__, str(rid))       # JSON-RPC ids 1 and "1" are different ids
+    def _scope(self, server_id, session_id, principal, rid): return (self.tenant, server_id, session_id, principal, self._rid(rid))
+    def cancel(self, principal: str, rid, *, server_id: str, session_id: str | None = None) -> None:
+        """Cancellation names the same scoped tuple as the request it targets; another server/session using the same id is unaffected."""
+        self.cancelled.add(self._scope(server_id, session_id, principal, rid))
+    def _is_cancelled(self, server_id, req): return self._scope(server_id, req.session_id, req.principal, req.id) in self.cancelled
 
     def handle(self, server_id: str, req: Request, *, approval_id: str | None = None, run_artifacts: tuple = (), purpose: str | None = None) -> dict | None:
         """approval_id and run_artifacts are supplied by the trusted host. Anything of that kind inside req.params is ignored."""
         if req.kind == "notification":
-            if req.method == "notifications/cancelled" and isinstance(req.params.get("requestId"), (str, int)): self.cancel(req.principal, req.params["requestId"])
+            if req.method == "notifications/cancelled" and isinstance(req.params.get("requestId"), (str, int)): self.cancel(req.principal, req.params["requestId"], server_id=server_id, session_id=req.session_id)
             if req.method == "notifications/tools/list_changed": self.tracker.mark_stale(server_id)
             return None                                              # notifications are never forwarded by this gate
         if req.kind != "request": return None
         if req.method not in SUPPORTED[req.version]: return self._err(req.id, E_METHOD, f"method {req.method} is not supported by this adapter")
-        key = (req.principal, str(req.id), req.method); fp = _sha(req.params)
+        key = self._scope(server_id, req.session_id, req.principal, req.id) + (req.method,); fp = _sha(req.params)
         prior = self.done.get(key)
         if prior:
             if prior["fp"] != fp: return self._err(req.id, E_INVALID, "request id reused with different parameters")
@@ -96,16 +102,20 @@ class McpGate:
             return self._err(req.id, E_DENIED, "denied: internal error in enforcement path", {"reason_codes": ["GATE_ERROR"]})
         if ran == "uncertain": self._remember(key, {"fp": fp, "state": "uncertain", "resp": None})
         elif ran == "done": self._remember(key, {"fp": fp, "state": "done", "resp": resp})
-        if (req.principal, req.id) in self.cancelled and ran: self.log.append({"event": "result_discarded_after_cancel", "id": req.id}); return None
+        if self._is_cancelled(server_id, req) and ran: self.log.append({"event": "result_discarded_after_cancel", "id": req.id}); return None
         return resp
 
     def _remember(self, key, v):
         self.done[key] = v
-        while len(self.done) > self.cache_size: self.done.popitem(last=False)
+        while len(self.done) > self.cache_size:
+            # only resolved entries may be evicted; an "uncertain" record is the only thing preventing a second execution of a possibly-started effect
+            victim = next((k for k, x in self.done.items() if x["state"] != "uncertain"), None)
+            if victim is None: break
+            del self.done[victim]
 
     def _dispatch(self, server_id, req: Request, fp: str, approval_id, run_artifacts, host_purpose=None):
         m, p = req.method, req.params
-        if (req.principal, req.id) in self.cancelled: return self._err(req.id, E_DENIED, "cancelled before execution"), None
+        if self._is_cancelled(server_id, req): return self._err(req.id, E_DENIED, "cancelled before execution"), None
         if m in ("initialize", "ping"): return self.forward(server_id, req, {}), "done"        # legacy lifecycle: no effect, nothing to decide
         if m == "tools/call":
             name = req.name
@@ -127,15 +137,15 @@ class McpGate:
             inputs = sorted(set(handles(args)) | set(run_artifacts))
             body = {"protocol": "mcp", "native_operation": "tools/call", "tool_id": tool_id, "effect": effect, "args_digest": _sha(args),
                     "target": {"kind": tkind, "raw": raw_target}, "sink_zone": zone, "purpose": purpose, "input_artifacts": inputs,
-                    "idempotency_key": hashlib.sha256(f"{req.principal}|{req.id}|{fp}".encode()).hexdigest()[:48], "event_id": f"{req.principal}-{req.id}"}
+                    "idempotency_key": hashlib.sha256(f"{self.tenant}|{server_id}|{req.session_id}|{req.principal}|{self._rid(req.id)}|{req.method}|{fp}".encode()).hexdigest()[:48], "event_id": f"{self.tenant}/{server_id}/{req.session_id}/{req.principal}-{req.id}"}
         else:                                                              # read-style methods
             effect, tkind = READ_METHODS[m]; tool_id, pol, zone = m, None, None
             body = {"protocol": "mcp", "native_operation": m, "effect": effect, "args_digest": _sha(p), "target": {"kind": tkind, "raw": self._target_id(m, req.name)},
-                    "input_artifacts": sorted(run_artifacts), "idempotency_key": hashlib.sha256(f"{req.principal}|{req.id}|{fp}".encode()).hexdigest()[:48], "event_id": f"{req.principal}-{req.id}"}
+                    "input_artifacts": sorted(run_artifacts), "idempotency_key": hashlib.sha256(f"{self.tenant}|{server_id}|{req.session_id}|{req.principal}|{self._rid(req.id)}|{req.method}|{fp}".encode()).hexdigest()[:48], "event_id": f"{self.tenant}/{server_id}/{req.session_id}/{req.principal}-{req.id}"}
         if approval_id: body["approval_id"] = approval_id
         dec = self.decide(body)
         if dec.get("verdict") not in ALLOW_VERDICTS: return self._deny(req.id, dec), None
-        if (req.principal, req.id) in self.cancelled: return self._err(req.id, E_DENIED, "cancelled before execution"), None
+        if self._is_cancelled(server_id, req): return self._err(req.id, E_DENIED, "cancelled before execution"), None
         if self.boundary is not None and m == "tools/call" and effect not in ("read", "list"):
             try: bd = self.boundary({"protocol": "mcp", "method": m, "tool": tool_id, "body": _canon(p.get("arguments", {})).encode(), "input_artifacts": list(inputs), "sink_zone": zone, "purpose": purpose, "principal": req.principal})
             except Exception: bd = None
