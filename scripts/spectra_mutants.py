@@ -2,7 +2,7 @@
 import subprocess, sys, os
 G = "research/spectra/tomography.py"
 M = [('if sink in self.sinks: self.rows.append', 'self.rows.append'), ('extra = seen - frozenset(declared.get(p, ()))', 'extra = frozenset()'),
-     ('if not alive: return "UNKNOWN"', 'if False: return "UNKNOWN"'), ('if hidden or len(', 'if len('), ('{s for h in alive for s in h.get(p, ())} - instrumented', 'set()'),
+     ('if not alive: return "UNKNOWN"', 'if False: return "UNKNOWN"'), ('{s for h in alive for s in h.get(p, ())} - instrumented', 'set()'),
      ('if b["left"] <= 0: return "UNKNOWN"', 'if False: return "UNKNOWN"'), ('if budget["left"] <= 0: raise', 'if False: raise'),
      ('alive = consistent(alive, p, seen, instrumented)', 'pass'), ('return (-len(groups), max', 'return (len(groups), -max'),
      ('& instrumented == seen]', '== seen]')]
