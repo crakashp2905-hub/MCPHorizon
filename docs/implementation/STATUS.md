@@ -123,3 +123,5 @@ Vocabulary per AGENTS.md/CLAUDE.md: CANDIDATE | FAILED | BLOCKED | NEEDS_APPROVA
 | HorizonSpectra toy slice (SP-06,07,11,12,15..18,20) | CANDIDATE (toy fixtures) | `research/spectra/tomography.py`, `tests/spectra` (12), 9 mutants killed, `docs/evidence/spectra`. No real agents, baselines or held-out fixtures. |
 | Seven novel-idea prototypes (research/novel) | CANDIDATE (fixtures/models) | `research/novel`, `tests/novel` (39), 31 mutants killed, `docs/evidence/novel`. Differential test same author/language; race benchmark is an exhaustive model. |
 | OS-level sink separation (`horizon/effects/sinkproc.py`) | CANDIDATE (Linux, root-only tests) | `tests/e06` (10), 9 mutants killed. Real uid separation tested; not wired to permit verification; no independent review. |
+| MCPHorizon-Effects v0 dataset + scorer + reference defender | CANDIDATE (synthetic, SATURATED by rules) | `bench/dataset`, `tests/ds` (21), 13 mutants killed. Reference defender is circular; needs independent held-out families and real-agent traces. |
+| Paper draft | DRAFT (not peer reviewed) | `docs/paper/DRAFT.md`, `docs/paper/MODEL_SHARING.md`. No real-agent results; novelty unconfirmed. |

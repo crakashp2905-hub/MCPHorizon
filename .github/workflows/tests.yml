@@ -123,6 +123,7 @@ jobs:
       - run: python3 -W ignore -B -m unittest discover -s tests/ws && python3 scripts/ws_mutants.py
       - run: python3 -W ignore -B -m unittest discover -s tests/spectra && python3 scripts/spectra_mutants.py
       - run: python3 -W ignore -B -m unittest discover -s tests/novel && python3 scripts/novel_mutants.py
+      - run: python3 -W ignore -B -m unittest discover -s tests/ds && python3 scripts/ds_mutants.py && python3 bench/dataset/generate.py --check
       - run: sudo env "PATH=$PATH" python3 -W ignore -B -m unittest discover -s tests/e06 && sudo env "PATH=$PATH" python3 scripts/e06_mutants.py
       - run: python3 -W ignore -B -m unittest discover -s tests/e03 && python3 scripts/e03_mutants.py
       - run: python3 -W ignore -B -m unittest discover -s tests/e04 && python3 scripts/e04_mutants.py
