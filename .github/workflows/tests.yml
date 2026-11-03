@@ -119,6 +119,11 @@ jobs:
       - run: python3 scripts/p84x_mutants.py
       - run: python3 -W ignore -B -m unittest discover -s tests/e02 && python3 scripts/e02_mutants.py
       - run: python3 -W ignore -B -m unittest discover -s tests/hf && python3 scripts/hf_mutants.py
+      - run: python3 -W ignore -B -m unittest discover -s tests/hz && python3 scripts/hz_mutants.py
+      - run: python3 -W ignore -B -m unittest discover -s tests/ws && python3 scripts/ws_mutants.py
+      - run: python3 -W ignore -B -m unittest discover -s tests/spectra && python3 scripts/spectra_mutants.py
+      - run: python3 -W ignore -B -m unittest discover -s tests/novel && python3 scripts/novel_mutants.py
+      - run: sudo env "PATH=$PATH" python3 -W ignore -B -m unittest discover -s tests/e06 && sudo env "PATH=$PATH" python3 scripts/e06_mutants.py
       - run: python3 -W ignore -B -m unittest discover -s tests/e03 && python3 scripts/e03_mutants.py
       - run: python3 -W ignore -B -m unittest discover -s tests/e04 && python3 scripts/e04_mutants.py
       - run: python3 -W ignore -B -m unittest discover -s tests/e05 && python3 scripts/e05_mutants.py

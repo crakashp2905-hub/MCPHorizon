@@ -1,0 +1,16 @@
+# Seven novel-idea prototypes + OS-level sink separation — CANDIDATE
+Code `research/novel/*`, `horizon/effects/sinkproc.py`; tests `tests/novel` (39), `tests/e06` (10, root-only); mutants `scripts/novel_mutants.py` (31/31), `scripts/e06_mutants.py` (9/9).
+
+## Results (author-run; fixtures/models, not real systems)
+1. UNKNOWN as measured quantity: items with zero probes are UNKNOWN even if declared COVERED; coverage reported as a Wilson lower bound; UNSUPPORTED excluded from the denominator. Method only — no real deployment measured.
+2. Permit fuzzing: 25+ single-field/near-miss mutations of a valid permit (incl. re-signed claims with one altered field, alg=none, truncation, sig flip): 0 accepted; only `decision_id` (audit reference) is free. The fuzzer is shown able to fail (a verifier ignoring the principal is caught). Tenant is double-bound (claim and args digest).
+3. Differential kernel: an independently structured pure reference of the commit-time rule vs the real Verifier on 5,000 generated cases: 0 mismatches, >=6 distinct outcome codes seen. SAME language and author, so it finds drift, not shared specification errors.
+4. Causal sink diffing: a control that logs "blocked" but leaves the sink journal unchanged is flagged; added side effects are detected. The control's own log is never evidence.
+5. Witness diversity: witnesses sharing a trust root, signing key or operator are dependent; similar incidental attributes (host, user, library, path) at >=0.5 are dependent; independence is claimable only with >=2 clusters. Thresholds are my choice, not validated.
+6. Race benchmark (EXHAUSTIVE interleavings of a tiny step model, not a system measurement): NAIVE check-then-act 1/3 schedules violate; ATOMIC 0/2; EPOCH_FENCED 0/3; CHECK_AFTER 1/3 violate but all are detected after the fact. The model shows the design property, not real-system race rates.
+7. Negative-result registry: hash-chained, Ed25519-signed; tamper, reorder, drop and wrong-key all detected; FAILED/PARTIAL results suspend dependent HorizonZero claims, HELD_UNDER_TEST does not. Custodian key here is a test key.
+
+## Same-OS-user bypass (hardens ENG-PR05)
+`sinkproc`: the sink runs as its own uid owning a 0700 data dir; it serves only a configured gateway uid (SO_PEERCRED). Tested as real uids: an agent uid gets PermissionError on direct write/list/journal tamper; via socket it is refused (PEER_NOT_GATEWAY); root with the wrong uid is refused; gateway writes succeed, traversal/symlink/directory blocked.
+Limits: root-only tests (skipped without root); Linux only; does not defend against kernel/sandbox escape or an agent holding the gateway uid; the gateway-side permit verification is not yet wired to this sink process; no network/HTTPS path.
+Not done: nothing here is independently reviewed; no real MCP wiring; model-based work still blocked (HF and Ollama hosts return 403).
