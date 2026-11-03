@@ -282,7 +282,7 @@ class Reliability(GateBase):
         n = W.decode_modern(hdr("notifications/cancelled"), json.dumps({"jsonrpc": "2.0", "method": "notifications/cancelled", "params": {"_meta": {W.META_VER: W.MODERN}, "requestId": 7}}).encode(), PRINC)
         self.gate.handle("s1", n); self.assertIn("error", self.call("get_doc", {"id": "1"}, rid=7)); self.assertEqual(self.forwards, [])
         orig = self.gate.forward
-        def fwd(s, r, e): self.gate.cancel(PRINC, r.id); return orig(s, r, e)
+        def fwd(s, r, e): self.gate.cancel(PRINC, r.id, server_id=s, session_id=r.session_id); return orig(s, r, e)
         self.gate.forward = fwd; self.assertIsNone(self.call("get_doc", {"id": "1"}, rid=8)); self.assertTrue(any(l["event"] == "result_discarded_after_cancel" for l in self.gate.log))
 
     def test_handles_extraction_bounded(self):
