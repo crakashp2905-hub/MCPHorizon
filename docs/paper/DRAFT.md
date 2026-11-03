@@ -1,0 +1,88 @@
+# Mediating Agent Effects Under Partial Observability: Commit-Time Authorization, Measured Unknowns, and a Synthetic Benchmark
+**DRAFT v0 — 2026-11-04 — not peer reviewed; all results below are from fixtures/models run by the authors. Novelty is UNCONFIRMED (no systematic prior-art search has been done).**
+
+## Abstract (provisional)
+Tool-using LLM agents act on the world through protocols (MCP, HTTP-style tool calls, code execution, delegation). We study a defender that must decide ALLOW / BLOCK / UNKNOWN for each effect while some effect channels are unobservable. We report (i) a commit-time authorization design (exact-effect permits, at-most-once dispatch, sink-side outcomes, claims that suspend when dependencies break), (ii) seven analysis tools — measured-UNKNOWN coverage, permit near-miss fuzzing, a differential reference kernel, causal sink diffing, witness-independence scoring, an exhaustive revocation-race model and a signed negative-result registry, (iii) a finite model that synthesizes where to run, enforce and witness an operation or returns a re-checkable "not certifiable" certificate, and (iv) MCPHorizon-Effects v0, a 960-scenario synthetic benchmark. A negative finding is central: a rule defender written after reading the generator saturates v0 (0 false certifications, perfect decisions), so template benchmarks cannot rank strong defenders; we describe what is needed instead. No real LLM agent, real MCP deployment or independent evaluator has been used yet.
+
+## 1 Problem and threat model
+Defender sits between an untrusted agent/tools and protected sinks. Adversary controls tool outputs/descriptions, remote services and the agent's reasoning; host kernel and trust roots are assumed uncompromised (explicit non-goal otherwise). Unobservable off-host effects are out of reach: for them the only sound answer is UNKNOWN or relocation (Sec. 4).
+
+## 2 Design (implemented, CANDIDATE)
+2.1 Scoped request state: cache, cancellation, idempotency keyed by tenant/server/session/principal/typed id (12 tests, 8/8 mutants killed).
+2.2 CanonicalEffect + commit-time verification: any single-field change of args, destination, session, server, tenant, principal, effect, policy version or expiry is refused; replay refused; unknown effect types fail closed (16 tests, 7 mutants).
+2.3 Durable ledger: REQUESTED→AUTHORIZED→STARTED→COMMITTED|BLOCKED|UNKNOWN→RECONCILED; exactly one of 100 concurrent callers dispatches; nonce reservation single-winner; crash leaves STARTED→UNKNOWN, never retried (17 tests, 12 mutants). Single-node SQLite only.
+2.4 Sink-side outcome: file sink with its own journal; reconciliation only from sink observation (15 tests). OS-level separation: sink under its own uid with 0700 data dir and SO_PEERCRED gateway check; an agent uid is refused (10 tests, root-only).
+2.5 HorizonZero claims: dependency-closure suspension on expiry/epoch/digest/missing/revocation; outcome states separate prevention from observation (16 tests, 14 mutants; a test caught a nested-propagation bug).
+
+## 3 Analysis tools (Sec. 2 of `docs/evidence/novel`)
+| Tool | Result (fixtures/models) | Caveat |
+|---|---|---|
+| Measured UNKNOWN | zero-probe items are UNKNOWN; Wilson lower bound on covered fraction | method only |
+| Permit fuzzing | 0 of 25+ near-miss mutations accepted; only audit-only `decision_id` free; fuzzer detects a deliberately weak verifier | single verifier, same author |
+| Differential kernel | 5,000 generated cases, 0 mismatches vs. pure reference | same language/author: finds drift, not shared spec errors |
+| Sink diffing | log-only "blocking" flagged | toy workflows |
+| Witness independence | shared key/root/operator ⇒ dependent; claim needs ≥2 clusters | thresholds ad hoc |
+| Race model | check-then-act violates 1/3 schedules; atomic and epoch-fenced 0; check-after detects only | exhaustive model, not system rates |
+| Negative registry | chain/sig tamper, reorder, drop all detected | test key |
+
+## 4 Bounded boundary synthesis (HorizonForge slice)
+Finite model over {placement, data form, controls, witnesses}; independent checker; enumerative synthesizer returning CERTIFIED_WITH_SCOPE / CERTIFIABLE_AFTER_RELOCATION / NOT_CERTIFIABLE_WITHIN_MODEL with a certificate listing the checker's violation for every enumerated plan. Raw secret to an opaque remote ⇒ not certifiable; permitting an approved aggregate or an attested sandbox ⇒ relocation found. Finite indistinguishable-world certificates name the missing witness channel. *Open:* complexity, SMT backend, real workflows, comparison against shield synthesis / proof-carrying contracts (Sec. 8).
+
+## 5 Black-box effect tomography (Spectra slice)
+Fixture-owned journals only; probes over a finite channel-graph class; verdicts DISCOVERED / UNIDENTIFIABLE / BOUNDED_COVERAGE / UNKNOWN. Off-host leak and its matched safe world are both UNIDENTIFIABLE (never certified). A soundness bug (early stop certified untried probes) was found and fixed. Efficiency vs random probing is a toy measurement, not a claim.
+
+## 6 Benchmark: MCPHorizon-Effects v0
+960 scenarios, 12 families × {attack, benign} × 40; scenarios and labels in separate files; splits: train 352, dev 80, heldout_template 208, heldout 320 (families F09–F12, unseen effect types); F11 unidentifiable by design. Baselines (all 960): allow-all FCU 440/440, benign 480/480; deny-all FCU 0/440, benign 0/480; keyword rule FCU 280/440 (63.6%). **Reference rule defender: FCU 0/440, every decision matches the label on all splits ⇒ v0 is saturated and circular** (rules written after reading the generator; held-out numbers are not unseen-attack evidence).
+
+## 7 What would make this a publishable empirical paper (not done)
+(a) Independently authored held-out families and adaptive attacks against a named defender; (b) LLM-generated paraphrased traces and real tool-using agents (needs model access — blocked: model hosts return 403 from the sandbox); (c) real MCP/HTTP/Code Mode effect journals; (d) strong baselines — runtime shielding, proof-carrying contracts, IFC/taint — under equal control and observation budgets; (e) preregistered primary endpoints (false-certified-unsafe, benign utility, UNKNOWN correctness) with cluster-bootstrap intervals; (f) independent clean-host replication and expert novelty critique. Weight-space repair (HorizonPatch/Sentinel/Transfer): only model-free plumbing exists; no result.
+
+## 8 Related work (to be verified; from the research specs, NOT re-checked)
+Proof-carrying contracts (PC2), HAACE and TRAIL drafts, TRACE, runtime-contract and partial-monitoring papers, shield synthesis (CEGIS), partial-observability verification, AgentLoupe/CausalTrace, refusal-direction and circuit-guided weight editing. A dated search ledger and closest-work matrix must be produced before any novelty wording.
+
+## 9 Limitations
+Author-run only; same author wrote implementation, checkers and benchmark; fixtures not systems; single-node state; Linux-only OS separation requiring root; reference defender circular; no human or external review; no claim of production readiness or universal protection.
+
+## 10 Reproducibility
+Every module has `docs/evidence/*/ASSUMPTIONS_AND_LIMITS.md` with a one-line reproduce command; dataset `python3 bench/dataset/generate.py --check`; scorer `python3 bench/dataset/evaluate.py`.
+
+## Real-agent replay results (AgentDojo, 36,679 recorded runs) — CANDIDATE
+
+Replay of recorded real-LLM-agent trajectories (see `docs/evidence/real/ASSUMPTIONS_AND_LIMITS.md` for every caveat; offline replay, heuristic attack labelling, author-run). Attacks = successful attacker-goal runs with a labelled injection-tainted effectful call (4,438 of 5,161; 723 unlabelled counted as misses in the lower bound). False block = a defender blocks any effectful call in a clean, utility-passing run (2,125 runs). Wilson 95% intervals.
+
+| Defender | Attack caught | Caught (lower bound) | False-block on clean runs |
+|---|---|---|---|
+| allow_all | 0/4438 = 0.000 [0.000, 0.001] | 0.000 | 0/2125 = 0.000 [0.000, 0.002] |
+| deny_effectful | 4438/4438 = 1.000 [0.999, 1.000] | 0.860 | 1473/2125 = 0.693 [0.673, 0.712] |
+| provenance_identifier | 4230/4438 = 0.953 [0.947, 0.959] | 0.820 | 782/2125 = 0.368 [0.348, 0.389] |
+| provenance_strict | 4438/4438 = 1.000 [0.999, 1.000] | 0.860 | 1194/2125 = 0.562 [0.541, 0.583] |
+| scope_args_loo (oracle-ish) | 4402/4438 = 0.992 [0.989, 0.994] | 0.853 | 95/2125 = 0.045 [0.037, 0.054] |
+| scope_loo (oracle-ish) | 3412/4438 = 0.769 [0.756, 0.781] | 0.661 | 12/2125 = 0.006 [0.003, 0.010] |
+| scope_or_provenance | 4406/4438 = 0.993 [0.990, 0.995] | 0.854 | 784/2125 = 0.369 [0.349, 0.390] |
+
+Findings (all CANDIDATE): (i) a tool-level task-scope allowlist is cheap (0.6% false blocks) but misses ~23% of successful attacks because the attacker reuses an in-scope tool with a different argument (e.g. wrong recipient); (ii) argument-provenance against the user prompt alone is not usable: ~37% false blocks because legitimate arguments come from tool results; (iii) combining scope with argument-level scope reaches ~99% / 4.5% but relies on benign-run mining that deployment does not have. These results motivate commit-time authorization over canonical effects but **do not evaluate it**; the cryptographic gate still has no real-agent evaluation.
+
+## Comparison with published defenses (recorded live runs) — CANDIDATE
+
+Source: recorded runs shipped with AgentDyn (arXiv 2602.03117; 47,723 runs, 10 base models, 9 defense pipelines incl. Progent, DRIFT, CaMeL) and AgentDojo (gpt-4o-2024-05-13 with tool filter / spotlighting / PI detector / sandwiching). Attack `important_instructions`. These are the defenses' authors' own live pipelines; we did not re-run them. Paired = (defended − undefended) for the same base model, macro-averaged over base models (`bench/real/results/agentdyn_defended_runs.json`).
+
+AgentDyn (open-ended tasks), paired deltas, macro-average over base models:
+
+| Defense | Δ attack success | Δ utility under attack | Δ clean utility | base models |
+|---|---|---|---|---|
+| CaMeL | −0.511 | −0.354 | −0.545 | 1 |
+| tool filter | −0.207 | −0.269 | −0.316 | 7 |
+| Transformers PI detector | −0.191 | −0.334 | −0.335 | 8 |
+| PIGuard detector | −0.184 | −0.317 | −0.231 | 8 |
+| DRIFT | −0.168 | −0.147 | −0.230 | 8 |
+| Progent | −0.158 | −0.261 | −0.250 | 8 |
+| Prompt Guard 2 | −0.020 | −0.158 | +0.036 | 8 |
+| sandwiching | −0.012 | +0.034 | +0.032 | 8 |
+| spotlighting | +0.002 | +0.015 | +0.026 | 8 |
+
+Observations (all CANDIDATE): on open-ended tasks every defense that materially lowers attack success also costs substantial utility (consistent with the AgentDyn authors' conclusion). Our replay rules, estimated on the undefended runs, show the same tension: mined-scope rules reach ≈2% residual ASR bound but block ≈42% of clean utility-passing runs on AgentDyn (vs 4.7% on AgentDojo), because open-ended tasks make "benign scope" hard to learn. On AgentDojo gpt-4o: tool filter ASR 6.8% [5.1, 9.1], PI detector 7.9% (clean utility 72.6%→41.9%), sandwiching 27.8%, undefended 47.7%.
+
+Not comparable 1:1: published rows are live end-to-end measurements; ours are offline replay upper bounds with heuristic labels. Author-reported results for CaMeL (77% tasks, provable), AuthGraph (ASR 40%→1%) and AgentCap (0% ASR, GPT-5.4) are cited from abstracts, not reproduced.
+
+## Second independent dataset: InjecAgent (static) and dataset independence — CANDIDATE
+On InjecAgent's 2,108 cases (base+enhanced) the argument-provenance rule blocks 83.3% (direct harm) / 100% (data stealing) of attacker instructions but would block the user's own call in 35.3% of cases, matching the ~37% false-block rate seen on AgentDojo; the cost of provenance-only checking therefore appears across two independent datasets. Caveat: static rule check on instruction text, not a trajectory replay. Exact-overlap analysis shows several collections share material (InjecAgent/ToolEmu, AdvBench/HarmBench, Garak/in-the-wild); results on them must not be pooled as independent evidence.
