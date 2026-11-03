@@ -45,3 +45,19 @@ Author-run only; same author wrote implementation, checkers and benchmark; fixtu
 
 ## 10 Reproducibility
 Every module has `docs/evidence/*/ASSUMPTIONS_AND_LIMITS.md` with a one-line reproduce command; dataset `python3 bench/dataset/generate.py --check`; scorer `python3 bench/dataset/evaluate.py`.
+
+## Real-agent replay results (AgentDojo, 36,679 recorded runs) — CANDIDATE
+
+Replay of recorded real-LLM-agent trajectories (see `docs/evidence/real/ASSUMPTIONS_AND_LIMITS.md` for every caveat; offline replay, heuristic attack labelling, author-run). Attacks = successful attacker-goal runs with a labelled injection-tainted effectful call (4,438 of 5,161; 723 unlabelled counted as misses in the lower bound). False block = a defender blocks any effectful call in a clean, utility-passing run (2,125 runs). Wilson 95% intervals.
+
+| Defender | Attack caught | Caught (lower bound) | False-block on clean runs |
+|---|---|---|---|
+| allow_all | 0/4438 = 0.000 [0.000, 0.001] | 0.000 | 0/2125 = 0.000 [0.000, 0.002] |
+| deny_effectful | 4438/4438 = 1.000 [0.999, 1.000] | 0.860 | 1473/2125 = 0.693 [0.673, 0.712] |
+| provenance_identifier | 4230/4438 = 0.953 [0.947, 0.959] | 0.820 | 782/2125 = 0.368 [0.348, 0.389] |
+| provenance_strict | 4438/4438 = 1.000 [0.999, 1.000] | 0.860 | 1194/2125 = 0.562 [0.541, 0.583] |
+| scope_args_loo (oracle-ish) | 4402/4438 = 0.992 [0.989, 0.994] | 0.853 | 95/2125 = 0.045 [0.037, 0.054] |
+| scope_loo (oracle-ish) | 3412/4438 = 0.769 [0.756, 0.781] | 0.661 | 12/2125 = 0.006 [0.003, 0.010] |
+| scope_or_provenance | 4406/4438 = 0.993 [0.990, 0.995] | 0.854 | 784/2125 = 0.369 [0.349, 0.390] |
+
+Findings (all CANDIDATE): (i) a tool-level task-scope allowlist is cheap (0.6% false blocks) but misses ~23% of successful attacks because the attacker reuses an in-scope tool with a different argument (e.g. wrong recipient); (ii) argument-provenance against the user prompt alone is not usable: ~37% false blocks because legitimate arguments come from tool results; (iii) combining scope with argument-level scope reaches ~99% / 4.5% but relies on benign-run mining that deployment does not have. These results motivate commit-time authorization over canonical effects but **do not evaluate it**; the cryptographic gate still has no real-agent evaluation.
