@@ -61,3 +61,25 @@ Replay of recorded real-LLM-agent trajectories (see `docs/evidence/real/ASSUMPTI
 | scope_or_provenance | 4406/4438 = 0.993 [0.990, 0.995] | 0.854 | 784/2125 = 0.369 [0.349, 0.390] |
 
 Findings (all CANDIDATE): (i) a tool-level task-scope allowlist is cheap (0.6% false blocks) but misses ~23% of successful attacks because the attacker reuses an in-scope tool with a different argument (e.g. wrong recipient); (ii) argument-provenance against the user prompt alone is not usable: ~37% false blocks because legitimate arguments come from tool results; (iii) combining scope with argument-level scope reaches ~99% / 4.5% but relies on benign-run mining that deployment does not have. These results motivate commit-time authorization over canonical effects but **do not evaluate it**; the cryptographic gate still has no real-agent evaluation.
+
+## Comparison with published defenses (recorded live runs) — CANDIDATE
+
+Source: recorded runs shipped with AgentDyn (arXiv 2602.03117; 47,723 runs, 10 base models, 9 defense pipelines incl. Progent, DRIFT, CaMeL) and AgentDojo (gpt-4o-2024-05-13 with tool filter / spotlighting / PI detector / sandwiching). Attack `important_instructions`. These are the defenses' authors' own live pipelines; we did not re-run them. Paired = (defended − undefended) for the same base model, macro-averaged over base models (`bench/real/results/agentdyn_defended_runs.json`).
+
+AgentDyn (open-ended tasks), paired deltas, macro-average over base models:
+
+| Defense | Δ attack success | Δ utility under attack | Δ clean utility | base models |
+|---|---|---|---|---|
+| CaMeL | −0.511 | −0.354 | −0.545 | 1 |
+| tool filter | −0.207 | −0.269 | −0.316 | 7 |
+| Transformers PI detector | −0.191 | −0.334 | −0.335 | 8 |
+| PIGuard detector | −0.184 | −0.317 | −0.231 | 8 |
+| DRIFT | −0.168 | −0.147 | −0.230 | 8 |
+| Progent | −0.158 | −0.261 | −0.250 | 8 |
+| Prompt Guard 2 | −0.020 | −0.158 | +0.036 | 8 |
+| sandwiching | −0.012 | +0.034 | +0.032 | 8 |
+| spotlighting | +0.002 | +0.015 | +0.026 | 8 |
+
+Observations (all CANDIDATE): on open-ended tasks every defense that materially lowers attack success also costs substantial utility (consistent with the AgentDyn authors' conclusion). Our replay rules, estimated on the undefended runs, show the same tension: mined-scope rules reach ≈2% residual ASR bound but block ≈42% of clean utility-passing runs on AgentDyn (vs 4.7% on AgentDojo), because open-ended tasks make "benign scope" hard to learn. On AgentDojo gpt-4o: tool filter ASR 6.8% [5.1, 9.1], PI detector 7.9% (clean utility 72.6%→41.9%), sandwiching 27.8%, undefended 47.7%.
+
+Not comparable 1:1: published rows are live end-to-end measurements; ours are offline replay upper bounds with heuristic labels. Author-reported results for CaMeL (77% tasks, provable), AuthGraph (ASR 40%→1%) and AgentCap (0% ASR, GPT-5.4) are cited from abstracts, not reproduced.

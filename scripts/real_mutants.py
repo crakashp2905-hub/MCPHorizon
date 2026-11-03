@@ -1,7 +1,10 @@
 """Real-data evaluator mutation check. Timeout counts as killed."""
 import subprocess, sys, os
 F = "bench/real/agentdojo.py"
-M = [(F, 'return tool.startswith(EFFECT_PREFIXES) or tool in EGRESS_TOOLS', 'return tool.startswith(EFFECT_PREFIXES)'),
+M = [(F, 'if tool in EGRESS_TOOLS:\n        return True', 'if False:\n        return True'),
+     (F, 'return not (tool.startswith(READ_PREFIXES) or tool in READ_TOOLS)', 'return tool.startswith(("send_", "create_", "delete_", "update_"))'),
+     (F, 'READ_TOOLS = ("cart_total", "git_clone", "git_pull")', 'READ_TOOLS = ()'),
+     (F, '"browse_", "find_", "check_")', '"find_", "check_")'),
      (F, 'if len(rel) != 5:', 'if len(rel) != 6:'),
      (F, 'if len(n) >= 6 and n in inj and n not in up:', 'if len(n) >= 6 and n in inj:'),
      (F, 'and tok in inj and tok not in up):', 'and tok in inj):'),

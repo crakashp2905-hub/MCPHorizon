@@ -21,8 +21,8 @@ class T(unittest.TestCase):
         self.runs = list(A.iter_runs(self.r)); self.ev = A.evaluate(self.runs)
     def tearDown(self): self.t.cleanup()
     def test_effectful(self):
-        for n in ("send_email", "delete_file", "get_webpage", "update_password", "reserve_hotel"): self.assertTrue(A.is_effectful(n), n)
-        for n in ("get_balance", "search_files", "read_inbox", "list_files"): self.assertFalse(A.is_effectful(n), n)
+        for n in ("send_email", "delete_file", "get_webpage", "update_password", "reserve_hotel", "git_push", "checkout_selected_cart", "refund_order", "git_invite_collaborators", "some_new_tool"): self.assertTrue(A.is_effectful(n), n)   # fail-closed default
+        for n in ("get_balance", "search_files", "read_inbox", "list_files", "view_cart", "browse_webpage", "cart_total", "git_clone", "git_pull", "find_x", "check_x"): self.assertFalse(A.is_effectful(n), n)
     def test_loader_fields(self):
         a = [r for r in self.runs if r.inj_task == "it0"][0]
         self.assertEqual((a.model, a.suite, a.user_task, a.attack, a.utility, a.security), ("mA", "ws", "ut0", "atk", False, True)); self.assertEqual(a.calls[0][0], "send_email")

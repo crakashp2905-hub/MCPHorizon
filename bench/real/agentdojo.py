@@ -18,14 +18,16 @@ from collections import defaultdict, namedtuple
 Run = namedtuple("Run", "model suite user_task attack inj_task utility security "
                         "error prompt calls injections")
 
-EFFECT_PREFIXES = ("send_", "create_", "delete_", "add_", "remove_", "append_",
-                   "share_", "post_", "invite_", "reschedule_", "reserve_",
-                   "schedule_", "update_")
+# FAIL-CLOSED classification: a tool is effectful unless it is clearly read-only.
+READ_PREFIXES = ("get_", "search_", "read_", "list_", "view_", "browse_", "find_", "check_")
+READ_TOOLS = ("cart_total", "git_clone", "git_pull")
 EGRESS_TOOLS = ("get_webpage",)   # URL fetch can exfiltrate via the URL
 
 
 def is_effectful(tool):
-    return tool.startswith(EFFECT_PREFIXES) or tool in EGRESS_TOOLS
+    if tool in EGRESS_TOOLS:
+        return True
+    return not (tool.startswith(READ_PREFIXES) or tool in READ_TOOLS)
 
 
 def _norm(s):
