@@ -17,7 +17,7 @@ Nothing here is VERIFIED. States: DONE_CANDIDATE (code+tests, author-run), OPEN 
 | HF-003,005,015,023,030,042,049,059,066,075,082,095,096,098 | BLOCKED_EXTERNAL / OWNER | independent experts, owner approval |
 
 ## HorizonSpectra (SP-01..30)
-All OPEN. SP-02/03/05/21/29 BLOCKED_EXTERNAL (searches by independent reviewer, independent fixture author, external security reviewer). Doable next: SP-06,07,11..14,16,17,20 (toy worlds, random-probe baseline, UNKNOWN reporting).
+SP-06,07,11,12,15..18,20 DONE_CANDIDATE (toy, `research/spectra`). SP-02/03/05/21/29 BLOCKED_EXTERNAL (searches by independent reviewer, independent fixture author, external security reviewer). Doable next: SP-06,07,11..14,16,17,20 (toy worlds, random-probe baseline, UNKNOWN reporting).
 
 ## Weight-Space Programming (HP/HS/HT/HR)
 BLOCKED: requires a pinned open-weight model, model downloads/inference compute (not allowlisted in this sandbox), a high-capability editor model run, and independent evaluators. The author-reported
