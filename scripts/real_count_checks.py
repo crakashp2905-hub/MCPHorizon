@@ -13,8 +13,9 @@ check("injecagent", "base test cases (dh+ds)", "InjecAgent README: 1,054 test ca
       lambda b: len(json.load(open(f"{b}/InjecAgent/data/test_cases_dh_base.json"))) + len(json.load(open(f"{b}/InjecAgent/data/test_cases_ds_base.json"))))
 check("do_not_answer", "English prompts", "Do-Not-Answer README: 939 (verified in README)", 939, lambda b: csvn(f"{b}/do-not-answer/datasets/data_en.csv"))
 check("advbench", "harmful behaviors", "Zou et al. 2023: 520 [expected value NOT re-verified against a source in this session]", 520, lambda b: csvn(f"{b}/llm-attacks/data/advbench/harmful_behaviors.csv"))
-check("agent_safetybench", "cases", "Agent-SafetyBench: 2,000 test cases [expected value NOT re-verified against a source in this session]", 2000, lambda b: len(json.load(open(f"{b}/agent-safetybench/data/released_data.json"))))
-check("asb", "attack tools", "ASB: 400 attack tools [expected value NOT re-verified against a source in this session]", 400, lambda b: len(jl(f"{b}/ASB/data/all_attack_tools.jsonl")))
+check("agent_safetybench", "cases", "Agent-SafetyBench abstract (arXiv 2412.14470): 2,000 test cases, 349 environments (verified)", 2000, lambda b: len(json.load(open(f"{b}/agent-safetybench/data/released_data.json"))))
+check("asb", "total tools (attack+normal) >= 400, reported as 400", "ASB abstract (arXiv 2410.02644): 'over 400 tools' (verified; split not stated)", 400,
+      lambda b: min(400, len(jl(f"{b}/ASB/data/all_attack_tools.jsonl")) + len(jl(f"{b}/ASB/data/all_normal_tools.jsonl"))))
 def _agentdyn(b):
     root = f"{b}/AgentDyn/runs/gpt-4o-2024-08-06"
     pairs = set(); users = set()
