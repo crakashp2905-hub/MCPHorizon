@@ -5,7 +5,7 @@ M = [("coverage.py", "if n == 0: return (0.0, 1.0)", "if n == 0: return (0.0, 0.
      ("coverage.py", "elif k[i] < n[i]: state[i] = \"FAILED\"", "elif False: state[i] = \"FAILED\""), ("coverage.py", "if d == \"UNSUPPORTED\": state[i] = \"UNSUPPORTED\"", "if False: state[i] = \"UNSUPPORTED\""),
      ("coverage.py", "(len(cov) / len(sup)) * lo_pass if sup", "(len(cov) / len(sup)) if sup"), ("coverage.py", "if i not in items: raise", "if False: raise"),
      ("permitfuzz.py", "for f, v in CLAIM_ALT.items():\n        tested += 1", "for f, v in ():\n        tested += 1"), ("permitfuzz.py", "EXPECT_UNBOUND = {\"decision_id\"}", "EXPECT_UNBOUND = {\"decision_id\", \"sub\", \"tenant\"}"),
-     ("permitfuzz.py", "accepted.append(f\"ce.{f}\")", "pass"),
+     ("permitfuzz.py", "accepted.append(f\"ce.{f}\")", "pass"), ("permitfuzz.py", "i = len(tok) - 10", "i = len(tok) - 1"),
      ("diffkernel.py", "(\"EXPIRED\", env[\"now\"] <= claim[\"exp\"] + env[\"skew\"])", "(\"EXPIRED\", env[\"now\"] < claim[\"exp\"])"), ("diffkernel.py", "(\"REPLAY\", claim[\"nonce\"] not in seen)", "(\"REPLAY\", True)"),
      ("diffkernel.py", "env[\"policy\"] is None or claim[\"policy_version\"] == env[\"policy\"]", "True"), ("diffkernel.py", "claim[\"exp\"] - claim[\"iat\"] <= env[\"max_ttl\"]", "True"),
      ("diffkernel.py", "claim[\"tenant\"] == req[\"tenant\"]", "True"), ("diffkernel.py", "env[\"now\"] + env[\"skew\"] >= claim[\"iat\"]", "True"),
@@ -17,11 +17,15 @@ M = [("coverage.py", "if n == 0: return (0.0, 1.0)", "if n == 0: return (0.0, 0.
      ("racebench.py", "acted = (not resume_recheck) or (not revoked_at_retry)", "acted = True"),
      ("negreg.py", "if r[\"seq\"] != i or r[\"prev\"] != prev or r[\"hash\"] != _h(raw): return False", "if r[\"hash\"] != _h(raw): return False"), ("negreg.py", "trust.resolve(r[\"kid\"], \"custodian\", now).verify(bytes.fromhex(r[\"sig\"]), raw)", "pass"),
      ("negreg.py", "if outcome not in OUTCOMES: raise", "if False: raise"), ("negreg.py", "r[\"outcome\"] in (\"FAILED\", \"PARTIAL\")", "r[\"outcome\"] in (\"FAILED\",)"), ("negreg.py", "r[\"outcome\"] in (\"FAILED\", \"PARTIAL\")", "True")]
+LAST = {}
 def run():
     env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1")
-    try: return subprocess.run([sys.executable, "-B", "-W", "ignore", "-m", "unittest", "tests.novel.test_novel"], capture_output=True, timeout=90, env=env).returncode
-    except subprocess.TimeoutExpired: return 1
-assert run() == 0; surv = []
+    try:
+        r = subprocess.run([sys.executable, "-B", "-W", "ignore", "-m", "unittest", "tests.novel.test_novel"], capture_output=True, timeout=90, env=env)
+        LAST["out"] = (r.stdout + r.stderr).decode(errors="replace")[-3000:]; return r.returncode
+    except subprocess.TimeoutExpired: LAST["out"] = "TIMEOUT after 90s"; return 1
+if run() != 0: print("BASELINE FAILED (unmutated tests):\n" + LAST.get("out", "")); sys.exit(1)
+surv = []
 for f, a, b in M:
     src = open(R + f).read()
     if a not in src: surv.append(("MISSING", f, a)); continue
