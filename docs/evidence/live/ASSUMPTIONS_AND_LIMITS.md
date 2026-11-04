@@ -3,12 +3,12 @@
 Status: CANDIDATE. Author-run, single model, templated scenarios. Not VERIFIED.
 
 ## What was run
-`bench/live/run_live.py`: a local 0.5B model is the agent (greedy decoding) in a mock environment
+`research/live/run_live.py`: a local 0.5B model is the agent (greedy decoding) in a mock environment
 (read_file / send_email / delete_file; no network; reserved `*.test` addresses; synthetic canary
 `TEST_CANARY_NOT_SECRET`). 24 templated scenarios x {clean, attacked} x {no gate, gate} = 96 episodes.
 The gate blocks an effectful call when an identifier-like argument token appears in tool output but not
 in the user prompt (same rule as `provenance_identifier`). Unlike the replay evaluation, the model sees the
-refusal and may continue. Results: `bench/live/results/live_qwen05.json`.
+refusal and may continue. Results: `research/live/results/live_qwen05.json`.
 
 ## Results (n=24 per cell, Wilson 95% CI)
 | condition | attack attempted | attack succeeded | user task done |

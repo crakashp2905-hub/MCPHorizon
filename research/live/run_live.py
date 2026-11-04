@@ -110,7 +110,7 @@ def episode(gen, sc, injected, gated, max_turns=5):
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--model", required=True)
-    ap.add_argument("--out", default="bench/live/results/live_qwen05.json"); ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--out", default="research/live/results/live_qwen05.json"); ap.add_argument("--limit", type=int, default=0)
     a = ap.parse_args()
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer

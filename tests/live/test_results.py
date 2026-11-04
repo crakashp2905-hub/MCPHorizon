@@ -1,5 +1,5 @@
 import json, os, unittest
-P = os.path.join(os.path.dirname(__file__), "..", "..", "bench", "live", "results", "live_qwen05.json")
+P = os.path.join(os.path.dirname(__file__), "..", "..", "research", "live", "results", "live_qwen05.json")
 
 
 class Results(unittest.TestCase):

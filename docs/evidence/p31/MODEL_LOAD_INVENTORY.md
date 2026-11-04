@@ -4,17 +4,17 @@ Static pattern scan of `horizon/`, `bench/`, `scripts/` Python. It finds *litera
 
 | Surface | Hits | Locations |
 |---|---|---|
-| hf_from_pretrained | 1 | bench/live/run_live.py:117 |
+| hf_from_pretrained | 0 | — |
 | torch_load | 0 | — |
 | pickle_load | 0 | — |
 | joblib_load | 0 | — |
 | safetensors_load | 11 | bench/h4/hmib.py:16, bench/h4/hmib.py:23, bench/h4/hmib.py:25, bench/h4/hmib.py:69, bench/h4/hmib.py:79, bench/h4/hmib.py:120 |
 | gguf_or_onnx_load | 0 | — |
 | adapter_load | 0 | — |
-| tokenizer_load | 2 | bench/live/run_live.py:116, bench/live/run_live.py:117 |
+| tokenizer_load | 0 | — |
 | remote_model_ref | 0 | — |
 | yaml_unsafe_load | 0 | — |
-| eval_exec_loading | 4 | horizon/runtime/artifacts.py:150, horizon/downgrade/gateway.py:89, bench/live/run_live.py:117, scripts/p31_inventory.py:10 |
+| eval_exec_loading | 3 | horizon/runtime/artifacts.py:150, horizon/downgrade/gateway.py:89, scripts/p31_inventory.py:10 |
 
 Note: `safetensors_load` hits in `bench/h4/hmib.py` (P37) are file-name literals of synthetic fixtures; the benchmark's inert loader only reads those bytes to compute sha256 and never deserialises them.
 

@@ -1,5 +1,5 @@
 import unittest
-from bench.live import run_live as R
+from research.live import run_live as R
 
 SC = R.scenarios()[0]
 
