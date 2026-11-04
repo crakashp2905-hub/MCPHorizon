@@ -1,1 +1,26 @@
-{"modules":{},"tasks":{}}
+{
+ "modules": {},
+ "tasks": {
+  "B02-02": {
+   "class": "DOABLE_HERE",
+   "note": "PARTIAL: atomic nonce consumption proven across 8 OS processes on one host (tests/e04/test_multiproc_crash.py). 'Separate hosts' part BLOCKED (needs external multi-host backend)."
+  },
+  "B02-04": {
+   "class": "DOABLE_HERE",
+   "note": "PARTIAL: kill -9 injection after begin / after sink commit / after finish covered; crash around permit consumption (authorize) and receipt persistence/response transmission not yet injected."
+  },
+  "B02-05": {
+   "class": "DOABLE_HERE",
+   "done": true,
+   "evidence": [
+    "tests/e04/test_multiproc_crash.py",
+    "horizon/effects/ledger.py"
+   ],
+   "evidence_digests": {
+    "horizon/effects/ledger.py": "3529d2eb6cdc44d2713f3c4eb80f252ff22f0baeff73e00b34ee93d65a304784",
+    "tests/e04/test_multiproc_crash.py": "fa16491d142178eb01a4d8a892788c13713b553b783a0ea77dc0ea534772c0e0"
+   },
+   "note": "Ledger docstring + tests show at-most-once dispatch, crash-after-sink-commit recorded as UNKNOWN (never COMMITTED/retried) until reconciled from an independent sink observation. Single host/SQLite only."
+  }
+ }
+}

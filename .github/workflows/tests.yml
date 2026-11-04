@@ -211,6 +211,7 @@ jobs:
           python-version: '3.12'
       - run: pip install 'cryptography==50.0.1'
       - run: python3 scripts/hardening_inventory.py --check
+      - run: python3 -B -m unittest tests.e04.test_multiproc_crash
       - run: python3 -B -m unittest discover -s tests/hardening -t .
       - run: python3 scripts/hardening_mutants.py
       - run: python3 scripts/admission_mutants.py

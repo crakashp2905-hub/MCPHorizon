@@ -33,8 +33,6 @@ Classes are keyword triage (`class_heuristic`), not proof.  Nothing here is mark
 - `B01-GATE` [EXTERNAL] Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope.
 
 ## B02 — Effect ledger and replay protection
-- `B02-02` [EXTERNAL] Prove atomic nonce consumption across multiple processes and separate hosts.
-- `B02-05` [EXTERNAL] Distinguish at-most-once dispatch from exactly-once external effects; report irreducible UNKNOWN honestly.
 - `B02-GATE` [EXTERNAL] Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope.
 
 ## B03 — Protected file sink
