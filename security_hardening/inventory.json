@@ -1,0 +1,3731 @@
+{
+ "doc_sha256": "83a3d8d9a2843cd3ad242ae2b4338dd3d9e21e2b0863d8dada4542f09ee4492f",
+ "gates": [
+  {
+   "id": "G0",
+   "items": [
+    {
+     "done": false,
+     "text": "All current CI checks pass at a pinned commit; failures are neither suppressed nor classified as success by omission."
+    },
+    {
+     "done": false,
+     "text": "Verify the status of every task/phase from current code, not only historical status documents."
+    },
+    {
+     "done": false,
+     "text": "Every active security claim has matching immutable result files, a counterexample/test oracle and a scope matrix."
+    },
+    {
+     "done": false,
+     "text": "All P54 integration failures are retested under newly frozen evidence; independently resolve or explicitly limit ES-G2/ES-G3."
+    },
+    {
+     "done": false,
+     "text": "Complete repository license, proprietary dependency and dataset usage provenance audit."
+    }
+   ],
+   "name": "Repository integrity and research honesty",
+   "status": "OPEN"
+  },
+  {
+   "id": "G1",
+   "items": [
+    {
+     "done": false,
+     "text": "One normative schema for `Principal`, `AgentSession`, `CanonicalEffect`, `Authority`, `Permit`, `Outcome`, `Evidence`, `Unknown`."
+    },
+    {
+     "done": false,
+     "text": "Policy rejects escalation, unexpected transport, untrusted role assertion, contradictory policy and unauthorized declassification."
+    },
+    {
+     "done": false,
+     "text": "Every permit is bound to issuer, role, tenant, principal, session, target, arguments, effect, policy epoch and deadline."
+    },
+    {
+     "done": false,
+     "text": "Property-based and differential tests pass for Python/Rust/TS where functionality is claimed."
+    },
+    {
+     "done": false,
+     "text": "Independent formal review of bounded guarantees and explicit assumptions."
+    }
+   ],
+   "name": "Trusted kernel and identity",
+   "status": "OPEN"
+  },
+  {
+   "id": "G2",
+   "items": [
+    {
+     "done": false,
+     "text": "Actual agent can *not* directly write protected file or open protected network socket outside a separate broker/sink identity."
+    },
+    {
+     "done": false,
+     "text": "Legitimate file write and unauthorized file-write attempts verified by separate sink-owned journal."
+    },
+    {
+     "done": false,
+     "text": "Legitimate HTTPS send and unauthorized off-host disclosure verified by separate receiver; no raw-secret transfer to untrusted services claimed safe."
+    },
+    {
+     "done": false,
+     "text": "Nonce replay, cross-process races and crash/recovery cannot permit multiple protected dispatches using one authorization."
+    },
+    {
+     "done": false,
+     "text": "Uncertain effect outcomes never automatically retried without reconciliation."
+    },
+    {
+     "done": false,
+     "text": "OS sandbox bypass testing and unsupported-kernel fail-closed behavior documented."
+    }
+   ],
+   "name": "Unbypassable effect enforcement",
+   "status": "OPEN"
+  },
+  {
+   "id": "G3",
+   "items": [
+    {
+     "done": false,
+     "text": "Real MCP server with end-to-end effect mediation + official conformance tests for supported version."
+    },
+    {
+     "done": false,
+     "text": "Real UTCP SDK/adapter with supported transport mediation and no direct bypass."
+    },
+    {
+     "done": false,
+     "text": "Code Mode executes through mandatory sandbox; actual effect receiver evidence."
+    },
+    {
+     "done": false,
+     "text": "A2A/delegation test preserves all privilege, revocation and audit scope."
+    },
+    {
+     "done": false,
+     "text": "One canonical effect contract produces equivalent security outcomes regardless of adapter."
+    }
+   ],
+   "name": "Protocol and multi-agent interoperability",
+   "status": "OPEN"
+  },
+  {
+   "id": "G4",
+   "items": [
+    {
+     "done": false,
+     "text": "Independent test-set authors supply unseen effect/topology/attack families."
+    },
+    {
+     "done": false,
+     "text": "Benchmark separates attacks, benign controls, `UNKNOWN`, unidentifiable cases and infrastructure errors."
+    },
+    {
+     "done": false,
+     "text": "Include CaMeL/tracked-capabilities/coarse historical rules/strong standard-tool baselines on equivalent tasks."
+    },
+    {
+     "done": false,
+     "text": "Live agents with interceptable real tool effects, not only offline trajectory replay."
+    },
+    {
+     "done": false,
+     "text": "Real attack success, benign task completion, false blocks, coverage and p95/p99 overhead; clustered statistical intervals."
+    },
+    {
+     "done": false,
+     "text": "Counterexample challenge survives independent reviewer attempts; report failed claims."
+    }
+   ],
+   "name": "Evaluation credibility",
+   "status": "OPEN"
+  },
+  {
+   "id": "G5",
+   "items": [
+    {
+     "done": false,
+     "text": "Introduce a **versioned module manifest**: `name, version, contract_version, effects, dependencies, supported_platforms, signer, threat_model, evidence_digest, feature_flags`."
+    },
+    {
+     "done": false,
+     "text": "Default-deny plugin installation and capability elevation; require operator-reviewed manifest and signed evidence."
+    },
+    {
+     "done": false,
+     "text": "Onboard an arbitrary **supported** agent by adding an adapter and policy, not patching security-critical kernel logic."
+    },
+    {
+     "done": false,
+     "text": "Demonstrate four unrelated workflows: coding, data analytics, multi-agent delegation and web/API actions; repeat against a fifth unseen workflow."
+    },
+    {
+     "done": false,
+     "text": "The same trust and effect ledger governs all of them; no hidden protocol-specific permission bypass."
+    },
+    {
+     "done": false,
+     "text": "Display per-agent **coverage map**: protected, blocked, observed-only, unknown, unsupported; never show an unjustified single 'safe score'."
+    }
+   ],
+   "name": "Platform admission (still not commercial launch)",
+   "status": "OPEN"
+  }
+ ],
+ "modules": [
+  {
+   "associated_work": "P1",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/schemas.py"
+    },
+    {
+     "exists": true,
+     "path": "horizon/normalize.py"
+    },
+    {
+     "exists": true,
+     "path": "schemas/"
+    },
+    {
+     "exists": true,
+     "path": "core/"
+    }
+   ],
+   "id": "A01",
+   "independent_attestation": null,
+   "known_blocker": "Different language runtimes cover different semantic validations.",
+   "name": "Schemas, parsing and normalization",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A01-01",
+     "note": "",
+     "text": "Freeze and version schemas for event, effect, authorization, permit, evidence and plugin contracts; reject unknown security-critical fields."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A01-02",
+     "note": "",
+     "text": "Implement full Python/Rust/TS *semantic* parity, not merely JSON-schema parity, on generated and malicious fixtures."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A01-03",
+     "note": "",
+     "text": "Define canonical URL, path, Unicode, numeric, JSON-RPC typed-ID and argument-digest rules; fuzz differential normalization."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A01-04",
+     "note": "",
+     "text": "Pin live MCP/UTCP/A2A/AG-UI versions and run official protocol compatibility suites where available."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A01-05",
+     "note": "",
+     "text": "Prove ambiguous input and unsupported protocol versions fail closed without changing protected state."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A01-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream A \u2014 Contracts, policy and security foundations"
+  },
+  {
+   "associated_work": "P2",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/core/"
+    },
+    {
+     "exists": true,
+     "path": "core/crates/horizon-core/"
+    }
+   ],
+   "id": "A02",
+   "independent_attestation": null,
+   "known_blocker": "Rust covers a subset of the Python policy semantics.",
+   "name": "Core capability policy engine",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A02-01",
+     "note": "",
+     "text": "Write precise policy algebra for scopes, ownership, purpose, label join, effect class and policy precedence."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A02-02",
+     "note": "",
+     "text": "Finish Rust parity for all claimed Python core operations or mark unsupported and force verified fallback."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A02-03",
+     "note": "",
+     "text": "Property-test monotonic restriction, non-escalating delegation, deny precedence, transitivity and canonical equivalence."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A02-04",
+     "note": "",
+     "text": "Use model checking or exhaustive finite-state exploration for revocation and capability composition."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A02-05",
+     "note": "",
+     "text": "Commission independent review of proof statements, threat assumptions and implementation correspondence."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A02-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream A \u2014 Contracts, policy and security foundations"
+  },
+  {
+   "associated_work": "P13/P19",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/hpolicy/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/authz/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/authn.py"
+    }
+   ],
+   "id": "A03",
+   "independent_attestation": null,
+   "known_blocker": "Separate signers still appear in evidence/fixtures; trust-root consolidation needs external judgment.",
+   "name": "Policy authority and signed evidence",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A03-01",
+     "note": "",
+     "text": "Inventory every signer and issuer; separate fixture-only cryptography from production approval authority."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A03-02",
+     "note": "",
+     "text": "Use asymmetric role-scoped keys for evidence and permits; enforce key revocation and rotation."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A03-03",
+     "note": "",
+     "text": "Bind exact principal, tenant, session, target, arguments, effect, policy epoch and expiry to permits."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A03-04",
+     "note": "",
+     "text": "Eliminate approval issuance from untrusted plugins; verifier accepts explicit trusted roots only."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A03-05",
+     "note": "",
+     "text": "Test replay, clock skew, forged issuer, stale policy, downgrade, revoked role and tampered certificate cases."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A03-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream A \u2014 Contracts, policy and security foundations"
+  },
+  {
+   "associated_work": "E03",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/effects/canonical.py"
+    }
+   ],
+   "id": "A04",
+   "independent_attestation": null,
+   "known_blocker": "Candidate not fully wired through all protocol adapters.",
+   "name": "CanonicalEffect and commit-time verification",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A04-01",
+     "note": "",
+     "text": "Provide one canonical effect representation used by all gateways and sinks."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A04-02",
+     "note": "",
+     "text": "Make issuance and verification derive identical domain-separated digests without duplicated logic."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A04-03",
+     "note": "",
+     "text": "Test TOCTOU policy revocation between request, allow, commit and sink observation."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A04-04",
+     "note": "",
+     "text": "Exercise payload mutation, path alias, Unicode, target substitution and server/session substitution attacks."
+    },
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A04-05",
+     "note": "",
+     "text": "Wire the canonical effect contract to each supported protected sink and actual gateway path."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A04-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream A \u2014 Contracts, policy and security foundations"
+  },
+  {
+   "associated_work": "P15/P87",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/deleg/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/a2a/"
+    }
+   ],
+   "id": "A05",
+   "independent_attestation": null,
+   "known_blocker": "Cross-protocol delegated identity needs real interop and revocation proof.",
+   "name": "Capability delegation",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A05-01",
+     "note": "",
+     "text": "Express grants as attenuating, time-bounded, purpose-bounded capabilities."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A05-02",
+     "note": "",
+     "text": "Enforce non-escalation through nested delegation, cycles, delegation-depth and mixed protocols."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A05-03",
+     "note": "",
+     "text": "Propagate revocation epochs across asynchronous agents and durable queues."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A05-04",
+     "note": "",
+     "text": "Bind every sub-agent effect to its originating authority and independent trace."
+    },
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A05-05",
+     "note": "",
+     "text": "Test live A2A delegation and explicit unsupported transfer forms."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A05-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream A \u2014 Contracts, policy and security foundations"
+  },
+  {
+   "associated_work": "P20/P46",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/lp/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/downgrade/"
+    }
+   ],
+   "id": "A06",
+   "independent_attestation": null,
+   "known_blocker": "Some attacks are stopped by denying tasks; utility cost must be quantified.",
+   "name": "Least privilege and downgrade control",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A06-01",
+     "note": "",
+     "text": "Define a task floor and allowed capability lattice before fallback selection."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A06-02",
+     "note": "",
+     "text": "Prevent fallback profiles from gaining new effects, destinations or evidence powers."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A06-03",
+     "note": "",
+     "text": "Benchmark successful benign task completion versus denial-heavy policies."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A06-04",
+     "note": "",
+     "text": "Test revoked permissions, unexpected adapter changes and permissive fallback defaults."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A06-05",
+     "note": "",
+     "text": "Expose explainable, policy-backed least-privilege recommendations without auto-applying them."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "A06-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream A \u2014 Contracts, policy and security foundations"
+  },
+  {
+   "associated_work": "P3",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/service/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/sdk/"
+    },
+    {
+     "exists": true,
+     "path": "sdk-ts/"
+    }
+   ],
+   "id": "B01",
+   "independent_attestation": null,
+   "known_blocker": "Core service still has in-memory tenant state and local transport assumptions.",
+   "name": "Decision service and local API",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B01-01",
+     "note": "",
+     "text": "Replace in-memory approval, idempotency and decision authority with durable transactional storage."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B01-02",
+     "note": "",
+     "text": "Implement actual preemptive evaluation timeouts and bounded resource budgets."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B01-03",
+     "note": "",
+     "text": "Provide strict authN/authZ, secret rotation, scoped principals, audit-write fail-close."
+    },
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B01-04",
+     "note": "",
+     "text": "Add documented gRPC/HTTP or Unix domain deployment contract with TLS where applicable."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B01-05",
+     "note": "",
+     "text": "Measure end-to-end p50/p95/p99, under congestion and dependency failures; document SLOs."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B01-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream B \u2014 Execution, effects, containment and integrity"
+  },
+  {
+   "associated_work": "E04",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/effects/ledger.py"
+    }
+   ],
+   "id": "B02",
+   "independent_attestation": null,
+   "known_blocker": "SQLite single-node tests, not cross-process failover or a full gateway.",
+   "name": "Effect ledger and replay protection",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B02-01",
+     "note": "",
+     "text": "Wire all permit redemptions and protected dispatches to one transactional ledger."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B02-02",
+     "note": "",
+     "text": "Prove atomic nonce consumption across multiple processes and separate hosts."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B02-03",
+     "note": "",
+     "text": "Implement fenced leadership, exactly identified effect IDs, idempotent reconciliation and backup/restore."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B02-04",
+     "note": "",
+     "text": "Crash-inject before/after permit consumption, sink commit, receipt persistence and response transmission."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B02-05",
+     "note": "",
+     "text": "Distinguish at-most-once dispatch from exactly-once external effects; report irreducible UNKNOWN honestly."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B02-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream B \u2014 Execution, effects, containment and integrity"
+  },
+  {
+   "associated_work": "E05/E06",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/effects/filesink.py"
+    }
+   ],
+   "id": "B03",
+   "independent_attestation": null,
+   "known_blocker": "Library enforcement can be bypassed if agent shares OS authority with sink.",
+   "name": "Protected file sink",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B03-01",
+     "note": "",
+     "text": "Place file operations behind a separate OS principal and protected broker endpoint."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B03-02",
+     "note": "",
+     "text": "Test bypass attempts through direct open, symlinks, hardlinks, proc fd, mount aliases, race renames and child processes."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B03-03",
+     "note": "",
+     "text": "Enforce realpath/inode containment and exact byte/hash binding at the actual write boundary."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B03-04",
+     "note": "",
+     "text": "Own sink journal and signing keys in a distinct trust domain from agent and gateway."
+    },
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B03-05",
+     "note": "",
+     "text": "Run real MCP tool through file sink with blocked and legitimate actions and an independent observer."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B03-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream B \u2014 Execution, effects, containment and integrity"
+  },
+  {
+   "associated_work": "P25/P44",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/runtime/broker.py"
+    },
+    {
+     "exists": true,
+     "path": "horizon/reach/"
+    }
+   ],
+   "id": "B04",
+   "independent_attestation": null,
+   "known_blocker": "Research egress HTTP-only; deceptive attested service leaks on first use.",
+   "name": "Network egress broker and remote effects",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B04-01",
+     "note": "",
+     "text": "Implement TLS 1.2+/1.3 validation, certificate hostname binding, controlled redirects, DNS pinning and peer verification."
+    },
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B04-02",
+     "note": "",
+     "text": "Provide forced egress mediation using network namespace/firewall/proxy, preventing raw socket bypass."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B04-03",
+     "note": "",
+     "text": "Make nonce use atomic across processes and bind permits to method, destination, headers and exact body."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B04-04",
+     "note": "",
+     "text": "Re-test deceptive remote services: never claim first-call secrecy against a service receiving raw secrets."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B04-05",
+     "note": "",
+     "text": "Explore data minimization, secure local computation, encryption or refusal for untrusted services; record residual impossibility."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B04-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream B \u2014 Execution, effects, containment and integrity"
+  },
+  {
+   "associated_work": "P24/P27/P30",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/runtime/sandbox.py"
+    },
+    {
+     "exists": true,
+     "path": "horizon/runtime/managed.py"
+    }
+   ],
+   "id": "B05",
+   "independent_attestation": null,
+   "known_blocker": "Single-kernel/architecture test; no full sandbox bypass assurance.",
+   "name": "Kernel sandbox and managed execution",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B05-01",
+     "note": "",
+     "text": "Define supported Linux kernel/container matrix, Landlock/seccomp/ns and cgroup requirements."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B05-02",
+     "note": "",
+     "text": "Ensure every untrusted execution path is launched without host-equivalent privileges or inherited capabilities."
+    },
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B05-03",
+     "note": "",
+     "text": "Test bypass via descriptor inheritance, abstract sockets, procfs, unix sockets, IPv6, child processes and namespace handles."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B05-04",
+     "note": "",
+     "text": "Conduct independent sandbox escape evaluation on supported kernel/architecture variants."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B05-05",
+     "note": "",
+     "text": "Fail closed with explicit unsupported status when controls cannot be installed."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B05-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream B \u2014 Execution, effects, containment and integrity"
+  },
+  {
+   "associated_work": "P6",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/codemode/"
+    },
+    {
+     "exists": true,
+     "path": "codemode/"
+    }
+   ],
+   "id": "B06",
+   "independent_attestation": null,
+   "known_blocker": "isolated-vm not equivalent to OS sandbox; partial cancellation guarantees.",
+   "name": "Code Mode / generated-code execution",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B06-01",
+     "note": "",
+     "text": "Execute Code Mode under mandatory kernel/microVM containment and brokered tool access."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B06-02",
+     "note": "",
+     "text": "Use strict instruction/runtime resource limits, no ambient secrets and no unmediated network/filesystem access."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B06-03",
+     "note": "",
+     "text": "Prove tool-call provenance and retained authority across generated scripts and chained tools."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B06-04",
+     "note": "",
+     "text": "Distinguish cancellation-before-dispatch from cancellation-after-possible-execution; reconcile uncertain effects."
+    },
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B06-05",
+     "note": "",
+     "text": "Run actual supported code-mode runtimes and execute V8/Node escape and tool-bypass tests."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B06-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream B \u2014 Execution, effects, containment and integrity"
+  },
+  {
+   "associated_work": "P17/P40/P41",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/txn/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/obligation/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/counterfactual/"
+    }
+   ],
+   "id": "B07",
+   "independent_attestation": null,
+   "known_blocker": "Synthetic state transitions and previews do not guarantee real-world rollback.",
+   "name": "Transactions, obligations and counterfactuals",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B07-01",
+     "note": "",
+     "text": "Model prerequisite obligations as typed, durable and consumable dependencies."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B07-02",
+     "note": "",
+     "text": "Verify before/after effects, policy drift, rollback capability and side-effect-free previews."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B07-03",
+     "note": "",
+     "text": "Define non-rollbackable effect handling, compensation plans and safe explicit refusal."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B07-04",
+     "note": "",
+     "text": "Check transaction outcomes against sink-observed side effects under crashes and races."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B07-05",
+     "note": "",
+     "text": "Benchmark utility and false denials for strict obligation enforcement."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B07-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream B \u2014 Execution, effects, containment and integrity"
+  },
+  {
+   "associated_work": "P10/P26",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/ops/secrets.py"
+    },
+    {
+     "exists": true,
+     "path": "horizon/ops/keys.py"
+    },
+    {
+     "exists": true,
+     "path": "horizon/ops/approvals.py"
+    }
+   ],
+   "id": "B08",
+   "independent_attestation": null,
+   "known_blocker": "No managed production secret store and rotation exercise.",
+   "name": "Credential and secret broker",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B08-01",
+     "note": "",
+     "text": "Use least-privilege per-agent short-lived credentials with trusted custody."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B08-02",
+     "note": "",
+     "text": "Add cloud/KMS or local HSM-backed secrets adapter and documented rotation procedure."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B08-03",
+     "note": "",
+     "text": "Prevent credential presence in untrusted logs, tool responses, child environment or crash dumps."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B08-04",
+     "note": "",
+     "text": "Run revocation races, leaked-token replay, cross-tenant credential substitution and host failure drills."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B08-05",
+     "note": "",
+     "text": "Complete independent key-management review and incident response checklist."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "B08-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream B \u2014 Execution, effects, containment and integrity"
+  },
+  {
+   "associated_work": "P4/E02",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/adapters/mcp/"
+    }
+   ],
+   "id": "C01",
+   "independent_attestation": null,
+   "known_blocker": "Request scoping fixed; real server interop and mandatory sink path remain open.",
+   "name": "MCP gateway",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C01-01",
+     "note": "",
+     "text": "Exercise latest supported MCP versions and official conformance tests with real servers."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C01-02",
+     "note": "",
+     "text": "Bind session/server/tenant/principal/typed request ID through cache, cancellation, permit and effect receipt."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C01-03",
+     "note": "",
+     "text": "Enforce trusted tool mapping/manifest pinning; reject unreviewed schema updates."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C01-04",
+     "note": "",
+     "text": "Prevent direct tool invocation and downstream effects outside the MCP gateway."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C01-05",
+     "note": "",
+     "text": "Measure throughput, cancellation races, server restart, streaming, auth and read-versus-effect handling."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C01-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream C \u2014 Protocol, identity, information-flow and multi-agent modules"
+  },
+  {
+   "associated_work": "P5",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/adapters/utcp/"
+    }
+   ],
+   "id": "C02",
+   "independent_attestation": null,
+   "known_blocker": "Host HTTP client can bypass checks, real SDK/transport parity not established.",
+   "name": "UTCP gateway",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C02-01",
+     "note": "",
+     "text": "Integrate with an unmodified supported UTCP SDK and capture real transport traffic."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C02-02",
+     "note": "",
+     "text": "Prevent SDK direct-call bypass, malicious manuals, URLs, path normalization and SSRF."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C02-03",
+     "note": "",
+     "text": "Enforce exact request payload and credential scoping at outbound transport boundary."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C02-04",
+     "note": "",
+     "text": "Complete conformance for supported HTTP/CLI transports; mark WS/gRPC unsupported until implemented."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C02-05",
+     "note": "",
+     "text": "Compare equivalent logical effects across MCP and UTCP with independent outcomes."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C02-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream C \u2014 Protocol, identity, information-flow and multi-agent modules"
+  },
+  {
+   "associated_work": "P87/P90",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/a2a/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/frameworks/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/skillpolicy/"
+    }
+   ],
+   "id": "C03",
+   "independent_attestation": null,
+   "known_blocker": "Mostly candidate contracts rather than live framework deployment.",
+   "name": "A2A, framework and skill adapters",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C03-01",
+     "note": "",
+     "text": "Define versioned adapter ABI with typed effect, trusted identity and capability evidence."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C03-02",
+     "note": "",
+     "text": "Run at least two real agent frameworks through a standardized conformance suite."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C03-03",
+     "note": "",
+     "text": "Prove trust and revocation survive handoffs, remote agent response spoofing and reentrancy."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C03-04",
+     "note": "",
+     "text": "Validate skill/tool package provenance, signatures, updates and prompt-content trust separation."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C03-05",
+     "note": "",
+     "text": "Ensure unsupported methods cannot implicitly bypass authorization."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C03-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream C \u2014 Protocol, identity, information-flow and multi-agent modules"
+  },
+  {
+   "associated_work": "P7",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/lineage/"
+    }
+   ],
+   "id": "C04",
+   "independent_attestation": null,
+   "known_blocker": "Known paraphrase/encoding misses; finite label coverage.",
+   "name": "Lineage and data-flow tracking",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C04-01",
+     "note": "",
+     "text": "Formalize tracked values, derived artifacts, implicit flows and declassification authority."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C04-02",
+     "note": "",
+     "text": "Test transformed secrets: reverse, chunks, paraphrase, compression, base64, embeddings and summarization."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C04-03",
+     "note": "",
+     "text": "Report detection coverage and UNKNOWN for untracked transformations instead of false negatives hidden as safe."
+    },
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C04-04",
+     "note": "",
+     "text": "Require actual sink-byte observation for claimed prevented exfiltration."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C04-05",
+     "note": "",
+     "text": "Compare with CaMeL, tracked-capability systems and coarse run-level rules on identical tasks."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C04-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream C \u2014 Protocol, identity, information-flow and multi-agent modules"
+  },
+  {
+   "associated_work": "P34/P53",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/agents/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/continuity/"
+    }
+   ],
+   "id": "C05",
+   "independent_attestation": null,
+   "known_blocker": "Deceived attestation and unknown cross-agent transfer remain.",
+   "name": "Multi-agent isolation and coordination",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C05-01",
+     "note": "",
+     "text": "Isolate principals, memory, working directories, tool tokens and durable state between collaborating agents."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C05-02",
+     "note": "",
+     "text": "Implement durable delegation lineage and revocation epochs across reboots and migration."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C05-03",
+     "note": "",
+     "text": "Test cross-agent collusion, hidden channels, replayed messages and forged role transitions."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C05-04",
+     "note": "",
+     "text": "Address P53 U02 deceived attestor with an independent trust source or declare impossibility."
+    },
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C05-05",
+     "note": "",
+     "text": "Demonstrate a real multi-agent workflow with independent effect journals."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C05-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream C \u2014 Protocol, identity, information-flow and multi-agent modules"
+  },
+  {
+   "associated_work": "P16/P18",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/memory/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/epist/"
+    }
+   ],
+   "id": "C06",
+   "independent_attestation": null,
+   "known_blocker": "No proof of correctness for unknown world facts, and narrow controlled tests.",
+   "name": "Memory, retention and epistemic evidence",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C06-01",
+     "note": "",
+     "text": "Specify provenance, confidence, staleness, expiration and ownership for memory-derived facts."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C06-02",
+     "note": "",
+     "text": "Define evidence independence and non-circular promotion of asserted facts into authorization premises."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C06-03",
+     "note": "",
+     "text": "Prevent malicious memory writes or retrievals from expanding capabilities."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C06-04",
+     "note": "",
+     "text": "Test poisoning across sessions, deletion/retention and tenant isolation."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C06-05",
+     "note": "",
+     "text": "Explicitly separate truth uncertainty from effect authorization confidence."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C06-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream C \u2014 Protocol, identity, information-flow and multi-agent modules"
+  },
+  {
+   "associated_work": "P52/P53",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/temporal/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/continuity/"
+    }
+   ],
+   "id": "C07",
+   "independent_attestation": null,
+   "known_blocker": "Unsupported paths and deceived attestations are marked UNKNOWN.",
+   "name": "Temporal invariants and continuity",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C07-01",
+     "note": "",
+     "text": "Model event ordering, wall-clock skew and revocation epochs under distributed execution."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C07-02",
+     "note": "",
+     "text": "Test delayed effects, cancellations, replay and out-of-order callback completion."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C07-03",
+     "note": "",
+     "text": "Prove no mandatory protection silently weakens after migration/fallback/restart."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C07-04",
+     "note": "",
+     "text": "Monitor clock drift, missing events and invalidated evidence as security events."
+    },
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C07-05",
+     "note": "",
+     "text": "Exercise causal traces across real services, not just synthetic event lists."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "C07-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream C \u2014 Protocol, identity, information-flow and multi-agent modules"
+  },
+  {
+   "associated_work": "P45/P50",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/privacy/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/budget/"
+    }
+   ],
+   "id": "D01",
+   "independent_attestation": null,
+   "known_blocker": "UNKNOWN reservation remains charged and may never reconcile.",
+   "name": "Privacy and shared data budgets",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D01-01",
+     "note": "",
+     "text": "Define privacy labels, dataset scopes, per-principal budget accounting and tenant boundaries."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D01-02",
+     "note": "",
+     "text": "Atomically reserve/commit/release budgets across workers and service restarts."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D01-03",
+     "note": "",
+     "text": "Design verifiable resolution or bounded expiration policy for UNKNOWN budget reservations."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D01-04",
+     "note": "",
+     "text": "Test concurrency, cancellation, duplicated requests and indirect re-identification transformations."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D01-05",
+     "note": "",
+     "text": "Quantify legitimate workflow impact and privacy leakage limitations."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D01-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream D \u2014 Privacy, consent, misuse, integrity and human safeguards"
+  },
+  {
+   "associated_work": "P48/P46",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/consent/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/approvalui/"
+    }
+   ],
+   "id": "D02",
+   "independent_attestation": null,
+   "known_blocker": "Synthetic approvals and adversarial cases need real user-study evidence.",
+   "name": "Consent and approval UX",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D02-01",
+     "note": "",
+     "text": "Bind consent to exact effects, recipients, purpose, scope, expiry and data sensitivity."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D02-02",
+     "note": "",
+     "text": "Prevent dark patterns, confusing fallback, approval phishing and authority spoofing."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D02-03",
+     "note": "",
+     "text": "Provide reviewable diff of intended action and irreversible downstream consequences."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D02-04",
+     "note": "",
+     "text": "Test revoke-after-approve race with actual effect ledger and trusted UI identity."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D02-05",
+     "note": "",
+     "text": "Conduct usability study, error-rate analysis and accessibility testing."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D02-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream D \u2014 Privacy, consent, misuse, integrity and human safeguards"
+  },
+  {
+   "associated_work": "P47",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/incentive/"
+    }
+   ],
+   "id": "D03",
+   "independent_attestation": null,
+   "known_blocker": "Controlled adversarial incentive scenarios only.",
+   "name": "Incentive-robust enforcement",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D03-01",
+     "note": "",
+     "text": "Demonstrate policy enforcement independent of model reward, planning heuristics or instruction pressure."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D03-02",
+     "note": "",
+     "text": "Test cross-agent reward hacking, self-modification attempts and audit-avoidance behavior."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D03-03",
+     "note": "",
+     "text": "Compare hard reference monitor against soft policy penalties and model-level refusal."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D03-04",
+     "note": "",
+     "text": "Measure task utility under realistic incentives and model/temperature variation."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D03-05",
+     "note": "",
+     "text": "Define applicability of tests to learned agents and where scripted proxies are insufficient."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D03-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream D \u2014 Privacy, consent, misuse, integrity and human safeguards"
+  },
+  {
+   "associated_work": "P49/P54",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/evalint/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/integration/"
+    }
+   ],
+   "id": "D04",
+   "independent_attestation": null,
+   "known_blocker": "All-collectors omission can produce false PASS in known X01 case.",
+   "name": "Evaluation integrity",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D04-01",
+     "note": "",
+     "text": "Place evidence collector, keys and signing under independent authority."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D04-02",
+     "note": "",
+     "text": "Block false PASS if all expected collectors omit or collude; degrade to UNKNOWN on missing coverage."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D04-03",
+     "note": "",
+     "text": "Verify correlation of evidence across filesystem, network, process and receivers."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D04-04",
+     "note": "",
+     "text": "Externalize challenge tests and make oracle-mutation tests independent of system-under-test code."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D04-05",
+     "note": "",
+     "text": "Re-run ES-G1..16 on a new frozen integration report and resolve/freeze all deviations."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D04-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream D \u2014 Privacy, consent, misuse, integrity and human safeguards"
+  },
+  {
+   "associated_work": "P51",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/vision/"
+    }
+   ],
+   "id": "D05",
+   "independent_attestation": null,
+   "known_blocker": "2 of 11 benign cases blocked; browser scope not deployed generally.",
+   "name": "Browser and vision-effect security",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D05-01",
+     "note": "",
+     "text": "Enforce browser origin, click target, form submission, download and navigation as concrete effects."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D05-02",
+     "note": "",
+     "text": "Distinguish screenshot/text interpretation from trusted DOM/network outcome evidence."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D05-03",
+     "note": "",
+     "text": "Test deceptive overlays, browser extension bypass, redirects, racey UI, nested frames and permission prompts."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D05-04",
+     "note": "",
+     "text": "Correct 2/11 benign overblocks and measure impact on new benign workflows."
+    },
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D05-05",
+     "note": "",
+     "text": "Run live browser with independent receiver/origin journal and realistic agent-generated actions."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D05-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream D \u2014 Privacy, consent, misuse, integrity and human safeguards"
+  },
+  {
+   "associated_work": "P46/P89",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/downgrade/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/weights/"
+    }
+   ],
+   "id": "D06",
+   "independent_attestation": null,
+   "known_blocker": "Candidate helper-level security-floor constraints, no production binding.",
+   "name": "Downgrade/fallback and model policy",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D06-01",
+     "note": "",
+     "text": "Pin policies and guarantee fallback monotonicity under lower capability or missing attestation."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D06-02",
+     "note": "",
+     "text": "Prohibit accepting weak model/tool safety claims in place of verified effect permissions."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D06-03",
+     "note": "",
+     "text": "Exercise multi-model fallback, tool errors, version skew and missing sensors."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D06-04",
+     "note": "",
+     "text": "Publish quantified security-versus-utility tradeoffs and denial reasons."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D06-05",
+     "note": "",
+     "text": "Ensure model weights/prompts cannot unilaterally change the trusted enforcement kernel."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "D06-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream D \u2014 Privacy, consent, misuse, integrity and human safeguards"
+  },
+  {
+   "associated_work": "P39",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/emergence/"
+    }
+   ],
+   "id": "E01",
+   "independent_attestation": null,
+   "known_blocker": "Only four leaking synthetic chains; two behind UNKNOWN unmodeled endpoints.",
+   "name": "HorizonEmergence",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E01-01",
+     "note": "",
+     "text": "Increase independent composition families beyond handwritten source-transform-sink chains."
+    },
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E01-02",
+     "note": "",
+     "text": "Use real agents, tool servers, delegation and complex transform sequences."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E01-03",
+     "note": "",
+     "text": "Test exact detection/UNKNOWN calibration with completely independent receiver-side oracles."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E01-04",
+     "note": "",
+     "text": "Compare guided search versus brute force, graph search, taint, coarse history and CaMeL-style controls."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E01-05",
+     "note": "",
+     "text": "Falsify finite-model completeness by varying assumptions, hidden endpoints and oracle blind spots."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E01-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream E \u2014 Security analysis, attack discovery and coverage"
+  },
+  {
+   "associated_work": "P42",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/coverage/"
+    }
+   ],
+   "id": "E02",
+   "independent_attestation": null,
+   "known_blocker": "Some physical effect sinks lack independent coverage proof.",
+   "name": "HorizonCoverage",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E02-01",
+     "note": "",
+     "text": "Enumerate supported protected sinks and link each to a mandatory enforcement boundary."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E02-02",
+     "note": "",
+     "text": "Add active probes for unmediated child processes, credential reads, filesystem, socket and unknown transports."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E02-03",
+     "note": "",
+     "text": "Generate signed coverage statements with exact threat model and expiry."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E02-04",
+     "note": "",
+     "text": "Fail closed or withdraw scope-specific claims on coverage regression."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E02-05",
+     "note": "",
+     "text": "Use independent review to certify monitored versus unmonitored operation classes."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E02-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream E \u2014 Security analysis, attack discovery and coverage"
+  },
+  {
+   "associated_work": "P43",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/mutation/"
+    }
+   ],
+   "id": "E03",
+   "independent_attestation": null,
+   "known_blocker": "Mutations and oracle cases are primarily same-author designed.",
+   "name": "HorizonMutation",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E03-01",
+     "note": "",
+     "text": "Implement independent mutant-generation harness and semantics-preserving mutation filters."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E03-02",
+     "note": "",
+     "text": "Benchmark survival and verdict-changing rates on held-out systems and attack families."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E03-03",
+     "note": "",
+     "text": "Attribute each detected failure to a precise security invariant rather than a matching string."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E03-04",
+     "note": "",
+     "text": "Add minimal counterexample reduction and proof/evidence export."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E03-05",
+     "note": "",
+     "text": "Use mutations to regression-test all integration-critical modules automatically."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E03-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream E \u2014 Security analysis, attack discovery and coverage"
+  },
+  {
+   "associated_work": "P44",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/reach/"
+    }
+   ],
+   "id": "E04",
+   "independent_attestation": null,
+   "known_blocker": "3/45 attacker effects from deceptive attested remote services.",
+   "name": "HorizonReach",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E04-01",
+     "note": "",
+     "text": "Add first-call leak scenario as permanently tracked regression; no dishonest claims of automatic prevention."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E04-02",
+     "note": "",
+     "text": "Use independent effect observers and disallow untrusted raw-secret exposure unless protected by a defensible method."
+    },
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E04-03",
+     "note": "",
+     "text": "Retest DNS rebinding, nested redirects, misleading attestation and partial response omission."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E04-04",
+     "note": "",
+     "text": "Publish residual disclosure rate alongside completed legitimate tasks, latency and UNKNOWN."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E04-05",
+     "note": "",
+     "text": "Show protection under multi-hop, multi-service, multi-agent real execution."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E04-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream E \u2014 Security analysis, attack discovery and coverage"
+  },
+  {
+   "associated_work": "P41",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/counterfactual/"
+    }
+   ],
+   "id": "E05",
+   "independent_attestation": null,
+   "known_blocker": "Sandbox previews may not cover actual downstream external effects.",
+   "name": "HorizonCounterfactual",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E05-01",
+     "note": "",
+     "text": "Model irreversibility and non-replayable effects explicitly."
+    },
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E05-02",
+     "note": "",
+     "text": "Prove preview is isolated from real production credentials and effect sinks."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E05-03",
+     "note": "",
+     "text": "Detect divergence between previewed and commit-time targets/payloads."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E05-04",
+     "note": "",
+     "text": "Measure preview false approval and false blocking against receiver-side truth."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E05-05",
+     "note": "",
+     "text": "Use formal limitation statements for externally unobservable consequences."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E05-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream E \u2014 Security analysis, attack discovery and coverage"
+  },
+  {
+   "associated_work": "P35/P19",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/telemetry/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/attest/"
+    }
+   ],
+   "id": "E06",
+   "independent_attestation": null,
+   "known_blocker": "Polling sensors can miss short-lived processes; some trust roots are process-local.",
+   "name": "Security telemetry and forensic attribution",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E06-01",
+     "note": "",
+     "text": "Instrument kernel and sink boundaries with bounded event loss reporting."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E06-02",
+     "note": "",
+     "text": "Test forged transcripts, tampered collector output, missing events and independent witness disagreement."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E06-03",
+     "note": "",
+     "text": "Separate receipt signing identities from agents and runtime supervisors."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E06-04",
+     "note": "",
+     "text": "Anchor logs to independently held keys or append-only storage and test tamper evidence."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E06-05",
+     "note": "",
+     "text": "Publish forensic completeness/uncertainty for each supported OS and adapter."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E06-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream E \u2014 Security analysis, attack discovery and coverage"
+  },
+  {
+   "associated_work": "P32/P33/P36",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/codeassur/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/infraguard/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/triggerlab/"
+    }
+   ],
+   "id": "E07",
+   "independent_attestation": null,
+   "known_blocker": "Toy code generators and format-mismatched scanner comparisons limit claims.",
+   "name": "Static code and infrastructure assurance",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E07-01",
+     "note": "",
+     "text": "Run real source projects and real generated code through functional and exploitability oracles."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E07-02",
+     "note": "",
+     "text": "Compare tools on *their own supported input formats*; avoid invalid scanner superiority claims."
+    },
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E07-03",
+     "note": "",
+     "text": "Test model artifact trigger behaviors against actual model checkpoints if claimed."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E07-04",
+     "note": "",
+     "text": "Separate static warning, exploitable vulnerability and observed external effect in output."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E07-05",
+     "note": "",
+     "text": "Benchmark coverage, false alerts and runtime costs under independent cases."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "E07-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream E \u2014 Security analysis, attack discovery and coverage"
+  },
+  {
+   "associated_work": "HF",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/assurance/"
+    }
+   ],
+   "id": "F01",
+   "independent_attestation": null,
+   "known_blocker": "Candidate registry; crash-consistent invalidation not yet proven.",
+   "name": "HorizonZero assurance registry",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F01-01",
+     "note": "",
+     "text": "Formalize assurance certificate schema, exact effect/sink scope and evidence dependencies."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F01-02",
+     "note": "",
+     "text": "Make claim invalidation atomic with authorization and durable across restart and migration."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F01-03",
+     "note": "",
+     "text": "Prove no stale assurance can authorize a new protected effect."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F01-04",
+     "note": "",
+     "text": "Test collector omission, collusion, false witnesses and threat-model expansion."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F01-05",
+     "note": "",
+     "text": "Independently establish novelty beyond existing runtime contracts and formal monitorability research."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F01-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream F \u2014 New research modules \u2014 keep isolated until validated"
+  },
+  {
+   "associated_work": "HF",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/forge/"
+    }
+   ],
+   "id": "F02",
+   "independent_attestation": null,
+   "known_blocker": "Finite enumerative toy synthesis; no SMT or real infrastructure.",
+   "name": "HorizonForge boundary synthesis",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F02-01",
+     "note": "",
+     "text": "Implement typed IR for real deployment controls, witnesses, relocation, consent and delegation."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F02-02",
+     "note": "",
+     "text": "Add SMT/MaxSAT or verified bounded optimizer with independently checkable proofs where possible."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F02-03",
+     "note": "",
+     "text": "Generate enactable patches/configurations under an allowlisted deployment environment."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F02-04",
+     "note": "",
+     "text": "Test synthesized boundary against real sinks, strong rule-based and human-designed baselines."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F02-05",
+     "note": "",
+     "text": "State bounded non-certifiability precisely; never claim global impossibility from a finite plan set."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F02-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream F \u2014 New research modules \u2014 keep isolated until validated"
+  },
+  {
+   "associated_work": "SP",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "research/spectra/"
+    }
+   ],
+   "id": "F03",
+   "independent_attestation": null,
+   "known_blocker": "Toy finite hypothesis worlds, no live black-box tool surfaces.",
+   "name": "HorizonSpectra tomography",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F03-01",
+     "note": "",
+     "text": "Implement instrumented black-box agent environments with hidden effect channels and owner-controlled canary sinks."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F03-02",
+     "note": "",
+     "text": "Choose active probes using information gain with separate held-out channel families."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F03-03",
+     "note": "",
+     "text": "Compare against random, breadth-first, classical active system identification and existing observability methods."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F03-04",
+     "note": "",
+     "text": "Prove identifiability boundaries and return UNKNOWN for observationally equivalent worlds."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F03-05",
+     "note": "",
+     "text": "Validate probe safety, cost and discoveries with an external fixture author."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F03-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream F \u2014 New research modules \u2014 keep isolated until validated"
+  },
+  {
+   "associated_work": "HP",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "research/weightspace/"
+    }
+   ],
+   "id": "F04",
+   "independent_attestation": null,
+   "known_blocker": "Only weight-patch API and manifests; no actual model has been edited.",
+   "name": "HorizonPatch weight-space editing",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F04-01",
+     "note": "",
+     "text": "Pin open-weight checkpoints, tokenizers and licenses, and reproduce a documented non-security weight edit."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F04-02",
+     "note": "",
+     "text": "Collect clean/adversarial matched activation data for genuine tool-trust errors."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F04-03",
+     "note": "",
+     "text": "Compare gradient-free sparse edits against random, norm-matched, LoRA, activation steering and standard fine-tuning."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F04-04",
+     "note": "",
+     "text": "Test unseen prompt-injection strategies and legitimate utility with independent effect-oracle labels."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F04-05",
+     "note": "",
+     "text": "Rollback on new capability failures; keep weight patches outside protected security-kernel authority."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F04-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream F \u2014 New research modules \u2014 keep isolated until validated"
+  },
+  {
+   "associated_work": "HS",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "research/weightspace/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/weights/"
+    }
+   ],
+   "id": "F05",
+   "independent_attestation": null,
+   "known_blocker": "Proposed; no validated safety-regression detector over real checkpoints.",
+   "name": "HorizonSentinel weight integrity",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F05-01",
+     "note": "",
+     "text": "Define safety-critical behaviors and tests across checkpoint transitions."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F05-02",
+     "note": "",
+     "text": "Compare localized weight diagnostics with full behavioral regression tests and model diffing."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F05-03",
+     "note": "",
+     "text": "Test adversarial edits, quantization, merges and stealthy safety regressions on consented open models."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F05-04",
+     "note": "",
+     "text": "Report coverage limits when internal cause is not identifiable."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F05-05",
+     "note": "",
+     "text": "Sign checkpoint and patch provenance; make any promotion require external verification."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F05-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream F \u2014 New research modules \u2014 keep isolated until validated"
+  },
+  {
+   "associated_work": "HT",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "research/weightspace/"
+    }
+   ],
+   "id": "F06",
+   "independent_attestation": null,
+   "known_blocker": "Speculative hypothesis; no cross-architecture evidence.",
+   "name": "HorizonTransfer cross-model safety patch",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F06-01",
+     "note": "",
+     "text": "Define task and architecture equivalence criteria for transfer."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F06-02",
+     "note": "",
+     "text": "Compare direct patch translation with independently discovered local patches and finetuning."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F06-03",
+     "note": "",
+     "text": "Test at least two unrelated open-weight families using frozen held-out tasks."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F06-04",
+     "note": "",
+     "text": "Measure negative transfer and utility regression rather than only safety scores."
+    },
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F06-05",
+     "note": "",
+     "text": "Publish null results and disallow transplanting patches into protected production models."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F06-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream F \u2014 New research modules \u2014 keep isolated until validated"
+  },
+  {
+   "associated_work": "HR",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "research/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/research/"
+    }
+   ],
+   "id": "F07",
+   "independent_attestation": null,
+   "known_blocker": "Learned model not demonstrated; concept-only stage.",
+   "name": "HorizonReflex System 1 probe selection",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F07-01",
+     "note": "",
+     "text": "Collect agent-state/effect-graph data with independent sink labels."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F07-02",
+     "note": "",
+     "text": "Build small typed decision-model baseline and graph neural model for downstream effect prediction."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F07-03",
+     "note": "",
+     "text": "Use predicted uncertainty to select safe HorizonSpectra probes, never to authorize actual effects."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F07-04",
+     "note": "",
+     "text": "Compare against random, heuristic, Bayesian and slower-model probe policies on held-out tools."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F07-05",
+     "note": "",
+     "text": "Measure calibration, novel effect discovery per probe, p95 latency, out-of-distribution reliability and utility."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F07-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream F \u2014 New research modules \u2014 keep isolated until validated"
+  },
+  {
+   "associated_work": "Novel",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "research/novel/"
+    }
+   ],
+   "id": "F08",
+   "independent_attestation": null,
+   "known_blocker": "Candidate algorithms; prior-art searches and independent comparisons incomplete.",
+   "name": "Seven research novelty helpers",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F08-01",
+     "note": "",
+     "text": "Inventory each helper: coverage, differential kernel, negative registry, permit fuzz, race bench, sink differential and witness analysis."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F08-02",
+     "note": "",
+     "text": "Give each one hypothesis, novelty falsifier, independent baseline and a bounded threat model."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F08-03",
+     "note": "",
+     "text": "Demonstrate measurable gain beyond strongest directly related research, not against trivial stubs."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F08-04",
+     "note": "",
+     "text": "Keep all experimental controls out of the mandatory enforcement path pending formal approval."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F08-05",
+     "note": "",
+     "text": "Publish exact failure cases and retire ideas that do not show independent advantage."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "F08-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream F \u2014 New research modules \u2014 keep isolated until validated"
+  },
+  {
+   "associated_work": "P8/P9/P11",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "bench/secbench/"
+    },
+    {
+     "exists": true,
+     "path": "bench/p9/"
+    },
+    {
+     "exists": true,
+     "path": "paper/"
+    }
+   ],
+   "id": "G01",
+   "independent_attestation": null,
+   "known_blocker": "Simple B3 rule ties full defense on main benchmark; post-hoc examples are not confirmatory.",
+   "name": "Synthetic SecBench and study pipelines",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G01-01",
+     "note": "",
+     "text": "Create new independently authored held-out scenarios with matched benign sensitive-data workflows."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G01-02",
+     "note": "",
+     "text": "Run CaMeL, tracked capabilities and best coarse-history baselines under matched deployment assumptions."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G01-03",
+     "note": "",
+     "text": "Freeze hypotheses, primary metrics, experiment scripts, seed policy and statistical analysis *before* test."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G01-04",
+     "note": "",
+     "text": "Run full live-agent-and-protected-sink pipeline on held-out attacks and benign tasks."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G01-05",
+     "note": "",
+     "text": "Prepare one focused, honest manuscript per independently verified central contribution."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G01-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream G \u2014 Benchmarks, paper evidence, orchestration and operations"
+  },
+  {
+   "associated_work": "2026-11-03",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "bench/real/"
+    },
+    {
+     "exists": true,
+     "path": "bench/dataset/"
+    }
+   ],
+   "id": "G02",
+   "independent_attestation": null,
+   "known_blocker": "24 registered repos, 22 parseable; most not evaluated; replay is not causal prevention.",
+   "name": "External datasets and replay studies",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G02-01",
+     "note": "",
+     "text": "Validate provenance, licenses, dataset overlap and label semantics; ensure no hidden leakage into held-out test."
+    },
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G02-02",
+     "note": "",
+     "text": "Make offline replay metrics distinct from live attack prevention and counterfactual utility."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G02-03",
+     "note": "",
+     "text": "Replace name-based effect classification with operator-reviewed actual effect contracts."
+    },
+    {
+     "class_heuristic": "NEEDS_LIVE_ENV",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G02-04",
+     "note": "",
+     "text": "Run compatible live benchmarks with independently observed outcomes; include per-suite/model robustness."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G02-05",
+     "note": "",
+     "text": "Fix dataset v0 saturation with blinded external authoring, adaptive attackers and harder controls."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G02-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream G \u2014 Benchmarks, paper evidence, orchestration and operations"
+  },
+  {
+   "associated_work": "P75-P86",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "orchestrator/"
+    },
+    {
+     "exists": true,
+     "path": "spec/"
+    },
+    {
+     "exists": true,
+     "path": "scripts/horizon_plan.py"
+    }
+   ],
+   "id": "G03",
+   "independent_attestation": null,
+   "known_blocker": "Worker/verifier not truly isolated; HMAC/fixture and dependency assumptions.",
+   "name": "Supervisor and autonomous development",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G03-01",
+     "note": "",
+     "text": "Keep worker, reviewer, signers and evaluation data under separate identities and filesystem permissions."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G03-02",
+     "note": "",
+     "text": "Use clean immutable worktree or container per agent and signed, pinned tool/dependency environments."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G03-03",
+     "note": "",
+     "text": "Enforce independent acceptance runner with oracle protection and exact git-commit pinning."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G03-04",
+     "note": "",
+     "text": "Test worker compromise, reviewer compromise, tool-output injection, collusion and altered benchmarks."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G03-05",
+     "note": "",
+     "text": "Do not allow coding agents to self-promote CANDIDATE into independent VERIFIED."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G03-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream G \u2014 Benchmarks, paper evidence, orchestration and operations"
+  },
+  {
+   "associated_work": "P10/P38/P55-P74",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/ops/"
+    },
+    {
+     "exists": true,
+     "path": ".github/workflows/"
+    },
+    {
+     "exists": true,
+     "path": "replication/"
+    },
+    {
+     "exists": true,
+     "path": "sdk-ts/"
+    }
+   ],
+   "id": "G04",
+   "independent_attestation": null,
+   "known_blocker": "No production release or independently attested protected sink.",
+   "name": "Release engineering and supply chain",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G04-01",
+     "note": "",
+     "text": "Build versioned packages/images with SBOM, signature, verified dependency locks and pinned build environments."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G04-02",
+     "note": "",
+     "text": "Resolve licenses, older proprietary component provenance and release rights before publication."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G04-03",
+     "note": "",
+     "text": "Create clean-room reproducible install-and-test instructions on supported Linux variants."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G04-04",
+     "note": "",
+     "text": "Add supply-chain review, secret scanning, dependency and vulnerability triage to release gates."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G04-05",
+     "note": "",
+     "text": "Publish transparent supported/unsupported capability matrix and independent assessment findings."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G04-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream G \u2014 Benchmarks, paper evidence, orchestration and operations"
+  },
+  {
+   "associated_work": "P10/P55-P74",
+   "code_paths": [
+    {
+     "exists": true,
+     "path": "horizon/ops/"
+    },
+    {
+     "exists": true,
+     "path": "horizon/service/"
+    },
+    {
+     "exists": true,
+     "path": "docs/operations/"
+    }
+   ],
+   "id": "G05",
+   "independent_attestation": null,
+   "known_blocker": "Operational SLOs, key rotation, support and multi-instance reliability not proven.",
+   "name": "Operations, audits and disaster recovery",
+   "reviewer_identity": null,
+   "status": "CANDIDATE",
+   "tasks": [
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G05-01",
+     "note": "",
+     "text": "Define risk taxonomy, SLOs, incident escalation and human override/kill-switch contract."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G05-02",
+     "note": "",
+     "text": "Test backups, log retention, disaster recovery, key compromise, key rotation and graceful degradation."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G05-03",
+     "note": "",
+     "text": "Observe real p95/p99 latency, throughput, denial rates, UNKNOWN and completeness of effect logs."
+    },
+    {
+     "class_heuristic": "DOABLE_HERE",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G05-04",
+     "note": "",
+     "text": "Use structured redacted OpenTelemetry events without leaking prompt or secret payloads."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G05-05",
+     "note": "",
+     "text": "Conduct independent security and operational readiness review prior to product claims."
+    },
+    {
+     "class_heuristic": "EXTERNAL",
+     "done": false,
+     "evidence": [],
+     "evidence_digests": {},
+     "id": "G05-GATE",
+     "note": "",
+     "text": "Attach frozen tests/results, evidence oracle and independent review for precisely the supported scope."
+    }
+   ],
+   "workstream": "Workstream G \u2014 Benchmarks, paper evidence, orchestration and operations"
+  }
+ ],
+ "note": "Generated by scripts/hardening_inventory.py; never edit by hand. No percentage is computed.",
+ "source_doc": "docs/hardening/MODULE_COMPLETION_GATES.md"
+}
