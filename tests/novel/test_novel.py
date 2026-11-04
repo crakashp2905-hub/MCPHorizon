@@ -32,6 +32,19 @@ class Fuzz(unittest.TestCase):
         e.update(o or {}); return E.sign(self.s._p, "k1", e)
     def test_no_bound_field_is_unbound(self):
         r = permitfuzz.run(self.mv, self.s, self.ce, NOW, self.mint); self.assertTrue(r["baseline_ok"]); self.assertEqual(r["accepted"], []); self.assertGreaterEqual(r["tested"], 25)
+    def test_flip_sig_always_changes_signature_and_is_rejected(self):
+        for i in range(300):
+            tok = self.mint({"nonce": f"n{i}"}); bad = permitfuzz.flip_sig(tok)
+            self.assertNotEqual(E.b64d(bad.split(".")[-1]), E.b64d(tok.split(".")[-1]), i)
+            with self.assertRaises(ProofError): commit_verify(self.mv(), bad, self.ce)
+    def test_trailing_base64_padding_bits_are_ignored_by_decoder_known_malleability(self):
+        # root cause of the intermittent sig_flip CI failure: the old mutation rewrote the last 2 chars, which can decode to the SAME bytes.
+        # This documents (does not fix) the decoder's leniency: non-canonical base64url strings decode identically.
+        tok = self.mint(); head, sig = tok.rsplit(".", 1); self.assertEqual(len(sig), 86)
+        alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
+        same = [c for c in alpha if E.b64d(sig[:-1] + c) == E.b64d(sig)]; self.assertEqual(len(same), 16)     # 4 padding bits -> 16 spellings of one signature
+        other = [c for c in same if c != sig[-1]][0]
+        self.assertEqual(commit_verify(self.mv(), head + "." + sig[:-1] + other, self.ce)["sub"], "agent-a")   # differently-spelled token verifies (known leniency)
     def test_decision_id_is_reported_as_expected_unbound(self):
         r = permitfuzz.run(self.mv, self.s, self.ce, NOW, self.mint); self.assertEqual(r["accepted_expected_unbound"], ["claim.decision_id"])
     def test_fuzzer_detects_a_weak_verifier(self):   # the fuzzer itself must be able to fail: a verifier that ignores the principal (principal is NOT folded into the args digest, so only the principal check binds it)

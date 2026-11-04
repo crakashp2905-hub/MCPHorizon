@@ -13,6 +13,14 @@ CLAIM_ALT = {"iss": "iss-x", "sub": "agent-x", "tenant": "t-x", "effect": "delet
              "policy_version": "p-x", "aud": "gw-x", "decision_id": "d-x"}
 
 
+def flip_sig(tok: str) -> str:
+    """Change one character well inside the signature segment.  NOT the last characters: an Ed25519 signature is 64 bytes = 86 base64url
+    chars, and the final char carries only 2 data bits (4 padding bits that the decoder ignores), so rewriting the last two chars to 'AA'
+    is a NO-OP about 1 time in 256 (intermittent CI false 'accepted' before this fix)."""
+    i = len(tok) - 10
+    return tok[:i] + ("A" if tok[i] != "A" else "B") + tok[i + 1:]
+
+
 def run(make_verifier, signer, ce: CanonicalEffect, now: int, mint) -> dict:
     """make_verifier() -> fresh Verifier (fresh nonce store). mint(claim_dict)->token signed. Returns {'accepted': [mutation names], 'tested': n, 'baseline_ok': bool}."""
     base = mint(None)
@@ -28,7 +36,7 @@ def run(make_verifier, signer, ce: CanonicalEffect, now: int, mint) -> dict:
         try: commit_verify(make_verifier(), mint({f: v}), ce); accepted.append(f"claim.{f}")
         except ProofError: pass
     for name, fn in (("exp_extended", lambda: mint({"exp": now + 100000})), ("exp_past", lambda: mint({"iat": now - 100, "exp": now - 50})), ("future_iat", lambda: mint({"iat": now + 1000, "exp": now + 1030})),
-                     ("truncated", lambda: mint(None)[:-5]), ("sig_flip", lambda: mint(None)[:-2] + ("AA" if not mint(None).endswith("AA") else "BB")), ("alg_none", lambda: "e30." + mint(None).split(".", 1)[1]), ("empty", lambda: ""), ("dots", lambda: "..")):
+                     ("truncated", lambda: mint(None)[:-5]), ("sig_flip", lambda: flip_sig(mint(None))), ("alg_none", lambda: "e30." + mint(None).split(".", 1)[1]), ("empty", lambda: ""), ("dots", lambda: "..")):
         tested += 1
         try: commit_verify(make_verifier(), fn(), ce); accepted.append(f"token.{name}")
         except (ProofError, Exception): pass
