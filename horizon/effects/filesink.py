@@ -3,7 +3,7 @@ FileSink is the only code that touches the filesystem; ProtectedFileWriter is th
 Outcome truth comes from the sink journal (sha256 of what actually landed), so a gateway claim of COMMITTED can be checked against it. Localhost/tempdir only. CANDIDATE: in-process, trusting the OS user separation is NOT claimed
 (an agent running as the same OS user could bypass; real enforcement needs the sandbox/broker boundary — see limits)."""
 from __future__ import annotations
-import hashlib, json, os, time
+import fcntl, hashlib, json, os, time
 from horizon.authz.gateway import ProofError
 from horizon.effects.canonical import CanonicalEffect, commit_verify
 from horizon.effects.ledger import EffectLedger, LedgerError
@@ -23,22 +23,47 @@ class FileSink:
         if real == self.root or os.path.isdir(real): raise SinkError("IS_DIRECTORY")
         return real
 
+    def _locked(self):
+        """Cross-process mutual exclusion for journal + fence (flock on a sibling lock file owned by the sink)."""
+        class _L:
+            def __enter__(s_): s_.f = open(self.journal + ".lock", "a"); fcntl.flock(s_.f, fcntl.LOCK_EX); return s_
+            def __exit__(s_, *a): fcntl.flock(s_.f, fcntl.LOCK_UN); s_.f.close()
+        return _L()
+
+    def _records(self):
+        if not os.path.exists(self.journal): return []
+        return [json.loads(l) for l in open(self.journal) if l.strip()]
+
     def write(self, path: str, data: bytes, effect_id: str) -> dict:
         real = self._resolve(path); tmp = real + ".tmp." + effect_id[:16]
-        with open(tmp, "wb") as f: f.write(data); f.flush(); os.fsync(f.fileno())
-        os.replace(tmp, real)
-        rec = {"effect_id": effect_id, "path": real, "sha256": hashlib.sha256(open(real, "rb").read()).hexdigest(), "bytes": len(data), "ts": time.time()}
-        with open(self.journal, "a") as j: j.write(json.dumps(rec, sort_keys=True) + "\n"); j.flush(); os.fsync(j.fileno())
+        with self._locked():
+            recs = self._records()
+            if any(r.get("fence") == effect_id for r in recs): raise SinkError("FENCED", "effect was fenced by reconciliation; write refused")
+            if any(r.get("effect_id") == effect_id and "fence" not in r for r in recs): raise SinkError("ALREADY_WRITTEN", "sink already recorded this effect_id")
+            with open(tmp, "wb") as f: f.write(data); f.flush(); os.fsync(f.fileno())
+            os.replace(tmp, real)
+            rec = {"effect_id": effect_id, "path": real, "sha256": hashlib.sha256(open(real, "rb").read()).hexdigest(), "bytes": len(data), "ts": time.time()}
+            with open(self.journal, "a") as j: j.write(json.dumps(rec, sort_keys=True) + "\n"); j.flush(); os.fsync(j.fileno())
         return rec
 
-    def observed(self, effect_id: str) -> dict | None:
-        """Independent observation: the sink journal AND the file's current digest; None if the sink never recorded it."""
-        if not os.path.exists(self.journal): return None
-        for line in open(self.journal):
-            r = json.loads(line)
-            if r["effect_id"] == effect_id:
-                r["present_now"] = os.path.exists(r["path"]) and hashlib.sha256(open(r["path"], "rb").read()).hexdigest() == r["sha256"]; return r
+    def fence_and_observe(self, effect_id: str) -> dict | None:
+        """ATOMIC (under the sink lock): record a tombstone so no LATER write for effect_id can land, and return what the sink had recorded up to that instant.
+        Reconciling an UNKNOWN effect with a plain read is unsafe against a slow worker that writes afterwards (model: `no_fence_timeout_recovery`)."""
+        with self._locked():
+            obs = self._observed_unlocked(effect_id)
+            if not any(r.get("fence") == effect_id for r in self._records()):
+                with open(self.journal, "a") as j: j.write(json.dumps({"fence": effect_id, "ts": time.time()}, sort_keys=True) + "\n"); j.flush(); os.fsync(j.fileno())
+            return obs
+
+    def _observed_unlocked(self, effect_id: str) -> dict | None:
+        for r in self._records():
+            if r.get("effect_id") == effect_id and "fence" not in r:
+                r = dict(r); r["present_now"] = os.path.exists(r["path"]) and hashlib.sha256(open(r["path"], "rb").read()).hexdigest() == r["sha256"]; return r
         return None
+
+    def observed(self, effect_id: str) -> dict | None:
+        """Independent observation: the sink journal AND the file's current digest; None if the sink never recorded it. Plain read: NOT safe for reconciliation (use fence_and_observe)."""
+        with self._locked(): return self._observed_unlocked(effect_id)
 
 
 class ProtectedFileWriter:
@@ -60,10 +85,17 @@ class ProtectedFileWriter:
         try:
             if fault: fault()
             rec = self.sink.write(ce.target_raw, data, effect_id)
-        except SinkError as e: self.ledger.finish(effect_id, "BLOCKED", {"code": e.code}); return {"status": "BLOCKED", "code": e.code}
-        except BaseException as e: self.ledger.finish(effect_id, "UNKNOWN", {"error": type(e).__name__}); return {"status": "UNKNOWN", "code": "UPSTREAM_FAILED"}
-        self.ledger.finish(effect_id, "COMMITTED", {"sha256": rec["sha256"]}); return {"status": "ALLOW_COMMITTED", "sink_receipt": rec}
+        except SinkError as e:
+            try: self.ledger.finish(effect_id, "BLOCKED", {"code": e.code}); return {"status": "BLOCKED", "code": e.code}
+            except LedgerError: return {"status": "UNKNOWN" if e.code != "FENCED" else "BLOCKED", "code": e.code}     # ledger already moved on (recovery/reconcile won the race): do not overwrite it
+        except BaseException as e:
+            try: self.ledger.finish(effect_id, "UNKNOWN", {"error": type(e).__name__})
+            except LedgerError: pass
+            return {"status": "UNKNOWN", "code": "UPSTREAM_FAILED"}
+        try: self.ledger.finish(effect_id, "COMMITTED", {"sha256": rec["sha256"]})
+        except LedgerError: return {"status": "UNKNOWN", "code": "LEDGER_MOVED_ON", "sink_receipt": rec}          # sink effect happened; ledger was already UNKNOWN -> reconcile will find it
+        return {"status": "ALLOW_COMMITTED", "sink_receipt": rec}
 
     def reconcile(self, effect_id: str) -> str:
         """Resolve UNKNOWN only from the sink's own journal."""
-        obs = self.sink.observed(effect_id); self.ledger.reconcile(effect_id, bool(obs and obs["present_now"]), {"sink_observed": bool(obs)}); return self.ledger.state(effect_id)
+        obs = self.sink.fence_and_observe(effect_id); self.ledger.reconcile(effect_id, bool(obs and obs["present_now"]), {"sink_observed": bool(obs), "fenced": True}); return self.ledger.state(effect_id)

@@ -78,6 +78,17 @@ class EffectLedger:
             return ids
         return self._tx(f)
 
+    def expire_authorized(self, older_than: float) -> list:
+        """Liveness: an effect whose permit was consumed (AUTHORIZED) but never began would sit forever. Move those older than `older_than` seconds to BLOCKED.
+        Safe even if the authorizer is alive: begin() is an atomic AUTHORIZED->STARTED compare-and-set, so a late begin() returns False and nothing is dispatched
+        (model: research/commitproof, design `proposed_expiry_any_time`). The consumed nonce stays consumed (the permit is burned)."""
+        def f():
+            cut = self.clock() - older_than
+            ids = [r[0] for r in self.db.execute("select effect_id from effects where state='AUTHORIZED' and ts<=? order by effect_id", (cut,))]
+            for i in ids: self._move(i, "BLOCKED", {"reason": "authorized_orphan_expired"})
+            return ids
+        return self._tx(f)
+
     def state(self, effect_id): r = self.db.execute("select state from effects where effect_id=?", (effect_id,)).fetchone(); return r[0] if r else None
     def history(self, effect_id): return [(r[0], r[1]) for r in self.db.execute("select frm,to_state from history where effect_id=? order by seq", (effect_id,))]
     def close(self): self.db.close()

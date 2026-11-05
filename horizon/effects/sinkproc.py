@@ -11,6 +11,12 @@ sock_path, root, journal, allowed_uid = sys.argv[1], os.path.realpath(sys.argv[2
 if os.path.exists(sock_path): os.unlink(sock_path)
 s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM); s.bind(sock_path); os.chmod(sock_path, 0o666); s.listen(8)
 open(sock_path + ".ready", "w").write("1")
+done, fenced = {}, set()                      # rebuilt from the sink-owned journal so fences and records survive a sink restart
+for line in (open(journal).read().splitlines() if os.path.exists(journal) else []):
+    try: r = json.loads(line)
+    except ValueError: continue
+    if "fence" in r: fenced.add(r["fence"])
+    elif "effect_id" in r: done[r["effect_id"]] = r
 while True:
     c, _ = s.accept()
     try:
@@ -18,13 +24,20 @@ while True:
         req = json.loads(c.makefile("r").readline() or "{}")
         if uid != allowed_uid: out = {"ok": False, "code": "PEER_NOT_GATEWAY"}
         elif req.get("op") == "stop": out = {"ok": True}; c.sendall((json.dumps(out) + "\n").encode()); break
+        elif req.get("op") == "observe": out = {"ok": True, "observed": done.get(req["effect_id"])}
+        elif req.get("op") == "fence":   # ATOMIC fence-and-observe: the loop is single-threaded, so no write can interleave between the read and the tombstone
+            if req["effect_id"] not in fenced:
+                fenced.add(req["effect_id"]); open(journal, "a").write(json.dumps({"fence": req["effect_id"], "ts": time.time()}, sort_keys=True) + "\n")
+            out = {"ok": True, "observed": done.get(req["effect_id"])}
+        elif req["effect_id"] in fenced: out = {"ok": False, "code": "FENCED"}
+        elif req["effect_id"] in done: out = {"ok": False, "code": "ALREADY_WRITTEN"}
         else:
             real = os.path.realpath(req["path"])
             if not (real.startswith(root + os.sep)) or os.path.isdir(real): out = {"ok": False, "code": "OUTSIDE_ROOT"}
             else:
                 data = base64.b64decode(req["data"]); tmp = real + ".tmp"; open(tmp, "wb").write(data); os.replace(tmp, real)
                 rec = {"effect_id": req["effect_id"], "path": real, "sha256": hashlib.sha256(data).hexdigest(), "uid_peer": uid, "ts": time.time()}
-                open(journal, "a").write(json.dumps(rec, sort_keys=True) + "\n"); out = {"ok": True, "receipt": rec}
+                open(journal, "a").write(json.dumps(rec, sort_keys=True) + "\n"); done[req["effect_id"]] = rec; out = {"ok": True, "receipt": rec}
     except Exception as e: out = {"ok": False, "code": "SINK_ERROR:" + type(e).__name__}
     try: c.sendall((json.dumps(out) + "\n").encode())
     finally: c.close()
@@ -54,4 +67,6 @@ def call(sock_path: str, req: dict, *, as_uid: int | None = None) -> dict:
     return json.loads(p.stdout.decode() or "{}") if p.returncode == 0 else {"ok": False, "code": "CLIENT_ERROR", "stderr": p.stderr.decode()[-200:]}
 
 
+def fence_req(effect_id: str) -> dict: return {"op": "fence", "effect_id": effect_id}
+def observe_req(effect_id: str) -> dict: return {"op": "observe", "effect_id": effect_id}
 def write_req(path: str, data: bytes, effect_id: str) -> dict: return {"op": "write", "path": path, "data": base64.b64encode(data).decode(), "effect_id": effect_id}
