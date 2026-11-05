@@ -12,7 +12,7 @@ M = [('if fenced: out.append((f"w{i}.sink_write_refused(fenced)"', 'if False: ou
      ('if L in (COMMITTED, REC_C) and c != 1: bad.append', 'if False: bad.append'),
      ('if L in (BLOCKED, REC_B) and c != 0: bad.append', 'if False: bad.append'),
      ('REC_C if c >= 1 else REC_B', 'REC_C if c >= 2 else REC_B'),
-     ('and not any(w == AUTHED for w in ws): out.append', 'and True: out.append'),
+     ('or not any(w == AUTHED for w in ws)): out.append', 'or True): out.append'),
      ('if not succ and s[0] in (AUTH, LSTART, UNKNOWN) and', 'if False and'),
      ('        if bad: continue ', '        if False: continue '),
      ('if not used and L in (NONE, "REQUESTED"): out.append', 'if L in (NONE, "REQUESTED", AUTH): out.append'),
