@@ -55,4 +55,33 @@ class T(unittest.TestCase):
         ce = dataclasses.replace(self.ce, target_raw=self.root); self.assertEqual(self.w.write(self.tok(ce), ce, self.data, "e1")["status"], "BLOCKED")
     def test_no_tmp_files_left_after_commit(self):
         self.w.write(self.tok(), self.ce, self.data, "e1"); self.assertEqual(os.listdir(self.root), ["a.txt"])
+
+class Races(T):
+    def test_zombie_write_after_fenced_reconcile_is_blocked_not_an_exception(self):
+        # model: no_fence_timeout_recovery counterexample, on the real code: recovery + reconcile run while the worker is between begin() and the sink write
+        r = self.w.write(self.tok(), self.ce, self.data, "e1", fault=lambda: (self.L.recover(), self.w.reconcile("e1")))
+        self.assertEqual((r["status"], r["code"]), ("BLOCKED", "FENCED")); self.assertEqual(self.L.state("e1"), "RECONCILED_BLOCKED")
+        self.assertFalse(os.path.exists(self.ce.target_raw)); self.assertIsNone(self.sink.observed("e1"))
+
+    def test_ledger_moved_on_after_sink_write_reports_unknown_and_reconciles_committed(self):
+        L = self.L
+        class S(FileSink):
+            def write(s, *a, **k): rec = super().write(*a, **k); L.recover(); return rec     # timeout recovery fires after the write landed, before finish()
+        w = ProtectedFileWriter(self.v, self.L, S(self.root, os.path.join(self.d, "j2.jsonl")))
+        r = w.write(self.tok(), self.ce, self.data, "e1"); self.assertEqual((r["status"], r["code"]), ("UNKNOWN", "LEDGER_MOVED_ON")); self.assertEqual(self.L.state("e1"), "UNKNOWN")
+        self.assertEqual(w.reconcile("e1"), "RECONCILED_COMMITTED")
+
+    def test_sink_lock_serialises_writers(self):
+        import fcntl, threading, time
+        done = threading.Event(); res = {}
+        def writer():
+            try: res["r"] = self.sink.write(self.ce.target_raw, self.data, "e9")
+            finally: done.set()
+        with open(self.sink.journal + ".lock", "a") as lk:
+            fcntl.flock(lk, fcntl.LOCK_EX); t = threading.Thread(target=writer); t.start(); time.sleep(0.4)
+            self.assertFalse(done.is_set()); self.assertFalse(os.path.exists(self.ce.target_raw))          # blocked while someone holds the sink lock
+            fcntl.flock(lk, fcntl.LOCK_UN)
+        t.join(5); self.assertTrue(done.is_set()); self.assertEqual(res["r"]["effect_id"], "e9")
+
+
 if __name__ == "__main__": unittest.main()
