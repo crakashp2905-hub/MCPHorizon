@@ -4,7 +4,7 @@ Source: `docs/roadmap/BOUNDARY_SYNTHESIS_BLUEPRINT_2026-11-07.md` (user-supplied
 
 ## What this adds
 - `security_hardening/roadmap.py`, `scripts/blueprint_roadmap.py`: all 74 blueprint tasks tracked as OPEN / CANDIDATE / BLOCKED. The checker rejects: unknown statuses (anything like DONE or INDEPENDENTLY_VERIFIED), a `*-GATE` task marked CANDIDATE, CANDIDATE without existing in-repo evidence whose sha256 still matches and a limits note, BLOCKED without a named blocker, OPEN carrying claims, tasks missing from or not in the document, and a changed document digest. Result today: 37 OPEN, 16 CANDIDATE, 21 BLOCKED, 0 independently verified.
-- `docs/roadmap/NEGATIVE_RESULTS.md`: append-only register of 13 negative results and post-hoc changes (S0-05).
+- `docs/roadmap/NEGATIVE_RESULTS.md`: append-only register of 14 negative results and post-hoc changes (S0-05).
 - `horizon/coverage/schema.py`: closed-enum typed `TrustZone`, `Witness`, `EffectEdge`, `Probe`, `Observation`, `HypothesisWorld` with unknown-field rejection, canonical digest, and `validate_observation`, which grades evidence: a witness inside the agent or tool-server zone is only SELF_REPORTED; `not_seen`/`unobservable` and anything on an uninstrumented edge is UNKNOWN, never absence evidence; a probe must be synthetic with effect ceiling 0.
 - `horizon/forge/pareto.py`: floor-constrained solve and (cost, utility-loss) Pareto frontier over the finite Forge portfolio, with an independently coded exhaustive verifier. A blanket denial is reported as `deny_all.is_solution = false`.
 - Tests: `tests/blueprint` (48). Mutants: `scripts/blueprint_mutants.py` 50/50 killed (timeout = killed).
@@ -30,3 +30,9 @@ Source: `docs/roadmap/BOUNDARY_SYNTHESIS_BLUEPRINT_2026-11-07.md` (user-supplied
 - No Rust/TS change was needed: this repo contains no permit decoder in those languages. If one exists elsewhere it needs the same rule.
 - S1-02 is CANDIDATE only for file-write permits. S1-01 (every supported effect) and S1-03 (tool server, session, delegated authority, epoch carried consistently) stay OPEN: the permit has no tool-server/session/delegation fields.
 - `docs/research/VALIDATION_DATASETS_AND_NOVELTY_PITCHES.md`: dataset survey and six pitch candidates with falsifiers. Dataset licences are UNVERIFIED (fetch approvals went unanswered); no dataset was downloaded or run.
+
+## Addendum: reference MCP stdio gateway, sink journal hash chain, mutation-harness correction
+- `horizon/effects/mcp_gateway.py`: newline-delimited JSON-RPC stdio server (initialize / tools/list / tools/call) exposing one tool, `write_file`. It mints an Ed25519 permit and commits through `ProtectedFileWriter`. Limit: authority is embedded in the gateway process, so agent, gateway and authority are NOT separate principals; this shows the path end to end, not a trust boundary. Policy allows only direct children of a root, non-hidden, with no symlink or `..` tricks (tested).
+- `FileSink` journal is now hash-chained (prev, h) under flock; `verify_chain` / `check_anchor` detect edits and reordering. Limit: tail truncation is detectable only against an external anchor, and the OS-separated `sinkproc.py` journal is NOT yet chained.
+- Mutation-harness correction (register N14): the evidence-digest test killed every mutant in evidence files, inflating the kill count. It is excluded under `MUTATION_RUN=1`; survivors exposed by that were fixed with tests or redundant code removed. Count now 93/93 on the honest harness, author-run only.
+- Tracker: S1-08 and S1-09 moved to CANDIDATE (single host, author tests). S1-01/S1-03 remain OPEN.

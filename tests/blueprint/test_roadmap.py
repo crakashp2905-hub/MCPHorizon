@@ -54,6 +54,7 @@ class Rules(Base):
 class Report(Base):
     def test_counts_and_no_verified_claim(self):
         r = rm.report(self.doc, self.st); self.assertIn("Tasks: 3 | OPEN 1 | CANDIDATE 1 | BLOCKED 1 | INDEPENDENTLY_VERIFIED 0", r); self.assertIn("NOT integrated", r)
+@unittest.skipIf(os.environ.get("MUTATION_RUN"), "evidence-digest consistency is not a mutation oracle: it would kill every mutant of an evidence file")
 class Repo(unittest.TestCase):
     def test_committed_status_file_is_consistent(self):
         import subprocess

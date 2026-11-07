@@ -67,6 +67,11 @@ class History(Base):
         seq, h = self.r.head(); self.assertTrue(self.r.check_anchor(seq, h)); self.assertFalse(self.r.check_anchor(seq, "0" * 64)); self.assertFalse(self.r.check_anchor(seq + 1, h))
     def test_head_of_empty_log(self):
         e = D.DurableRegistry(os.path.join(self.d, "e.db"), self.ts, lambda: 1); self.assertEqual(e.head(), (0, "0" * 64))
+    def test_editing_only_the_prev_column_is_detected(self):
+        con = sqlite3.connect(self.p); con.execute("UPDATE ev SET prev=? WHERE seq=2", ("f" * 64,)); con.commit(); con.close()
+        self.assertIn("LOG_TAMPERED", self.r.status("c:1", 5)[1]); self.assertFalse(self.r.permit("c:1", 5)[0])
+    def test_attest_event_whose_subject_differs_from_body_claim_is_ignored(self):
+        self.r._write("ATTEST", "c:1", {"att": D.sign_attestation("c:other", "INDEPENDENTLY_REPRODUCED", self.rep)}); self.assertEqual(self.r.grade("c:1"), "SOURCE_VERIFIED")
     def test_db_error_fails_closed(self):
         bad = D.DurableRegistry(self.p, self.ts, lambda: CLOCK[0]); os.remove(self.p)
         for ext in ("-wal", "-shm"):

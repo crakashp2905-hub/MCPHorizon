@@ -34,6 +34,37 @@ class FileSink:
         if not os.path.exists(self.journal): return []
         return [json.loads(l) for l in open(self.journal) if l.strip()]
 
+    @staticmethod
+    def _rec_hash(prev: str, rec: dict) -> str:
+        return hashlib.sha256(prev.encode() + json.dumps({k: v for k, v in rec.items() if k not in ("prev", "h")}, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
+    def _append(self, rec: dict) -> dict:
+        """Append under the sink lock with a hash chain (prev, h) so edits/deletions of earlier records are detectable by verify_chain()."""
+        last = self._records()[-1:] ; prev = last[0].get("h", "") if last else "0" * 64
+        rec = dict(rec); rec["prev"] = prev; rec["h"] = self._rec_hash(prev, rec)
+        with open(self.journal, "a") as j: j.write(json.dumps(rec, sort_keys=True) + "\n"); j.flush(); os.fsync(j.fileno())
+        return rec
+
+    def verify_chain(self) -> tuple:
+        """-> (ok, n_records, head_hash). Any record whose prev/h does not recompute (or is missing) breaks the chain. Tail TRUNCATION is NOT detectable here: compare head()/n against an external anchor."""
+        with self._locked():
+            prev, n = "0" * 64, 0
+            for r in self._records():
+                if r.get("prev") != prev or r.get("h") != self._rec_hash(prev, r): return False, n, prev
+                prev, n = r["h"], n + 1
+            return True, n, prev
+
+    def check_anchor(self, n: int, head: str) -> bool:
+        """True only if the chain verifies AND still contains the anchored record count with exactly that head hash at position n."""
+        with self._locked():
+            prev, i = "0" * 64, 0
+            if n == 0: return head == prev
+            for r in self._records():
+                if r.get("prev") != prev or r.get("h") != self._rec_hash(prev, r): return False
+                prev, i = r["h"], i + 1
+                if i == n: return prev == head
+            return False
+
     def write(self, path: str, data: bytes, effect_id: str) -> dict:
         real = self._resolve(path); tmp = real + ".tmp." + effect_id[:16]
         with self._locked():
@@ -43,7 +74,7 @@ class FileSink:
             with open(tmp, "wb") as f: f.write(data); f.flush(); os.fsync(f.fileno())
             os.replace(tmp, real)
             rec = {"effect_id": effect_id, "path": real, "sha256": hashlib.sha256(open(real, "rb").read()).hexdigest(), "bytes": len(data), "ts": time.time()}
-            with open(self.journal, "a") as j: j.write(json.dumps(rec, sort_keys=True) + "\n"); j.flush(); os.fsync(j.fileno())
+            rec = self._append(rec)
         return rec
 
     def fence_and_observe(self, effect_id: str) -> dict | None:
@@ -52,7 +83,7 @@ class FileSink:
         with self._locked():
             obs = self._observed_unlocked(effect_id)
             if not any(r.get("fence") == effect_id for r in self._records()):
-                with open(self.journal, "a") as j: j.write(json.dumps({"fence": effect_id, "ts": time.time()}, sort_keys=True) + "\n"); j.flush(); os.fsync(j.fileno())
+                self._append({"fence": effect_id, "ts": time.time()})
             return obs
 
     def _observed_unlocked(self, effect_id: str) -> dict | None:
