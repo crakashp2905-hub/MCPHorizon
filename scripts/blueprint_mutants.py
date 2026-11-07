@@ -80,6 +80,14 @@ M = [
   ('return row[0] == h' if False else 'return bool(row) and row[0] == h', 'return bool(row)'),
   ('return "EXTERNALLY_AUDITED" if "EXTERNALLY_AUDITED" in s else "INDEPENDENTLY_REPRODUCED" if "INDEPENDENTLY_REPRODUCED" in s else "SOURCE_VERIFIED"', 'return "EXTERNALLY_AUDITED" if s else "SOURCE_VERIFIED"'),
  ]),
+ ("horizon/authz/effect.py", [
+  ('if b64e(b) != s: raise EffectError("MALFORMED", "non-canonical base64url")', 'pass'),
+  ('except ValueError: raise EffectError("MALFORMED", "bad base64url") from None\n    if b64e', 'except ValueError: raise\n    if b64e'),
+ ]),
+ ("horizon/ops/audience.py", [
+  ('if _b64(b) != s: raise AuthError("MALFORMED", "non-canonical base64url")', 'pass'),
+  ('except ValueError: raise AuthError("MALFORMED", "bad base64url") from None', 'except ValueError: raise'),
+ ]),
  ("horizon/effects/filesink.py", [
   ('if not ok:\n                if self.ledger.state(effect_id) == "REQUESTED": self.ledger.block', 'if False:\n                if self.ledger.state(effect_id) == "REQUESTED": self.ledger.block'),
   ('except Exception: ok, why = False, "GATE_ERROR"', 'except Exception: ok, why = True, "GATE_ERROR"'),

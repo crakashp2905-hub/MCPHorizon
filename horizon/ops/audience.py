@@ -11,7 +11,10 @@ class AuthError(Exception):
 def _b64(b: bytes) -> str: return base64.urlsafe_b64encode(b).rstrip(b"=").decode()
 def _unb64(s: str) -> bytes:
     if not isinstance(s, str) or any(c not in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_" for c in s): raise AuthError("MALFORMED", "bad base64url")  # secret-scan:ignore
-    return base64.urlsafe_b64decode(s + "=" * (-len(s) % 4))
+    try: b = base64.urlsafe_b64decode(s + "=" * (-len(s) % 4))
+    except ValueError: raise AuthError("MALFORMED", "bad base64url") from None
+    if _b64(b) != s: raise AuthError("MALFORMED", "non-canonical base64url")
+    return b
 
 
 def mint(key: bytes, kid: str, *, iss: str, aud: str, sub: str, tenant: str, scopes=(), ttl_s: float = 300, now: float | None = None) -> str:

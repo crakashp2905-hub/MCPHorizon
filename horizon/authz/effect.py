@@ -18,7 +18,10 @@ class EffectError(ValueError):
 def b64e(b: bytes) -> str: return base64.urlsafe_b64encode(b).rstrip(b"=").decode()
 def b64d(s: str) -> bytes:
     if not isinstance(s, str) or not re.fullmatch(r"[A-Za-z0-9_-]*", s): raise EffectError("MALFORMED", "bad base64url")
-    return base64.urlsafe_b64decode(s + "=" * (-len(s) % 4))
+    try: b = base64.urlsafe_b64decode(s + "=" * (-len(s) % 4))
+    except ValueError: raise EffectError("MALFORMED", "bad base64url") from None
+    if b64e(b) != s: raise EffectError("MALFORMED", "non-canonical base64url")      # reject the non-zero padding-bit spellings (signature malleability, blueprint S1-01/02)
+    return b
 
 
 def canonical(obj: dict) -> bytes: return json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode()

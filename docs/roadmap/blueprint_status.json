@@ -22,9 +22,9 @@
   },
   "S0-05": {
    "evidence": {
-    "docs/roadmap/NEGATIVE_RESULTS.md": "2a6f4ad38c54190fe65f89d884e25149f82aac7004d1788e242fc8b10d7b15aa"
+    "docs/roadmap/NEGATIVE_RESULTS.md": "37e5d3e86cee59b3c5ad9ad46dca92e7a3d7b61b719180662e1d8e819fa15dd0"
    },
-   "note": "Append-only register of 12 negative results/post-hoc changes; manual curation, no tooling enforces completeness.",
+   "note": "Append-only register of 13 negative results/post-hoc changes; manual curation, no tooling enforces completeness.",
    "status": "CANDIDATE"
   },
   "S0-06": {
@@ -43,7 +43,12 @@
    "status": "OPEN"
   },
   "S1-02": {
-   "status": "OPEN"
+   "evidence": {
+    "horizon/authz/effect.py": "f0810bc9b23191eb9d0413d05386a12e8f1ab5d2b53172a90d31b968b7188365",
+    "tests/blueprint/test_b64_strict.py": "85d6c3489270f7d356072949abd76f71bd314bdf33bf0120bb9a6491373cf88a"
+   },
+   "note": "Issue (sign) and verify (parse) use one canonical JSON + strictly canonical base64url; the 16 padding-bit signature spellings and non-canonical header/body spellings are rejected. File-write permits only; no cross-language verifier exists in this repo to compare against; domain separation relies on the typ header.",
+   "status": "CANDIDATE"
   },
   "S1-03": {
    "status": "OPEN"
