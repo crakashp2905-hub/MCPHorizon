@@ -4,7 +4,7 @@ Source: `docs/roadmap/BOUNDARY_SYNTHESIS_BLUEPRINT_2026-11-07.md` (user-supplied
 
 ## What this adds
 - `security_hardening/roadmap.py`, `scripts/blueprint_roadmap.py`: all 74 blueprint tasks tracked as OPEN / CANDIDATE / BLOCKED. The checker rejects: unknown statuses (anything like DONE or INDEPENDENTLY_VERIFIED), a `*-GATE` task marked CANDIDATE, CANDIDATE without existing in-repo evidence whose sha256 still matches and a limits note, BLOCKED without a named blocker, OPEN carrying claims, tasks missing from or not in the document, and a changed document digest. Result today: 37 OPEN, 16 CANDIDATE, 21 BLOCKED, 0 independently verified.
-- `docs/roadmap/NEGATIVE_RESULTS.md`: append-only register of 11 negative results and post-hoc changes (S0-05).
+- `docs/roadmap/NEGATIVE_RESULTS.md`: append-only register of 12 negative results and post-hoc changes (S0-05).
 - `horizon/coverage/schema.py`: closed-enum typed `TrustZone`, `Witness`, `EffectEdge`, `Probe`, `Observation`, `HypothesisWorld` with unknown-field rejection, canonical digest, and `validate_observation`, which grades evidence: a witness inside the agent or tool-server zone is only SELF_REPORTED; `not_seen`/`unobservable` and anything on an uninstrumented edge is UNKNOWN, never absence evidence; a probe must be synthetic with effect ceiling 0.
 - `horizon/forge/pareto.py`: floor-constrained solve and (cost, utility-loss) Pareto frontier over the finite Forge portfolio, with an independently coded exhaustive verifier. A blanket denial is reported as `deny_all.is_solution = false`.
 - Tests: `tests/blueprint` (48). Mutants: `scripts/blueprint_mutants.py` 50/50 killed (timeout = killed).
