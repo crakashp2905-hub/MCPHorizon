@@ -1,0 +1,331 @@
+{
+ "doc_sha256": "a8b844bf62d690cccd21186c608b1da8a63112b047a959da952e021ebbd78473",
+ "tasks": {
+  "S0-01": {
+   "status": "OPEN"
+  },
+  "S0-02": {
+   "status": "OPEN"
+  },
+  "S0-03": {
+   "blocked_by": "Needs a named independent reviewer/key custodian and an operator-owned rotation process (user is custodian per OWNER_SIGNOFF_CHECKLIST).",
+   "status": "BLOCKED"
+  },
+  "S0-04": {
+   "evidence": {
+    "security_hardening/admission.py": "373173670da7e433443cd413d2590cd051a3373fba1e256dc6946fb5e76eea79",
+    "security_hardening/roadmap.py": "0fc49fbeb09bcf233a6dc7c0baaa309ea5292a23b8092cd96e1fe75bd550b886",
+    "tests/blueprint/test_roadmap.py": "aa81a0ecad253e51afeac04ec1a312dc233102415b06564db49721ef68a74549"
+   },
+   "note": "Admission requires a reviewer signer != author; roadmap checker rejects self-promotion. Author-run; no independent review; not wired into any release flow.",
+   "status": "CANDIDATE"
+  },
+  "S0-05": {
+   "evidence": {
+    "docs/roadmap/NEGATIVE_RESULTS.md": "40f4a3ef34c7951bf3bcd4ac61f064cc6940d195b2ddecac809ee8f1fe997d4a"
+   },
+   "note": "Append-only register of 11 negative results/post-hoc changes; manual curation, no tooling enforces completeness.",
+   "status": "CANDIDATE"
+  },
+  "S0-06": {
+   "evidence": {
+    "scripts/blueprint_roadmap.py": "1623ec00aeae4b9141ca0c05a5140f988d9e8ace4d4527af7491c9398d1d7dca",
+    "security_hardening/roadmap.py": "0fc49fbeb09bcf233a6dc7c0baaa309ea5292a23b8092cd96e1fe75bd550b886"
+   },
+   "note": "Generated report uses OPEN/CANDIDATE/BLOCKED and a fixed INDEPENDENTLY_VERIFIED 0; it does not yet render IMPLEMENTED/INTEGRATED/ADVERSARIAL_TESTED per module.",
+   "status": "CANDIDATE"
+  },
+  "S0-GATE": {
+   "blocked_by": "Gate = independent reviewer attestation; the author cannot grant it.",
+   "status": "BLOCKED"
+  },
+  "S1-01": {
+   "status": "OPEN"
+  },
+  "S1-02": {
+   "status": "OPEN"
+  },
+  "S1-03": {
+   "status": "OPEN"
+  },
+  "S1-04": {
+   "evidence": {
+    "horizon/effects/ledger.py": "ffe324fbb7216bd679c4f4836860c6aa9f6b12bbafdad6db432d879649e83b3f",
+    "research/commitproof/model.py": "d923ce77fc7ec8c4371c2193495c380dfdb2053eb655f1a176e3454c8a6b9afe",
+    "tests/commitproof/test_conformance.py": "7169cc76a679c432530f1f4e76da2ee63e11363e3fc9a29cc3ee51fe7c094cf8"
+   },
+   "note": "Bounded model (1 effect, 3-6 workers) + 576-transition conformance on SQLite ledger and file sink; single host; UNKNOWN never retried; no independent review.",
+   "status": "CANDIDATE"
+  },
+  "S1-05": {
+   "evidence": {
+    "tests/e04/test_multiproc_crash.py": "fa16491d142178eb01a4d8a892788c13713b553b783a0ea77dc0ea534772c0e0",
+    "tests/e05/test_filesink.py": "803c38aa24ba0d05976638ca5226d90007fd692376133b54950a5ad52a59f6cc",
+    "tests/e06/test_sinkproc.py": "2e675e745f237881976a5f28d24bea1dfd68c8f4a0e2c2eab24b42cd154e7b83"
+   },
+   "note": "Separate-process writer races and fenced late writer tested locally as root with uid separation; one host; no independent bypass red-team.",
+   "status": "CANDIDATE"
+  },
+  "S1-06": {
+   "status": "OPEN"
+  },
+  "S1-07": {
+   "status": "OPEN"
+  },
+  "S1-08": {
+   "status": "OPEN"
+  },
+  "S1-09": {
+   "status": "OPEN"
+  },
+  "S1-10": {
+   "status": "OPEN"
+  },
+  "S1-GATE": {
+   "blocked_by": "Gate = independent reviewer attestation; the author cannot grant it.",
+   "status": "BLOCKED"
+  },
+  "S2-01": {
+   "evidence": {
+    "horizon/coverage/schema.py": "f82c26639cbf15e3d04f0d1701c5a1b110c222228ce6a3f8a0b01a502f2ca40a",
+    "tests/blueprint/test_schema.py": "b5e89e3f155b1c192d5af9ce839637cba23433a5a963b6784fb685322d6c2ab2"
+   },
+   "note": "Schemas only (validation, canonical digest, evidence grading); not yet consumed by Spectra or Coverage engines.",
+   "status": "CANDIDATE"
+  },
+  "S2-02": {
+   "evidence": {
+    "horizon/coverage/schema.py": "f82c26639cbf15e3d04f0d1701c5a1b110c222228ce6a3f8a0b01a502f2ca40a",
+    "research/spectra/tomography.py": "a8ba3b8014d82413a6197571a35756f5bd1e542d2984857263c0d503680680bb"
+   },
+   "note": "Instrumented vs uninstrumented is explicit; not_seen/unobservable never yields absence evidence (tested). Finite toy, no real services.",
+   "status": "CANDIDATE"
+  },
+  "S2-03": {
+   "status": "OPEN"
+  },
+  "S2-04": {
+   "status": "OPEN"
+  },
+  "S2-05": {
+   "blocked_by": "Needs hidden-effect fixtures authored by someone other than the detector's author.",
+   "status": "BLOCKED"
+  },
+  "S2-06": {
+   "evidence": {
+    "research/spectra/tomography.py": "a8ba3b8014d82413a6197571a35756f5bd1e542d2984857263c0d503680680bb",
+    "tests/spectra/test_tomography.py": "1edebc12a4947a687e9769448b88a0a9d904eea2719f6038bc38a95291eeef0b"
+   },
+   "note": "Toy hypothesis engine returns UNKNOWN/UNIDENTIFIABLE on exhausted budget, wrong hypothesis class, or hidden uninstrumented effects. Fixture-only.",
+   "status": "CANDIDATE"
+  },
+  "S2-07": {
+   "status": "OPEN"
+  },
+  "S2-08": {
+   "status": "OPEN"
+  },
+  "S2-09": {
+   "blocked_by": "Needs an independent party to freeze outcome traces and ground truth.",
+   "status": "BLOCKED"
+  },
+  "S2-GATE": {
+   "blocked_by": "Gate = independent reviewer attestation; the author cannot grant it.",
+   "status": "BLOCKED"
+  },
+  "S3-01": {
+   "status": "OPEN"
+  },
+  "S3-02": {
+   "status": "OPEN"
+  },
+  "S3-03": {
+   "evidence": {
+    "horizon/forge/pareto.py": "35374633fa125f79ed1ea2c8c41e4cc36d1c06ea3f1736fc749c2c03fc5ed261",
+    "tests/blueprint/test_pareto.py": "068e7b81236db6149a8542a34741a11d4943bf4f1cc120567c4c84336ece6af6"
+   },
+   "note": "Floor on a BINARY utility loss only; DENY_ALL is reported as not-a-solution. Real per-task utility oracle does not exist.",
+   "status": "CANDIDATE"
+  },
+  "S3-04": {
+   "evidence": {
+    "horizon/forge/checker.py": "5890a1b692f50b0fbdca80cf56addba01d2292e01ca318c514c2c3d2bc0924bf",
+    "horizon/forge/synth.py": "9aa1fe3d0d5808b5154ca25362470f5ea2636f5f0ad068c2e82228c3028ff84a",
+    "tests/hf/test_forge.py": "d4b3022f9d1ce67948e2d4b4ffe6846a10bba193a747b9cfedce4bf9e7f2d44b"
+   },
+   "note": "Exhaustive finite enumeration with independent checker; no SMT/optimizer comparison; toy IR (3 placements, 2 forms).",
+   "status": "CANDIDATE"
+  },
+  "S3-05": {
+   "status": "OPEN"
+  },
+  "S3-06": {
+   "evidence": {
+    "horizon/forge/pareto.py": "35374633fa125f79ed1ea2c8c41e4cc36d1c06ea3f1736fc749c2c03fc5ed261",
+    "tests/blueprint/test_pareto.py": "068e7b81236db6149a8542a34741a11d4943bf4f1cc120567c4c84336ece6af6"
+   },
+   "note": "Pareto frontier over (cost, binary loss) with a separate exhaustive verifier; optimality is relative to the enumerated portfolio only.",
+   "status": "CANDIDATE"
+  },
+  "S3-07": {
+   "evidence": {
+    "horizon/forge/synth.py": "9aa1fe3d0d5808b5154ca25362470f5ea2636f5f0ad068c2e82228c3028ff84a",
+    "tests/hf/test_forge.py": "d4b3022f9d1ce67948e2d4b4ffe6846a10bba193a747b9cfedce4bf9e7f2d44b"
+   },
+   "note": "Negative certificate lists every enumerated plan's checker violations and is independently re-verified; claims nothing outside the finite portfolio.",
+   "status": "CANDIDATE"
+  },
+  "S3-08": {
+   "status": "OPEN"
+  },
+  "S3-09": {
+   "status": "OPEN"
+  },
+  "S3-10": {
+   "status": "OPEN"
+  },
+  "S3-GATE": {
+   "blocked_by": "Gate = independent reviewer attestation; the author cannot grant it.",
+   "status": "BLOCKED"
+  },
+  "S4-01": {
+   "status": "OPEN"
+  },
+  "S4-02": {
+   "status": "OPEN"
+  },
+  "S4-03": {
+   "status": "OPEN"
+  },
+  "S4-04": {
+   "status": "OPEN"
+  },
+  "S4-05": {
+   "status": "OPEN"
+  },
+  "S4-06": {
+   "status": "OPEN"
+  },
+  "S4-07": {
+   "status": "OPEN"
+  },
+  "S4-08": {
+   "evidence": {
+    "horizon/forge/worlds.py": "d7fc3f9c2436634b1a1278f5c25eb4484fb6c8958b4909ba60d1813e9bc7e77c",
+    "tests/hf/test_forge.py": "d4b3022f9d1ce67948e2d4b4ffe6846a10bba193a747b9cfedce4bf9e7f2d44b"
+   },
+   "note": "Finite indistinguishability certificate with independent re-verification and missing-witness suggestion; toy worlds authored by the same author.",
+   "status": "CANDIDATE"
+  },
+  "S4-GATE": {
+   "blocked_by": "Gate = independent reviewer attestation; the author cannot grant it.",
+   "status": "BLOCKED"
+  },
+  "S5-01": {
+   "blocked_by": "Needs independently authored held-out worlds (author-written worlds are not held-out).",
+   "status": "BLOCKED"
+  },
+  "S5-02": {
+   "evidence": {
+    "research/live/results/live_qwen05.json": "b9c4ae98375287acd870aeba0de64ee8bd911edb930cf2e204fd8dffb5e72b15",
+    "research/live/run_live.py": "661d6eecbdab380b2cdea48338ff65b8fb952c36865874ee2cfe03221ac945f1"
+   },
+   "note": "One 0.5B model, mock tools, n=24/cell, templated attacks, gate tuned post hoc; attacked-task utility 0/24 (see NEGATIVE_RESULTS N3). Not a hard-baseline comparison.",
+   "status": "CANDIDATE"
+  },
+  "S5-03": {
+   "status": "OPEN"
+  },
+  "S5-04": {
+   "status": "OPEN"
+  },
+  "S5-05": {
+   "status": "OPEN"
+  },
+  "S5-06": {
+   "evidence": {
+    "research/commitproof/model.py": "d923ce77fc7ec8c4371c2193495c380dfdb2053eb655f1a176e3454c8a6b9afe",
+    "tests/commitproof/test_conformance.py": "7169cc76a679c432530f1f4e76da2ee63e11363e3fc9a29cc3ee51fe7c094cf8"
+   },
+   "note": "Formal claim + code conformance exists for the commit protocol ONLY; not for synthesis claims C1-C6.",
+   "status": "CANDIDATE"
+  },
+  "S5-07": {
+   "status": "OPEN"
+  },
+  "S5-08": {
+   "status": "OPEN"
+  },
+  "S5-09": {
+   "blocked_by": "Needs independent validation of dataset sources/labels.",
+   "status": "BLOCKED"
+  },
+  "S5-10": {
+   "blocked_by": "Needs a second operator and clean environment to reproduce.",
+   "status": "BLOCKED"
+  },
+  "S5-GATE": {
+   "blocked_by": "Gate = independent reviewer attestation; the author cannot grant it.",
+   "status": "BLOCKED"
+  },
+  "S6-01": {
+   "blocked_by": "Doc rule: product pilot only after S5-GATE passes; also needs real customers/infrastructure.",
+   "status": "BLOCKED"
+  },
+  "S6-02": {
+   "blocked_by": "Doc rule: product pilot only after S5-GATE passes; also needs real customers/infrastructure.",
+   "status": "BLOCKED"
+  },
+  "S6-03": {
+   "blocked_by": "Doc rule: product pilot only after S5-GATE passes; also needs real customers/infrastructure.",
+   "status": "BLOCKED"
+  },
+  "S6-04": {
+   "blocked_by": "Doc rule: product pilot only after S5-GATE passes; also needs real customers/infrastructure.",
+   "status": "BLOCKED"
+  },
+  "S6-05": {
+   "blocked_by": "Doc rule: product pilot only after S5-GATE passes; also needs real customers/infrastructure.",
+   "status": "BLOCKED"
+  },
+  "S6-06": {
+   "blocked_by": "Doc rule: product pilot only after S5-GATE passes; also needs real customers/infrastructure.",
+   "status": "BLOCKED"
+  },
+  "S6-07": {
+   "blocked_by": "Doc rule: product pilot only after S5-GATE passes; also needs real customers/infrastructure.",
+   "status": "BLOCKED"
+  },
+  "S6-08": {
+   "blocked_by": "Doc rule: product pilot only after S5-GATE passes; also needs real customers/infrastructure.",
+   "status": "BLOCKED"
+  },
+  "S6-GATE": {
+   "blocked_by": "Gate = independent reviewer attestation; the author cannot grant it.",
+   "status": "BLOCKED"
+  },
+  "S7-01": {
+   "status": "OPEN"
+  },
+  "S7-02": {
+   "status": "OPEN"
+  },
+  "S7-03": {
+   "status": "OPEN"
+  },
+  "S7-04": {
+   "status": "OPEN"
+  },
+  "S7-05": {
+   "status": "OPEN"
+  },
+  "S7-06": {
+   "evidence": {
+    "security_hardening/admission.py": "373173670da7e433443cd413d2590cd051a3373fba1e256dc6946fb5e76eea79",
+    "tests/hardening/test_admission.py": "87def8368e95e3e40ce0a53b5f03407c8332d206fd4eeeee245913f11bf47695"
+   },
+   "note": "Admission keeps research-track modules off mandatory enforcement and forbids self-verification via reviewer!=author; mechanism only, not wired into a loader.",
+   "status": "CANDIDATE"
+  }
+ }
+}
