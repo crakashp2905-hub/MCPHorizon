@@ -67,8 +67,10 @@ class FileSink:
 
 
 class ProtectedFileWriter:
-    def __init__(self, verifier, ledger: EffectLedger, sink: FileSink):
-        self.v, self.ledger, self.sink = verifier, ledger, sink
+    def __init__(self, verifier, ledger: EffectLedger, sink: FileSink, gate=None):
+        """gate: optional zero-arg callable -> (allowed: bool, reason: str), evaluated at COMMIT time after the permit verifies and before the permit nonce is spent. It can only DENY.
+        Any exception, malformed return or falsy verdict blocks (fail closed)."""
+        self.v, self.ledger, self.sink, self.gate = verifier, ledger, sink, gate
 
     def write(self, token, ce: CanonicalEffect, data: bytes, effect_id: str, *, fault=None) -> dict:
         """Returns {"status": ALLOW_COMMITTED|BLOCKED|UNKNOWN|DUPLICATE, ...}. `fault` is a test hook simulating an upstream failure AFTER the write started."""
@@ -80,6 +82,12 @@ class ProtectedFileWriter:
         except ProofError as e:
             if self.ledger.state(effect_id) == "REQUESTED": self.ledger.block(effect_id, {"code": e.code})
             return {"status": "BLOCKED", "code": e.code}
+        if self.gate is not None:
+            try: g = self.gate(); ok = bool(g[0]) and g[0] is True; why = str(g[1]) if len(g) > 1 else ""
+            except Exception: ok, why = False, "GATE_ERROR"
+            if not ok:
+                if self.ledger.state(effect_id) == "REQUESTED": self.ledger.block(effect_id, {"code": "ASSURANCE_DENIED", "why": why})
+                return {"status": "BLOCKED", "code": "ASSURANCE_DENIED", "why": why}
         if not self.ledger.authorize(effect_id, claim["nonce"]): self.ledger.block(effect_id, {"code": "NONCE_REUSE"}); return {"status": "BLOCKED", "code": "NONCE_REUSE"}
         if not self.ledger.begin(effect_id): return {"status": "DUPLICATE"}
         try:
