@@ -14,23 +14,23 @@
   "S0-04": {
    "evidence": {
     "security_hardening/admission.py": "373173670da7e433443cd413d2590cd051a3373fba1e256dc6946fb5e76eea79",
-    "security_hardening/roadmap.py": "0fc49fbeb09bcf233a6dc7c0baaa309ea5292a23b8092cd96e1fe75bd550b886",
-    "tests/blueprint/test_roadmap.py": "aa81a0ecad253e51afeac04ec1a312dc233102415b06564db49721ef68a74549"
+    "security_hardening/roadmap.py": "49a4254adb3f412d700b818f5bd629c3d87fe6ec103cbfae54b779977deb517e",
+    "tests/blueprint/test_roadmap.py": "a7c07782cb72ccc8158aefb470a8dfac316de07fb77d45d110d3448f8bdcd28b"
    },
    "note": "Admission requires a reviewer signer != author; roadmap checker rejects self-promotion. Author-run; no independent review; not wired into any release flow.",
    "status": "CANDIDATE"
   },
   "S0-05": {
    "evidence": {
-    "docs/roadmap/NEGATIVE_RESULTS.md": "37e5d3e86cee59b3c5ad9ad46dca92e7a3d7b61b719180662e1d8e819fa15dd0"
+    "docs/roadmap/NEGATIVE_RESULTS.md": "1a362fdd5f88f66993a08107949d64f32db89bc5efbdfc5dcafba2845ed6e114"
    },
-   "note": "Append-only register of 13 negative results/post-hoc changes; manual curation, no tooling enforces completeness.",
+   "note": "Append-only register of 14 negative results/post-hoc changes; manual curation, no tooling enforces completeness.",
    "status": "CANDIDATE"
   },
   "S0-06": {
    "evidence": {
     "scripts/blueprint_roadmap.py": "1623ec00aeae4b9141ca0c05a5140f988d9e8ace4d4527af7491c9398d1d7dca",
-    "security_hardening/roadmap.py": "0fc49fbeb09bcf233a6dc7c0baaa309ea5292a23b8092cd96e1fe75bd550b886"
+    "security_hardening/roadmap.py": "49a4254adb3f412d700b818f5bd629c3d87fe6ec103cbfae54b779977deb517e"
    },
    "note": "Generated report uses OPEN/CANDIDATE/BLOCKED and a fixed INDEPENDENTLY_VERIFIED 0; it does not yet render IMPLEMENTED/INTEGRATED/ADVERSARIAL_TESTED per module.",
    "status": "CANDIDATE"
@@ -78,10 +78,20 @@
    "status": "OPEN"
   },
   "S1-08": {
-   "status": "OPEN"
+   "evidence": {
+    "horizon/effects/filesink.py": "b64e9a6b4be540708c0317de05a8d8c1602281ad4e97958fbfa4f95d41f055fe",
+    "tests/blueprint/test_sink_chain.py": "18f3113c536b7085b48019fdac28806a544e08bdd703fb94b8be57a227342c8d"
+   },
+   "note": "FileSink journal is hash-chained under the sink lock; edit/delete/reorder/relink are detected; tail truncation is NOT detected by the chain and needs an external anchor via check_anchor (no independent anchor holder exists). The OS-separated sink process (sinkproc.py) journal is NOT chained yet.",
+   "status": "CANDIDATE"
   },
   "S1-09": {
-   "status": "OPEN"
+   "evidence": {
+    "horizon/effects/mcp_gateway.py": "a521c3428643b2e255c6b5751d1a5ea1bfde5651f8db6d31fc34dbc18a97bffc",
+    "tests/blueprint/test_mcp_e2e.py": "d7359030fa2724a18411160d865df2579e89bd343f58667bd6755258bf128f22"
+   },
+   "note": "A real newline-delimited JSON-RPC MCP stdio session (initialize, tools/list, tools/call) drives permit -> ledger -> sink -> receipt in a subprocess; policy denies traversal/absolute/hidden/symlink paths with nothing written. LIMITS: reference gateway I wrote, not a third-party MCP client/server; authority and gateway share one process (not separate principals); no LLM agent in the loop; one tool.",
+   "status": "CANDIDATE"
   },
   "S1-10": {
    "status": "OPEN"
@@ -93,7 +103,7 @@
   "S2-01": {
    "evidence": {
     "horizon/coverage/schema.py": "f82c26639cbf15e3d04f0d1701c5a1b110c222228ce6a3f8a0b01a502f2ca40a",
-    "tests/blueprint/test_schema.py": "b5e89e3f155b1c192d5af9ce839637cba23433a5a963b6784fb685322d6c2ab2"
+    "tests/blueprint/test_schema.py": "caa18cb3127097613edc9c0832e87ddb9e63dc4e950f6b11b56479cdb7aad142"
    },
    "note": "Schemas only (validation, canonical digest, evidence grading); not yet consumed by Spectra or Coverage engines.",
    "status": "CANDIDATE"
@@ -153,7 +163,7 @@
   "S3-03": {
    "evidence": {
     "horizon/forge/pareto.py": "35374633fa125f79ed1ea2c8c41e4cc36d1c06ea3f1736fc749c2c03fc5ed261",
-    "tests/blueprint/test_pareto.py": "068e7b81236db6149a8542a34741a11d4943bf4f1cc120567c4c84336ece6af6"
+    "tests/blueprint/test_pareto.py": "4610536bcc3827025a1d46e8257f331961581f2db6221234ee52b5288a71dfbe"
    },
    "note": "Floor on a BINARY utility loss only; DENY_ALL is reported as not-a-solution. Real per-task utility oracle does not exist.",
    "status": "CANDIDATE"
@@ -173,7 +183,7 @@
   "S3-06": {
    "evidence": {
     "horizon/forge/pareto.py": "35374633fa125f79ed1ea2c8c41e4cc36d1c06ea3f1736fc749c2c03fc5ed261",
-    "tests/blueprint/test_pareto.py": "068e7b81236db6149a8542a34741a11d4943bf4f1cc120567c4c84336ece6af6"
+    "tests/blueprint/test_pareto.py": "4610536bcc3827025a1d46e8257f331961581f2db6221234ee52b5288a71dfbe"
    },
    "note": "Pareto frontier over (cost, binary loss) with a separate exhaustive verifier; optimality is relative to the enumerated portfolio only.",
    "status": "CANDIDATE"
@@ -201,33 +211,33 @@
   },
   "S4-01": {
    "evidence": {
-    "horizon/assurance/durable.py": "14318a03ea55d7d9d76780d7f241dd440bdc530c9b5dce509b6dbdbb14c61853",
-    "tests/blueprint/test_durable.py": "99e44ff6d04a0d4fd9491e8312a6b5725ba03a2351c1ee9601436aa0d064caca"
+    "horizon/assurance/durable.py": "440cf73bcc504c58cad6a969f9dd2c8684d481d43a553638174957988a4b84a5",
+    "tests/blueprint/test_durable.py": "ba6754ffebebb057dd3b2526c3ec460df7151f7899b8d95f702b1cf4372c7e03"
    },
    "note": "Signed (Ed25519, operator TrustStore) claims in a hash-chained SQLite event log; replay rebuilds state; survives restart. Single host SQLite; keys are test keys; no key rotation workflow (S0-03 blocked).",
    "status": "CANDIDATE"
   },
   "S4-02": {
    "evidence": {
-    "horizon/assurance/durable.py": "14318a03ea55d7d9d76780d7f241dd440bdc530c9b5dce509b6dbdbb14c61853",
-    "tests/blueprint/test_durable.py": "99e44ff6d04a0d4fd9491e8312a6b5725ba03a2351c1ee9601436aa0d064caca"
+    "horizon/assurance/durable.py": "440cf73bcc504c58cad6a969f9dd2c8684d481d43a553638174957988a4b84a5",
+    "tests/blueprint/test_durable.py": "ba6754ffebebb057dd3b2526c3ec460df7151f7899b8d95f702b1cf4372c7e03"
    },
    "note": "Claim signature covers a binding with exactly agent/runtime/policy/tool/witness/artifact/issuer/verifier; binding values are the dependency digests, so a change suspends the claim. Values are opaque strings supplied by the caller; nothing verifies they match a real artifact.",
    "status": "CANDIDATE"
   },
   "S4-03": {
    "evidence": {
-    "horizon/assurance/durable.py": "14318a03ea55d7d9d76780d7f241dd440bdc530c9b5dce509b6dbdbb14c61853",
-    "tests/blueprint/test_durable.py": "99e44ff6d04a0d4fd9491e8312a6b5725ba03a2351c1ee9601436aa0d064caca"
+    "horizon/assurance/durable.py": "440cf73bcc504c58cad6a969f9dd2c8684d481d43a553638174957988a4b84a5",
+    "tests/blueprint/test_durable.py": "ba6754ffebebb057dd3b2526c3ec460df7151f7899b8d95f702b1cf4372c7e03"
    },
    "note": "Closed reason set (adapter/tool/agent change, consent revoked, journal lost, proof expired, policy changed, witness unhealthy, operator revoked) plus digest change, expiry and epoch; each tested to suspend. Detection of the real-world change is NOT implemented: callers must report it.",
    "status": "CANDIDATE"
   },
   "S4-04": {
    "evidence": {
-    "horizon/assurance/durable.py": "14318a03ea55d7d9d76780d7f241dd440bdc530c9b5dce509b6dbdbb14c61853",
-    "horizon/effects/filesink.py": "906f2b21face569b7a4bcc9f44537269afd7d750770bd7748be59587644f27d3",
-    "tests/blueprint/test_durable.py": "99e44ff6d04a0d4fd9491e8312a6b5725ba03a2351c1ee9601436aa0d064caca",
+    "horizon/assurance/durable.py": "440cf73bcc504c58cad6a969f9dd2c8684d481d43a553638174957988a4b84a5",
+    "horizon/effects/filesink.py": "b64e9a6b4be540708c0317de05a8d8c1602281ad4e97958fbfa4f95d41f055fe",
+    "tests/blueprint/test_durable.py": "ba6754ffebebb057dd3b2526c3ec460df7151f7899b8d95f702b1cf4372c7e03",
     "tests/blueprint/test_gate_wiring.py": "4a404e319b53171602bb6d2ff94c0838eebba5e5600de434f0964b5dde061ed8"
    },
    "note": "ProtectedFileWriter(gate=...) denies at commit time, fail-closed on error; a denied effect burns its permit (verifier consumes the nonce first). Wired for the file sink only, not HTTP/process effects or the MCP path.",
@@ -235,8 +245,8 @@
   },
   "S4-05": {
    "evidence": {
-    "horizon/assurance/durable.py": "14318a03ea55d7d9d76780d7f241dd440bdc530c9b5dce509b6dbdbb14c61853",
-    "tests/blueprint/test_durable.py": "99e44ff6d04a0d4fd9491e8312a6b5725ba03a2351c1ee9601436aa0d064caca",
+    "horizon/assurance/durable.py": "440cf73bcc504c58cad6a969f9dd2c8684d481d43a553638174957988a4b84a5",
+    "tests/blueprint/test_durable.py": "ba6754ffebebb057dd3b2526c3ec460df7151f7899b8d95f702b1cf4372c7e03",
     "tests/blueprint/test_gate_wiring.py": "4a404e319b53171602bb6d2ff94c0838eebba5e5600de434f0964b5dde061ed8"
    },
    "note": "4 worker processes race a revoke: no PERMIT logged after REVOKE and returned-True count equals logged PERMITs; 3 SIGKILL rounds leave a valid chain. One host, SQLite locking; no network partition or multi-host test.",
@@ -244,16 +254,16 @@
   },
   "S4-06": {
    "evidence": {
-    "horizon/assurance/durable.py": "14318a03ea55d7d9d76780d7f241dd440bdc530c9b5dce509b6dbdbb14c61853",
-    "tests/blueprint/test_durable.py": "99e44ff6d04a0d4fd9491e8312a6b5725ba03a2351c1ee9601436aa0d064caca"
+    "horizon/assurance/durable.py": "440cf73bcc504c58cad6a969f9dd2c8684d481d43a553638174957988a4b84a5",
+    "tests/blueprint/test_durable.py": "ba6754ffebebb057dd3b2526c3ec460df7151f7899b8d95f702b1cf4372c7e03"
    },
    "note": "Append-only log: invalidation/restoration/revocation are new events, PERMITs and failed claims stay in history; mid-log edits/deletes fail closed. LIMIT (tested): tail truncation passes the chain check; only an external anchor (head/check_anchor) catches it, and no independent anchor exists yet.",
    "status": "CANDIDATE"
   },
   "S4-07": {
    "evidence": {
-    "horizon/assurance/durable.py": "14318a03ea55d7d9d76780d7f241dd440bdc530c9b5dce509b6dbdbb14c61853",
-    "tests/blueprint/test_durable.py": "99e44ff6d04a0d4fd9491e8312a6b5725ba03a2351c1ee9601436aa0d064caca"
+    "horizon/assurance/durable.py": "440cf73bcc504c58cad6a969f9dd2c8684d481d43a553638174957988a4b84a5",
+    "tests/blueprint/test_durable.py": "ba6754ffebebb057dd3b2526c3ec460df7151f7899b8d95f702b1cf4372c7e03"
    },
    "note": "Grade is SOURCE_VERIFIED unless an attestation signed by a DIFFERENT key under the reproducer/auditor role issuer verifies; self-attest, wrong role, wrong claim and unknown keys are ignored. No real independent reproducer exists, so no claim is above SOURCE_VERIFIED in practice.",
    "status": "CANDIDATE"

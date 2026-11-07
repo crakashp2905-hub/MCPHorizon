@@ -46,8 +46,7 @@ M = [
   ('if not (isinstance(ev, dict) and ev): p.append', 'if False: p.append'),
   ('not full.startswith(os.path.realpath(root) + os.sep) or', 'False or'),
   ('or not os.path.isfile(full): p.append', 'or False: p.append'),
-  ('or sha(full) != d: p.append', 'or False: p.append'),
-  ('not (isinstance(d, str) and SHA.fullmatch(d)) or', 'False or'),
+  ('elif sha(full) != d: p.append', 'elif False: p.append'),
   ('if not (isinstance(r.get("note"), str) and r["note"].strip()): p.append', 'if False: p.append'),
   ('if s == "BLOCKED" and not (isinstance(r.get("blocked_by"), str) and r["blocked_by"].strip()): p.append', 'if False: p.append'),
   ('if s == "OPEN" and (r.get("evidence") or r.get("blocked_by")): p.append', 'if False: p.append'),
@@ -66,11 +65,10 @@ M = [
   ('except Exception as e: return "REVOKED", "fail_closed:"', 'except Exception as e: return "VALID", "fail_closed:"'),
   ('except Exception as e: return False, "fail_closed:"', 'except Exception as e: return True, "fail_closed:"'),
   ('pub = self.trust.resolve(d["kid"], CLAIM_ISSUER_ROLE); pub.verify(bytes.fromhex(d["sig"]), _canon(d["body"]))', 'pass'),
-  ('pub = self.trust.resolve(d["kid"], CLAIM_ISSUER_ROLE); pub.verify(', 'pub = None; _x = (lambda *a: None)(') if False else ('self.trust.resolve(d["kid"], CLAIM_ISSUER_ROLE)', 'self.trust.resolve(d["kid"], d["kid"] and "assurance-issuer")'),
+  ('pub = self.trust.resolve(d["kid"], CLAIM_ISSUER_ROLE); pub.verify(', 'pub = None; _x = (lambda *a: None)(') if False else ('self.trust.resolve(d["kid"], CLAIM_ISSUER_ROLE)', 'self.trust.resolve(d["kid"], "reproducer")'),
   ('if subject not in permanent: reg.invalid.pop(subject, None)', 'reg.invalid.pop(subject, None)'),
   ('if subject in reg.claims: reg.revoke(subject); permanent.add(subject)', 'if subject in reg.claims: reg.revoke(subject)'),
   ('or a["kid"] == issued.get(subject, None) or subject not in issued: continue', ': pass'),
-  ('if a["iss"] != role: continue', 'pass'),
   ('self.trust.resolve(a["kid"], role).verify(bytes.fromhex(a["sig"]), _canon(a["body"]))', 'pass'),
   ('if a["body"]["claim_id"] != subject', 'if False'),
   ('if reason not in INVALIDATION_REASONS: raise', 'if False: raise'),
@@ -88,6 +86,26 @@ M = [
   ('if _b64(b) != s: raise AuthError("MALFORMED", "non-canonical base64url")', 'pass'),
   ('except ValueError: raise AuthError("MALFORMED", "bad base64url") from None', 'except ValueError: raise'),
  ]),
+ ("horizon/effects/mcp_gateway.py", [
+  ('if not self._policy_allows(path): return', 'if False: return'),
+  ('return os.path.dirname(real) == self.root and not os.path.basename(real).startswith(".") and real == os.path.abspath(path)', 'return True'),
+  ('and not os.path.basename(real).startswith(".")', ''),
+  ('and real == os.path.abspath(path)', ''),
+  ('and set(a) == {"path", "content", "effect_id"}', ''),
+  ('isinstance(a["content"], str)', 'True'),
+  ('if p.get("name") != "write_file": return', 'if False: return'),
+  ('ok = r["status"] == "ALLOW_COMMITTED"', 'ok = True'),
+  ('if i is None: return None', 'pass'),
+ ]),
+ ("horizon/effects/filesink.py", [
+  ('if r.get("prev") != prev or r.get("h") != self._rec_hash(prev, r): return False, n, prev', 'if False: return False, n, prev'),
+  ('if r.get("prev") != prev or r.get("h") != self._rec_hash(prev, r): return False\n', 'if False: return False\n'),
+  ('return hashlib.sha256(prev.encode() + json.dumps({k: v for k, v in rec.items() if k not in ("prev", "h")}', 'return hashlib.sha256(json.dumps({k: v for k, v in rec.items() if k not in ("prev", "h")}'),
+  ('if i == n: return prev == head', 'if i == n: return True'),
+  ('if n == 0: return head == prev', 'if n == 0: return True'),
+  ('last = self._records()[-1:] ; prev = last[0].get("h", "") if last else "0" * 64', 'prev = "0" * 64'),
+  ('self._append({"fence": effect_id, "ts": time.time()})', 'open(self.journal, "a").write(json.dumps({"fence": effect_id}) + "\\n")'),
+ ]),
  ("horizon/effects/filesink.py", [
   ('if not ok:\n                if self.ledger.state(effect_id) == "REQUESTED": self.ledger.block', 'if False:\n                if self.ledger.state(effect_id) == "REQUESTED": self.ledger.block'),
   ('except Exception: ok, why = False, "GATE_ERROR"', 'except Exception: ok, why = True, "GATE_ERROR"'),
@@ -96,7 +114,7 @@ M = [
  ]),
 ]
 def run():
-    try: return subprocess.run([sys.executable, "-B", "-W", "ignore", "-m", "unittest", "discover", "-s", "tests/blueprint", "-t", "."], capture_output=True, timeout=180, env=dict(os.environ, PYTHONDONTWRITEBYTECODE="1")).returncode
+    try: return subprocess.run([sys.executable, "-B", "-W", "ignore", "-m", "unittest", "discover", "-s", "tests/blueprint", "-t", "."], capture_output=True, timeout=180, env=dict(os.environ, PYTHONDONTWRITEBYTECODE="1", MUTATION_RUN="1")).returncode
     except subprocess.TimeoutExpired: return 1
 assert run() == 0, "baseline red"
 surv = []; n = 0

@@ -56,6 +56,18 @@ class Frontier(unittest.TestCase):
     def test_empty_frontier_only_when_nothing_feasible(self):
         t = T(aggregate_ok=False, available_controls=("egress_contract_enforcer",)); self.assertEqual(pareto.frontier(t), []); self.assertTrue(pareto.verify_frontier(t, []))
         self.assertFalse(pareto.verify_frontier(T(), []))
+    def test_representative_is_repr_minimal_per_point(self):
+        from horizon.forge.synth import enumerate_plans, utility_loss
+        for kw in self.CASES:
+            t = T(**kw)
+            for (c, l), p in pareto.frontier(t):
+                self.assertEqual(repr(p), min(repr(q) for q in enumerate_plans(t) if checker.check(t, q) and q.cost() == c and utility_loss(t, q) == l), kw)
+    def test_verifier_rejects_inadmissible_plan_carrying_a_valid_label(self):
+        from horizon.forge.synth import enumerate_plans, utility_loss
+        t = T(); f = pareto.frontier(t); k, _ = f[0]
+        bogus = next(q for q in enumerate_plans(t) if not checker.check(t, q) and (q.cost(), utility_loss(t, q)) == k); self.assertFalse(pareto.verify_frontier(t, [(k, bogus)] + f[1:]))
+    def test_verifier_rejects_understated_cost_labels(self):
+        t = T(); f = pareto.frontier(t); self.assertTrue(pareto.verify_frontier(t, f)); self.assertFalse(pareto.verify_frontier(t, [((k[0] - 1, k[1]), p) for k, p in f]))
     def test_deterministic(self):
         self.assertEqual(pareto.frontier(T()), pareto.frontier(T()))
 if __name__ == "__main__": unittest.main()

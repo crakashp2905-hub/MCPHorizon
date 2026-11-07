@@ -1,6 +1,6 @@
 # Blueprint roadmap status (generated; do not edit)
 
-Tasks: 74 | OPEN 28 | CANDIDATE 25 | BLOCKED 21 | INDEPENDENTLY_VERIFIED 0 (no reviewer attestation exists; not claimable by the author)
+Tasks: 74 | OPEN 26 | CANDIDATE 27 | BLOCKED 21 | INDEPENDENTLY_VERIFIED 0 (no reviewer attestation exists; not claimable by the author)
 
 CANDIDATE = author-run implementation/evidence with stated limits. It is NOT integrated, adversarially tested by others, or independently verified.
 
@@ -10,7 +10,7 @@ CANDIDATE = author-run implementation/evidence with stated limits. It is NOT int
 | S0-02 Add cross-module assurance dependency graph (policy, signer, sink, ada | OPEN |  |
 | S0-03 Build independently controlled reviewer signing and rotation workflow. | BLOCKED | Needs a named independent reviewer/key custodian and an operator-owned rotation process (user is custodian per OWNER_SIGNOFF_CHECKLIST). |
 | S0-04 Ensure candidate implementations cannot mark themselves verified. | CANDIDATE | Admission requires a reviewer signer != author; roadmap checker rejects self-promotion. Author-run; no independent review; not wired into any release flow. |
-| S0-05 Preserve all historical negative results and post-hoc changes. | CANDIDATE | Append-only register of 13 negative results/post-hoc changes; manual curation, no tooling enforces completeness. |
+| S0-05 Preserve all historical negative results and post-hoc changes. | CANDIDATE | Append-only register of 14 negative results/post-hoc changes; manual curation, no tooling enforces completeness. |
 | S0-06 Add dashboard/report distinguishing IMPLEMENTED, INTEGRATED, ADVERSARI | CANDIDATE | Generated report uses OPEN/CANDIDATE/BLOCKED and a fixed INDEPENDENTLY_VERIFIED 0; it does not yet render IMPLEMENTED/INTEGRATED/ADVERSARIAL_TESTED per module. |
 | S0-GATE Reviewer verifies that no incomplete module has been promoted. | BLOCKED | Gate = independent reviewer attestation; the author cannot grant it. |
 | S1-01 Canonicalize every supported effect and bind exact arguments/targets t | OPEN |  |
@@ -20,8 +20,8 @@ CANDIDATE = author-run implementation/evidence with stated limits. It is NOT int
 | S1-05 Test separate-process and cross-process writer races, including a fenc | CANDIDATE | Separate-process writer races and fenced late writer tested locally as root with uid separation; one host; no independent bypass red-team. |
 | S1-06 Enforce real OS-level separation so agent cannot directly write protec | OPEN |  |
 | S1-07 Implement real HTTPS/redirect/DNS egress control; prevent socket bypas | OPEN |  |
-| S1-08 Keep sink journals independently owned and tamper-evident. | OPEN |  |
-| S1-09 Execute a real MCP agent request through the authorization/ledger/sink | OPEN |  |
+| S1-08 Keep sink journals independently owned and tamper-evident. | CANDIDATE | FileSink journal is hash-chained under the sink lock; edit/delete/reorder/relink are detected; tail truncation is NOT detected by the chain and needs an externa |
+| S1-09 Execute a real MCP agent request through the authorization/ledger/sink | CANDIDATE | A real newline-delimited JSON-RPC MCP stdio session (initialize, tools/list, tools/call) drives permit -> ledger -> sink -> receipt in a subprocess; policy deni |
 | S1-10 Measure clean and attacked task utility, not just refused calls. | OPEN |  |
 | S1-GATE Independent real-effect test and no known bypass within supported scop | BLOCKED | Gate = independent reviewer attestation; the author cannot grant it. |
 | S2-01 Define `EffectEdge`, `TrustZone`, `Witness`, `Probe`, `Observation`, ` | CANDIDATE | Schemas only (validation, canonical digest, evidence grading); not yet consumed by Spectra or Coverage engines. |

@@ -15,7 +15,7 @@ class Schemas(unittest.TestCase):
         for f in (lambda: S.TrustZone("A", "agent"), lambda: S.TrustZone("", "agent"), lambda: S.TrustZone(1, "agent"), lambda: S.EffectEdge("a", "a", "dns", "instrumented"), lambda: S.Witness("w", "recv", frozenset()), lambda: S.Witness("w", "recv", frozenset({"Bad"}))):
             with self.assertRaises(S.SchemaError): f()
     def test_probe_must_be_synthetic_and_zero_external_effects(self):
-        for a in ((False, 0), (True, 1), (True, True), (1, 0), (True, -1)):
+        for a in ((False, 0), (True, 1), (True, True), (True, False), (1, 0), (True, -1)):
             with self.assertRaises(S.SchemaError): S.Probe("p", *a)
     def test_unknown_and_missing_fields_rejected(self):
         d = S.TrustZone("a", "agent").to_dict()

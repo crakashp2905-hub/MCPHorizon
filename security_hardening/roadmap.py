@@ -45,7 +45,7 @@ def problems(doc_tasks: dict, status: dict, root: str, doc_sha: str) -> list:
             for path, d in ev.items():
                 full = os.path.realpath(os.path.join(root, path))
                 if not full.startswith(os.path.realpath(root) + os.sep) or not os.path.isfile(full): p.append(f"EVIDENCE_MISSING:{t}:{path}")
-                elif not (isinstance(d, str) and SHA.fullmatch(d)) or sha(full) != d: p.append(f"EVIDENCE_STALE:{t}:{path}")
+                elif sha(full) != d: p.append(f"EVIDENCE_STALE:{t}:{path}")
             if not (isinstance(r.get("note"), str) and r["note"].strip()): p.append(f"NO_LIMITS_NOTE:{t}")
         if s == "BLOCKED" and not (isinstance(r.get("blocked_by"), str) and r["blocked_by"].strip()): p.append(f"NO_BLOCKER:{t}")
         if s == "OPEN" and (r.get("evidence") or r.get("blocked_by")): p.append(f"OPEN_WITH_CLAIMS:{t}")

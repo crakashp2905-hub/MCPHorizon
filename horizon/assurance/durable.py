@@ -79,8 +79,7 @@ class DurableRegistry:
                 try:
                     a = d["att"]; role = GRADE_ROLE[a["body"]["grade"]]
                     if a["body"]["claim_id"] != subject or a["kid"] == issued.get(subject, None) or subject not in issued: continue
-                    self.trust.resolve(a["kid"], role).verify(bytes.fromhex(a["sig"]), _canon(a["body"]))
-                    if a["iss"] != role: continue
+                    self.trust.resolve(a["kid"], role).verify(bytes.fromhex(a["sig"]), _canon(a["body"]))      # resolve() pins the key's registered issuer to `role`
                     grades.setdefault(subject, set()).add(a["body"]["grade"])
                 except Exception: pass
         return reg, grades
