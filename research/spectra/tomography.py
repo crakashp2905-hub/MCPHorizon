@@ -23,7 +23,7 @@ def run_probe(system, probe, journal: Journal, budget: dict) -> frozenset:
 def consistent(hyps, probe, seen, instrumented): return [h for h in hyps if frozenset(h.get(probe, frozenset())) & instrumented == seen]
 
 
-def infer(system, probes, hyps, declared, instrumented, *, budget=50, strategy="active", seed=0):
+def infer(system, probes, hyps, declared, instrumented, *, budget=50, strategy="active", seed=0, order=None):
     """declared: {probe: sinks} the integration CLAIMS. Returns (verdict, detail)."""
     instrumented = frozenset(instrumented); j = Journal(instrumented); b = {"left": budget}; alive = list(hyps); tried = []; rng = random.Random(seed); pool = list(probes)
     while pool:
@@ -34,6 +34,7 @@ def infer(system, probes, hyps, declared, instrumented, *, budget=50, strategy="
                 for h in alive: groups.setdefault(frozenset(h.get(p, frozenset())) & instrumented, []).append(h)
                 return (-len(groups), max(len(g) for g in groups.values()) if groups else 0, p)
             p = min(pool, key=score)
+        elif strategy == "ordered": p = min(pool, key=lambda q: (list(order).index(q) if q in order else len(order), q))   # fixed external ordering (static-graph / expert-rule baselines)
         else: p = pool[rng.randrange(len(pool))]
         pool.remove(p); seen = run_probe(system, p, j, b); tried.append(p)
         extra = seen - frozenset(declared.get(p, ()))

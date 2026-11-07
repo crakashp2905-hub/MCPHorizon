@@ -96,7 +96,7 @@
   "S2-02": {
    "evidence": {
     "horizon/coverage/schema.py": "f82c26639cbf15e3d04f0d1701c5a1b110c222228ce6a3f8a0b01a502f2ca40a",
-    "research/spectra/tomography.py": "a8ba3b8014d82413a6197571a35756f5bd1e542d2984857263c0d503680680bb"
+    "research/spectra/tomography.py": "0f97140d667993528ed17775e011dbeb75f3293cf399e93ad4e97fb28503239d"
    },
    "note": "Instrumented vs uninstrumented is explicit; not_seen/unobservable never yields absence evidence (tested). Finite toy, no real services.",
    "status": "CANDIDATE"
@@ -113,14 +113,20 @@
   },
   "S2-06": {
    "evidence": {
-    "research/spectra/tomography.py": "a8ba3b8014d82413a6197571a35756f5bd1e542d2984857263c0d503680680bb",
+    "research/spectra/tomography.py": "0f97140d667993528ed17775e011dbeb75f3293cf399e93ad4e97fb28503239d",
     "tests/spectra/test_tomography.py": "1edebc12a4947a687e9769448b88a0a9d904eea2719f6038bc38a95291eeef0b"
    },
-   "note": "Toy hypothesis engine returns UNKNOWN/UNIDENTIFIABLE on exhausted budget, wrong hypothesis class, or hidden uninstrumented effects. Fixture-only.",
+   "note": "Toy hypothesis engine returns UNKNOWN/UNIDENTIFIABLE on exhausted budget, wrong hypothesis class, or hidden uninstrumented effects. Fixture-only. (tomography.py gained an 'ordered' strategy for S2-07.)",
    "status": "CANDIDATE"
   },
   "S2-07": {
-   "status": "OPEN"
+   "evidence": {
+    "research/spectra/compare.py": "0e31aadcff129a7d8222f1c1bb7d3108e0ebf2875943798981ee14dda180ab39",
+    "research/spectra/results/probe_selection.json": "6baef54c5e2f1e7c490e8219a2bd365e588f55f1f4ac1195c42d9d3f3f897b1d",
+    "tests/blueprint/test_probe_compare.py": "75ffc9a2507b1a50e1491182f7f53d79d546cb23ff593e01896a6498009b0778"
+   },
+   "note": "NEGATIVE: on 217 self-authored toy worlds, active selection saved 0.0-0.6 probes on average vs random/static/expert and every paired 95% CI includes 0 (see results JSON). Worlds not independent or held-out; no advantage is claimed.",
+   "status": "CANDIDATE"
   },
   "S2-08": {
    "status": "OPEN"
@@ -189,25 +195,63 @@
    "status": "BLOCKED"
   },
   "S4-01": {
-   "status": "OPEN"
+   "evidence": {
+    "horizon/assurance/durable.py": "14318a03ea55d7d9d76780d7f241dd440bdc530c9b5dce509b6dbdbb14c61853",
+    "tests/blueprint/test_durable.py": "99e44ff6d04a0d4fd9491e8312a6b5725ba03a2351c1ee9601436aa0d064caca"
+   },
+   "note": "Signed (Ed25519, operator TrustStore) claims in a hash-chained SQLite event log; replay rebuilds state; survives restart. Single host SQLite; keys are test keys; no key rotation workflow (S0-03 blocked).",
+   "status": "CANDIDATE"
   },
   "S4-02": {
-   "status": "OPEN"
+   "evidence": {
+    "horizon/assurance/durable.py": "14318a03ea55d7d9d76780d7f241dd440bdc530c9b5dce509b6dbdbb14c61853",
+    "tests/blueprint/test_durable.py": "99e44ff6d04a0d4fd9491e8312a6b5725ba03a2351c1ee9601436aa0d064caca"
+   },
+   "note": "Claim signature covers a binding with exactly agent/runtime/policy/tool/witness/artifact/issuer/verifier; binding values are the dependency digests, so a change suspends the claim. Values are opaque strings supplied by the caller; nothing verifies they match a real artifact.",
+   "status": "CANDIDATE"
   },
   "S4-03": {
-   "status": "OPEN"
+   "evidence": {
+    "horizon/assurance/durable.py": "14318a03ea55d7d9d76780d7f241dd440bdc530c9b5dce509b6dbdbb14c61853",
+    "tests/blueprint/test_durable.py": "99e44ff6d04a0d4fd9491e8312a6b5725ba03a2351c1ee9601436aa0d064caca"
+   },
+   "note": "Closed reason set (adapter/tool/agent change, consent revoked, journal lost, proof expired, policy changed, witness unhealthy, operator revoked) plus digest change, expiry and epoch; each tested to suspend. Detection of the real-world change is NOT implemented: callers must report it.",
+   "status": "CANDIDATE"
   },
   "S4-04": {
-   "status": "OPEN"
+   "evidence": {
+    "horizon/assurance/durable.py": "14318a03ea55d7d9d76780d7f241dd440bdc530c9b5dce509b6dbdbb14c61853",
+    "horizon/effects/filesink.py": "906f2b21face569b7a4bcc9f44537269afd7d750770bd7748be59587644f27d3",
+    "tests/blueprint/test_durable.py": "99e44ff6d04a0d4fd9491e8312a6b5725ba03a2351c1ee9601436aa0d064caca",
+    "tests/blueprint/test_gate_wiring.py": "4a404e319b53171602bb6d2ff94c0838eebba5e5600de434f0964b5dde061ed8"
+   },
+   "note": "ProtectedFileWriter(gate=...) denies at commit time, fail-closed on error; a denied effect burns its permit (verifier consumes the nonce first). Wired for the file sink only, not HTTP/process effects or the MCP path.",
+   "status": "CANDIDATE"
   },
   "S4-05": {
-   "status": "OPEN"
+   "evidence": {
+    "horizon/assurance/durable.py": "14318a03ea55d7d9d76780d7f241dd440bdc530c9b5dce509b6dbdbb14c61853",
+    "tests/blueprint/test_durable.py": "99e44ff6d04a0d4fd9491e8312a6b5725ba03a2351c1ee9601436aa0d064caca",
+    "tests/blueprint/test_gate_wiring.py": "4a404e319b53171602bb6d2ff94c0838eebba5e5600de434f0964b5dde061ed8"
+   },
+   "note": "4 worker processes race a revoke: no PERMIT logged after REVOKE and returned-True count equals logged PERMITs; 3 SIGKILL rounds leave a valid chain. One host, SQLite locking; no network partition or multi-host test.",
+   "status": "CANDIDATE"
   },
   "S4-06": {
-   "status": "OPEN"
+   "evidence": {
+    "horizon/assurance/durable.py": "14318a03ea55d7d9d76780d7f241dd440bdc530c9b5dce509b6dbdbb14c61853",
+    "tests/blueprint/test_durable.py": "99e44ff6d04a0d4fd9491e8312a6b5725ba03a2351c1ee9601436aa0d064caca"
+   },
+   "note": "Append-only log: invalidation/restoration/revocation are new events, PERMITs and failed claims stay in history; mid-log edits/deletes fail closed. LIMIT (tested): tail truncation passes the chain check; only an external anchor (head/check_anchor) catches it, and no independent anchor exists yet.",
+   "status": "CANDIDATE"
   },
   "S4-07": {
-   "status": "OPEN"
+   "evidence": {
+    "horizon/assurance/durable.py": "14318a03ea55d7d9d76780d7f241dd440bdc530c9b5dce509b6dbdbb14c61853",
+    "tests/blueprint/test_durable.py": "99e44ff6d04a0d4fd9491e8312a6b5725ba03a2351c1ee9601436aa0d064caca"
+   },
+   "note": "Grade is SOURCE_VERIFIED unless an attestation signed by a DIFFERENT key under the reproducer/auditor role issuer verifies; self-attest, wrong role, wrong claim and unknown keys are ignored. No real independent reproducer exists, so no claim is above SOURCE_VERIFIED in practice.",
+   "status": "CANDIDATE"
   },
   "S4-08": {
    "evidence": {

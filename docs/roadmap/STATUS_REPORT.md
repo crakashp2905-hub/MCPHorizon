@@ -1,6 +1,6 @@
 # Blueprint roadmap status (generated; do not edit)
 
-Tasks: 74 | OPEN 37 | CANDIDATE 16 | BLOCKED 21 | INDEPENDENTLY_VERIFIED 0 (no reviewer attestation exists; not claimable by the author)
+Tasks: 74 | OPEN 29 | CANDIDATE 24 | BLOCKED 21 | INDEPENDENTLY_VERIFIED 0 (no reviewer attestation exists; not claimable by the author)
 
 CANDIDATE = author-run implementation/evidence with stated limits. It is NOT integrated, adversarially tested by others, or independently verified.
 
@@ -29,8 +29,8 @@ CANDIDATE = author-run implementation/evidence with stated limits. It is NOT int
 | S2-03 Connect the existing Spectra finite hypothesis engine to isolated rece | OPEN |  |
 | S2-04 Add uncontrolled-probe effect ceilings and canned synthetic data only. | OPEN |  |
 | S2-05 Add hidden file/HTTP/child-process/delegated-effect tests not derived  | BLOCKED | Needs hidden-effect fixtures authored by someone other than the detector's author. |
-| S2-06 Preserve UNKNOWN on hypothesis indistinguishability, exhausted probe b | CANDIDATE | Toy hypothesis engine returns UNKNOWN/UNIDENTIFIABLE on exhausted budget, wrong hypothesis class, or hidden uninstrumented effects. Fixture-only. |
-| S2-07 Compare active probe selection against random, static graph and expert | OPEN |  |
+| S2-06 Preserve UNKNOWN on hypothesis indistinguishability, exhausted probe b | CANDIDATE | Toy hypothesis engine returns UNKNOWN/UNIDENTIFIABLE on exhausted budget, wrong hypothesis class, or hidden uninstrumented effects. Fixture-only. (tomography.py |
+| S2-07 Compare active probe selection against random, static graph and expert | CANDIDATE | NEGATIVE: on 217 self-authored toy worlds, active selection saved 0.0-0.6 probes on average vs random/static/expert and every paired 95% CI includes 0 (see resu |
 | S2-08 Add adaptive probes only if they cannot cause unauthorized production  | OPEN |  |
 | S2-09 Freeze independent outcome traces and per-path ground truth. | BLOCKED | Needs an independent party to freeze outcome traces and ground truth. |
 | S2-GATE Demonstrate a new effect edge detected where static manifests miss it, | BLOCKED | Gate = independent reviewer attestation; the author cannot grant it. |
@@ -45,13 +45,13 @@ CANDIDATE = author-run implementation/evidence with stated limits. It is NOT int
 | S3-09 Run counterexample-guided refinement to close gaps discovered by indep | OPEN |  |
 | S3-10 Retest policies after relocation, upgrade and adaptive attack. | OPEN |  |
 | S3-GATE Independent validation of synthesized boundary and workload utility on | BLOCKED | Gate = independent reviewer attestation; the author cannot grant it. |
-| S4-01 Turn HorizonZero registry entries into signed, durable, scoped depende | OPEN |  |
-| S4-02 Bind certificate to exact agent, runtime, policy, tool, witness, artif | OPEN |  |
-| S4-03 Invalidate on adapter/tool/agent changes, revoked consent, lost journa | OPEN |  |
-| S4-04 Make dependent future effects refuse automatically until restored. | OPEN |  |
-| S4-05 Crash-test claim revocation and approval races across independent proc | OPEN |  |
-| S4-06 Preserve old receipts and event histories without rewriting failed cla | OPEN |  |
-| S4-07 Distinguish SOURCE-VERIFIED from independently reproduced or externall | OPEN |  |
+| S4-01 Turn HorizonZero registry entries into signed, durable, scoped depende | CANDIDATE | Signed (Ed25519, operator TrustStore) claims in a hash-chained SQLite event log; replay rebuilds state; survives restart. Single host SQLite; keys are test keys |
+| S4-02 Bind certificate to exact agent, runtime, policy, tool, witness, artif | CANDIDATE | Claim signature covers a binding with exactly agent/runtime/policy/tool/witness/artifact/issuer/verifier; binding values are the dependency digests, so a change |
+| S4-03 Invalidate on adapter/tool/agent changes, revoked consent, lost journa | CANDIDATE | Closed reason set (adapter/tool/agent change, consent revoked, journal lost, proof expired, policy changed, witness unhealthy, operator revoked) plus digest cha |
+| S4-04 Make dependent future effects refuse automatically until restored. | CANDIDATE | ProtectedFileWriter(gate=...) denies at commit time, fail-closed on error; a denied effect burns its permit (verifier consumes the nonce first). Wired for the f |
+| S4-05 Crash-test claim revocation and approval races across independent proc | CANDIDATE | 4 worker processes race a revoke: no PERMIT logged after REVOKE and returned-True count equals logged PERMITs; 3 SIGKILL rounds leave a valid chain. One host, S |
+| S4-06 Preserve old receipts and event histories without rewriting failed cla | CANDIDATE | Append-only log: invalidation/restoration/revocation are new events, PERMITs and failed claims stay in history; mid-log edits/deletes fail closed. LIMIT (tested |
+| S4-07 Distinguish SOURCE-VERIFIED from independently reproduced or externall | CANDIDATE | Grade is SOURCE_VERIFIED unless an attestation signed by a DIFFERENT key under the reproducer/auditor role issuer verifies; self-attest, wrong role, wrong claim |
 | S4-08 Test two observationally equivalent worlds with conflicting safety out | CANDIDATE | Finite indistinguishability certificate with independent re-verification and missing-witness suggestion; toy worlds authored by the same author. |
 | S4-GATE A reviewer can reproduce certificate issuance, revocation and UNKNOWN  | BLOCKED | Gate = independent reviewer attestation; the author cannot grant it. |
 | S5-01 Build new independently authored, split-heldout threat worlds. | BLOCKED | Needs independently authored held-out worlds (author-written worlds are not held-out). |
