@@ -36,3 +36,8 @@ Source: `docs/roadmap/BOUNDARY_SYNTHESIS_BLUEPRINT_2026-11-07.md` (user-supplied
 - `FileSink` journal is now hash-chained (prev, h) under flock; `verify_chain` / `check_anchor` detect edits and reordering. Limit: tail truncation is detectable only against an external anchor, and the OS-separated `sinkproc.py` journal is NOT yet chained.
 - Mutation-harness correction (register N14): the evidence-digest test killed every mutant in evidence files, inflating the kill count. It is excluded under `MUTATION_RUN=1`; survivors exposed by that were fixed with tests or redundant code removed. Count now 93/93 on the honest harness, author-run only.
 - Tracker: S1-08 and S1-09 moved to CANDIDATE (single host, author tests). S1-01/S1-03 remain OPEN.
+
+## Addendum: OS-separated sink journal is now hash-chained
+- `horizon/effects/sinkproc.py`: the sink-owned journal records `(prev, h)` per line, appended with fsync. On start the sink replays and verifies the chain; any edit, deletion, reorder, unparsable or unchained line makes it refuse every op except `stop` with `JOURNAL_TAMPERED` (fail closed). New `head` op and `verify_journal()` give an anchor and an offline check.
+- Limits: tail truncation still verifies (a valid prefix is a valid chain); only an externally held `(n, head)` anchor exposes it, and no independent anchor custodian exists. The `prev` field is outside the hash input, so it is checked explicitly (test and mutant added). Tests need root to switch uids and skip otherwise; author-run, single host.
+- Mutants: `scripts/e06_mutants.py` 15/15 killed (6 new chain mutants; two initial survivors exposed the untested `prev` check and were fixed with tests).

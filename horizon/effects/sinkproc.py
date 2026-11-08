@@ -3,7 +3,7 @@ GATEWAY (permit-verifying process) is the only uid the sink will talk to (SO_PEE
 The sink script is stdlib-only and self-contained so it can run unprivileged without importing the repo. It re-validates containment (realpath) itself and writes its own journal.
 Needs root to switch uids (tests skip otherwise). Linux only. Does NOT protect against a kernel compromise, root-in-sandbox escape, or an agent that holds the GATEWAY uid."""
 from __future__ import annotations
-import json, os, socket, subprocess, sys, time, base64
+import hashlib, json, os, socket, subprocess, sys, time, base64
 
 SINK_SCRIPT = r'''
 import os, sys, json, socket, struct, hashlib, base64, time
@@ -12,22 +12,35 @@ if os.path.exists(sock_path): os.unlink(sock_path)
 s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM); s.bind(sock_path); os.chmod(sock_path, 0o666); s.listen(8)
 open(sock_path + ".ready", "w").write("1")
 done, fenced = {}, set()                      # rebuilt from the sink-owned journal so fences and records survive a sink restart
+Z = "0" * 64
+def rh(prev, rec): return hashlib.sha256(prev.encode() + json.dumps({k: v for k, v in rec.items() if k not in ("prev", "h")}, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+head, n, tampered = Z, 0, False               # hash chain (prev, h): an edited, reordered or unchained record makes the sink refuse everything (fail closed)
 for line in (open(journal).read().splitlines() if os.path.exists(journal) else []):
     try: r = json.loads(line)
-    except ValueError: continue
+    except ValueError: tampered = True; break
+    if r.get("prev") != head or r.get("h") != rh(head, r): tampered = True; break
+    head, n = r["h"], n + 1
     if "fence" in r: fenced.add(r["fence"])
     elif "effect_id" in r: done[r["effect_id"]] = r
+def append(rec):
+    global head, n
+    rec = dict(rec); rec["prev"] = head; rec["h"] = rh(head, rec)
+    with open(journal, "a") as f: f.write(json.dumps(rec, sort_keys=True) + "\n"); f.flush(); os.fsync(f.fileno())
+    head, n = rec["h"], n + 1
+    return rec
 while True:
     c, _ = s.accept()
     try:
         pid, uid, gid = struct.unpack("3i", c.getsockopt(socket.SOL_SOCKET, socket.SO_PEERCRED, struct.calcsize("3i")))
         req = json.loads(c.makefile("r").readline() or "{}")
         if uid != allowed_uid: out = {"ok": False, "code": "PEER_NOT_GATEWAY"}
+        elif tampered and req.get("op") != "stop": out = {"ok": False, "code": "JOURNAL_TAMPERED"}
+        elif req.get("op") == "head": out = {"ok": True, "n": n, "head": head}
         elif req.get("op") == "stop": out = {"ok": True}; c.sendall((json.dumps(out) + "\n").encode()); break
         elif req.get("op") == "observe": out = {"ok": True, "observed": done.get(req["effect_id"])}
         elif req.get("op") == "fence":   # ATOMIC fence-and-observe: the loop is single-threaded, so no write can interleave between the read and the tombstone
             if req["effect_id"] not in fenced:
-                fenced.add(req["effect_id"]); open(journal, "a").write(json.dumps({"fence": req["effect_id"], "ts": time.time()}, sort_keys=True) + "\n")
+                fenced.add(req["effect_id"]); append({"fence": req["effect_id"], "ts": time.time()})
             out = {"ok": True, "observed": done.get(req["effect_id"])}
         elif req["effect_id"] in fenced: out = {"ok": False, "code": "FENCED"}
         elif req["effect_id"] in done: out = {"ok": False, "code": "ALREADY_WRITTEN"}
@@ -37,7 +50,7 @@ while True:
             else:
                 data = base64.b64decode(req["data"]); tmp = real + ".tmp"; open(tmp, "wb").write(data); os.replace(tmp, real)
                 rec = {"effect_id": req["effect_id"], "path": real, "sha256": hashlib.sha256(data).hexdigest(), "uid_peer": uid, "ts": time.time()}
-                open(journal, "a").write(json.dumps(rec, sort_keys=True) + "\n"); done[req["effect_id"]] = rec; out = {"ok": True, "receipt": rec}
+                rec = append(rec); done[req["effect_id"]] = rec; out = {"ok": True, "receipt": rec}
     except Exception as e: out = {"ok": False, "code": "SINK_ERROR:" + type(e).__name__}
     try: c.sendall((json.dumps(out) + "\n").encode())
     finally: c.close()
@@ -70,3 +83,16 @@ def call(sock_path: str, req: dict, *, as_uid: int | None = None) -> dict:
 def fence_req(effect_id: str) -> dict: return {"op": "fence", "effect_id": effect_id}
 def observe_req(effect_id: str) -> dict: return {"op": "observe", "effect_id": effect_id}
 def write_req(path: str, data: bytes, effect_id: str) -> dict: return {"op": "write", "path": path, "data": base64.b64encode(data).decode(), "effect_id": effect_id}
+
+def head_req() -> dict: return {"op": "head"}
+def verify_journal(path: str) -> tuple:
+    """Offline check of a sink journal -> (ok, n_records, head). Same hash rule as the sink. Tail truncation is NOT detectable here: compare (n, head) with an externally held anchor from head_req()."""
+    prev, n = "0" * 64, 0
+    if not os.path.exists(path): return True, 0, prev
+    for line in open(path).read().splitlines():
+        try: r = json.loads(line)
+        except ValueError: return False, n, prev
+        h = hashlib.sha256(prev.encode() + json.dumps({k: v for k, v in r.items() if k not in ("prev", "h")}, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+        if r.get("prev") != prev or r.get("h") != h: return False, n, prev
+        prev, n = h, n + 1
+    return True, n, prev
