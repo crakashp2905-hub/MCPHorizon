@@ -2,10 +2,22 @@
  "doc_sha256": "a8b844bf62d690cccd21186c608b1da8a63112b047a959da952e021ebbd78473",
  "tasks": {
   "S0-01": {
-   "status": "OPEN"
+   "evidence": {
+    "docs/evidence/blueprint/FREEZE_MANIFEST.json": "36a9fa25b525058c5007ca21be839df8a80e11b3f5ca333a52b0a7ee08046f0f",
+    "scripts/experiment_freeze.py": "72e046f116f28902f5d565e8d53c6f714a4dc72d5cb5143ffb2dc9769d18ac09",
+    "tests/blueprint/test_freeze.py": "292c04c6619ec0aa19ffd8350a9dbd68025a40baab153d4b309000285731ccb7"
+   },
+   "note": "Hashes 39 frozen files, scope text, platform; AST check that no frozen file imports an LLM SDK. No model exists to pin; interpreter patch version and pre-freeze edits are NOT covered; a re-freeze is a visible diff, not a blocked action. Author-run.",
+   "status": "CANDIDATE"
   },
   "S0-02": {
-   "status": "OPEN"
+   "evidence": {
+    "docs/evidence/blueprint/ASSURANCE_DEPENDENCY_GRAPH.json": "b65632ee2e269aa55e24466691f5d5af180cd699958214b0e5cb013848060d87",
+    "scripts/assurance_graph.py": "22f993d33fa14a07da7f44c9db75023bf632d00c270b1036e55f24d35fa9a441",
+    "tests/blueprint/test_assurance_graph.py": "fd2b717c199dc799fac708ee0c0da881d4926961a108306dcd0e504219c974d2"
+   },
+   "note": "Static import graph (59 modules) with five declared rules (acyclic, no horizon->research, sinkproc self-contained, verifier side below effects, coverage independent). Imports only: dynamic imports, runtime data flow and semantic independence are not seen. Author-run.",
+   "status": "CANDIDATE"
   },
   "S0-03": {
    "blocked_by": "Needs a named independent reviewer/key custodian and an operator-owned rotation process (user is custodian per OWNER_SIGNOFF_CHECKLIST).",
@@ -22,9 +34,9 @@
   },
   "S0-05": {
    "evidence": {
-    "docs/roadmap/NEGATIVE_RESULTS.md": "1a362fdd5f88f66993a08107949d64f32db89bc5efbdfc5dcafba2845ed6e114"
+    "docs/roadmap/NEGATIVE_RESULTS.md": "da201c4b9dbf656ca6a43c8de121b4299ba2fef79c985ef6baa69472eb049b8b"
    },
-   "note": "Append-only register of 14 negative results/post-hoc changes; manual curation, no tooling enforces completeness.",
+   "note": "Append-only register of 15 negative results/post-hoc changes; manual curation, no tooling enforces completeness.",
    "status": "CANDIDATE"
   },
   "S0-06": {

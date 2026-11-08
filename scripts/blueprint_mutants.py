@@ -1,5 +1,5 @@
 """Mutation check for horizon/forge/pareto.py, horizon/coverage/schema.py, security_hardening/roadmap.py (timeout counts as killed)."""
-import subprocess, sys, os
+import subprocess, sys, os, signal
 M = [
  ("horizon/forge/pareto.py", [
   ('if not any(o != k and o[0] <= k[0] and o[1] <= k[1] for o in pts): out.append', 'if True: out.append'),
@@ -97,6 +97,51 @@ M = [
   ('ok = r["status"] == "ALLOW_COMMITTED"', 'ok = True'),
   ('if i is None: return None', 'pass'),
  ]),
+ ("horizon/effects/httpsink.py", [
+  ('if s.scheme != "http" or s.username is not None or s.password is not None or s.hostname != self.host or s.port != self.port or not s.path.startswith("/"): raise', 'if False: raise'),
+  ('s.hostname != self.host or s.port != self.port', 's.hostname != self.host'),
+  ('s.hostname != self.host or s.port != self.port', 's.port != self.port'),
+  ('s.scheme != "http" or s.username is not None or s.password is not None or', 's.scheme != "http" or'),
+  (r'if not isinstance(url, str) or "\x00" in url or "\\" in url or any(c in url for c in "\r\n "): raise', 'if False: raise'),
+  ('if host != "127.0.0.1": raise ValueError', 'if False: raise ValueError'),
+  ('if any(r.get("fence") == effect_id for r in recs): raise HttpSinkError("FENCED"', 'if False: raise HttpSinkError("FENCED"'),
+  ('if any(r.get("effect_id") == effect_id and r.get("phase") for r in recs): raise HttpSinkError("ALREADY_SENT"', 'if False: raise HttpSinkError("ALREADY_SENT"'),
+  ('self._append({"effect_id": effect_id, "phase": "sent", "path": path,', 'self._append({"effect_id": effect_id, "phase": "sentX", "path": path,'),
+  ('except ConnectionRefusedError as e:', 'except ZeroDivisionError as e:'),
+  ('if ce.effect != "send" or ce.target_kind != "url": return', 'if False: return'),
+  ('if ce.args != {"sha256": hashlib.sha256(body).hexdigest()}: return', 'if False: return'),
+  ('try: self.sink._target(ce.target_raw)', 'try: pass'),
+  ('if not ok:\n                if self.ledger.state(effect_id) == "REQUESTED": self.ledger.block(effect_id, {"code": "ASSURANCE_DENIED", "why": why})', 'if False:\n                if self.ledger.state(effect_id) == "REQUESTED": self.ledger.block(effect_id, {"code": "ASSURANCE_DENIED", "why": why})'),
+  ('except Exception: ok, why = False, "GATE_ERROR"', 'except Exception: ok, why = True, "GATE_ERROR"'),
+  ('ok = bool(g[0]) and g[0] is True;', 'ok = bool(g[0]);'),
+  ('("COMMITTED", None) if 200 <= st < 300 else', '("COMMITTED", None) if st < 400 else'),
+  ('else ("BLOCKED", "HTTP_REJECTED") if 400 <= st < 500', 'else ("BLOCKED", "HTTP_REJECTED") if 400 <= st < 600'),
+  ('if obs["state"] == "ambiguous": return self.ledger.state(effect_id)', 'if False: return self.ledger.state(effect_id)'),
+  ('obs["state"] == "done" and 200 <= obs["http_status"] < 300', 'obs["state"] == "done"'),
+  ('if r.get("prev") != prev or r.get("h") != self._rh(prev, r): return False, n, prev', 'if r.get("h") != self._rh(prev, r): return False, n, prev'),
+  ('if r.get("prev") != prev or r.get("h") != self._rh(prev, r): return False, n, prev', 'if False: return False, n, prev'),
+  ('prev = last[0]["h"] if last else "0" * 64; rec = dict(rec, prev=prev)', 'prev = "0" * 64; rec = dict(rec, prev=prev)'),
+  ('if not self.ledger.request(effect_id, {"target": ce.target_raw}): return {"status": "DUPLICATE"}', 'pass'),
+  ('if not self.ledger.authorize(effect_id, claim["nonce"]): self.ledger.block(effect_id, {"code": "NONCE_REUSE"}); return', 'if False: return'),
+ ]),
+ ("scripts/assurance_graph.py", [
+  ('if state.get(m) == 1: v.append', 'if False: v.append'),
+  ('if a.startswith("horizon/") and b.startswith("research/"): v.append', 'if False: v.append'),
+  ('if a == "horizon/effects/sinkproc.py": v.append', 'if False: v.append'),
+  ('if _pkg(a) in ("horizon/authz", "horizon/ops") and', 'if False and'),
+  ('if _pkg(a) == "horizon/coverage" and', 'if False and'),
+  ('if f and f != rel: out.add(f)', 'if f: out.add(f)'),
+  ('parts = pkg.split(".")[: len(pkg.split(".")) - (n.level - 1)]', 'parts = pkg.split(".")'),
+ ]),
+ ("scripts/experiment_freeze.py", [
+  ('if m.get("manifest_sha256") != manifest_hash(m): p.append("MANIFEST_HASH")', 'pass'),
+  ('if m.get("scope") != SCOPE or m.get("scope_sha256") != hashlib.sha256(SCOPE.encode()).hexdigest(): p.append("SCOPE_CHANGED")', 'pass'),
+  ('elif hashlib.sha256(open(full, "rb").read()).hexdigest() != h: p.append("CHANGED:" + f)', 'elif False: p.append("CHANGED:" + f)'),
+  ('if not os.path.exists(full): p.append("MISSING:" + f)', 'if False: p.append("MISSING:" + f)'),
+  ('p += ["UNFROZEN_NEW:" + f for f in sorted(cur - old)]', 'pass'),
+  ('if any(m == s or m.startswith(s + ".") for s in LLM_SDKS)', 'if any(m == s for s in LLM_SDKS)'),
+  ('and not n.level else []', 'else []'),
+ ]),
  ("horizon/effects/filesink.py", [
   ('if r.get("prev") != prev or r.get("h") != self._rec_hash(prev, r): return False, n, prev', 'if False: return False, n, prev'),
   ('if r.get("prev") != prev or r.get("h") != self._rec_hash(prev, r): return False\n', 'if False: return False\n'),
@@ -118,12 +163,19 @@ def run():
     except subprocess.TimeoutExpired: return 1
 assert run() == 0, "baseline red"
 surv = []; n = 0
+_cur = {}
+def _bail(*_):   # SIGTERM/SIGINT mid-mutation must put the original source back (a bare timeout used to leave a mutant in the tree)
+    if _cur: open(_cur["F"], "w").write(_cur["src"])
+    sys.exit(2)
+signal.signal(signal.SIGTERM, _bail); signal.signal(signal.SIGINT, _bail)
+ONLY = sys.argv[1:]      # optional: restrict to the listed source files
 for F, muts in M:
+    if ONLY and F not in ONLY: continue
     for a, b in muts:
         n += 1; src = open(F).read()
         if a not in src: surv.append(("MISSING", F, a)); continue
         try:
-            open(F, "w").write(src.replace(a, b, 1))
+            _cur.update(F=F, src=src); open(F, "w").write(src.replace(a, b, 1))
             if run() == 0: surv.append(("SURVIVED", F, a))
-        finally: open(F, "w").write(src)
+        finally: open(F, "w").write(src); _cur.clear()
 print(f"{n - len(surv)}/{n} killed"); [print(s) for s in surv]; sys.exit(1 if surv else 0)
