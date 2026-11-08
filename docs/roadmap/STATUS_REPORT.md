@@ -1,6 +1,6 @@
 # Blueprint roadmap status (generated; do not edit)
 
-Tasks: 74 | OPEN 24 | CANDIDATE 29 | BLOCKED 21 | INDEPENDENTLY_VERIFIED 0 (no reviewer attestation exists; not claimable by the author)
+Tasks: 74 | OPEN 23 | CANDIDATE 30 | BLOCKED 21 | INDEPENDENTLY_VERIFIED 0 (no reviewer attestation exists; not claimable by the author)
 
 CANDIDATE = author-run implementation/evidence with stated limits. It is NOT integrated, adversarially tested by others, or independently verified.
 
@@ -10,7 +10,7 @@ CANDIDATE = author-run implementation/evidence with stated limits. It is NOT int
 | S0-02 Add cross-module assurance dependency graph (policy, signer, sink, ada | CANDIDATE | Static import graph (59 modules) with five declared rules (acyclic, no horizon->research, sinkproc self-contained, verifier side below effects, coverage indepen |
 | S0-03 Build independently controlled reviewer signing and rotation workflow. | BLOCKED | Needs a named independent reviewer/key custodian and an operator-owned rotation process (user is custodian per OWNER_SIGNOFF_CHECKLIST). |
 | S0-04 Ensure candidate implementations cannot mark themselves verified. | CANDIDATE | Admission requires a reviewer signer != author; roadmap checker rejects self-promotion. Author-run; no independent review; not wired into any release flow. |
-| S0-05 Preserve all historical negative results and post-hoc changes. | CANDIDATE | Append-only register of 15 negative results/post-hoc changes; manual curation, no tooling enforces completeness. |
+| S0-05 Preserve all historical negative results and post-hoc changes. | CANDIDATE | Append-only register of 18 negative results/post-hoc changes; manual curation, no tooling enforces completeness. |
 | S0-06 Add dashboard/report distinguishing IMPLEMENTED, INTEGRATED, ADVERSARI | CANDIDATE | Generated report uses OPEN/CANDIDATE/BLOCKED and a fixed INDEPENDENTLY_VERIFIED 0; it does not yet render IMPLEMENTED/INTEGRATED/ADVERSARIAL_TESTED per module. |
 | S0-GATE Reviewer verifies that no incomplete module has been promoted. | BLOCKED | Gate = independent reviewer attestation; the author cannot grant it. |
 | S1-01 Canonicalize every supported effect and bind exact arguments/targets t | OPEN |  |
@@ -57,7 +57,7 @@ CANDIDATE = author-run implementation/evidence with stated limits. It is NOT int
 | S5-01 Build new independently authored, split-heldout threat worlds. | BLOCKED | Needs independently authored held-out worlds (author-written worlds are not held-out). |
 | S5-02 Use live real-model agents rather than only offline trajectory replay. | CANDIDATE | One 0.5B model, mock tools, n=24/cell, templated attacks, gate tuned post hoc; attacked-task utility 0/24 (see NEGATIVE_RESULTS N3). Not a hard-baseline compari |
 | S5-03 Implement and run coarse read/send, static gateway, capability and Ope | OPEN |  |
-| S5-04 Retain scenarios where baselines outperform MCPHorizon. | OPEN |  |
+| S5-04 Retain scenarios where baselines outperform MCPHorizon. | CANDIDATE | Two kept unfavourable results: (1) Spectra active probe selection never beats random in 6 simulated conditions and the expert-rule baseline beats it where hidde |
 | S5-05 Demonstrate nontrivial boundary changes instead of policy-template sel | OPEN |  |
 | S5-06 Establish formal claims plus code-level conformance, with proof of ass | CANDIDATE | Formal claim + code conformance exists for the commit protocol ONLY; not for synthesis claims C1-C6. |
 | S5-07 Run leave-one-family-out, unseen tools, deception and adaptive adversa | OPEN |  |

@@ -3,8 +3,8 @@
  "tasks": {
   "S0-01": {
    "evidence": {
-    "docs/evidence/blueprint/FREEZE_MANIFEST.json": "36a9fa25b525058c5007ca21be839df8a80e11b3f5ca333a52b0a7ee08046f0f",
-    "scripts/experiment_freeze.py": "72e046f116f28902f5d565e8d53c6f714a4dc72d5cb5143ffb2dc9769d18ac09",
+    "docs/evidence/blueprint/FREEZE_MANIFEST.json": "c3b869311a853244e1d61ecf12ed6a83da717ebbc9a21a8b4ec4ccff6b3beeb2",
+    "scripts/experiment_freeze.py": "1cd1f38aa4043a1eac1426b6f6684bf95e527fbd6cb61ff581a94aff08c98d9b",
     "tests/blueprint/test_freeze.py": "292c04c6619ec0aa19ffd8350a9dbd68025a40baab153d4b309000285731ccb7"
    },
    "note": "Hashes 39 frozen files, scope text, platform; AST check that no frozen file imports an LLM SDK. No model exists to pin; interpreter patch version and pre-freeze edits are NOT covered; a re-freeze is a visible diff, not a blocked action. Author-run.",
@@ -12,9 +12,9 @@
   },
   "S0-02": {
    "evidence": {
-    "docs/evidence/blueprint/ASSURANCE_DEPENDENCY_GRAPH.json": "b65632ee2e269aa55e24466691f5d5af180cd699958214b0e5cb013848060d87",
-    "scripts/assurance_graph.py": "22f993d33fa14a07da7f44c9db75023bf632d00c270b1036e55f24d35fa9a441",
-    "tests/blueprint/test_assurance_graph.py": "fd2b717c199dc799fac708ee0c0da881d4926961a108306dcd0e504219c974d2"
+    "docs/evidence/blueprint/ASSURANCE_DEPENDENCY_GRAPH.json": "70c0f14c71db77ff010021cd34e5010c35b89003589f82f3b02df9b69ee82f52",
+    "scripts/assurance_graph.py": "1a05b034bbb4356c2ed632b945e819e75e06b185807e4c80f2e1ee9f259f3df1",
+    "tests/blueprint/test_assurance_graph.py": "315ab8abf52051ec3bb48cc40edc69ad729eb3b9dfe8d89f1ea88a3da9ad60c5"
    },
    "note": "Static import graph (59 modules) with five declared rules (acyclic, no horizon->research, sinkproc self-contained, verifier side below effects, coverage independent). Imports only: dynamic imports, runtime data flow and semantic independence are not seen. Author-run.",
    "status": "CANDIDATE"
@@ -34,9 +34,9 @@
   },
   "S0-05": {
    "evidence": {
-    "docs/roadmap/NEGATIVE_RESULTS.md": "da201c4b9dbf656ca6a43c8de121b4299ba2fef79c985ef6baa69472eb049b8b"
+    "docs/roadmap/NEGATIVE_RESULTS.md": "e9ea283b94a528c7520ce2fe3e2c1a4ec33508e9a028fb0548224438b5f2f280"
    },
-   "note": "Append-only register of 15 negative results/post-hoc changes; manual curation, no tooling enforces completeness.",
+   "note": "Append-only register of 18 negative results/post-hoc changes; manual curation, no tooling enforces completeness.",
    "status": "CANDIDATE"
   },
   "S0-06": {
@@ -148,7 +148,7 @@
   },
   "S2-07": {
    "evidence": {
-    "research/spectra/compare.py": "0e31aadcff129a7d8222f1c1bb7d3108e0ebf2875943798981ee14dda180ab39",
+    "research/spectra/compare.py": "12eb94717cbe5b74ed62878524621a27f1741d4aac463dce2116099caa3dfc36",
     "research/spectra/results/probe_selection.json": "6baef54c5e2f1e7c490e8219a2bd365e588f55f1f4ac1195c42d9d3f3f897b1d",
     "tests/blueprint/test_probe_compare.py": "75ffc9a2507b1a50e1491182f7f53d79d546cb23ff593e01896a6498009b0778"
    },
@@ -308,7 +308,14 @@
    "status": "OPEN"
   },
   "S5-04": {
-   "status": "OPEN"
+   "evidence": {
+    "docs/evidence/blueprint/FORGE_EXHAUSTIVE.json": "105033c4d0cb11671d3a815a7b81579cf120b4af64cd59b39264396d53f6875d",
+    "research/spectra/results/sensitivity.json": "a0629a399609b2e84cfe1f32c36ff1cb58b15c0760728c2c15217247a0d730af",
+    "tests/blueprint/test_forge_space.py": "69623bd7dcda48a84c264c25ca4bad0511d3f044c1bed123bc98ac2665e9a988",
+    "tests/blueprint/test_spectra_sensitivity.py": "94e2b06e25cb7692d941d272159ee324abb2e4c818f49876ef18b2bd0864122a"
+   },
+   "note": "Two kept unfavourable results: (1) Spectra active probe selection never beats random in 6 simulated conditions and the expert-rule baseline beats it where hidden effects favour net/proc tools; (2) cost-first Forge synthesis gives up utility on 166 of 768 tasks where a zero-loss plan exists. Toy/simulated worlds, self-authored baselines; S5's intent (real tasks, independent baselines) is NOT met.",
+   "status": "CANDIDATE"
   },
   "S5-05": {
    "status": "OPEN"
