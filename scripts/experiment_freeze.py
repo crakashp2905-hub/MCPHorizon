@@ -8,7 +8,7 @@ OUT = os.path.join(ROOT, "docs", "evidence", "blueprint", "FREEZE_MANIFEST.json"
 SCOPE = ("Threat scope: an agent process may be fully adversarial toward the gateway/sink interfaces it can reach; the gateway, authority keys, sink process and operator are trusted; "
          "host root, kernel, clock and network are out of scope; no independent reviewer exists; results are author-run on one host.")
 LLM_SDKS = ("anthropic", "openai", "google.generativeai", "cohere", "mistralai", "litellm", "transformers", "langchain")
-EXTRA = ["scripts/assurance_graph.py", "scripts/blueprint_roadmap.py", "scripts/blueprint_mutants.py", "scripts/experiment_freeze.py", "research/spectra/results/probe_selection.json",
+EXTRA = ["scripts/assurance_graph.py", "scripts/blueprint_roadmap.py", "scripts/blueprint_mutants.py", "scripts/experiment_freeze.py", "research/spectra/results/probe_selection.json", "research/spectra/results/sensitivity.json", "scripts/forge_exhaustive.py", "/".join(("docs", "evidence", "blueprint", "FORGE_" + "EXHAUSTIVE.json")),
          "/".join(("docs", "evidence", "blueprint", "ASSURANCE_" + "DEPENDENCY_GRAPH.json")), "security_hardening/roadmap.py"]
 def frozen_files():
     fs = set(EXTRA)
