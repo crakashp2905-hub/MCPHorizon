@@ -211,12 +211,12 @@ M = [
   ('if not os.path.isabs(argv[0]): raise', 'if False: raise'),
   ('rule = next((r for r in self.rules if os.path.realpath(r.program) == real), None)', 'rule = next((r for r in self.rules if r.program == argv[0]), None)'),
   ('if not any(re.fullmatch(p, a) for p in rule.arg_patterns): raise', 'if not any(re.match(p, a) for p in rule.arg_patterns): raise'),
-  ('if any("\x00" in a for a in argv): raise', 'if False: raise'),
+  (r'if any("\x00" in a for a in argv): raise', 'if False: raise'),
   ('if rule.cwd_root is None: raise ProcBrokerError("CWD_NOT_ALLOWED")', 'pass'),
   ('if not (c == root or c.startswith(root + os.sep)): raise', 'if not c.startswith(root): raise'),
   ('c = os.path.realpath(cwd)', 'c = os.path.abspath(cwd)'),
   ('env = {"PATH": "/usr/bin:/bin", "LANG": "C", **dict(rule.env)}', 'env = dict(os.environ)'),
-  ('shell=False', 'shell=True'),
+  ('shell=False, close_fds', 'shell=True, close_fds'),
   ('os.setsid()', 'pass'),
   ('(resource.RLIMIT_NOFILE, rule.max_files)', '(resource.RLIMIT_NOFILE, 1024)'),
   ('os.killpg(p.pid, signal.SIGKILL)', 'p.kill()'),
@@ -241,10 +241,12 @@ def _bail(*_):   # SIGTERM/SIGINT mid-mutation must put the original source back
     if _cur: open(_cur["F"], "w").write(_cur["src"])
     sys.exit(2)
 signal.signal(signal.SIGTERM, _bail); signal.signal(signal.SIGINT, _bail)
+SLICE = tuple(int(x) for x in os.environ['MUT_SLICE'].split('-')) if os.environ.get('MUT_SLICE') else None
 ONLY = sys.argv[1:]      # optional: restrict to the listed source files
 for F, muts in M:
     if ONLY and F not in ONLY: continue
-    for a, b in muts:
+    for i, (a, b) in enumerate(muts):
+        if SLICE and not (SLICE[0] <= i < SLICE[1]): continue        # optional MUT_SLICE=lo-hi (indices within each selected file's list) to fit long runs into time-limited calls
         n += 1; src = open(F).read()
         if a not in src: surv.append(("MISSING", F, a)); continue
         try:

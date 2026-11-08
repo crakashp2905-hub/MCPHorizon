@@ -127,6 +127,9 @@ class Proc(unittest.TestCase):
         sub = os.path.join(self.d, "w"); os.mkdir(sub); b = Pr.ProcBroker((Pr.Rule("/bin/pwd", cwd_root=self.d),))
         self.assertEqual(b.run(["/bin/pwd"], cwd=sub)[1].strip().decode(), os.path.realpath(sub))
         self.assertEqual(code(b.run, ["/bin/pwd"], cwd="/"), "CWD_OUTSIDE_ROOT"); self.assertEqual(code(b.run, ["/bin/pwd"], cwd=self.d + "/../"), "CWD_OUTSIDE_ROOT")
+        sib = self.d + "x"; os.mkdir(sib); self.addCleanup(shutil.rmtree, sib, True)               # shares the root's string prefix but is a different directory
+        self.assertEqual(code(b.run, ["/bin/pwd"], cwd=sib), "CWD_OUTSIDE_ROOT")
+        esc = os.path.join(self.d, "esc"); os.symlink("/", esc); self.assertEqual(code(b.run, ["/bin/pwd"], cwd=esc), "CWD_OUTSIDE_ROOT")      # symlink inside the root pointing out
         self.assertEqual(code(Pr.ProcBroker((Pr.Rule("/bin/pwd"),)).run, ["/bin/pwd"], cwd=self.d), "CWD_NOT_ALLOWED")
     def test_timeout_kills_the_whole_process_group(self):
         marker = os.path.join(self.d, "m")
@@ -135,6 +138,9 @@ class Proc(unittest.TestCase):
         time.sleep(0.2); pid = int(open(marker).read())
         st = open(f"/proc/{pid}/stat").read().split()[2] if os.path.exists(f"/proc/{pid}") else "gone"
         self.assertIn(st, ("gone", "Z"))          # killed; a zombie only means nothing reaped it (this container's init does not)
+    def test_a_child_that_closes_its_pipes_but_keeps_running_still_times_out(self):
+        sc = "exec >&- 2>&-; sleep 5"; b = Pr.ProcBroker((Pr.Rule("/bin/sh", (r"-c", r"exec >&- 2>&-; sleep 5"), timeout=0.6),))
+        t = time.monotonic(); self.assertEqual(code(b.run, ["/bin/sh", "-c", sc]), "TIMEOUT"); self.assertLess(time.monotonic() - t, 4)
     def test_output_flood_is_cut_off(self):
         self.assertEqual(code(Pr.ProcBroker((Pr.Rule("/usr/bin/yes", max_output=1000, timeout=5),)).run, ["/usr/bin/yes"]), "OUTPUT_TOO_LARGE")
     def test_rlimits_are_applied_in_the_child(self):
