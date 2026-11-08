@@ -419,6 +419,19 @@ agent names and tool calls from the structured stdout format automatically.
 
 ---
 
+## Scanning tool descriptions for poisoning (`horizon.guard`)
+
+```bash
+python -m horizon.guard scan tools.json            # human-readable findings
+python -m horizon.guard scan tools.json --json     # machine-readable
+python -m horizon.guard scan tools.json --threshold 3.0
+```
+
+`tools.json` is a list of `{name, description, inputSchema?}` objects (an MCP `tools/list` result's `tools` array). Exit status is non-zero when any tool is flagged.
+This is a heuristic: on held-out poisoning it caught about 84% with about 7% false positives on a small benign set, and it missed all 8 deliberately evasive phrasings. A clean scan is not evidence a server is safe. See `docs/roadmap/NEGATIVE_RESULTS.md` (N19).
+
+---
+
 ## Integrating MCPHorizon into your agent runtime
 
 The `check` subcommand and `serve` mode are designed for language-agnostic

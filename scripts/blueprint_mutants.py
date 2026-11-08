@@ -173,6 +173,20 @@ M = [
   ('last = self._records()[-1:] ; prev = last[0].get("h", "") if last else "0" * 64', 'prev = "0" * 64'),
   ('self._append({"fence": effect_id, "ts": time.time()})', 'open(self.journal, "a").write(json.dumps({"fence": effect_id}) + "\\n")'),
  ]),
+ ("horizon/guard/scan.py", [
+  ('THRESHOLD = 2.5', 'THRESHOLD = 9.0'),
+  ('"flagged": s >= th', '"flagged": s > th'),
+  ('(?-i:', '(?:'),
+  ('"concealment": 3.0', '"concealment": 0.1'),
+  ('"override": 3.0', '"override": 0.1'),
+  ('"exfil": 2.5', '"exfil": 0.1'),
+  ('"cross_tool_call": 2.0', '"cross_tool_call": 0.1'),
+  ('th = THRESHOLD if threshold is None else threshold', 'th = THRESHOLD'),
+ ]),
+ ("horizon/effects/mcp_gateway.py", [
+  ('"code": "POLICY_DENIED", "retryable": False', '"code": "POLICY_DENIED", "retryable": True'),
+  ('repeating it will not succeed', 'try again'),
+ ]),
  ("horizon/effects/filesink.py", [
   ('if not ok:\n                if self.ledger.state(effect_id) == "REQUESTED": self.ledger.block', 'if False:\n                if self.ledger.state(effect_id) == "REQUESTED": self.ledger.block'),
   ('except Exception: ok, why = False, "GATE_ERROR"', 'except Exception: ok, why = True, "GATE_ERROR"'),

@@ -3,8 +3,8 @@
  "tasks": {
   "S0-01": {
    "evidence": {
-    "docs/evidence/blueprint/FREEZE_MANIFEST.json": "c3b869311a853244e1d61ecf12ed6a83da717ebbc9a21a8b4ec4ccff6b3beeb2",
-    "scripts/experiment_freeze.py": "1cd1f38aa4043a1eac1426b6f6684bf95e527fbd6cb61ff581a94aff08c98d9b",
+    "docs/evidence/blueprint/FREEZE_MANIFEST.json": "959b9c0324a5f942031c22cfe463a0426944bcac54087c5d1c77d201ea171bdc",
+    "scripts/experiment_freeze.py": "923160b26e0bdee133b49b757c7b79c7eb67cb43020978c199244a0187fecb04",
     "tests/blueprint/test_freeze.py": "292c04c6619ec0aa19ffd8350a9dbd68025a40baab153d4b309000285731ccb7"
    },
    "note": "Hashes 39 frozen files, scope text, platform; AST check that no frozen file imports an LLM SDK. No model exists to pin; interpreter patch version and pre-freeze edits are NOT covered; a re-freeze is a visible diff, not a blocked action. Author-run.",
@@ -12,9 +12,9 @@
   },
   "S0-02": {
    "evidence": {
-    "docs/evidence/blueprint/ASSURANCE_DEPENDENCY_GRAPH.json": "70c0f14c71db77ff010021cd34e5010c35b89003589f82f3b02df9b69ee82f52",
-    "scripts/assurance_graph.py": "1a05b034bbb4356c2ed632b945e819e75e06b185807e4c80f2e1ee9f259f3df1",
-    "tests/blueprint/test_assurance_graph.py": "315ab8abf52051ec3bb48cc40edc69ad729eb3b9dfe8d89f1ea88a3da9ad60c5"
+    "docs/evidence/blueprint/ASSURANCE_DEPENDENCY_GRAPH.json": "86d899be259325ead4da62215d7869faf270203950bd6dc53836a19fd663149f",
+    "scripts/assurance_graph.py": "c9c0db4e64c5b6579123d7403fa723dd8d18b73260e702b3525c71e532ea2e6d",
+    "tests/blueprint/test_assurance_graph.py": "09d406b0077ea813f957148999b84d1abf1252af41f0c67e33ccda6ab15fc3cd"
    },
    "note": "Static import graph (59 modules) with five declared rules (acyclic, no horizon->research, sinkproc self-contained, verifier side below effects, coverage independent). Imports only: dynamic imports, runtime data flow and semantic independence are not seen. Author-run.",
    "status": "CANDIDATE"
@@ -34,7 +34,7 @@
   },
   "S0-05": {
    "evidence": {
-    "docs/roadmap/NEGATIVE_RESULTS.md": "e9ea283b94a528c7520ce2fe3e2c1a4ec33508e9a028fb0548224438b5f2f280"
+    "docs/roadmap/NEGATIVE_RESULTS.md": "8f3613c25dce887222606979e14e383c7a1a04cf6e4bf11ccfd7bbf3ad132053"
    },
    "note": "Append-only register of 18 negative results/post-hoc changes; manual curation, no tooling enforces completeness.",
    "status": "CANDIDATE"
@@ -99,8 +99,8 @@
   },
   "S1-09": {
    "evidence": {
-    "horizon/effects/mcp_gateway.py": "a521c3428643b2e255c6b5751d1a5ea1bfde5651f8db6d31fc34dbc18a97bffc",
-    "tests/blueprint/test_mcp_e2e.py": "d7359030fa2724a18411160d865df2579e89bd343f58667bd6755258bf128f22"
+    "horizon/effects/mcp_gateway.py": "b8297567f60b7ec10c4fdff405bc3ce8670fcc59b14f6fd4e85f847d1de29f64",
+    "tests/blueprint/test_mcp_e2e.py": "9bb9e7b732e3eaafc7d00f6d41613ca356013791fa1773cdbd9e9559c073ac79"
    },
    "note": "A real newline-delimited JSON-RPC MCP stdio session (initialize, tools/list, tools/call) drives permit -> ledger -> sink -> receipt in a subprocess; policy denies traversal/absolute/hidden/symlink paths with nothing written. LIMITS: reference gateway I wrote, not a third-party MCP client/server; authority and gateway share one process (not separate principals); no LLM agent in the loop; one tool.",
    "status": "CANDIDATE"

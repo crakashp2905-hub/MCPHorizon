@@ -12,7 +12,7 @@ EXTRA = ["scripts/assurance_graph.py", "scripts/blueprint_roadmap.py", "scripts/
          "/".join(("docs", "evidence", "blueprint", "ASSURANCE_" + "DEPENDENCY_GRAPH.json")), "security_hardening/roadmap.py"]
 def frozen_files():
     fs = set(EXTRA)
-    for pat in ("horizon/effects/*.py", "horizon/assurance/*.py", "horizon/forge/*.py", "horizon/coverage/schema.py", "horizon/authz/effect.py", "horizon/ops/audience.py", "research/spectra/*.py", "tests/blueprint/*.py"):
+    for pat in ("horizon/effects/*.py", "horizon/assurance/*.py", "horizon/forge/*.py", "horizon/coverage/schema.py", "horizon/authz/effect.py", "horizon/ops/audience.py", "research/spectra/*.py", "horizon/guard/*.py", "research/guard/*.py", "research/guard/*.json", "tests/blueprint/*.py"):
         fs |= {os.path.relpath(p, ROOT) for p in glob.glob(os.path.join(ROOT, pat))}
     return sorted(f for f in fs if "__pycache__" not in f)
 def sha(p): return hashlib.sha256(open(os.path.join(ROOT, p), "rb").read()).hexdigest()
