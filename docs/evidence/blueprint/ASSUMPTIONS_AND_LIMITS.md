@@ -58,3 +58,11 @@ Source: `docs/roadmap/BOUNDARY_SYNTHESIS_BLUEPRINT_2026-11-07.md` (user-supplied
 - Evaluation is on MCPTox poisoned descriptions (dev = Templates 1-2, held out = Template 3) against author-written benign and evasion sets. The benign and evasion sets are small, written by the same author as the scanner, and unreviewed. Dataset licences are UNVERIFIED. Numbers: see N19.
 - The gateway's denied-write reply now says explicitly that the denial is final (`POLICY_DENIED`, `retryable: false`) and what is allowed, so an agent is told to stop retrying. Whether real agents then behave better has NOT been measured.
 - Dependency graph rule R7: `horizon/guard/scan.py` imports nothing from the repo.
+
+## Addendum: Spectra -> Forge -> Zero pipeline (CANDIDATE, fixtures only)
+- `research/spectra/pipeline.py`: an effect Spectra observes on an instrumented sink but the integration did not declare becomes a Forge Task; a plan is accepted only if Forge's independent checker accepts it (negative results are re-verified by the negative-certificate check); only then is a new scoped Zero claim issued, bound by digest to the observed graph, the plan and each control/witness the plan needs. The old claim is suspended as soon as the observed graph differs from the one it was issued against. Unknown label -> SECRET, unknown sink -> remote, missing control or witness -> no claim.
+- "Enforceable" here means only: the registry refuses permits for suspended/unissued claims. Nothing installs a control. The claim records the control digests the owner DECLARES as installed (`env["installed"]`); whether they are really running is not checked.
+- Only instrumented sinks are observed; an effect no probe exercises is not covered, and the claim scope says so. Spectra stops at the first discovery per round; the pipeline re-runs up to `max_rounds`.
+- Forge's IR is toy (3 placements, 2 data forms, binary utility loss). A plan that needs relocation is reported as REQUIRES_RELOCATION and issues no claim.
+- Self-authored worlds, tests and mutants; no independent review. No tracker task was promoted (S2-03 needs isolated receivers; S3-01 needs a real IR).
+
