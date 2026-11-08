@@ -219,6 +219,8 @@ M = [
   ('shell=False, close_fds', 'shell=True, close_fds'),
   ('os.setsid()', 'pass'),
   ('(resource.RLIMIT_NOFILE, rule.max_files)', '(resource.RLIMIT_NOFILE, 1024)'),
+  ('if v is not None: resource.setrlimit', 'if True: resource.setrlimit'),
+  ('(resource.RLIMIT_NPROC, rule.max_procs)', '(resource.RLIMIT_NPROC, 32)'),
   ('os.killpg(p.pid, signal.SIGKILL)', 'p.kill()'),
   ('if len(bufs[key.fileobj]) > cap: raise', 'if False: raise'),
   ('if left <= 0: raise ProcBrokerError("TIMEOUT")', 'pass'),

@@ -3,7 +3,7 @@ DEFAULT POLICY ALLOWS NOTHING. No command is built in: the owner supplies an all
 For a request made THROUGH the broker it enforces: argv is a list of strings (never a shell string, shell=False); argv[0] must be an ABSOLUTE path whose realpath equals the realpath of an allowed program
 (so a symlink or relative name cannot select another binary); every following argument must match one of that rule's fullmatch regexes (anything else is refused); no NUL bytes; the environment is replaced by
 a fixed minimal one (the caller's environment never reaches the child); cwd must be inside the rule's directory; wall-clock timeout kills the whole process group; stdout/stderr are capped; CPU, address space,
-open files and process-count rlimits are set in the child.
+and open-files rlimits are set in the child (process-count limit only if the owner sets it: RLIMIT_NPROC is per-uid, so it bounds the whole user, not this tree).
 What it does NOT do: stop an agent that has its own way to execute programs (that needs an OS-level boundary: namespaces/seccomp/no exec rights for the agent, NOT implemented or tested here), or make an
 allowed program safe - a permitted `python` with a permitted script path is only as safe as that script. rlimits are best-effort on Linux and are not a sandbox."""
 from __future__ import annotations
@@ -25,7 +25,7 @@ class Rule:
     cpu_seconds: int = 10
     max_memory: int = 512 << 20
     max_files: int = 64
-    max_procs: int = 32
+    max_procs: int | None = None      # RLIMIT_NPROC counts ALL processes of the same uid, not just this child's tree: a small value makes fork fail on a busy host (it did on CI). None = not set
     env: tuple = ()                    # extra (name, value) pairs; the base environment is only PATH=/usr/bin:/bin and LANG=C
 
 
@@ -53,7 +53,7 @@ class ProcBroker:
         def limits():
             os.setsid()
             for lim, v in ((resource.RLIMIT_CPU, rule.cpu_seconds), (resource.RLIMIT_AS, rule.max_memory), (resource.RLIMIT_NOFILE, rule.max_files), (resource.RLIMIT_NPROC, rule.max_procs)):
-                resource.setrlimit(lim, (v, v))
+                if v is not None: resource.setrlimit(lim, (v, v))
         p = subprocess.Popen(list(argv), cwd=cwd, env=env, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False, close_fds=True, preexec_fn=limits)
         try: out, err = _drain(p, stdin, rule.timeout, rule.max_output)
         except ProcBrokerError:

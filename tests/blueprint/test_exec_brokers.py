@@ -119,7 +119,8 @@ class Proc(unittest.TestCase):
         link = os.path.join(self.d, "echo"); os.symlink("/bin/ls", link)
         self.assertEqual(code(Pr.ProcBroker((Pr.Rule("/bin/echo", (r".*",)),)).run, [link]), "PROGRAM_NOT_ALLOWED")
     def test_symlink_to_the_allowed_program_is_the_allowed_program(self):
-        link = os.path.join(self.d, "e2"); os.symlink(os.path.realpath("/bin/echo"), link); self.assertEqual(Pr.ProcBroker((Pr.Rule("/bin/echo", (r".*",)),)).run([link, "ok"])[1], b"ok\n")
+        real = os.path.realpath("/bin/echo"); link = os.path.join(self.d, os.path.basename(real)); os.symlink(real, link)       # same basename: multi-call coreutils pick the applet from argv[0]
+        self.assertEqual(Pr.ProcBroker((Pr.Rule("/bin/echo", (r".*",)),)).run([link, "ok"])[1], b"ok\n")
     def test_environment_is_replaced_not_inherited(self):
         os.environ["BROKER_SECRET"] = "s3cr3t"; self.addCleanup(os.environ.pop, "BROKER_SECRET", None)
         out = Pr.ProcBroker((Pr.Rule("/usr/bin/env"),)).run(["/usr/bin/env"])[1].decode(); self.assertNotIn("BROKER_SECRET", out); self.assertIn("PATH=/usr/bin:/bin", out)
@@ -145,5 +146,10 @@ class Proc(unittest.TestCase):
         self.assertEqual(code(Pr.ProcBroker((Pr.Rule("/usr/bin/yes", max_output=1000, timeout=5),)).run, ["/usr/bin/yes"]), "OUTPUT_TOO_LARGE")
     def test_rlimits_are_applied_in_the_child(self):
         b = Pr.ProcBroker((Pr.Rule("/bin/sh", (r"-c", r"ulimit -n"), max_files=23),)); self.assertEqual(b.run(["/bin/sh", "-c", "ulimit -n"])[1].strip(), b"23")
+    def test_an_nproc_limit_is_only_applied_when_the_owner_sets_it(self):
+        import re, sys
+        code_ = "import resource;print(resource.getrlimit(resource.RLIMIT_NPROC)[0])"
+        r = lambda **k: Pr.ProcBroker((Pr.Rule(sys.executable, (r"-c", re.escape(code_)), **k),)).run([sys.executable, "-c", code_])[1].strip()
+        self.assertEqual(r(max_procs=4321), b"4321"); self.assertNotEqual(r(), b"32")
     def test_nonzero_exit_is_returned_not_hidden(self): self.assertEqual(Pr.ProcBroker((Pr.Rule("/bin/false"),)).run(["/bin/false"])[0], 1)
 if __name__ == "__main__": unittest.main()
