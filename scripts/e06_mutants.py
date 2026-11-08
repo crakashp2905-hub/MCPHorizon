@@ -3,10 +3,16 @@ import subprocess, sys, os
 G = "horizon/effects/sinkproc.py"
 M = [("if uid != allowed_uid: out", "if False: out"), ("(data, 0o700)", "(data, 0o755)"), ("(jr, 0o600)", "(jr, 0o666)"), ("if not (real.startswith(root + os.sep)) or os.path.isdir(real)", "if False"),
      ("real = os.path.realpath(req[\"path\"])", "real = os.path.abspath(req[\"path\"])"), ("def demote(): os.setgid(sink_uid); os.setuid(sink_uid)", "def demote(): pass"), ("\"uid_peer\": uid", "\"uid_peer\": 0"),
-     ("except Exception as e: out = {\"ok\": False, \"code\": \"SINK_ERROR:\" + type(e).__name__}", "except Exception as e: raise"), ("os.chown(p, sink_uid, sink_uid)", "pass")]
+     ("except Exception as e: out = {\"ok\": False, \"code\": \"SINK_ERROR:\" + type(e).__name__}", "except Exception as e: raise"), ("os.chown(p, sink_uid, sink_uid)", "pass"),
+     ('if r.get("prev") != head or r.get("h") != rh(head, r): tampered = True; break', 'if False: tampered = True; break'),
+     ('if r.get("prev") != head or r.get("h") != rh(head, r)', 'if r.get("h") != rh(head, r)'),
+     ('elif tampered and req.get("op") != "stop": out', 'elif False: out'),
+     ('rec["prev"] = head; rec["h"] = rh(head, rec)', 'rec["prev"] = Z; rec["h"] = rh(Z, rec)'),
+     ('if r.get("prev") != prev or r.get("h") != h: return False, n, prev', 'if r.get("h") != h: return False, n, prev'),
+     ('head, n = rec["h"], n + 1', 'head, n = head, n')]
 def run():
     env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1")
-    try: return subprocess.run([sys.executable, "-B", "-W", "ignore", "-m", "unittest", "tests.e06.test_sinkproc"], capture_output=True, timeout=90, env=env).returncode
+    try: return subprocess.run([sys.executable, "-B", "-W", "ignore", "-m", "unittest", "tests.e06.test_sinkproc", "tests.e06.test_sinkproc_chain"], capture_output=True, timeout=90, env=env).returncode
     except subprocess.TimeoutExpired: return 1
 if os.geteuid() != 0: print("SKIP: needs root"); sys.exit(0)
 src = open(G).read(); assert run() == 0; surv = []
