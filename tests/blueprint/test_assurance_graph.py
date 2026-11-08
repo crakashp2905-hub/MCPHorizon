@@ -17,6 +17,8 @@ class Rules(unittest.TestCase):
     def test_scanner_importing_anything_is_caught(self):
         self.assertEqual(V({"horizon/guard/scan.py": ["horizon/effects/ledger.py"], "horizon/effects/ledger.py": []}), ["R7:horizon/guard/scan.py->horizon/effects/ledger.py"])
         self.assertEqual(V({"horizon/guard/cli.py": ["horizon/guard/scan.py"], "horizon/guard/scan.py": []}), [])
+    def test_brokers_importing_anything_are_caught(self):
+        for m in ("netbroker", "procbroker"): self.assertEqual(V({f"horizon/effects/{m}.py": ["horizon/effects/ledger.py"], "horizon/effects/ledger.py": []}), [f"R8:horizon/effects/{m}.py->horizon/effects/ledger.py"])
     def test_allowed_downward_edge_is_clean(self): self.assertEqual(V({"horizon/effects/f.py": ["horizon/authz/g.py"], "horizon/authz/g.py": []}), [])
 class Extraction(unittest.TestCase):
     def test_absolute_relative_and_package_imports_resolve(self):
