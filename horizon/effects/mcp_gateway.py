@@ -16,6 +16,10 @@ from horizon.effects.ledger import EffectLedger
 TOOL = {"name": "write_file", "description": "Write text to a file under the protected workspace.", "inputSchema": {"type": "object", "properties": {"path": {"type": "string"}, "content": {"type": "string"}, "effect_id": {"type": "string"}}, "required": ["path", "content", "effect_id"], "additionalProperties": False}}
 
 
+# A bare error code invites a model to retry the same call (the live-agent run N3 saw looping on a blocked call). The text says the call is final and what IS allowed.
+# Whether this changes live-agent behaviour is UNTESTED here (no live agent).
+DENIAL_TEXT = "POLICY_DENIED: this write is not permitted and repeating it will not succeed. Writes are allowed only for files directly inside the configured root. Continue the task with an allowed path, or tell the user this action was blocked."
+
 class Gateway:
     def __init__(self, root: str, journal: str, ledger_db: str, *, tenant="t1", principal="agent-a", server_id="srv-files", session_id="sess-1", gate=None):
         self.root = os.path.realpath(root); self.tenant, self.principal, self.server, self.session = tenant, principal, server_id, session_id
@@ -38,7 +42,7 @@ class Gateway:
             return {"isError": True, "content": [{"type": "text", "text": "INVALID_ARGUMENTS"}]}
         path = os.path.join(self.root, a["path"]) if not os.path.isabs(a["path"]) else a["path"]; data = a["content"].encode()
         ce = CanonicalEffect(self.tenant, self.server, self.session, self.principal, "write", "file", path, {"sha256": hashlib.sha256(data).hexdigest()})
-        if not self._policy_allows(path): return {"isError": True, "content": [{"type": "text", "text": "POLICY_DENIED"}], "structuredContent": {"status": "BLOCKED", "code": "POLICY_DENIED"}}
+        if not self._policy_allows(path): return {"isError": True, "content": [{"type": "text", "text": DENIAL_TEXT}], "structuredContent": {"status": "BLOCKED", "code": "POLICY_DENIED", "retryable": False, "allowed": "files directly inside the configured root (no subdirectories, no hidden names)"}}
         r = self.w.write(self._mint(ce), ce, data, a["effect_id"])
         ok = r["status"] == "ALLOW_COMMITTED"
         return {"isError": not ok, "content": [{"type": "text", "text": r["status"] + (":" + r.get("code", "") if r.get("code") else "")}], "structuredContent": {**r, "ledger_state": self.ledger.state(a["effect_id"])}}
