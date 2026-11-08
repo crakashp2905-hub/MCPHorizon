@@ -36,6 +36,7 @@ class E2E(unittest.TestCase):
     def test_symlink_alias_inside_root_is_denied_by_policy(self):     # real path looks fine (lands in root) but the requested path is not the real path
         os.symlink(self.root, os.path.join(self.root, "alias")); r = self.c.call(path="alias/f.txt", content="x", effect_id="ea")["result"]
         self.assertEqual(r["structuredContent"]["code"], "POLICY_DENIED"); self.assertFalse(os.path.exists(os.path.join(self.root, "f.txt")))
+        self.assertFalse(r["structuredContent"]["retryable"]); self.assertIn("will not succeed", r["content"][0]["text"]); self.assertIn("allowed path", r["content"][0]["text"])   # tells a model the denial is final and what to do instead
     def test_malformed_requests_fail_closed(self):
         for args in ({}, {"path": "a", "content": "b"}, {"path": "a", "content": 5, "effect_id": "e"}, {"path": "a", "content": "b", "effect_id": "e", "extra": 1}):
             r = self.c.call(**args)["result"]; self.assertTrue(r["isError"]); self.assertIn("INVALID_ARGUMENTS", r["content"][0]["text"])
