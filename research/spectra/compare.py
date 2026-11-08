@@ -10,14 +10,15 @@ SINKS = ("fs", "net", "queue", "offhost")
 EXPERT_RANK = {"net": 0, "proc": 1, "file": 2, "local": 3}
 
 
-def make_world(rng: random.Random, n=8):
-    probes = [f"{rng.choice(KINDS)}_{i}" for i in range(n)]
+def make_world(rng: random.Random, n=8, kind_weights=None, target_bias=None):
+    """kind_weights / target_bias default to None = the original generator (same rng stream, so committed results stay reproducible). target_bias: {kind: weight} for WHICH probe hides the effect."""
+    probes = [f"{rng.choice(KINDS) if kind_weights is None else rng.choices(KINDS, weights=[kind_weights[k] for k in KINDS])[0]}_{i}" for i in range(n)]
     declared = {p: tuple(sorted(rng.sample(SINKS[:3], rng.choice((0, 0, 1))))) for p in probes}
     hidden = rng.random() < 0.7
     graph = {p: set(v) for p, v in declared.items()}
     target = None
     if hidden:
-        target = rng.choice(probes); extra = rng.choice(("fs", "net", "queue"))
+        target = rng.choice(probes) if target_bias is None else rng.choices(probes, weights=[target_bias.get(p.split("_")[0], 1) for p in probes])[0]; extra = rng.choice(("fs", "net", "queue"))
         if extra in graph[target]: extra = next(s for s in ("fs", "net", "queue") if s not in graph[target]) if len(graph[target]) < 3 else None
         if extra: graph[target].add(extra)
         else: target = None
@@ -31,11 +32,11 @@ def run(strategy, probes, declared, graph, hyps, budget, order=None, seed=0):
     return v, d.get("probes_used", budget)
 
 
-def experiment(n_worlds=300, seed=2026, budgets=(2, 4, 8), n_random=20):
+def experiment(n_worlds=300, seed=2026, budgets=(2, 4, 8), n_random=20, n_probes=8, kind_weights=None, target_bias=None):
     rng = random.Random(seed); out = {"n_worlds": n_worlds, "seed": seed, "budgets": list(budgets), "worlds_with_discoverable_hidden_effect": 0, "strategies": {}}
     names = ("active", "random", "static_graph", "expert_rule"); acc = {n: {b: 0.0 for b in budgets} for n in names}; used = {n: 0.0 for n in names}; per = {n: [] for n in names}; disc = 0
     for _ in range(n_worlds):
-        probes, declared, graph, hyps, target = make_world(rng)
+        probes, declared, graph, hyps, target = make_world(rng, n_probes, kind_weights, target_bias)
         if target is None: continue
         disc += 1
         orders = {"static_graph": sorted(probes, key=lambda p: (-len(declared[p]), p)), "expert_rule": sorted(probes, key=lambda p: (EXPERT_RANK[p.split("_")[0]], p))}

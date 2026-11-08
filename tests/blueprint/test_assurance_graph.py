@@ -11,6 +11,9 @@ class Rules(unittest.TestCase):
         self.assertEqual(V({"horizon/authz/effect.py": ["horizon/effects/ledger.py"], "horizon/effects/ledger.py": []}), ["R4:horizon/authz/effect.py->horizon/effects/ledger.py"])
         self.assertEqual(V({"horizon/ops/audience.py": ["horizon/forge/ir.py"], "horizon/forge/ir.py": []}), ["R4:horizon/ops/audience.py->horizon/forge/ir.py"])
     def test_coverage_importing_effects_is_caught(self): self.assertEqual(V({"horizon/coverage/s.py": ["horizon/assurance/d.py"], "horizon/assurance/d.py": []}), ["R5:horizon/coverage/s.py->horizon/assurance/d.py"])
+    def test_checker_importing_the_synthesizer_is_caught(self):
+        self.assertEqual(V({"horizon/forge/checker.py": ["horizon/forge/synth.py", "horizon/forge/ir.py"], "horizon/forge/synth.py": [], "horizon/forge/ir.py": []}), ["R6:horizon/forge/checker.py->horizon/forge/synth.py"])
+        self.assertEqual(V({"horizon/forge/checker.py": ["horizon/forge/ir.py"], "horizon/forge/ir.py": []}), [])
     def test_allowed_downward_edge_is_clean(self): self.assertEqual(V({"horizon/effects/f.py": ["horizon/authz/g.py"], "horizon/authz/g.py": []}), [])
 class Extraction(unittest.TestCase):
     def test_absolute_relative_and_package_imports_resolve(self):
@@ -31,5 +34,5 @@ class Real(unittest.TestCase):
     def test_committed_graph_is_current_and_clean(self): self.assertEqual(AG.main([]), 0)
     def test_real_graph_is_not_vacuous(self):
         g = AG.build(); E = g["edges"]
-        self.assertIn("horizon/effects/filesink.py", E["horizon/effects/mcp_gateway.py"]); self.assertGreater(sum(len(v) for v in E.values()), 20); self.assertEqual(E["horizon/effects/sinkproc.py"], [])
+        self.assertIn("horizon/effects/filesink.py", E["horizon/effects/mcp_gateway.py"]); self.assertGreater(sum(len(v) for v in E.values()), 20); self.assertEqual(E["horizon/effects/sinkproc.py"], []); self.assertEqual(E["horizon/forge/checker.py"], ["horizon/forge/ir.py"])
 if __name__ == "__main__": unittest.main()
