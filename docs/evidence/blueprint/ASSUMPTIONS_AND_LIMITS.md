@@ -75,3 +75,6 @@ Source: `docs/roadmap/BOUNDARY_SYNTHESIS_BLUEPRINT_2026-11-07.md` (user-supplied
 - `horizon/contracts/v1` defines types, state machine and error table only; no gateway uses them yet (that is PR-02+). `UNKNOWN` effect state is never coerced and never auto-retried; `ALLOW_CANDIDATE` never authorises a commit.
 - `scripts/route_trace.py` and `scripts/module_inventory.py` are static/dynamic heuristics over two scenarios and source text; absence of a marker is not absence of a risk. Module role/integration text is transcribed from the masterplan.
 - The bypass tests are in-process checks in this container, not OS-isolation proofs. OS-level closure needs a dedicated Linux host and owner decisions (masterplan §12). Nothing is marked independently verified.
+
+## Addendum: issuer separation (PR-02, CANDIDATE)
+`horizon/authz/issuer.py` owns signing; the reference gateway takes an issuer. Decision parity old vs new is checked on a 5-case table (local vs process issuer), not against a production corpus. Process separation is same-uid; real key custody/OS isolation is an owner decision (masterplan section 12) and needs a dedicated Linux host. No claim of independent verification.
