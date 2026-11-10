@@ -1,0 +1,1904 @@
+{
+ "count": 47,
+ "limits": "static heuristic; role and required_integration transcribed from the masterplan; 'CANDIDATE' means code exists, nothing about integration or review; groups with no code are UNMAPPED",
+ "modules": [
+  {
+   "fail_open_syntactic_patterns": 1,
+   "files": 8,
+   "id": "A01",
+   "loc": 1052,
+   "name": "Schemas, normalization",
+   "paths": [
+    "horizon/schemas.py",
+    "horizon/normalize.py",
+    "schemas"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 14,
+   "public_sample": [
+    "Unmapped",
+    "UnsupportedSchemaVersion",
+    "canonical_file",
+    "canonical_target",
+    "canonical_url",
+    "check_version",
+    "decision_semantics",
+    "effective_confidentiality"
+   ],
+   "required_integration": "One protocol-neutral schema and canonicalizer; Python/Rust/TS semantic parity",
+   "role": "Foundation",
+   "side_effect_markers": [
+    "socket",
+    "urllib"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [],
+   "tests_importing": 0,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 14,
+   "id": "A02",
+   "loc": 738,
+   "name": "Core capability policy",
+   "paths": [
+    "horizon/core",
+    "core"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 27,
+   "public_sample": [
+    "BudgetError",
+    "HierarchyError",
+    "Redeemer",
+    "RunState",
+    "ScopeError",
+    "ancestors",
+    "authorized",
+    "certify"
+   ],
+   "required_integration": "One authoritative evaluate() with deny precedence; no parallel decision routes",
+   "role": "Kernel",
+   "side_effect_markers": [],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p2/test_core.py",
+    "tests/p7/test_lineage.py"
+   ],
+   "tests_importing": 2,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 8,
+   "id": "A03",
+   "loc": 372,
+   "name": "Authority and evidence",
+   "paths": [
+    "horizon/hpolicy",
+    "horizon/authz"
+   ],
+   "persisted_state_markers": [
+    "json.dumps",
+    "sqlite3"
+   ],
+   "present": true,
+   "public_names": 21,
+   "public_sample": [
+    "CallAuthority",
+    "EffectError",
+    "EvidenceError",
+    "HorizonPolicy",
+    "Issuer",
+    "NonceStore",
+    "ProofError",
+    "Receipts"
+   ],
+   "required_integration": "Unify issuer roles; stop per-module signer creation; separate keys",
+   "role": "High-trust authority",
+   "side_effect_markers": [
+    "open()",
+    "sqlite3"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/blueprint/test_b64_strict.py",
+    "tests/blueprint/test_durable.py",
+    "tests/e03/test_commit_verify.py",
+    "tests/e05/test_filesink.py",
+    "tests/hardening/test_admission.py"
+   ],
+   "tests_importing": 30,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 1,
+   "id": "A04",
+   "loc": 38,
+   "name": "Canonical effect",
+   "paths": [
+    "horizon/effects/canonical.py"
+   ],
+   "persisted_state_markers": [],
+   "present": true,
+   "public_names": 2,
+   "public_sample": [
+    "CanonicalEffect",
+    "commit_verify"
+   ],
+   "required_integration": "Extend exact target/args/session/server/delegation binding to all effects",
+   "role": "Kernel",
+   "side_effect_markers": [],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/blueprint/test_contracts_v1.py",
+    "tests/blueprint/test_httpsink.py",
+    "tests/e03/test_commit_verify.py",
+    "tests/e05/test_filesink.py",
+    "tests/integration_bypass/test_known_bypasses.py"
+   ],
+   "tests_importing": 6,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 6,
+   "id": "A05",
+   "loc": 318,
+   "name": "Delegation and A2A",
+   "paths": [
+    "horizon/deleg",
+    "horizon/a2a"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 21,
+   "public_sample": [
+    "AuditSchema",
+    "Authority",
+    "AuthorityError",
+    "Delegator",
+    "GrantError",
+    "HandoffLog",
+    "NoAudienceVerifier",
+    "Revocations"
+   ],
+   "required_integration": "Capability attenuation, grant lineage, revocation and sub-agent ancestry",
+   "role": "Session/identity",
+   "side_effect_markers": [],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p15/test_deleg.py",
+    "tests/p20/test_lp.py",
+    "tests/p87/test_delegation.py"
+   ],
+   "tests_importing": 3,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 3,
+   "files": 10,
+   "id": "A06",
+   "loc": 932,
+   "name": "Least privilege and fallback",
+   "paths": [
+    "horizon/lp",
+    "horizon/downgrade"
+   ],
+   "persisted_state_markers": [
+    "json.dump",
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 80,
+   "public_sample": [
+    "AdvisoryLog",
+    "Broker",
+    "Cache",
+    "Candidate",
+    "Config",
+    "CredentialBroker",
+    "Ctx",
+    "Decision"
+   ],
+   "required_integration": "Policy floor; fallback cannot widen privileges",
+   "role": "Constraint engine",
+   "side_effect_markers": [
+    "http",
+    "kill()",
+    "open()",
+    "shutil",
+    "socket",
+    "ssl",
+    "subprocess",
+    "system()",
+    "tempfile"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p20/test_lp.py",
+    "tests/p46/test_downgrade.py"
+   ],
+   "tests_importing": 2,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 2,
+   "files": 14,
+   "id": "B01",
+   "loc": 657,
+   "name": "Decision API",
+   "paths": [
+    "horizon/service",
+    "horizon/sdk",
+    "sdk-ts"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 19,
+   "public_sample": [
+    "ApiError",
+    "AuditLog",
+    "Breaker",
+    "Client",
+    "Denied",
+    "HorizonError",
+    "RateLimiter",
+    "S_ALL"
+   ],
+   "required_integration": "Make durable, authenticated, role-scoped; no process-local authority claims",
+   "role": "Policy service",
+   "side_effect_markers": [
+    "chmod()",
+    "http",
+    "open()",
+    "socket",
+    "system()",
+    "unlink()"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p10/test_negative.py",
+    "tests/p10/test_ops.py",
+    "tests/p13/test_authz.py",
+    "tests/p3/test_audit_close.py",
+    "tests/p3/test_service.py"
+   ],
+   "tests_importing": 7,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 1,
+   "id": "B02",
+   "loc": 95,
+   "name": "Effect ledger",
+   "paths": [
+    "horizon/effects/ledger.py"
+   ],
+   "persisted_state_markers": [
+    "json.dumps",
+    "sqlite3"
+   ],
+   "present": true,
+   "public_names": 2,
+   "public_sample": [
+    "EffectLedger",
+    "LedgerError"
+   ],
+   "required_integration": "Atomic nonce, fence, uncertain outcomes, separate broker transactions",
+   "role": "Kernel commit",
+   "side_effect_markers": [
+    "sqlite3"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/commitproof/test_conformance.py",
+    "tests/e04/test_ledger.py",
+    "tests/e04/test_multiproc_crash.py",
+    "tests/e05/test_filesink.py"
+   ],
+   "tests_importing": 4,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 1,
+   "files": 2,
+   "id": "B03",
+   "loc": 240,
+   "name": "Protected file sink",
+   "paths": [
+    "horizon/effects/filesink.py",
+    "horizon/effects/sinkproc.py"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 10,
+   "public_sample": [
+    "FileSink",
+    "ProtectedFileWriter",
+    "SinkError",
+    "call",
+    "fence_req",
+    "head_req",
+    "observe_req",
+    "start_sink"
+   ],
+   "required_integration": "OS-separated fs; no direct agent file writes; external anchor",
+   "role": "PEP / sink",
+   "side_effect_markers": [
+    "chmod()",
+    "fcntl",
+    "makedirs()",
+    "open()",
+    "replace()",
+    "socket",
+    "subprocess"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/blueprint/test_gate_wiring.py",
+    "tests/blueprint/test_sink_chain.py",
+    "tests/commitproof/test_conformance.py",
+    "tests/e05/test_filesink.py",
+    "tests/integration_bypass/test_known_bypasses.py"
+   ],
+   "tests_importing": 5,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 4,
+   "files": 12,
+   "id": "B04",
+   "loc": 1122,
+   "name": "Network and remote effects",
+   "paths": [
+    "horizon/effects/netbroker.py",
+    "horizon/effects/httpsink.py",
+    "horizon/reach"
+   ],
+   "persisted_state_markers": [
+    "json.dump",
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 49,
+   "public_sample": [
+    "Allow",
+    "ArtifactStore",
+    "Broker",
+    "Canon",
+    "Config",
+    "Decision",
+    "EffectiveEffect",
+    "Fabric"
+   ],
+   "required_integration": "Mandatory brokered egress; TLS/DNS; indirect-effect evidence",
+   "role": "PEP / sink",
+   "side_effect_markers": [
+    "fcntl",
+    "http",
+    "kill()",
+    "open()",
+    "replace()",
+    "socket",
+    "ssl",
+    "subprocess",
+    "system()",
+    "tempfile",
+    "urllib"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/blueprint/test_httpsink.py",
+    "tests/p44/test_reach.py"
+   ],
+   "tests_importing": 2,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 7,
+   "files": 2,
+   "id": "B05",
+   "loc": 360,
+   "name": "Linux sandbox",
+   "paths": [
+    "horizon/runtime/sandbox.py",
+    "horizon/runtime/managed.py"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 16,
+   "public_sample": [
+    "Identity",
+    "ManagedExecutor",
+    "Policy",
+    "Refused",
+    "Result",
+    "Unsupported",
+    "comparable",
+    "coverage_report"
+   ],
+   "required_integration": "Block raw sockets and ambient exec; verify kernel profile before agent starts",
+   "role": "Isolation",
+   "side_effect_markers": [
+    "chmod()",
+    "ctypes",
+    "kill()",
+    "makedirs()",
+    "mkdir()",
+    "open()",
+    "resource",
+    "rmdir()",
+    "setrlimit()",
+    "shutil",
+    "socket",
+    "tempfile",
+    "unshare()"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [],
+   "tests_importing": 0,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 2,
+   "files": 4,
+   "id": "B06",
+   "loc": 197,
+   "name": "Code Mode",
+   "paths": [
+    "horizon/codemode",
+    "codemode"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 4,
+   "public_sample": [
+    "CodeModeError",
+    "Executor",
+    "diff_report",
+    "scan"
+   ],
+   "required_integration": "Treat JS isolate as untrusted; all tool calls re-enter kernel",
+   "role": "Adapter + isolation",
+   "side_effect_markers": [
+    "killpg()",
+    "replace()",
+    "resource",
+    "setrlimit()",
+    "shutil",
+    "subprocess"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p10/test_negative.py",
+    "tests/p13/test_authz.py",
+    "tests/p6/test_codemode.py",
+    "tests/p7/test_lineage.py",
+    "tests/p8/test_secbench.py"
+   ],
+   "tests_importing": 5,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 1,
+   "files": 17,
+   "id": "B07",
+   "loc": 1238,
+   "name": "Transactions/obligations/counterfactual",
+   "paths": [
+    "horizon/txn",
+    "horizon/obligation",
+    "horizon/counterfactual"
+   ],
+   "persisted_state_markers": [
+    "json.dumps",
+    "sqlite3"
+   ],
+   "present": true,
+   "public_names": 89,
+   "public_sample": [
+    "A01",
+    "A02",
+    "A03",
+    "A04",
+    "A05",
+    "A06",
+    "A07",
+    "A08"
+   ],
+   "required_integration": "Typed prerequisites, true dry-run no live effects",
+   "role": "Precommit/preview",
+   "side_effect_markers": [
+    "fcntl",
+    "http",
+    "kill()",
+    "makedirs()",
+    "open()",
+    "remove()",
+    "shutil",
+    "socket",
+    "sqlite3",
+    "subprocess",
+    "tempfile",
+    "urllib"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p17/test_txn.py",
+    "tests/p40/test_obligation.py",
+    "tests/p41/test_counterfactual.py"
+   ],
+   "tests_importing": 3,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 3,
+   "id": "B08",
+   "loc": 181,
+   "name": "Secrets/credential broker",
+   "paths": [
+    "horizon/ops/secrets.py",
+    "horizon/runtime/creds.py",
+    "horizon/adapters/utcp/creds.py"
+   ],
+   "persisted_state_markers": [],
+   "present": true,
+   "public_names": 10,
+   "public_sample": [
+    "CredBroker",
+    "CredentialBroker",
+    "CredentialError",
+    "Secret",
+    "SecretError",
+    "SecretProvider",
+    "assert_absent",
+    "classify_diagnostic"
+   ],
+   "required_integration": "Never inject long-lived raw credentials into untrusted agents",
+   "role": "Trusted broker",
+   "side_effect_markers": [
+    "replace()",
+    "urllib"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p13/test_authz.py"
+   ],
+   "tests_importing": 1,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 9,
+   "id": "C01",
+   "loc": 652,
+   "name": "MCP adapter",
+   "paths": [
+    "horizon/adapters/mcp",
+    "horizon/effects/mcp_gateway.py"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 26,
+   "public_sample": [
+    "ChunkAssembler",
+    "Gateway",
+    "ManifestError",
+    "ManifestTracker",
+    "McpGate",
+    "Request",
+    "SessionTable",
+    "ToolPolicy"
+   ],
+   "required_integration": "Merge policy-first gate and effect-bound reference gateway",
+   "role": "Gateway",
+   "side_effect_markers": [
+    "replace()",
+    "resource",
+    "setrlimit()",
+    "subprocess",
+    "urllib"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/integration_bypass/test_known_bypasses.py",
+    "tests/p10/test_negative.py",
+    "tests/p4/test_mcp_adapter.py",
+    "tests/p6/test_codemode.py"
+   ],
+   "tests_importing": 4,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 1,
+   "files": 6,
+   "id": "C02",
+   "loc": 346,
+   "name": "UTCP adapter",
+   "paths": [
+    "horizon/adapters/utcp"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 16,
+   "public_sample": [
+    "Budget",
+    "CliError",
+    "CredentialBroker",
+    "CredentialError",
+    "EgressError",
+    "ManualError",
+    "ManualRegistry",
+    "Response"
+   ],
+   "required_integration": "Wrap official SDK and pass all calls through same canonical effect kernel",
+   "role": "Gateway",
+   "side_effect_markers": [
+    "killpg()",
+    "replace()",
+    "resource",
+    "setrlimit()",
+    "subprocess",
+    "urllib"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p10/test_negative.py",
+    "tests/p13/test_authz.py",
+    "tests/p5/test_utcp_adapter.py"
+   ],
+   "tests_importing": 3,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 6,
+   "id": "C03",
+   "loc": 211,
+   "name": "A2A/frameworks/skills",
+   "paths": [
+    "horizon/a2a",
+    "horizon/frameworks",
+    "horizon/skillpolicy"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 19,
+   "public_sample": [
+    "Authority",
+    "HandoffLog",
+    "ManifestError",
+    "Registry",
+    "ToolCallQueue",
+    "artifact_may_influence",
+    "callback_allowed",
+    "canon"
+   ],
+   "required_integration": "Delegation and tool manifests as untrusted until verified",
+   "role": "Gateway/intake",
+   "side_effect_markers": [],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p87/test_delegation.py",
+    "tests/p89/test_policy.py",
+    "tests/p90/test_adapter.py"
+   ],
+   "tests_importing": 3,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 3,
+   "files": 6,
+   "id": "C04",
+   "loc": 390,
+   "name": "Data lineage",
+   "paths": [
+    "horizon/lineage"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 28,
+   "public_sample": [
+    "Boundary",
+    "Delegations",
+    "Hub",
+    "Ledger",
+    "LineageError",
+    "Oracle",
+    "Sidecar",
+    "TV"
+   ],
+   "required_integration": "Trusted sidecar traces taint; bounded detection with explicit blind spots",
+   "role": "Policy predicate",
+   "side_effect_markers": [
+    "urllib"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p10/test_negative.py",
+    "tests/p7/test_lineage.py"
+   ],
+   "tests_importing": 2,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 6,
+   "id": "C05",
+   "loc": 362,
+   "name": "Multi-agent isolation",
+   "paths": [
+    "horizon/agents",
+    "horizon/deleg"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 28,
+   "public_sample": [
+    "AuditSchema",
+    "Authority",
+    "AuthorityError",
+    "CommPolicy",
+    "Delegator",
+    "GrantError",
+    "IdentityAuthority",
+    "MediatedStore"
+   ],
+   "required_integration": "Tenant/session isolation, no uncontrolled cross-agent sharing",
+   "role": "Runner",
+   "side_effect_markers": [
+    "remove()"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p15/test_deleg.py",
+    "tests/p20/test_lp.py",
+    "tests/p34/test_isolation.py",
+    "tests/p38/test_p38.py"
+   ],
+   "tests_importing": 4,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 4,
+   "id": "C06",
+   "loc": 204,
+   "name": "Memory/epistemic evidence",
+   "paths": [
+    "horizon/memory",
+    "horizon/epist"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 10,
+   "public_sample": [
+    "Label",
+    "MemoryAdapter",
+    "MemoryError_",
+    "Obligation",
+    "Prop",
+    "Store",
+    "View",
+    "assess"
+   ],
+   "required_integration": "Memory is data, not authority; uncertainty and evidence lineage",
+   "role": "Data plane + observer",
+   "side_effect_markers": [],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p16/test_epist.py",
+    "tests/p18/test_memory.py"
+   ],
+   "tests_importing": 2,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 19,
+   "id": "C07",
+   "loc": 951,
+   "name": "Temporal safety/continuity",
+   "paths": [
+    "horizon/temporal",
+    "horizon/continuity"
+   ],
+   "persisted_state_markers": [
+    "json.dumps",
+    "sqlite3"
+   ],
+   "present": true,
+   "public_names": 68,
+   "public_sample": [
+    "Approver",
+    "Attestor",
+    "Baseline",
+    "Broker",
+    "CCfg",
+    "Continuity",
+    "EnvError",
+    "Gateway"
+   ],
+   "required_integration": "Monotonic policies, scoped handoff, temporal revocation",
+   "role": "Constraint/monitor",
+   "side_effect_markers": [
+    "replace()",
+    "sqlite3"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p52/test_temporal.py",
+    "tests/p53/test_continuity.py",
+    "tests/p54/test_integration.py"
+   ],
+   "tests_importing": 3,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 5,
+   "files": 19,
+   "id": "D01",
+   "loc": 1462,
+   "name": "Privacy/budgets",
+   "paths": [
+    "horizon/privacy",
+    "horizon/budget"
+   ],
+   "persisted_state_markers": [
+    "json.dumps",
+    "sqlite3"
+   ],
+   "present": true,
+   "public_names": 104,
+   "public_sample": [
+    "Agent",
+    "Broker",
+    "Clock",
+    "CostError",
+    "DLP",
+    "Dataset",
+    "Env",
+    "Ledger"
+   ],
+   "required_integration": "Reserve and charge privacy/usage budget with effect IDs",
+   "role": "Atomic commit constraint",
+   "side_effect_markers": [
+    "multiprocessing",
+    "open()",
+    "replace()",
+    "shutil",
+    "sqlite3",
+    "tempfile"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p45/test_privacy.py",
+    "tests/p50/test_budget.py"
+   ],
+   "tests_importing": 2,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 11,
+   "id": "D02",
+   "loc": 685,
+   "name": "Consent/approvals",
+   "paths": [
+    "horizon/consent",
+    "horizon/approvalui"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 63,
+   "public_sample": [
+    "ApprovalService",
+    "Broker",
+    "CCfg",
+    "Clock",
+    "ConsentMonitor",
+    "Env",
+    "Platform",
+    "StreamVerifier"
+   ],
+   "required_integration": "Approval bound to exact effect + content/destination/version",
+   "role": "Owner authority",
+   "side_effect_markers": [
+    "replace()"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p48/test_consent.py",
+    "tests/p88/test_broker.py"
+   ],
+   "tests_importing": 2,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 9,
+   "id": "D03",
+   "loc": 488,
+   "name": "Incentive robustness",
+   "paths": [
+    "horizon/incentive"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 37,
+   "public_sample": [
+    "AgentSpec",
+    "Conflict",
+    "Gateway",
+    "MCfg",
+    "Monitor",
+    "Objective",
+    "Plan",
+    "Verdict"
+   ],
+   "required_integration": "Demonstrate that agent reward does not override reference monitor",
+   "role": "Evaluation",
+   "side_effect_markers": [],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p47/test_incentive.py"
+   ],
+   "tests_importing": 1,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 3,
+   "files": 6,
+   "id": "D04",
+   "loc": 396,
+   "name": "Evaluation integrity",
+   "paths": [
+    "horizon/evalint"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 54,
+   "public_sample": [
+    "Agent",
+    "Clock",
+    "Collector",
+    "Deploy",
+    "ECfg",
+    "Run",
+    "Services",
+    "app_logging"
+   ],
+   "required_integration": "Protect hidden labels, oracle independence and collector trust",
+   "role": "Independent evaluation",
+   "side_effect_markers": [
+    "replace()"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p49/test_evalint.py"
+   ],
+   "tests_importing": 1,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 2,
+   "files": 8,
+   "id": "D05",
+   "loc": 562,
+   "name": "Browser/vision",
+   "paths": [
+    "horizon/vision"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 64,
+   "public_sample": [
+    "Baseline",
+    "Browser",
+    "Clock",
+    "El",
+    "Frame",
+    "GCfg",
+    "Guard",
+    "Lab"
+   ],
+   "required_integration": "Browser writes/navigation/download must be brokered and receiver observed",
+   "role": "Effect adapter",
+   "side_effect_markers": [
+    "http",
+    "open()",
+    "tempfile",
+    "urllib"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p51/test_vision.py"
+   ],
+   "tests_importing": 1,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 3,
+   "files": 10,
+   "id": "D06",
+   "loc": 1061,
+   "name": "Fallback/model policy",
+   "paths": [
+    "horizon/downgrade",
+    "horizon/weights"
+   ],
+   "persisted_state_markers": [
+    "json.dump",
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 94,
+   "public_sample": [
+    "Cache",
+    "Candidate",
+    "Config",
+    "CredentialBroker",
+    "Ctx",
+    "Decision",
+    "Engine",
+    "Env"
+   ],
+   "required_integration": "Model artifacts pinned, behavioral safety unassessed unless tested",
+   "role": "Intake/risk",
+   "side_effect_markers": [
+    "http",
+    "kill()",
+    "open()",
+    "shutil",
+    "socket",
+    "ssl",
+    "subprocess",
+    "system()",
+    "tempfile"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p31/test_intake.py",
+    "tests/p38/test_p38.py",
+    "tests/p46/test_downgrade.py"
+   ],
+   "tests_importing": 3,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 8,
+   "id": "E01",
+   "loc": 490,
+   "name": "HorizonEmergence",
+   "paths": [
+    "horizon/emergence"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 40,
+   "public_sample": [
+    "Candidate",
+    "EndpointSummary",
+    "Endpoints",
+    "NoRedirectToUnknownHosts",
+    "OpSummary",
+    "Oracle",
+    "Step",
+    "actions"
+   ],
+   "required_integration": "Multi-step composition attacks; feed counterexamples into Forge",
+   "role": "Discovery/test",
+   "side_effect_markers": [
+    "open()",
+    "socket",
+    "tempfile",
+    "urllib"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p39/test_emergence.py",
+    "tests/p41/test_counterfactual.py"
+   ],
+   "tests_importing": 2,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 1,
+   "files": 6,
+   "id": "E02",
+   "loc": 495,
+   "name": "HorizonCoverage",
+   "paths": [
+    "horizon/coverage"
+   ],
+   "persisted_state_markers": [
+    "json.dumps",
+    "sqlite3"
+   ],
+   "present": true,
+   "public_names": 48,
+   "public_sample": [
+    "EffectEdge",
+    "Env",
+    "FsObserver",
+    "HypothesisWorld",
+    "Ingest",
+    "Observation",
+    "P_bg",
+    "P_child_write"
+   ],
+   "required_integration": "Typed coverage, missing sensors, explicit UNKNOWN, independent sources",
+   "role": "Observer",
+   "side_effect_markers": [
+    "chmod()",
+    "kill()",
+    "makedirs()",
+    "open()",
+    "remove()",
+    "shutil",
+    "socket",
+    "sqlite3",
+    "subprocess",
+    "tempfile"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/blueprint/test_schema.py",
+    "tests/p42/test_coverage.py"
+   ],
+   "tests_importing": 2,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 9,
+   "id": "E03",
+   "loc": 800,
+   "name": "HorizonMutation",
+   "paths": [
+    "horizon/mutation"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 83,
+   "public_sample": [
+    "D4",
+    "G",
+    "N",
+    "Operator",
+    "Oracle",
+    "apply_op",
+    "approval_state",
+    "authorized"
+   ],
+   "required_integration": "Mutation testing with live security oracles; harness rollback",
+   "role": "Validation",
+   "side_effect_markers": [
+    "open()",
+    "remove()",
+    "socket",
+    "tempfile",
+    "urllib"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p43/test_mutation.py"
+   ],
+   "tests_importing": 1,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 3,
+   "files": 10,
+   "id": "E04",
+   "loc": 894,
+   "name": "HorizonReach",
+   "paths": [
+    "horizon/reach"
+   ],
+   "persisted_state_markers": [
+    "json.dump",
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 42,
+   "public_sample": [
+    "ArtifactStore",
+    "Broker",
+    "Canon",
+    "Config",
+    "Decision",
+    "EffectiveEffect",
+    "Fabric",
+    "Graph"
+   ],
+   "required_integration": "Indirect effects and deceptive remote services; no first-call false assurance",
+   "role": "Remote graph/test",
+   "side_effect_markers": [
+    "http",
+    "kill()",
+    "open()",
+    "replace()",
+    "socket",
+    "subprocess",
+    "system()",
+    "tempfile",
+    "urllib"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p44/test_reach.py"
+   ],
+   "tests_importing": 1,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 1,
+   "files": 6,
+   "id": "E05",
+   "loc": 550,
+   "name": "HorizonCounterfactual",
+   "paths": [
+    "horizon/counterfactual"
+   ],
+   "persisted_state_markers": [
+    "json.dumps",
+    "sqlite3"
+   ],
+   "present": true,
+   "public_names": 33,
+   "public_sample": [
+    "Contract",
+    "DbAdapter",
+    "Diff",
+    "FileAdapter",
+    "Gate",
+    "Preflight",
+    "PublishAdapter",
+    "Registry"
+   ],
+   "required_integration": "Prove simulations cannot commit real effects",
+   "role": "Predeploy validation",
+   "side_effect_markers": [
+    "fcntl",
+    "http",
+    "makedirs()",
+    "open()",
+    "remove()",
+    "shutil",
+    "socket",
+    "sqlite3",
+    "subprocess",
+    "tempfile"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p41/test_counterfactual.py"
+   ],
+   "tests_importing": 1,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 3,
+   "id": "E06",
+   "loc": 260,
+   "name": "Telemetry/forensics",
+   "paths": [
+    "horizon/telemetry",
+    "horizon/integration/audit.py"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 23,
+   "public_sample": [
+    "Chain",
+    "CollectorClient",
+    "CollectorDown",
+    "CollectorProcess",
+    "ProtectedExecutor",
+    "ReceiverJournal",
+    "artifact_files",
+    "audit"
+   ],
+   "required_integration": "Receiver/sink and host observations separate from untrusted transcript",
+   "role": "Witness/evidence",
+   "side_effect_markers": [
+    "kill()",
+    "open()",
+    "socket",
+    "subprocess"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p35/test_telemetry.py",
+    "tests/p38/test_p38.py"
+   ],
+   "tests_importing": 2,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 8,
+   "id": "E07",
+   "loc": 404,
+   "name": "Code/infrastructure scanning",
+   "paths": [
+    "horizon/codeassur",
+    "horizon/infraguard",
+    "horizon/guard"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 46,
+   "public_sample": [
+    "RiskView",
+    "ScanForbidden",
+    "SyntheticService",
+    "ToyCodeModel",
+    "adjudicate",
+    "bandit_cwe",
+    "canary_scan_logs",
+    "canon"
+   ],
+   "required_integration": "Scan malicious tools/code/config; never greenlight solely from scanner",
+   "role": "Intake/advisory",
+   "side_effect_markers": [
+    "http",
+    "open()",
+    "replace()",
+    "shutil",
+    "socket",
+    "subprocess",
+    "urllib"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/blueprint/test_guard_scan.py",
+    "tests/p33/test_hccb.py",
+    "tests/p36/test_guard.py"
+   ],
+   "tests_importing": 3,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 4,
+   "files": 3,
+   "id": "F01",
+   "loc": 230,
+   "name": "HorizonZero",
+   "paths": [
+    "horizon/assurance"
+   ],
+   "persisted_state_markers": [
+    "json.dumps",
+    "sqlite3"
+   ],
+   "present": true,
+   "public_names": 9,
+   "public_sample": [
+    "AssuranceClaim",
+    "ClaimError",
+    "DurableError",
+    "DurableRegistry",
+    "Registry",
+    "claim_body",
+    "outcome",
+    "sign_attestation"
+   ],
+   "required_integration": "Claims scoped to actual installed controls and independently observed effects",
+   "role": "Assurance gate",
+   "side_effect_markers": [
+    "sqlite3"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/blueprint/test_durable.py",
+    "tests/blueprint/test_gate_wiring.py",
+    "tests/blueprint/test_httpsink.py",
+    "tests/blueprint/test_spectra_pipeline.py",
+    "tests/hz/test_registry.py"
+   ],
+   "tests_importing": 6,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 7,
+   "id": "F02",
+   "loc": 241,
+   "name": "HorizonForge",
+   "paths": [
+    "horizon/forge"
+   ],
+   "persisted_state_markers": [],
+   "present": true,
+   "public_names": 25,
+   "public_sample": [
+    "Plan",
+    "Task",
+    "World",
+    "all_tasks",
+    "always_local",
+    "cheapest_unchecked",
+    "check",
+    "deny_all"
+   ],
+   "required_integration": "Joint control + witness optimization; trusted checker separate",
+   "role": "Untrusted proposal",
+   "side_effect_markers": [],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/blueprint/test_forge_space.py",
+    "tests/blueprint/test_pareto.py",
+    "tests/hf/test_forge.py"
+   ],
+   "tests_importing": 3,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 7,
+   "id": "F03",
+   "loc": 453,
+   "name": "HorizonSpectra",
+   "paths": [
+    "research/spectra"
+   ],
+   "persisted_state_markers": [
+    "json.dump",
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 13,
+   "public_sample": [
+    "Journal",
+    "conditions",
+    "consistent",
+    "effect_task",
+    "experiment",
+    "graph_digest",
+    "infer",
+    "issue"
+   ],
+   "required_integration": "Effect probes on real isolated receivers, honest unidentifiability",
+   "role": "Safe discovery",
+   "side_effect_markers": [
+    "open()",
+    "remove()",
+    "system()"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/blueprint/test_probe_compare.py",
+    "tests/blueprint/test_spectra_pipeline.py",
+    "tests/blueprint/test_spectra_sensitivity.py",
+    "tests/spectra/test_tomography.py"
+   ],
+   "tests_importing": 4,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 4,
+   "id": "F04",
+   "loc": 253,
+   "name": "HorizonPatch",
+   "paths": [
+    "research/weightspace"
+   ],
+   "persisted_state_markers": [
+    "json.dump",
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 11,
+   "public_sample": [
+    "PatchError",
+    "apply",
+    "checkpoint_digest",
+    "hl",
+    "manifest",
+    "nll",
+    "proposal",
+    "set_row"
+   ],
+   "required_integration": "Repair model behavior only after causal/held-out security validation",
+   "role": "Optional model research",
+   "side_effect_markers": [
+    "makedirs()",
+    "open()"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/ws/test_patch.py"
+   ],
+   "tests_importing": 1,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 0,
+   "id": "F05",
+   "loc": 0,
+   "name": "HorizonSentinel",
+   "paths": [],
+   "persisted_state_markers": [],
+   "present": false,
+   "public_names": 0,
+   "public_sample": [],
+   "required_integration": "Checkpoint/delta integrity and rollback, no silent live model modification",
+   "role": "Optional model integrity",
+   "side_effect_markers": [],
+   "status": "UNMAPPED",
+   "test_files_sample": [],
+   "tests_importing": 0,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 0,
+   "id": "F06",
+   "loc": 0,
+   "name": "HorizonTransfer",
+   "paths": [],
+   "persisted_state_markers": [],
+   "present": false,
+   "public_names": 0,
+   "public_sample": [],
+   "required_integration": "Patch portability experiments with independent tests; no implicit rollout",
+   "role": "Optional model research",
+   "side_effect_markers": [],
+   "status": "UNMAPPED",
+   "test_files_sample": [],
+   "tests_importing": 0,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 0,
+   "id": "F07",
+   "loc": 0,
+   "name": "HorizonReflex",
+   "paths": [],
+   "persisted_state_markers": [],
+   "present": false,
+   "public_names": 0,
+   "public_sample": [],
+   "required_integration": "Effect/probe proposal model, no permission to authorize",
+   "role": "Optional fast advisor",
+   "side_effect_markers": [],
+   "status": "UNMAPPED",
+   "test_files_sample": [],
+   "tests_importing": 0,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 3,
+   "files": 8,
+   "id": "F08",
+   "loc": 255,
+   "name": "Novelty helper tools",
+   "paths": [
+    "research/novel"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 20,
+   "public_sample": [
+    "NegError",
+    "NegRegistry",
+    "Rows",
+    "clusters",
+    "crash_recovery_safe",
+    "dependent",
+    "diff",
+    "effective_independent"
+   ],
+   "required_integration": "Independent risk/witness/model checks; separate research claims",
+   "role": "Validation",
+   "side_effect_markers": [
+    "replace()"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/novel/test_novel.py"
+   ],
+   "tests_importing": 1,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 3,
+   "files": 270,
+   "id": "G01",
+   "loc": 9793,
+   "name": "Synthetic benchmarks",
+   "paths": [
+    "bench/secbench",
+    "bench/dataset"
+   ],
+   "persisted_state_markers": [
+    "json.dumps",
+    "sqlite3"
+   ],
+   "present": true,
+   "public_names": 29,
+   "public_sample": [
+    "NetOracle",
+    "NetworkAttempt",
+    "NoRealNetwork",
+    "StateOracle",
+    "Sut",
+    "World",
+    "authorization_oracle",
+    "build"
+   ],
+   "required_integration": "Retain negative baselines; benchmark not circular",
+   "role": "Evaluation",
+   "side_effect_markers": [
+    "makedirs()",
+    "mkdir()",
+    "open()",
+    "replace()",
+    "shutil",
+    "socket",
+    "sqlite3",
+    "tempfile",
+    "urllib"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/ds/test_dataset.py",
+    "tests/p10/test_negative.py",
+    "tests/p10/test_ops.py",
+    "tests/p13/test_authz.py",
+    "tests/p8/test_secbench.py"
+   ],
+   "tests_importing": 6,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 1,
+   "files": 20,
+   "id": "G02",
+   "loc": 16379,
+   "name": "Real data and replay",
+   "paths": [
+    "bench/real",
+    "research/live"
+   ],
+   "persisted_state_markers": [
+    "json.dump",
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 40,
+   "public_sample": [
+    "attacker_effect",
+    "build_scope",
+    "call_tainted",
+    "d_allow_all",
+    "d_deny_effectful",
+    "d_prov_ident",
+    "d_prov_strict",
+    "d_scope"
+   ],
+   "required_integration": "Offline replay vs live intervention separated; held-out task utility",
+   "role": "Evaluation",
+   "side_effect_markers": [
+    "makedirs()",
+    "open()",
+    "subprocess"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/live/test_live.py",
+    "tests/real/test_agentdojo.py",
+    "tests/real/test_datasets.py",
+    "tests/real/test_defended.py",
+    "tests/real/test_injecagent.py"
+   ],
+   "tests_importing": 6,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 0,
+   "files": 16,
+   "id": "G03",
+   "loc": 25200,
+   "name": "Supervisor",
+   "paths": [
+    "orchestrator",
+    "spec"
+   ],
+   "persisted_state_markers": [
+    "json.dumps",
+    "sqlite3"
+   ],
+   "present": true,
+   "public_names": 59,
+   "public_sample": [
+    "ApprovalInbox",
+    "Breaker",
+    "Budget",
+    "DepError",
+    "KeyStore",
+    "Ledger",
+    "LedgerError",
+    "PacketError"
+   ],
+   "required_integration": "No autonomous self-certification; worker/verifier/owner identities separate",
+   "role": "Development governance",
+   "side_effect_markers": [
+    "mkdir()",
+    "remove()",
+    "replace()",
+    "shutil",
+    "sqlite3",
+    "subprocess",
+    "tempfile",
+    "unlink()"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/p84x/test_campaign.py",
+    "tests/supervisor/test_cli_verifier.py",
+    "tests/supervisor/test_packets2.py",
+    "tests/supervisor/test_recovery.py",
+    "tests/supervisor/test_supervisor.py"
+   ],
+   "tests_importing": 7,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 23,
+   "files": 154,
+   "id": "G04",
+   "loc": 8474,
+   "name": "Release/supply chain",
+   "paths": [
+    "scripts",
+    "third_party_pins",
+    ".github"
+   ],
+   "persisted_state_markers": [
+    "json.dump",
+    "json.dumps",
+    "sqlite3"
+   ],
+   "present": true,
+   "public_names": 98,
+   "public_sample": [
+    "Clk",
+    "Gen",
+    "J",
+    "T",
+    "analyse_py",
+    "authority_scan",
+    "branch",
+    "build"
+   ],
+   "required_integration": "SBOM, signatures, licensing, reproducible artifacts, incident plan",
+   "role": "Deployment governance",
+   "side_effect_markers": [
+    "chmod()",
+    "fcntl",
+    "makedirs()",
+    "mkdir()",
+    "open()",
+    "replace()",
+    "shutil",
+    "socket",
+    "sqlite3",
+    "subprocess",
+    "system()",
+    "tempfile"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [],
+   "tests_importing": 0,
+   "unparsable": []
+  },
+  {
+   "fail_open_syntactic_patterns": 1,
+   "files": 22,
+   "id": "G05",
+   "loc": 900,
+   "name": "Operations and recovery",
+   "paths": [
+    "horizon/ops",
+    "horizon/integration"
+   ],
+   "persisted_state_markers": [
+    "json.dumps"
+   ],
+   "present": true,
+   "public_names": 90,
+   "public_sample": [
+    "ApprovalError",
+    "ApprovalLog",
+    "AuthError",
+    "FailClosed",
+    "J",
+    "KeyError_",
+    "KeyRing",
+    "Migrations"
+   ],
+   "required_integration": "SLIs, alerts, backups, live-unknown handling, key rotation, kill switches",
+   "role": "Operations",
+   "side_effect_markers": [
+    "chmod()",
+    "open()",
+    "replace()",
+    "resource",
+    "setrlimit()",
+    "shutil",
+    "socket",
+    "subprocess",
+    "tempfile",
+    "unlink()"
+   ],
+   "status": "CANDIDATE",
+   "test_files_sample": [
+    "tests/blueprint/test_b64_strict.py",
+    "tests/p10/test_negative.py",
+    "tests/p10/test_ops.py",
+    "tests/p54/test_integration.py"
+   ],
+   "tests_importing": 4,
+   "unparsable": []
+  }
+ ]
+}

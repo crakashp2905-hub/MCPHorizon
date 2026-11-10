@@ -1,7 +1,7 @@
 """S0-02: static module dependency graph of the assurance-relevant code, with declared rules.
 Edges come from `ast` (imports only). It sees neither dynamic imports nor runtime data flow, and it says nothing about the *semantic* independence of two modules. Rules are declared here, before the graph is read:
   R1 acyclic; R2 horizon/ never imports research/; R3 horizon/effects/sinkproc.py imports nothing from the repo (it must run unprivileged and self-contained);
-  R4 the verifier side (authz, ops) never imports effects, assurance, forge or research; R5 coverage never imports effects or assurance; R6 horizon/forge/checker.py imports only horizon/forge/ir.py (the independent checker shares no code with the synthesizer beyond the IR types); R7 horizon/guard/scan.py imports nothing from the repo (the scanner stays a self-contained stdlib module); R8 horizon/effects/netbroker.py and procbroker.py import nothing from the repo (stdlib-only brokers)."""
+  R4 the verifier side (authz, ops) never imports effects, assurance, forge or research; R5 coverage never imports effects or assurance; R6 horizon/forge/checker.py imports only horizon/forge/ir.py (the independent checker shares no code with the synthesizer beyond the IR types); R7 horizon/guard/scan.py imports nothing from the repo (the scanner stays a self-contained stdlib module); R8 horizon/effects/netbroker.py and procbroker.py import nothing from the repo (stdlib-only brokers); R9 horizon/contracts/v1 core modules (all but legacy.py) import nothing outside the package."""
 import ast, json, os, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SEEDS = ("horizon/authz", "horizon/ops", "horizon/effects", "horizon/assurance", "horizon/coverage", "horizon/forge", "horizon/guard", "research/spectra")
@@ -53,6 +53,7 @@ def violations(g):
             if a == "horizon/forge/checker.py" and b != "horizon/forge/ir.py": v.append(f"R6:{a}->{b}")
             if a == "horizon/guard/scan.py": v.append(f"R7:{a}->{b}")
             if a in ("horizon/effects/netbroker.py", "horizon/effects/procbroker.py"): v.append(f"R8:{a}->{b}")
+            if a.startswith("horizon/contracts/v1/") and a != "horizon/contracts/v1/legacy.py" and not b.startswith("horizon/contracts/v1/"): v.append(f"R9:{a}->{b}")
     return sorted(set(v))
 def main(argv):
     g = build(); g["violations"] = violations(g); text = json.dumps(g, indent=1, sort_keys=True) + "\n"
