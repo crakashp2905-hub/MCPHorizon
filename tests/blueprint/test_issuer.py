@@ -53,4 +53,20 @@ class T(unittest.TestCase):
         res = call(g, "a.txt", "ez")
         self.assertTrue(res["isError"]); self.assertEqual(res["structuredContent"]["code"], "ISSUER_DOWN"); self.assertEqual(res["structuredContent"]["effect"], "DID_NOT_HAPPEN")
         self.assertFalse(os.path.exists(os.path.join(r, "a.txt")))
+    def test_root_policy_hidden_and_symlink_and_traversal(self):
+        d = os.path.realpath(tempfile.mkdtemp()); out = os.path.realpath(tempfile.mkdtemp()); ok = root_policy(d)
+        ce = lambda p: type("C", (), {"target_raw": p})()
+        self.assertTrue(ok(ce(os.path.join(d, "a.txt")))); self.assertFalse(ok(ce(os.path.join(d, ".h"))))
+        os.symlink(out, os.path.join(d, "ln")); self.assertFalse(ok(ce(os.path.join(d, "ln", "x.txt"))))
+        os.symlink(os.path.join(out, "t"), os.path.join(d, "lf")); self.assertFalse(ok(ce(os.path.join(d, "lf"))))     # symlink file escaping the root
+        self.assertFalse(ok(ce(os.path.join(d, "sub", "..", "..", "z"))))
+        open(os.path.join(d, "real.txt"), "w").close(); os.symlink(os.path.join(d, "real.txt"), os.path.join(d, "alias.txt"))
+        self.assertTrue(ok(ce(os.path.join(d, "real.txt")))); self.assertFalse(ok(ce(os.path.join(d, "alias.txt"))))   # in-root alias is refused
+
+    def test_eof_from_issuer_is_issuer_down(self):
+        import subprocess
+        pi = ProcessIssuer(tempfile.mkdtemp()); self.addCleanup(pi.close); pi._p.kill(); pi._p.wait()
+        pi._p = subprocess.Popen(["sh", "-c", "read x; exit 0"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
+        with self.assertRaises(IssuerDenied) as c: pi._rpc({"op": "pub"})
+        self.assertEqual(str(c.exception), "ISSUER_DOWN")
 if __name__ == "__main__": unittest.main()
