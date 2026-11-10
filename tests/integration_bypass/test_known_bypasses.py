@@ -28,7 +28,6 @@ class KnownBypasses(unittest.TestCase):
         import subprocess
         with self.assertRaises(OSError): subprocess.run(["/bin/true"], check=False)
 
-    @unittest.expectedFailure   # closes: PR-02 (signing authority moved out of the gateway process)
     def test_gateway_does_not_hold_signing_key(self):
         tree = ast.parse(open(SRC).read())
         calls = [n for n in ast.walk(tree) if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute) and n.func.attr == "generate" and getattr(n.func.value, "id", "") == "Signer"]

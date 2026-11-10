@@ -16,8 +16,8 @@ class ErrorInfo:
 def _rows():
     d = lambda c, cat, note="": ErrorInfo(c, cat, False, "DID_NOT_HAPPEN", note)
     for c in ("MALFORMED", "VERSION", "UNKNOWN_EFFECT", "BAD_BINDING", "BAD_GRADE", "BAD_REASON", "BAD_HOST", "BAD_URL", "BAD_METHOD", "BAD_HEADER", "BAD_ARGV", "USERINFO_NOT_ALLOWED",
-              "REQUEST_TOO_LARGE", "DESCRIBE_FAILED", "TARGET_REJECTED"): yield d(c, "INVALID_INPUT")
-    for c in ("BAD_SIGNATURE", "BAD_ISSUER", "BAD_AUDIENCE", "WRONG_ISSUER_ROLE", "CONTRACT_MISMATCH", "PEER_NOT_GATEWAY"): yield d(c, "AUTHENTICATION")
+              "REQUEST_TOO_LARGE", "DESCRIBE_FAILED", "TARGET_REJECTED", "BAD_OP", "ERROR"): yield d(c, "INVALID_INPUT")
+    for c in ("BAD_SIGNATURE", "BAD_ISSUER", "BAD_AUDIENCE", "WRONG_ISSUER_ROLE", "CONTRACT_MISMATCH", "PEER_NOT_GATEWAY", "ISSUER_DOWN"): yield d(c, "AUTHENTICATION")
     for c in ("ARGS_MISMATCH", "EFFECT_MISMATCH", "PRINCIPAL_MISMATCH", "TARGET_MISMATCH", "TENANT_MISMATCH", "DATA_NOT_BOUND_TO_PERMIT"): yield d(c, "BINDING_MISMATCH", "permit does not cover this exact effect")
     for c in ("EXPIRED", "NOT_YET_VALID", "TTL_TOO_LONG", "STALE_POLICY"): yield d(c, "TEMPORAL")
     for c in ("REPLAY", "NONCE_REUSE", "NONCE_STORE_FULL", "FENCED", "ALREADY_WRITTEN", "LEDGER_MOVED_ON"): yield d(c, "REPLAY_OR_FENCE", "single-use / fenced: do not retry with the same permit")

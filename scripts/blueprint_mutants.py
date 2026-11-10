@@ -187,6 +187,19 @@ M = [
   ('"code": "POLICY_DENIED", "retryable": False', '"code": "POLICY_DENIED", "retryable": True'),
   ('repeating it will not succeed', 'try again'),
  ]),
+ ("horizon/authz/issuer.py", [
+  ('if not self._policy(ce): raise IssuerDenied("POLICY_DENIED")', 'pass'),
+  ('if d["effect"] not in E.EFFECTS: raise IssuerDenied("UNKNOWN_EFFECT")', 'pass'),
+  ('set(d) == set(FIELDS) | {"args"} and', ''),
+  ('exp=now + TTL', 'exp=now + TTL * 100000'),
+  ('except (OSError, ValueError): raise IssuerDenied("ISSUER_DOWN")', 'except ValueError: raise IssuerDenied("ISSUER_DOWN")'),
+  ('and real == os.path.abspath(ce.target_raw)', ''),
+  ('not os.path.basename(real).startswith(".")', 'True'),
+  ('if not line: raise IssuerDenied("ISSUER_DOWN")', 'pass'),
+ ]),
+ ("horizon/effects/mcp_gateway.py", [
+  ('except IssuerDenied as e: return', 'except ZeroDivisionError as e: return'),
+ ]),
  ("horizon/effects/netbroker.py", [
   ('if method not in METHODS: raise NetBrokerError("BAD_METHOD")', 'pass'),
   ('if len(body) > self.max_request:', 'if len(body) > self.max_request + 99999:'),
