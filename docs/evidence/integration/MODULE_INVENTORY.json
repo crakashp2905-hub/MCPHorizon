@@ -77,9 +77,9 @@
   },
   {
    "fail_open_syntactic_patterns": 0,
-   "files": 8,
+   "files": 9,
    "id": "A03",
-   "loc": 372,
+   "loc": 475,
    "name": "Authority and evidence",
    "paths": [
     "horizon/hpolicy",
@@ -90,32 +90,34 @@
     "sqlite3"
    ],
    "present": true,
-   "public_names": 21,
+   "public_names": 26,
    "public_sample": [
     "CallAuthority",
     "EffectError",
     "EvidenceError",
     "HorizonPolicy",
     "Issuer",
-    "NonceStore",
-    "ProofError",
-    "Receipts"
+    "IssuerDenied",
+    "LocalIssuer",
+    "NonceStore"
    ],
    "required_integration": "Unify issuer roles; stop per-module signer creation; separate keys",
    "role": "High-trust authority",
    "side_effect_markers": [
+    "kill()",
     "open()",
-    "sqlite3"
+    "sqlite3",
+    "subprocess"
    ],
    "status": "CANDIDATE",
    "test_files_sample": [
     "tests/blueprint/test_b64_strict.py",
     "tests/blueprint/test_durable.py",
+    "tests/blueprint/test_issuer.py",
     "tests/e03/test_commit_verify.py",
-    "tests/e05/test_filesink.py",
-    "tests/hardening/test_admission.py"
+    "tests/e05/test_filesink.py"
    ],
-   "tests_importing": 30,
+   "tests_importing": 31,
    "unparsable": []
   },
   {
@@ -141,11 +143,11 @@
    "test_files_sample": [
     "tests/blueprint/test_contracts_v1.py",
     "tests/blueprint/test_httpsink.py",
+    "tests/blueprint/test_issuer.py",
     "tests/e03/test_commit_verify.py",
-    "tests/e05/test_filesink.py",
-    "tests/integration_bypass/test_known_bypasses.py"
+    "tests/e05/test_filesink.py"
    ],
-   "tests_importing": 6,
+   "tests_importing": 7,
    "unparsable": []
   },
   {
@@ -624,12 +626,13 @@
    ],
    "status": "CANDIDATE",
    "test_files_sample": [
+    "tests/blueprint/test_issuer.py",
     "tests/integration_bypass/test_known_bypasses.py",
     "tests/p10/test_negative.py",
     "tests/p4/test_mcp_adapter.py",
     "tests/p6/test_codemode.py"
    ],
-   "tests_importing": 4,
+   "tests_importing": 5,
    "unparsable": []
   },
   {
@@ -1806,7 +1809,7 @@
    "fail_open_syntactic_patterns": 23,
    "files": 154,
    "id": "G04",
-   "loc": 8474,
+   "loc": 8487,
    "name": "Release/supply chain",
    "paths": [
     "scripts",
@@ -1855,7 +1858,7 @@
    "fail_open_syntactic_patterns": 1,
    "files": 22,
    "id": "G05",
-   "loc": 900,
+   "loc": 901,
    "name": "Operations and recovery",
    "paths": [
     "horizon/ops",
