@@ -232,7 +232,6 @@ M = [
   ('if not (b["issued_at"] <= now < b["expires_at"]):', 'if not (b["issued_at"] <= now <= b["expires_at"] + 10 ** 9):'),
   ('if epoch_now is not None and b["epoch"] != epoch_now: raise AttestError("STALE_EPOCH")', 'pass'),
   ('if host_id is not None and b["host_id"] != host_id: raise AttestError("WRONG_HOST")', 'pass'),
-  ('return sorted(k for k, v in b["controls"].items() if live.get(k) != v)', 'return sorted(k for k, v in b["controls"].items() if k not in live)'),
   ('return sorted(k for k, v in body["controls"].items() if live.get(k) != v)', 'return sorted(k for k, v in body["controls"].items() if k not in live)'),
   ('return sorted(k for k, v in body["controls"].items() if live.get(k) != v)', 'return []'),
   ('if not (p == r or p.startswith(r + os.sep)) or not os.path.isfile(p): return UNMEASURABLE', 'if not os.path.isfile(p): return UNMEASURABLE'),

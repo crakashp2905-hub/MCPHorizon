@@ -53,6 +53,12 @@ class T(unittest.TestCase):
         ra = A.sign_control_attestation(self.controls, self.root, host_id="h1", epoch=5, issued_at=900, expires_at=2000, signer=self.inst); self.ts.revoke("in1")
         with self.assertRaises(A.AttestError): A.verify_control_attestation(ra, self.ts, 1000)
 
+    def test_validly_signed_attestation_containing_unmeasurable_is_rejected(self):
+        body = {"kind": "control-attestation", "host_id": "h1", "epoch": 5, "issued_at": 900, "expires_at": 2000, "controls": {"control:broker": A.UNMEASURABLE}}
+        att = {"body": body, "kid": self.inst.kid, "sig": self.inst.sign(A._canon(body)).hex()}
+        with self.assertRaises(A.AttestError) as c: A.verify_control_attestation(att, self.ts, 1000)
+        self.assertEqual(c.exception.code, "BAD_ATTESTATION")
+
     # --- registry binding -------------------------------------------------------------------------------------------------------------------------------
     def test_unattested_set_node_is_inert_in_attested_mode(self):
         a = self.att(); cid = self.claim(a); self.assertEqual(self.reg.status(cid, 5)[0], "VALID")
