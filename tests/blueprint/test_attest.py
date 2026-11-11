@@ -78,6 +78,17 @@ class T(unittest.TestCase):
             bad = {**a, "body": {**a["body"], k: "x" if k == "kind" else {}}}; self.reg._write("NODE", "control:broker", {"digest": a["body"]["controls"]["control:broker"], "att": bad})
         self.assertNotEqual(self.reg.status("c:7", 5)[0], "VALID")
 
+    def test_node_digest_must_equal_the_attested_digest_and_kind_must_match(self):
+        a = self.att(); real = a["body"]["controls"]["control:broker"]
+        def valid_with(node_digest, att):           # claim bound to exactly the digest written into the node: only the registry's own checks can make it non-VALID
+            r = D.DurableRegistry(os.path.join(self.d, f"n{abs(hash((node_digest, str(att['body']['kind']))))}.db"), self.ts, lambda: NOW[0], attested_nodes_only=True)
+            r._write("NODE", "control:broker", {"digest": node_digest, "att": att})
+            r.issue(D.sign_claim(AssuranceClaim("c:n", ("fs",), 5, 3000, ("control:broker",), (("control:broker", node_digest),)), BIND, self.iss)); return r.status("c:n", 5)[0] == "VALID"
+        self.assertTrue(valid_with(real, a))                                              # control: the honest path works
+        self.assertFalse(valid_with("sha256:" + "1" * 64, a))                             # node digest not the one the installer signed for this control
+        body = {**a["body"], "kind": "something-else"}; other = {"body": body, "kid": self.inst.kid, "sig": self.inst.sign(A._canon(body)).hex()}
+        self.assertFalse(valid_with(real, other))                                         # right signature and digests, wrong attestation kind
+
     # --- gate -------------------------------------------------------------------------------------------------------------------------------------------
     def test_gate_allows_when_installed_matches_attested(self):
         a = self.att(); cid = self.claim(a); self.assertEqual(self.gate(a, cid)(), (True, ""))
