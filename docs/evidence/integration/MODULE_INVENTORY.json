@@ -111,13 +111,13 @@
    ],
    "status": "CANDIDATE",
    "test_files_sample": [
+    "tests/blueprint/test_attest.py",
     "tests/blueprint/test_b64_strict.py",
     "tests/blueprint/test_durable.py",
     "tests/blueprint/test_issuer.py",
-    "tests/blueprint/test_kernel.py",
-    "tests/e03/test_commit_verify.py"
+    "tests/blueprint/test_kernel.py"
    ],
-   "tests_importing": 32,
+   "tests_importing": 33,
    "unparsable": []
   },
   {
@@ -307,13 +307,13 @@
    ],
    "status": "CANDIDATE",
    "test_files_sample": [
+    "tests/blueprint/test_attest.py",
     "tests/blueprint/test_kernel.py",
     "tests/commitproof/test_conformance.py",
     "tests/e04/test_ledger.py",
-    "tests/e04/test_multiproc_crash.py",
-    "tests/e05/test_filesink.py"
+    "tests/e04/test_multiproc_crash.py"
    ],
-   "tests_importing": 5,
+   "tests_importing": 6,
    "unparsable": []
   },
   {
@@ -354,13 +354,13 @@
    ],
    "status": "CANDIDATE",
    "test_files_sample": [
+    "tests/blueprint/test_attest.py",
     "tests/blueprint/test_gate_wiring.py",
     "tests/blueprint/test_kernel.py",
     "tests/blueprint/test_sink_chain.py",
-    "tests/commitproof/test_conformance.py",
-    "tests/e05/test_filesink.py"
+    "tests/commitproof/test_conformance.py"
    ],
-   "tests_importing": 6,
+   "tests_importing": 7,
    "unparsable": []
   },
   {
@@ -1416,10 +1416,10 @@
    "unparsable": []
   },
   {
-   "fail_open_syntactic_patterns": 4,
-   "files": 3,
+   "fail_open_syntactic_patterns": 5,
+   "files": 4,
    "id": "F01",
-   "loc": 230,
+   "loc": 331,
    "name": "HorizonZero",
    "paths": [
     "horizon/assurance"
@@ -1429,31 +1429,32 @@
     "sqlite3"
    ],
    "present": true,
-   "public_names": 9,
+   "public_names": 17,
    "public_sample": [
     "AssuranceClaim",
+    "AttestError",
     "ClaimError",
+    "Control",
     "DurableError",
     "DurableRegistry",
     "Registry",
-    "claim_body",
-    "outcome",
-    "sign_attestation"
+    "claim_body"
    ],
    "required_integration": "Claims scoped to actual installed controls and independently observed effects",
    "role": "Assurance gate",
    "side_effect_markers": [
+    "open()",
     "sqlite3"
    ],
    "status": "CANDIDATE",
    "test_files_sample": [
+    "tests/blueprint/test_attest.py",
     "tests/blueprint/test_durable.py",
     "tests/blueprint/test_gate_wiring.py",
     "tests/blueprint/test_httpsink.py",
-    "tests/blueprint/test_spectra_pipeline.py",
-    "tests/hz/test_registry.py"
+    "tests/blueprint/test_spectra_pipeline.py"
    ],
-   "tests_importing": 6,
+   "tests_importing": 7,
    "unparsable": []
   },
   {
@@ -1810,7 +1811,7 @@
    "fail_open_syntactic_patterns": 23,
    "files": 154,
    "id": "G04",
-   "loc": 8509,
+   "loc": 8536,
    "name": "Release/supply chain",
    "paths": [
     "scripts",
