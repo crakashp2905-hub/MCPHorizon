@@ -6,6 +6,7 @@ from horizon.runtime import sandbox as S
 CAN = os.geteuid() == 0 and S.platform.machine() == "x86_64" and S.landlock_abi() >= 4
 need = unittest.skipUnless(CAN, "UNSUPPORTED environment: needs root, x86_64, Landlock ABI>=4 (not exercised here)")
 
+# own.elf is a hand-built 129-byte STATIC x86_64 ELF that calls exit(0): static, so it has no ELF interpreter and only the scratch-dir EXEC grant decides whether it may run.
 PROBE = '''
 import socket, subprocess, os, json
 r = {}
@@ -18,7 +19,7 @@ t("write_protected", lambda: open(%r, "w").write("x"))
 t("write_scratch", lambda: open("ok.txt", "w").write("x"))
 t("exec_true", lambda: subprocess.run(["/bin/true"], check=True))
 def own():
-    open("own.sh", "w").write("#!/bin/sh\\nexit 0\\n"); os.chmod("own.sh", 0o755); subprocess.run(["./own.sh"], check=True)
+    open("own.elf", "wb").write(bytes.fromhex("7f454c4602010100000000000000000002003e0001000000780040000000000040000000000000000000000000000000000000004000380001000000000000000100000005000000000000000000000000004000000000000000400000000000810000000000000081000000000000000010000000000000b83c00000031ff0f05")); os.chmod("own.elf", 0o755); subprocess.run(["./own.elf"], check=True)
 t("exec_own_file", own)
 print(json.dumps(r))
 '''
