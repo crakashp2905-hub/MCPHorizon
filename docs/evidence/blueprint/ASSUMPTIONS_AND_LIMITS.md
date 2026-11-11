@@ -78,3 +78,6 @@ Source: `docs/roadmap/BOUNDARY_SYNTHESIS_BLUEPRINT_2026-11-07.md` (user-supplied
 
 ## Addendum: issuer separation (PR-02, CANDIDATE)
 `horizon/authz/issuer.py` owns signing; the reference gateway takes an issuer. Decision parity old vs new is checked on a 5-case table (local vs process issuer), not against a production corpus. Process separation is same-uid; real key custody/OS isolation is an owner decision (masterplan section 12) and needs a dedicated Linux host. No claim of independent verification.
+
+## Addendum: sandbox bypass checks and exec_deny (PR-03, CANDIDATE)
+The probes run a Python child under `launch()` as root in this container; they show seccomp/Landlock/namespaces apply here, not that every agent start on the owner host goes through `launch()`. `exec_deny` is opt-in and Linux/x86_64/Landlock only; it does not stop code already running from using allowed syscalls, in-memory execution tricks, or exec by a more privileged process. No claim of independent verification.

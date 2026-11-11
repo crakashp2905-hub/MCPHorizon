@@ -13,6 +13,8 @@ class KnownBypasses(unittest.TestCase):
     def setUp(self):
         self.d = tempfile.mkdtemp(); self.root = os.path.join(self.d, "root"); os.mkdir(self.root)
 
+    # These three describe an UNSANDBOXED agent process, which still can do all of it. Inside the launch() sandbox the same actions are denied in this container (tests/p24/test_sandbox_bypass.py, PR-03);
+    # what stays open is making the sandbox MANDATORY for every agent start on the owner's host, which needs the Linux host + owner decisions.
     @unittest.expectedFailure   # closes: M2 (protected root owned by another uid + sandbox) — needs Linux host/owner decision
     def test_agent_process_cannot_write_protected_root_directly(self):
         Gateway(self.root, os.path.join(self.d, "j"), os.path.join(self.d, "l.db"))
