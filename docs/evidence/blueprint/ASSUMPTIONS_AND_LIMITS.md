@@ -81,3 +81,6 @@ Source: `docs/roadmap/BOUNDARY_SYNTHESIS_BLUEPRINT_2026-11-07.md` (user-supplied
 
 ## Addendum: sandbox bypass checks and exec_deny (PR-03, CANDIDATE)
 The probes run a Python child under `launch()` as root in this container; they show seccomp/Landlock/namespaces apply here, not that every agent start on the owner host goes through `launch()`. `exec_deny` is opt-in and Linux/x86_64/Landlock only; it does not stop code already running from using allowed syscalls, in-memory execution tricks, or exec by a more privileged process. No claim of independent verification.
+
+## Addendum: unified effect kernel (PR-04, CANDIDATE)
+One pipeline (request, permit verify, deny-only gate, authorize, begin, perform, finish) serves file, network and process sinks. UNKNOWN stays UNKNOWN unless a sink-side witness answers; a witness that cannot tell (None) or raises leaves it UNKNOWN. Nothing forces an agent to use the kernel (see sandbox and host limits), and no real HTTPS receiver or independent observer has been exercised. No claim of independent verification.

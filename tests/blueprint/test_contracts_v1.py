@@ -59,7 +59,8 @@ class Errors(unittest.TestCase):
     def test_nothing_is_auto_retryable_and_ambiguous_codes_are_undetermined(self):
         self.assertFalse(any(e.retryable for e in ER.ERRORS.values()))
         for c in ("TIMEOUT", "CONNECT_FAILED", "RESPONSE_TOO_LARGE", "UPSTREAM_FAILED"): self.assertEqual(ER.lookup(c).effect, "UNDETERMINED")
-        for c in ("POLICY_DENIED", "REPLAY", "EFFECT_MISMATCH", "REDIRECT_REFUSED"): self.assertEqual(ER.lookup(c).effect, "DID_NOT_HAPPEN")
+        for c in ("POLICY_DENIED", "REPLAY", "EFFECT_MISMATCH"): self.assertEqual(ER.lookup(c).effect, "DID_NOT_HAPPEN")
+        for c in ("REDIRECT_REFUSED", "TLS_ERROR", "LEDGER_MOVED_ON", "TIMEOUT"): self.assertEqual(ER.lookup(c).effect, "UNDETERMINED", c)      # PR-04 correction: these can follow a completed or partial effect
         self.assertEqual(ER.lookup("JOURNAL_TAMPERED").category, "INTEGRITY")
 
 

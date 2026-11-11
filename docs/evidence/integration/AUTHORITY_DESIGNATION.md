@@ -8,7 +8,7 @@ Status: CANDIDATE. Every "designated" choice below is a coding-agent proposal de
 | Nonce / replay store | `horizon/authz/gateway.NonceStore` (durable) | one in-memory instance per Gateway | PR-02/PR-04 |
 | Effect ledger | `horizon/effects/ledger.EffectLedger` | constructed per gateway, not shared with brokers | PR-04 |
 | Claim registry | `horizon/assurance/durable.DurableRegistry` | extra registries in scenario files | PR-05 |
-| Sinks (file/net/proc) | `filesink` / `netbroker` / `procbroker` behind one sink API | brokers not wired to commit-time gate/ledger | PR-03/PR-04 |
+| Sinks (file/net/proc) | `effects/kernel.EffectKernel` over `filesink` / `netbroker` / `procbroker` adapters | kernel exists (PR-04) but the reference gateway and legacy `ProtectedFileWriter` still use their own copy of the pipeline | PR-04 follow-up |
 
 Rule: all other instances are migration-only (deleted or made test-only when the owner module is adopted). Research modules (`research/*`, `horizon/forge`) may not mint permits or read keys (graph rules R2/R4).
 Not decided here: who holds issuer keys, who reviews, which Linux scope is supported.
