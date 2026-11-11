@@ -21,7 +21,7 @@ class Unsupported(RuntimeError):
 @dataclass
 class Policy:
     netns: bool = True; pidns: bool = True; mntns: bool = True; landlock: bool = True; landlock_net: bool = True; seccomp: bool = True
-    drop_privs: bool = True; rlimits: bool = True; cgroup: bool = False
+    drop_privs: bool = True; rlimits: bool = True; cgroup: bool = False; exec_deny: bool = False   # exec_deny: after the interpreter starts, no further execve (Landlock EXEC removed except the interpreter + its loader)
     ro_paths: tuple = (); rw_extra: tuple = (); mask: tuple = ("/run", "/var/run", "/var/tmp", "/tmp", "/home", "/root", "/mnt", "/srv", "/media"); mem_bytes: int = 512 << 20; nproc: int = 256; cpu_s: int = 30; fsize: int = 64 << 20
     def digest(self) -> str: return "sha256:" + hashlib.sha256(json.dumps(asdict(self), sort_keys=True).encode()).hexdigest()
     @classmethod
@@ -47,13 +47,29 @@ def landlock_abi() -> int:
     r = libc.syscall(444, None, 0, 1); return r if r > 0 else 0
 
 
-def landlock_apply(ro: list, rw: list, *, deny_net: bool):
+def elf_interpreter(path: str) -> str | None:
+    """PT_INTERP of an ELF64 binary (the dynamic loader execve also needs EXEC on), or None. Minimal reader; anything unexpected -> None."""
+    try:
+        with open(path, "rb") as f:
+            h = f.read(64)
+            if h[:4] != b"\x7fELF" or h[4] != 2: return None
+            phoff, phentsize, phnum = struct.unpack_from("<QHH", h, 32)[0], struct.unpack_from("<H", h, 54)[0], struct.unpack_from("<H", h, 56)[0]
+            for i in range(phnum):
+                f.seek(phoff + i * phentsize); ph = f.read(phentsize); typ, _, off, _, _, filesz = struct.unpack_from("<IIQQQQ", ph, 0)
+                if typ == 3: f.seek(off); return f.read(filesz).split(b"\0")[0].decode()
+    except (OSError, struct.error, UnicodeDecodeError): return None
+    return None
+
+
+def landlock_apply(ro: list, rw: list, *, deny_net: bool, exec_paths: list | None = None):
+    """exec_paths=None keeps the historical behaviour (EXEC allowed wherever read is). A list REMOVES EXEC from every ro/rw grant and re-grants it only on those exact files (the program being started + its ELF interpreter): the sandboxed code cannot execve anything else, including files it writes itself."""
     abi = landlock_abi()
     if abi < 4: raise Unsupported("landlock ABI>=4 required")
     scoped = 3 if abi >= 6 else 0
     a = _Attr(FS_ALL, NET_ALL if deny_net else 0, scoped); fd = _check(libc.syscall(444, ctypes.byref(a), ctypes.sizeof(a), 0), "landlock_create_ruleset")
     try:
-        for paths, acc in ((ro, FS_RO), (rw, FS_ALL)):
+        noexec = 0 if exec_paths is None else FS["EXEC"]
+        for paths, acc in ((ro, FS_RO & ~noexec), (rw, FS_ALL & ~noexec)):
             for p in paths:
                 try: pfd = os.open(p, os.O_PATH | os.O_CLOEXEC)
                 except OSError: continue
@@ -61,6 +77,11 @@ def landlock_apply(ro: list, rw: list, *, deny_net: bool):
                     isdir = os.path.isdir(p); eff = acc if isdir else (acc & (FS["EXEC"] | FS["READ_FILE"] | FS["WRITE_FILE"] | FS["TRUNCATE"] | FS["IOCTL_DEV"]))
                     _check(libc.syscall(445, fd, 1, ctypes.byref(_Rule(eff, pfd)), 0), f"landlock_add_rule {p}")
                 finally: os.close(pfd)
+        for p in (exec_paths or []):
+            try: pfd = os.open(p, os.O_PATH | os.O_CLOEXEC)
+            except OSError: continue
+            try: _check(libc.syscall(445, fd, 1, ctypes.byref(_Rule(FS["EXEC"] | FS["READ_FILE"], pfd)), 0), f"landlock_add_rule exec {p}")
+            finally: os.close(pfd)
         _check(libc.prctl(38, 1, 0, 0, 0), "no_new_privs"); _check(libc.syscall(446, fd, 0), "landlock_restrict_self")
     finally: os.close(fd)
 
@@ -146,6 +167,7 @@ def _cgroup_setup(run_id, pol) -> list:
 def launch(code: str, *, run_id: str, policy: Policy | None = None, scratch: str | None = None, timeout_s: float = 20, extra_env: dict | None = None, broker=None, stdin: bytes = b"", observers=()) -> Result:
     pol = policy or Policy(); t0 = time.time()
     isolation = any((pol.netns, pol.pidns, pol.mntns, pol.landlock, pol.seccomp, pol.drop_privs))
+    if pol.exec_deny and not pol.landlock: return _refused(run_id, pol, "UNSUPPORTED: exec_deny needs landlock (it would otherwise silently do nothing)")
     if isolation:
         if platform.machine() != "x86_64": return _refused(run_id, pol, "UNSUPPORTED: only x86_64 syscall tables are implemented")
         if os.geteuid() != 0: return _refused(run_id, pol, "UNSUPPORTED: needs root/CAP_SYS_ADMIN")
@@ -188,7 +210,9 @@ def launch(code: str, *, run_id: str, policy: Policy | None = None, scratch: str
             for d in cg: open(f"{d}/cgroup.procs", "w").write(str(os.getpid()))
             if pol.landlock:
                 base = {sys.base_prefix, os.path.dirname(os.path.realpath(sys.executable)), "/usr", "/lib", "/lib64", "/bin", "/sbin", "/etc/ld.so.cache", "/etc/localtime", "/proc", "/dev/null", "/dev/zero", "/dev/urandom", "/dev/random"}
-                landlock_apply(sorted(base | set(pol.ro_paths)), [scratch, *pol.rw_extra, "/dev/null"], deny_net=pol.landlock_net)
+                ex = None
+                if pol.exec_deny: rp = os.path.realpath(sys.executable); ex = [x for x in (rp, os.path.realpath(elf_interpreter(rp)) if elf_interpreter(rp) else None) if x]
+                landlock_apply(sorted(base | set(pol.ro_paths)), [scratch, *pol.rw_extra, "/dev/null"], deny_net=pol.landlock_net, exec_paths=ex)
             if pol.drop_privs:
                 for cap in range(0, 64):
                     if libc.prctl(24, cap, 0, 0, 0) < 0 and ctypes.get_errno() == 22: break          # PR_CAPBSET_DROP until EINVAL
