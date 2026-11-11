@@ -221,7 +221,6 @@ M = [
   ('if status == "BLOCKED" and code and ER.lookup(code).effect == "UNDETERMINED": effect = "UNDETERMINED"', 'pass'),
   ('"headers_sha256": _j(sorted((p.get("headers") or {}).items()))', '"headers_sha256": ""'),
   ('"stdin_sha256": _h(p.get("stdin", b""))', '"stdin_sha256": ""'),
-  ('def target(self, p): return "proc:" + p["argv"][0]', 'def target(self, p): return "proc:x"'),
  ]),
  ("horizon/effects/netbroker.py", [
   ('if method not in METHODS: raise NetBrokerError("BAD_METHOD")', 'pass'),

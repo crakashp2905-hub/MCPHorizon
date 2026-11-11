@@ -98,6 +98,12 @@ class K(unittest.TestCase):
         p = {"argv": [sys.executable, "-V"]}; ce = self.ce("proc", p); tok = self.iss.mint(ce)
         self.assertEqual(self.k.execute(tok, "proc", ce, {"argv": ["/bin/sleep", "5"]}, "p5")["code"], "DATA_NOT_BOUND_TO_PERMIT")
 
+    def test_proc_stdin_and_cwd_are_part_of_the_permit(self):
+        p = {"argv": [sys.executable, "-V"], "stdin": b"aaa", "cwd": self.root}; ce = self.ce("proc", p); tok = self.iss.mint(ce)
+        self.assertEqual(self.k.execute(tok, "proc", ce, {**p, "stdin": b"bbb"}, "s1")["code"], "DATA_NOT_BOUND_TO_PERMIT")
+        self.assertEqual(self.k.execute(tok, "proc", ce, {**p, "cwd": None}, "s2")["code"], "DATA_NOT_BOUND_TO_PERMIT")
+        self.assertEqual(self.k.execute(tok, "proc", ce, p, "s3")["status"], "ALLOW_COMMITTED")
+
     # --- gate / faults / structure ----------------------------------------------------------------------------------------------------------------------
     def test_gate_denies_every_sink_before_anything_is_performed(self):
         self.gate_ok = False
