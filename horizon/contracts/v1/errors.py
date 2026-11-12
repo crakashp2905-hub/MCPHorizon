@@ -19,10 +19,10 @@ def _rows():
               "REQUEST_TOO_LARGE", "DESCRIBE_FAILED", "TARGET_REJECTED", "BAD_OP", "ERROR"): yield d(c, "INVALID_INPUT")
     for c in ("BAD_SIGNATURE", "BAD_ISSUER", "BAD_AUDIENCE", "WRONG_ISSUER_ROLE", "CONTRACT_MISMATCH", "PEER_NOT_GATEWAY", "ISSUER_DOWN"): yield d(c, "AUTHENTICATION")
     for c in ("ARGS_MISMATCH", "EFFECT_MISMATCH", "PRINCIPAL_MISMATCH", "TARGET_MISMATCH", "TENANT_MISMATCH", "DATA_NOT_BOUND_TO_PERMIT"): yield d(c, "BINDING_MISMATCH", "permit does not cover this exact effect")
-    for c in ("EXPIRED", "NOT_YET_VALID", "TTL_TOO_LONG", "STALE_POLICY"): yield d(c, "TEMPORAL")
+    for c in ("EXPIRED", "NOT_YET_VALID", "TTL_TOO_LONG", "STALE_POLICY", "DEADLINE_EXCEEDED"): yield d(c, "TEMPORAL")
     for c in ("REPLAY", "NONCE_REUSE", "NONCE_STORE_FULL", "FENCED", "ALREADY_WRITTEN"): yield d(c, "REPLAY_OR_FENCE", "single-use / fenced: do not retry with the same permit")
     for c in ("POLICY_DENIED", "OUTSIDE_ROOT", "OUTSIDE_ALLOWED_TARGETS", "PRIVATE_ADDRESS", "DNS_NO_ANSWER", "DNS_BAD_ADDRESS", "PROGRAM_NOT_ALLOWED", "PROGRAM_NOT_ABSOLUTE", "ARG_NOT_ALLOWED",
-              "CWD_NOT_ALLOWED", "CWD_OUTSIDE_ROOT", "UNSUPPORTED_EFFECT", "ASSURANCE_DENIED", "HTTP_REJECTED", "TLS_VERIFY_FAILED", "IS_DIRECTORY"): yield d(c, "POLICY_FINAL", "final denial: repeating the call will not succeed")
+              "CWD_NOT_ALLOWED", "CWD_OUTSIDE_ROOT", "UNSUPPORTED_EFFECT", "ASSURANCE_DENIED", "HTTP_REJECTED", "TLS_VERIFY_FAILED", "IS_DIRECTORY", "V1_BINDING_MISMATCH", "IDENTITY_NOT_SEPARATED"): yield d(c, "POLICY_FINAL", "final denial: repeating the call will not succeed")
     # PR-04 corrections to the PR-01 table (found by wiring the kernel): REDIRECT_REFUSED is raised AFTER the request completed and a response arrived; TLS_ERROR can occur mid-stream; LEDGER_MOVED_ON means the sink effect HAPPENED while the ledger was already UNKNOWN. All three are UNDETERMINED, not DID_NOT_HAPPEN.
     for c in ("LOG_TAMPERED", "JOURNAL_TAMPERED", "RESTORE_NEEDS_EVIDENCE"): yield ErrorInfo(c, "INTEGRITY", False, "NA", "fail closed; needs operator evidence")
     for c in ("RESPONSE_TOO_LARGE", "OUTPUT_TOO_LARGE", "TIMEOUT", "CONNECT_FAILED", "UPSTREAM_FAILED", "CLIENT_ERROR", "REDIRECT_REFUSED", "TLS_ERROR", "LEDGER_MOVED_ON"):

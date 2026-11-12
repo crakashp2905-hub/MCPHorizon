@@ -72,11 +72,19 @@ def permit_covers(permit: PermitV1, effect: CanonicalEffectV1, *, now: int, curr
     return None
 
 
+WITNESS_KINDS = ("sink-journal", "receiver", "broker-report", "caller-supplied")
+INDEPENDENT_WITNESS_KINDS = ("sink-journal", "receiver")
+
+
 @dataclass(frozen=True)
 class EffectReceiptV1:
     effect_id: str; effect_digest: str; state: EffectState; witness: str | None = None; observation: str | None = None   # witness: an id of the trusted observer, never the gateway/agent
+    witness_kind: str | None = None      # one of WITNESS_KINDS; only "sink-journal" and "receiver" count as independent evidence (see is_independent_evidence); "broker-report"/"caller-supplied" are the enforcement path's own claims
+
+    def is_independent_evidence(self) -> bool: return self.witness_kind in INDEPENDENT_WITNESS_KINDS and _text(self.witness)
 
     def validate(self):
         if not (_text(self.effect_id) and _sha(self.effect_digest) and isinstance(self.state, EffectState)): raise ContractError("MALFORMED", "receipt")
+        if self.witness_kind is not None and self.witness_kind not in WITNESS_KINDS: raise ContractError("MALFORMED", "unknown witness_kind")
         if self.state in (EffectState.COMMITTED, EffectState.RECONCILED_COMMITTED, EffectState.RECONCILED_BLOCKED) and not _text(self.witness): raise ContractError("MISSING_FIELD", "a committed or reconciled receipt must name the trusted witness")
         return self
