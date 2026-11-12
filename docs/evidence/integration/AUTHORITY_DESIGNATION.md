@@ -7,7 +7,8 @@ Status: CANDIDATE. Every "designated" choice below is a coding-agent proposal de
 | Permit signing | `horizon/authz/keys.py` (separate process) | `Signer.generate` constructed inside `effects/mcp_gateway.Gateway` and several scenario modules | PR-02 |
 | Nonce / replay store | `horizon/authz/gateway.NonceStore` (durable) | one in-memory instance per Gateway | PR-02/PR-04 |
 | Effect ledger | `horizon/effects/ledger.EffectLedger` | constructed per gateway, not shared with brokers | PR-04 |
-| Claim registry | `horizon/assurance/durable.DurableRegistry` | extra registries in scenario files | PR-05 |
+| Claim registry | `horizon/assurance/durable.DurableRegistry` (use `attested_nodes_only=True`) | extra registries in scenario files; default mode still accepts unsigned node digests | PR-05 (opt-in mode added; default flip pending) |
+| Installer (control attestation) | role `installer`; key custody NOT decided | none exists operationally | owner decision (section 12) |
 | Sinks (file/net/proc) | `effects/kernel.EffectKernel` over `filesink` / `netbroker` / `procbroker` adapters | kernel exists (PR-04) but the reference gateway and legacy `ProtectedFileWriter` still use their own copy of the pipeline | PR-04 follow-up |
 
 Rule: all other instances are migration-only (deleted or made test-only when the owner module is adopted). Research modules (`research/*`, `horizon/forge`) may not mint permits or read keys (graph rules R2/R4).
