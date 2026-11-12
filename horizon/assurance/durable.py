@@ -12,6 +12,7 @@ INVALIDATION_REASONS = ("adapter_changed", "tool_changed", "agent_changed", "con
 GRADES = ("SOURCE_VERIFIED", "INDEPENDENTLY_REPRODUCED", "EXTERNALLY_AUDITED")
 GRADE_ROLE = {"INDEPENDENTLY_REPRODUCED": "reproducer", "EXTERNALLY_AUDITED": "auditor"}
 CLAIM_ISSUER_ROLE = "assurance-issuer"
+INSTALLER_ROLE = "installer"
 
 
 class DurableError(Exception):
@@ -37,8 +38,9 @@ def sign_attestation(claim_id: str, grade: str, signer) -> dict:
 
 
 class DurableRegistry:
-    def __init__(self, path: str, trust, clock):
-        self.path, self.trust, self.clock = path, trust, clock
+    def __init__(self, path: str, trust, clock, *, attested_nodes_only: bool = False):
+        # attested_nodes_only (PR-05): a NODE event only counts if it carries an installer-signed control attestation covering exactly that (control, digest); plain set_node() writes become inert.
+        self.path, self.trust, self.clock, self.attested_only = path, trust, clock, attested_nodes_only
         c = self._conn(); c.execute("CREATE TABLE IF NOT EXISTS ev(seq INTEGER PRIMARY KEY AUTOINCREMENT, kind TEXT NOT NULL, subject TEXT NOT NULL, data TEXT NOT NULL, prev TEXT NOT NULL, h TEXT NOT NULL)"); c.close()
 
     def _conn(self):
@@ -64,7 +66,9 @@ class DurableRegistry:
         """-> (Registry, grades). Claims with bad signatures are simply absent -> unknown -> fail closed."""
         reg = Registry(self.clock); permanent = set(); grades = {}; issued = {}
         for seq, kind, subject, d in self._events(c):
-            if kind == "NODE": reg.set_node(subject, d["digest"])
+            if kind == "NODE":
+                if self.attested_only and not self._node_attested(subject, d): continue
+                reg.set_node(subject, d["digest"])
             elif kind == "ISSUE":
                 try:
                     pub = self.trust.resolve(d["kid"], CLAIM_ISSUER_ROLE); pub.verify(bytes.fromhex(d["sig"]), _canon(d["body"]))
@@ -84,6 +88,12 @@ class DurableRegistry:
                 except Exception: pass
         return reg, grades
 
+    def _node_attested(self, subject, d) -> bool:
+        try:
+            a = d["att"]; b = a["body"]; self.trust.resolve(a["kid"], INSTALLER_ROLE).verify(bytes.fromhex(a["sig"]), _canon(b))      # resolve() pins the key's registered issuer to the installer role
+            return b.get("kind") == "control-attestation" and b["controls"].get(subject) == d["digest"] and isinstance(d["digest"], str) and d["digest"] != ""
+        except Exception: return False
+
     # ---- writes ----
     def _write(self, kind, subject, data):
         c = self._conn()
@@ -97,6 +107,7 @@ class DurableRegistry:
 
     def issue(self, signed: dict): self._write("ISSUE", signed["body"]["claim_id"], signed)
     def set_node(self, dep_id: str, digest: str): self._write("NODE", dep_id, {"digest": digest})
+    def set_node_attested(self, att: dict, control_id: str): self._write("NODE", control_id, {"digest": att["body"]["controls"][control_id], "att": att})
     def invalidate(self, dep_id: str, reason: str):
         if reason not in INVALIDATION_REASONS: raise DurableError("BAD_REASON")
         self._write("INVALIDATE", dep_id, {"reason": reason})

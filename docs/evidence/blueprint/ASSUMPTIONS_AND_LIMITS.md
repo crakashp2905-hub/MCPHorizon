@@ -84,3 +84,6 @@ The probes run a Python child under `launch()` as root in this container; they s
 
 ## Addendum: unified effect kernel (PR-04, CANDIDATE)
 One pipeline (request, permit verify, deny-only gate, authorize, begin, perform, finish) serves file, network and process sinks. UNKNOWN stays UNKNOWN unless a sink-side witness answers; a witness that cannot tell (None) or raises leaves it UNKNOWN. Nothing forces an agent to use the kernel (see sandbox and host limits), and no real HTTPS receiver or independent observer has been exercised. No claim of independent verification.
+
+## Addendum: control attestation (PR-05, CANDIDATE)
+An installer-role signature over measured control digests, a registry mode that honours only such nodes, and a deny-only gate that re-measures at commit time and invalidates claims on drift (invalidation is permanent until an explicit restore with evidence). It shows that a changed file under a measured path is noticed by this code path; it does not show the running process matches the file, that the installer is trustworthy, or that nothing else can change behaviour (for example data the control reads that is not listed). No claim of independent verification.
