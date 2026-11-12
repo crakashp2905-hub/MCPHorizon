@@ -26,7 +26,8 @@ class Gateway:
     """Reference MCP gateway. Since K1 it holds NO execution logic of its own: every write goes through EffectKernel (one pipeline), the permit is minted by a separate issuer and covers a full CanonicalEffectV1, and the receipt is signed by a
     separate enforcement identity. Honest limit: a single-tool, single-sink reference; the unassured claim id below means a real Zero gate would deny until a claim is installed."""
     def __init__(self, root: str, journal: str, ledger_db: str, *, tenant="t1", principal="agent-a", server_id="srv-files", session_id="sess-1", gate=None, issuer=None, agent_id=None,
-                 assurance_claim=("claim:unassured", 0), purpose="gateway-task", policy_epoch=1, deadline_s=30, clock=time.time, receipt_signer=None):
+                 assurance_claim=("claim:unassured", 0), purpose="gateway-task", policy_epoch=1, deadline_s=30, clock=time.time, receipt_signer=None, allow_subdirs=False):
+        self.allow_subdirs = allow_subdirs
         self.root = os.path.realpath(root); self.tenant, self.principal, self.server, self.session = tenant, principal, server_id, session_id
         self.agent_id, self.claim, self.purpose, self.policy_epoch, self.deadline_s, self.clock = agent_id or principal, assurance_claim, purpose, policy_epoch, deadline_s, clock
         self.policy_digest = "sha256:" + hashlib.sha256(json.dumps({"policy": "files-directly-in-root", "root": self.root}, sort_keys=True).encode()).hexdigest()
@@ -42,6 +43,9 @@ class Gateway:
     def _policy_allows(self, path: str) -> bool:
         """Authority policy: writes only to plain files directly inside the workspace root (no traversal, no symlinks escaping, no hidden files)."""
         real = os.path.realpath(path)
+        if self.allow_subdirs:        # nested plain files inside root; any hidden component (.git, .github, .env, .ssh) is refused, and no symlink may be on the path
+            rel = os.path.relpath(real, self.root)
+            return real == os.path.abspath(path) and not rel.startswith("..") and rel != "." and not any(c.startswith(".") for c in rel.split(os.sep))
         return os.path.dirname(real) == self.root and not os.path.basename(real).startswith(".") and real == os.path.abspath(path)
 
     def _blocked(self, code: str, text: str, **kw) -> dict:
@@ -54,6 +58,7 @@ class Gateway:
         if not self._policy_allows(path): return self._blocked("POLICY_DENIED", DENIAL_TEXT, allowed="files directly inside the configured root")
         ctx = Context(a["effect_id"], self.tenant, self.agent_id, self.session, self.principal, self.server, "write_file", "mcp-stdio", self.purpose, self.policy_digest, self.policy_epoch, int(self.clock()) + self.deadline_s,
                       os.urandom(8).hex(), "trace-" + a["effect_id"], self.claim[0], self.claim[1])
+        if self.allow_subdirs: os.makedirs(os.path.dirname(path), exist_ok=True)        # only reached after the policy allowed this exact path
         try: prep = self.kernel.prepare("file", {"path": path, "data": data}, ctx)
         except ContractError as e: return self._blocked(e.code, "NOT_AUTHORIZED:" + e.code)
         try: tok = self.issuer.mint(prep.ce, prep.v1)
