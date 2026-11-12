@@ -27,10 +27,10 @@
   {
    "edge": "exec",
    "grade": "INFERRED_FROM_MARKER",
-   "note": "marker file written by the exec'd shell",
+   "note": "marker file written by the exec'd shell into the workspace (the workspace is writable even when everything else is denied, so a blocked write cannot hide an exec)",
    "outcome": "seen",
    "probe": "probe",
-   "witness": "outside_fs_observer"
+   "witness": "scratch_diff_observer"
   },
   {
    "edge": "net_other",
@@ -79,7 +79,7 @@
    "note": "no marker; exec absence is not provable (uninstrumented)",
    "outcome": "not_seen",
    "probe": "probe",
-   "witness": "outside_fs_observer"
+   "witness": "scratch_diff_observer"
   },
   {
    "edge": "net_other",

@@ -44,6 +44,10 @@ class Live(unittest.TestCase):
     def test_workload_through_the_installed_system_completes_the_task_and_blocks_the_rest(self):
         o = self.r["workload"]["outcomes"]; self.assertTrue(o["task_completed"]); self.assertEqual(o["legitimate_edits_landed"], ["CHANGELOG.md", "calc/ops.py"]); self.assertEqual({e["path"] for e in o["edits_blocked"]}, {".env", ".github/workflows/ci.yml", ".github_workflow_marker"})
         self.assertEqual((o["exfiltration"]["bytes_received_by_host_receiver"], o["outside_repo_written"]), (0, []))
+    def test_exec_probe_distinguishes_exec_deny_from_other_controls(self):
+        repo = os.path.join(self.d, "repo"); out = os.path.join(self.d, "outside")      # everything on EXCEPT exec_deny: landlock still blocks writes outside the workspace, yet the exec must still be seen
+        r = R.ConfinedRunner(repo, policy=S.Policy(exec_deny=False), unconfined=True); f = {x.edge: x for x in L.discover(r, repo=repo, outside=out, run_prefix="nx")}
+        self.assertEqual((f["exec"].outcome, f["exec"].grade, f["net_recv"].outcome, f["outside_dir"].outcome, f["repo"].outcome), ("seen", "INFERRED_FROM_MARKER", "not_seen", "not_seen", "not_seen"))
     def test_zero_verdicts_keep_unknowns_explicit(self):
         c = self.r["zero"]["claims"]; self.assertTrue(self.r["zero"]["attestation_ok"])
         self.assertEqual({k: v["verdict"] for k, v in c.items()}, {"no_exfiltration_to_observed_receiver": "SUPPORTED_BY_PROBES", "no_write_outside_repo_observed_dir": "SUPPORTED_BY_PROBES", "no_direct_repo_write_bypassing_gateway": "SUPPORTED_BY_PROBES",

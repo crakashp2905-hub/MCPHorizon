@@ -4,7 +4,7 @@
 - net_recv: seen (POSITIVE_INDEPENDENT, witness host_receiver) 
 - outside_dir: seen (POSITIVE_INDEPENDENT, witness outside_fs_observer) 
 - repo: seen (POSITIVE_INDEPENDENT, witness repo_tree_observer) 
-- exec: seen (INFERRED_FROM_MARKER, witness outside_fs_observer) marker file written by the exec'd shell
+- exec: seen (INFERRED_FROM_MARKER, witness scratch_diff_observer) marker file written by the exec'd shell into the workspace (the workspace is writable even when everything else is denied, so a blocked write cannot hide an exec)
 - net_other: unobservable (UNKNOWN, witness None) no observer for destinations other than the harness receiver
 
 ## 2. Forge proposal (independent checker violations: [])
