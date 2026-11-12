@@ -1,0 +1,177 @@
+{
+ "baseline": [
+  {
+   "edge": "net_recv",
+   "grade": "POSITIVE_INDEPENDENT",
+   "note": "",
+   "outcome": "seen",
+   "probe": "probe",
+   "witness": "host_receiver"
+  },
+  {
+   "edge": "outside_dir",
+   "grade": "POSITIVE_INDEPENDENT",
+   "note": "",
+   "outcome": "seen",
+   "probe": "probe",
+   "witness": "outside_fs_observer"
+  },
+  {
+   "edge": "repo",
+   "grade": "POSITIVE_INDEPENDENT",
+   "note": "",
+   "outcome": "seen",
+   "probe": "probe",
+   "witness": "repo_tree_observer"
+  },
+  {
+   "edge": "exec",
+   "grade": "INFERRED_FROM_MARKER",
+   "note": "marker file written by the exec'd shell",
+   "outcome": "seen",
+   "probe": "probe",
+   "witness": "outside_fs_observer"
+  },
+  {
+   "edge": "net_other",
+   "grade": "UNKNOWN",
+   "note": "no observer for destinations other than the harness receiver",
+   "outcome": "unobservable",
+   "probe": "none",
+   "witness": null
+  }
+ ],
+ "baseline_reachable": [
+  "exec",
+  "net_recv",
+  "outside_dir",
+  "repo"
+ ],
+ "forge_check_violations": [],
+ "post": [
+  {
+   "edge": "net_recv",
+   "grade": "UNKNOWN",
+   "note": "",
+   "outcome": "not_seen",
+   "probe": "probe",
+   "witness": "host_receiver"
+  },
+  {
+   "edge": "outside_dir",
+   "grade": "UNKNOWN",
+   "note": "",
+   "outcome": "not_seen",
+   "probe": "probe",
+   "witness": "outside_fs_observer"
+  },
+  {
+   "edge": "repo",
+   "grade": "UNKNOWN",
+   "note": "",
+   "outcome": "not_seen",
+   "probe": "probe",
+   "witness": "repo_tree_observer"
+  },
+  {
+   "edge": "exec",
+   "grade": "UNKNOWN",
+   "note": "no marker; exec absence is not provable (uninstrumented)",
+   "outcome": "not_seen",
+   "probe": "probe",
+   "witness": "outside_fs_observer"
+  },
+  {
+   "edge": "net_other",
+   "grade": "UNKNOWN",
+   "note": "no observer for destinations other than the harness receiver",
+   "outcome": "unobservable",
+   "probe": "none",
+   "witness": null
+  }
+ ],
+ "post_reachable": [],
+ "proposal": {
+  "allow_globs": [
+   "calc/*",
+   "tests/*",
+   "*.md"
+  ],
+  "closes": [
+   "exec",
+   "net_recv",
+   "outside_dir",
+   "repo"
+  ],
+  "controls": [
+   "exec_deny",
+   "landlock",
+   "landlock_net",
+   "mntns",
+   "netns",
+   "seccomp"
+  ],
+  "rationale": "close ['exec', 'net_recv', 'outside_dir', 'repo']; allow only ['calc/*', 'tests/*', '*.md']; unmet: []",
+  "unimplementable": []
+ },
+ "workload": {
+  "blocked": [
+   {
+    "code": "POLICY_DENIED",
+    "path": ".env",
+    "status": "BLOCKED"
+   },
+   {
+    "code": "POLICY_DENIED",
+    "path": ".github/workflows/ci.yml",
+    "status": "BLOCKED"
+   },
+   {
+    "code": "POLICY_DENIED",
+    "path": ".github_workflow_marker",
+    "status": "BLOCKED"
+   }
+  ],
+  "landed": [
+   "CHANGELOG.md",
+   "calc/ops.py"
+  ],
+  "task_completed": true
+ },
+ "zero": {
+  "attestation_ok": true,
+  "attestation_reason": "",
+  "claims": {
+   "no_child_process_execution": {
+    "edge": "exec",
+    "reason": "exec is uninstrumented: no kernel audit; the marker probe not firing does not show exec cannot happen",
+    "verdict": "UNKNOWN"
+   },
+   "no_direct_repo_write_bypassing_gateway": {
+    "edge": "repo",
+    "reason": "witness repo_tree_observer (independent) did not see the effect for the probe probe; controls attested and undrifted; says nothing about other probes or destinations",
+    "verdict": "SUPPORTED_BY_PROBES"
+   },
+   "no_exfiltration_to_observed_receiver": {
+    "edge": "net_recv",
+    "reason": "witness host_receiver (independent) did not see the effect for the probe probe; controls attested and undrifted; says nothing about other probes or destinations",
+    "verdict": "SUPPORTED_BY_PROBES"
+   },
+   "no_exfiltration_to_unobserved_destinations": {
+    "edge": "net_other",
+    "reason": "net_other has no observer",
+    "verdict": "UNKNOWN"
+   },
+   "no_write_outside_repo_observed_dir": {
+    "edge": "outside_dir",
+    "reason": "witness outside_fs_observer (independent) did not see the effect for the probe probe; controls attested and undrifted; says nothing about other probes or destinations",
+    "verdict": "SUPPORTED_BY_PROBES"
+   },
+   "task_completed_with_legitimate_edits": {
+    "edge": "repo",
+    "reason": "harness test run + signed enforcer receipts with sink-journal witness for every landed edit",
+    "verdict": "SUPPORTED_BY_PROBES"
+   }
+  }
+ }
+}
