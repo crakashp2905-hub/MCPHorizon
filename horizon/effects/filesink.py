@@ -14,8 +14,19 @@ class SinkError(Exception):
 
 
 class FileSink:
-    def __init__(self, root: str, journal_path: str):
-        self.root = os.path.realpath(root); self.journal = journal_path; os.makedirs(self.root, exist_ok=True)
+    def __init__(self, root: str, journal_path: str, anchor_path: str | None = None):
+        """anchor_path: where the sink records (count, head) after EVERY append. Default is beside the journal, which only helps against an attacker who can reach the journal but not that file; put it on a separate protected path for real custody."""
+        self.root = os.path.realpath(root); self.journal = journal_path; self.anchor = anchor_path or journal_path + ".anchor"; os.makedirs(self.root, exist_ok=True)
+
+    def _write_anchor(self, n: int, head: str):
+        tmp = self.anchor + ".tmp"
+        with open(tmp, "w") as f: f.write(json.dumps({"n": n, "head": head})); f.flush(); os.fsync(f.fileno())
+        os.replace(tmp, self.anchor)
+
+    def _read_anchor(self):
+        try: a = json.load(open(self.anchor)); return (int(a["n"]), str(a["head"])) if isinstance(a, dict) else None
+        except FileNotFoundError: return ()
+        except (ValueError, KeyError, TypeError, OSError): return None            # unreadable/corrupt anchor: treated as tampering
 
     def _resolve(self, path: str) -> str:
         real = os.path.realpath(path)                                    # resolves symlinks BEFORE the containment check
@@ -42,16 +53,25 @@ class FileSink:
         """Append under the sink lock with a hash chain (prev, h) so edits/deletions of earlier records are detectable by verify_chain()."""
         last = self._records()[-1:] ; prev = last[0].get("h", "") if last else "0" * 64
         rec = dict(rec); rec["prev"] = prev; rec["h"] = self._rec_hash(prev, rec)
+        n = len(self._records()) + 1
         with open(self.journal, "a") as j: j.write(json.dumps(rec, sort_keys=True) + "\n"); j.flush(); os.fsync(j.fileno())
+        self._write_anchor(n, rec["h"])
         return rec
 
     def verify_chain(self) -> tuple:
-        """-> (ok, n_records, head_hash). Any record whose prev/h does not recompute (or is missing) breaks the chain. Tail TRUNCATION is NOT detectable here: compare head()/n against an external anchor."""
+        """-> (ok, n_records, head_hash). Breaks on any record that does not recompute, AND on tail truncation/rollback against the sink's own anchor (count+head written after every append).
+        Not detected: an attacker who rewrites journal and anchor together, or restores both to an older consistent state — that needs the anchor on a separate protected path or an external witness."""
         with self._locked():
-            prev, n = "0" * 64, 0
+            prev, n, hs = "0" * 64, 0, ["0" * 64]
             for r in self._records():
                 if r.get("prev") != prev or r.get("h") != self._rec_hash(prev, r): return False, n, prev
-                prev, n = r["h"], n + 1
+                prev, n = r["h"], n + 1; hs.append(prev)
+            a = self._read_anchor()
+            if a is None: return False, n, prev                                   # corrupt anchor
+            if a == ():
+                return (n == 0), n, prev                                          # journal content with no anchor: cannot be vouched for
+            if a[0] > n or hs[a[0]] != a[1]: return False, n, prev                # truncated, or history differs from the anchored head
+            if a[0] < n: return False, n, prev                                    # records the anchor never saw: appended outside the sink
             return True, n, prev
 
     def check_anchor(self, n: int, head: str) -> bool:

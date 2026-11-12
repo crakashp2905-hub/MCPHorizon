@@ -32,7 +32,7 @@ class Chain(unittest.TestCase):
     def test_tail_truncation_not_detected_by_chain_but_by_anchor(self):
         for i in range(3): self.w(i)
         ok, n, h = self.s.verify_chain(); self.assertTrue(self.s.check_anchor(n, h)); self.put(self.lines()[:2])
-        self.assertTrue(self.s.verify_chain()[0])                       # documented limit: valid prefix
+        self.assertFalse(self.s.verify_chain()[0])                      # K2: the sink's own anchor now catches truncation without a caller-supplied anchor
         self.assertFalse(self.s.check_anchor(n, h))                     # external anchor catches rollback
     def test_anchor_rejects_wrong_head_and_overlong(self):
         for i in range(2): self.w(i)
@@ -42,4 +42,22 @@ class Chain(unittest.TestCase):
         ok, n, h = self.s.verify_chain(); ls = self.lines(); r = json.loads(ls[0]); r["bytes"] = 99; self.put([json.dumps(r, sort_keys=True), ls[1]]); self.assertFalse(self.s.check_anchor(n, h))
     def test_anchor_zero_only_matches_empty_head(self):
         self.assertTrue(self.s.check_anchor(0, "0" * 64)); self.assertFalse(self.s.check_anchor(0, "1" * 64))
+    def test_sink_anchor_detects_truncation_removal_corruption_and_outside_append(self):
+        import os
+        for i in range(3): self.w(i)
+        full = self.lines(); self.assertEqual(self.s.verify_chain()[:2], (True, 3))
+        for keep in (2, 1, 0): self.put(full[:keep]); self.assertFalse(self.s.verify_chain()[0], keep)
+        self.put(full); self.assertTrue(self.s.verify_chain()[0])
+        a = open(self.s.anchor).read(); os.remove(self.s.anchor); self.assertFalse(self.s.verify_chain()[0])           # journal content with no anchor cannot be vouched for
+        open(self.s.anchor, "w").write("{not json"); self.assertFalse(self.s.verify_chain()[0]); open(self.s.anchor, "w").write(json.dumps({"n": 3, "head": "0" * 64})); self.assertFalse(self.s.verify_chain()[0])
+        open(self.s.anchor, "w").write(a); self.assertTrue(self.s.verify_chain()[0])
+        # a record appended by something other than the sink (anchor never saw it) is also refused
+        self.s.journal, j = self.s.journal, self.s.journal; saved = self.s._write_anchor; self.s._write_anchor = lambda n, h: None
+        try: self.w(9)
+        finally: self.s._write_anchor = saved
+        self.assertFalse(self.s.verify_chain()[0])
+    def test_documented_limit_rewriting_journal_and_anchor_together_is_not_detected(self):
+        for i in range(3): self.w(i)
+        full = self.lines(); self.put(full[:2]); r = json.loads(full[1]); open(self.s.anchor, "w").write(json.dumps({"n": 2, "head": r["h"]}))
+        self.assertTrue(self.s.verify_chain()[0])                       # honest limit: needs the anchor on a separate protected path or an external witness
 if __name__ == "__main__": unittest.main()
