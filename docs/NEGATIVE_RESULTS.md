@@ -1,0 +1,3 @@
+
+## N28 — K1: gateway now runs on EffectKernel (CANDIDATE)
+The MCP gateway write path uses `EffectKernel.prepare/execute_v1`; the issuer (`require_v1`) refuses effects without a bound CanonicalEffectV1; receipts are signed by a separate "enforcer" identity and carry `witness_kind`. Limits: the enforcer key is generated in-process by default (custody is an owner decision, masterplan §12); net/proc broker witnesses are `broker-report`/`caller-supplied` and never count as independent evidence; legacy `CanonicalEffect` still exists for non-gateway callers; mutation testing was not run on the K1 changes; nothing here is independently verified.

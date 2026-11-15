@@ -184,7 +184,7 @@ M = [
   ('th = THRESHOLD if threshold is None else threshold', 'th = THRESHOLD'),
  ]),
  ("horizon/effects/mcp_gateway.py", [
-  ('"code": "POLICY_DENIED", "retryable": False', '"code": "POLICY_DENIED", "retryable": True'),
+  ('"status": "BLOCKED", "code": code, "retryable": False', '"status": "BLOCKED", "code": code, "retryable": True'),
   ('repeating it will not succeed', 'try again'),
  ]),
  ("horizon/authz/issuer.py", [
@@ -202,8 +202,8 @@ M = [
  ]),
  ("horizon/effects/kernel.py", [
   ('if a is None or (ce.effect, ce.target_kind) != (a.effect, a.target_kind): return', 'if a is None: return'),
-  ('bound = (ce.target_raw == a.target(payload) and ce.args == a.args(payload))', 'bound = (ce.args == a.args(payload))'),
-  ('bound = (ce.target_raw == a.target(payload) and ce.args == a.args(payload))', 'bound = (ce.target_raw == a.target(payload))'),
+  ('bound = (ce.target_raw == a.target(payload) and base == a.args(payload))', 'bound = (base == a.args(payload))'),
+  ('bound = (ce.target_raw == a.target(payload) and base == a.args(payload))', 'bound = (ce.target_raw == a.target(payload))'),
   ('if not bound: return Outcome.make("BLOCKED", "DATA_NOT_BOUND_TO_PERMIT")', 'pass'),
   ('if not self.ledger.request(effect_id, {"target": ce.target_raw, "kind": kind}): return Outcome.make("DUPLICATE", "DUPLICATE")', 'self.ledger.request(effect_id, {"target": ce.target_raw, "kind": kind})'),
   ('try: g = self.gate(); ok = g[0] is True;', 'try: g = self.gate(); ok = bool(g[0]);'),

@@ -35,10 +35,12 @@ class KnownBypasses(unittest.TestCase):
         calls = [n for n in ast.walk(tree) if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute) and n.func.attr == "generate" and getattr(n.func.value, "id", "") == "Signer"]
         self.assertEqual(calls, [])
 
-    @unittest.expectedFailure   # closes: PR-02/PR-04 (CanonicalEffectV1 adopted by the gateway path)
-    def test_legacy_canonical_effect_binds_delegation_and_epoch(self):
-        names = {f.name for f in dataclasses.fields(CanonicalEffect)}
-        self.assertTrue({"delegation_chain_digest", "policy_epoch", "assurance_epoch", "idempotency_key"} <= names)
+    def test_gateway_issuer_refuses_effects_that_do_not_carry_a_full_canonical_effect_v1(self):
+        # K1: the gateway path now signs only effects whose permit covers a CanonicalEffectV1 (delegation, epochs, claim, idempotency, deadline...). The legacy CanonicalEffect class still exists for other callers.
+        from horizon.authz.issuer import IssuerDenied
+        g = Gateway(self.root, os.path.join(self.d, "j"), os.path.join(self.d, "l.db"))
+        legacy = CanonicalEffect("t1", "srv-files", "sess-1", "agent-a", "write", "file", os.path.join(self.root, "a.txt"), {"sha256": "ab"})
+        with self.assertRaises(IssuerDenied): g.issuer.mint(legacy)
 
     @unittest.expectedFailure   # closes: PR-04/M3 (external anchor mandatory for journal head)
     def test_journal_tail_truncation_is_detected_without_caller_supplied_anchor(self):
