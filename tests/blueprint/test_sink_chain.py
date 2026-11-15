@@ -27,6 +27,10 @@ class Chain(unittest.TestCase):
     def test_delete_and_relink_prev_is_detected(self):        # attacker deletes a record and rewrites the next record's prev to bridge the gap
         for i in range(3): self.w(i)
         ls = self.lines(); r2 = json.loads(ls[2]); r2["prev"] = json.loads(ls[0])["h"]; self.put([ls[0], json.dumps(r2, sort_keys=True)]); self.assertFalse(self.s.verify_chain()[0])
+    def test_delete_relink_and_fix_anchor_still_detected_by_hash_binding(self):   # anchor count/head repaired too: only the prev-in-hash binding can expose the splice
+        for i in range(3): self.w(i)
+        ls = self.lines(); r2 = json.loads(ls[2]); r2["prev"] = json.loads(ls[0])["h"]; self.put([ls[0], json.dumps(r2, sort_keys=True)])
+        open(self.s.anchor, "w").write(json.dumps({"n": 2, "head": r2["h"]})); self.assertFalse(self.s.verify_chain()[0])
     def test_unchained_legacy_record_rejected(self):
         self.put([json.dumps({"effect_id": "e0", "path": "p", "sha256": "0" * 64, "bytes": 1, "ts": 1})]); self.assertFalse(self.s.verify_chain()[0])
     def test_tail_truncation_not_detected_by_chain_but_by_anchor(self):
