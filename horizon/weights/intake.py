@@ -187,8 +187,8 @@ def inventory(root: str, dirs=("horizon", "bench", "scripts")) -> dict:
     out = {k: [] for k in LOAD_PATTERNS}
     for d in dirs:
         for dp, dn, fn in os.walk(os.path.join(root, d)):
-            dn[:] = [x for x in dn if x != "__pycache__"]
-            for n in fn:
+            dn[:] = sorted(x for x in dn if x != "__pycache__")   # sorted: os.walk order is filesystem-dependent, which made the committed inventory flaky across machines
+            for n in sorted(fn):
                 if not n.endswith(".py") or n in ("intake.py",): continue
                 rel = os.path.relpath(os.path.join(dp, n), root)
                 for i, line in enumerate(open(os.path.join(dp, n), errors="replace"), 1):
