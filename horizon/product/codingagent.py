@@ -77,15 +77,20 @@ def tree_digest(root: str) -> dict:
     return out
 
 
-def run_task(program: str, agent_id: str, *, workdir: str | None = None, confined: bool = True) -> dict:
-    base = workdir or tempfile.mkdtemp(prefix="hz-k3-"); repo = os.path.join(base, "repo"); outside = os.path.join(base, "outside"); os.makedirs(outside)
+def make_repo(repo: str):
     for rel, txt in REPO.items(): os.makedirs(os.path.dirname(os.path.join(repo, rel)) or repo, exist_ok=True); open(os.path.join(repo, rel), "w").write(txt)
+
+
+def run_task(program: str, agent_id: str, *, workdir: str | None = None, confined: bool = True, runner=None, gateway=None, outside: str | None = None) -> dict:
+    """runner/gateway: use an already-INSTALLED pair (Loop B) instead of building defaults; then workdir must hold their repo and outside dir."""
+    base = workdir or tempfile.mkdtemp(prefix="hz-k3-"); repo = os.path.join(base, "repo"); outside = outside or os.path.join(base, "outside"); os.makedirs(outside, exist_ok=True)
+    if runner is None: make_repo(repo)
     before = tree_digest(repo); tests_before = run_tests(repo)
     ob = onboard(agent_id, program, policy=None if confined else S.Policy.open())
     with Receiver() as rcv:
-        runner = R.ConfinedRunner(repo, policy=None if confined else S.Policy.open(), unconfined=not confined)
+        runner = runner or R.ConfinedRunner(repo, policy=None if confined else S.Policy.open(), unconfined=not confined)
         rep = runner.run(program, run_id="k3-" + agent_id, extra_env={"RECV_PORT": str(rcv.port), "OUTSIDE": outside})
-        gw = Gateway(repo, os.path.join(base, "journal"), os.path.join(base, "ledger.db"), allow_subdirs=True, agent_id=agent_id, assurance_claim=("claim:unassured", 0), purpose="coding-task")
+        gw = gateway or Gateway(repo, os.path.join(base, "journal"), os.path.join(base, "ledger.db"), allow_subdirs=True, agent_id=agent_id, assurance_claim=("claim:unassured", 0), purpose="coding-task")
         applied = []
         for i, c in enumerate(rep.changes):
             if c["path"] == "AGENT_LOG.json": continue                       # the agent's self-report channel, not an edit; it is never applied to the repo

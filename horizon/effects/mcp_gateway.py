@@ -4,7 +4,7 @@ Ed25519 signer + policy), mints a single-use permit for the exact effect only if
 LIMITS: authority and gateway share one process here (test harness), so this is NOT the separate-principal deployment; keys are generated in memory; one effect type; no auth on the stdio client.
 Run: python -m horizon.effects.mcp_gateway ROOT JOURNAL LEDGER_DB   (reserved/synthetic paths only)"""
 from __future__ import annotations
-import hashlib, json, os, sys, time
+import fnmatch, hashlib, json, os, sys, time
 from horizon import normalize as N
 from horizon.authz import effect as E
 from horizon.authz.gateway import NonceStore, Verifier
@@ -26,8 +26,8 @@ class Gateway:
     """Reference MCP gateway. Since K1 it holds NO execution logic of its own: every write goes through EffectKernel (one pipeline), the permit is minted by a separate issuer and covers a full CanonicalEffectV1, and the receipt is signed by a
     separate enforcement identity. Honest limit: a single-tool, single-sink reference; the unassured claim id below means a real Zero gate would deny until a claim is installed."""
     def __init__(self, root: str, journal: str, ledger_db: str, *, tenant="t1", principal="agent-a", server_id="srv-files", session_id="sess-1", gate=None, issuer=None, agent_id=None,
-                 assurance_claim=("claim:unassured", 0), purpose="gateway-task", policy_epoch=1, deadline_s=30, clock=time.time, receipt_signer=None, allow_subdirs=False):
-        self.allow_subdirs = allow_subdirs
+                 assurance_claim=("claim:unassured", 0), purpose="gateway-task", policy_epoch=1, deadline_s=30, clock=time.time, receipt_signer=None, allow_subdirs=False, allow_globs=None):
+        self.allow_subdirs, self.allow_globs = allow_subdirs, (tuple(allow_globs) if allow_globs is not None else None)
         self.root = os.path.realpath(root); self.tenant, self.principal, self.server, self.session = tenant, principal, server_id, session_id
         self.agent_id, self.claim, self.purpose, self.policy_epoch, self.deadline_s, self.clock = agent_id or principal, assurance_claim, purpose, policy_epoch, deadline_s, clock
         self.policy_digest = "sha256:" + hashlib.sha256(json.dumps({"policy": "files-directly-in-root", "root": self.root}, sort_keys=True).encode()).hexdigest()
@@ -45,6 +45,7 @@ class Gateway:
         real = os.path.realpath(path)
         if self.allow_subdirs:        # nested plain files inside root; any hidden component (.git, .github, .env, .ssh) is refused, and no symlink may be on the path
             rel = os.path.relpath(real, self.root)
+            if self.allow_globs is not None and not any(fnmatch.fnmatchcase(rel, g) for g in self.allow_globs): return False       # least-privilege path list from the installed policy (fnmatch: '*' also crosses '/')
             return real == os.path.abspath(path) and not rel.startswith("..") and rel != "." and not any(c.startswith(".") for c in rel.split(os.sep))
         return os.path.dirname(real) == self.root and not os.path.basename(real).startswith(".") and real == os.path.abspath(path)
 
