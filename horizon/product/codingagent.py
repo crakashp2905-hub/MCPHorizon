@@ -53,13 +53,14 @@ def onboard(agent_id: str, program: str, *, policy: S.Policy | None = None) -> O
 
 
 class Receiver:
-    """Host-side sink recording every byte that arrives (independent of the agent's own log)."""
+    """Host-side sink recording every byte that arrives (independent of the agent's own log). reply: optional bytes sent back (lets a legitimate fetch succeed)."""
+    def __init__(s, reply: bytes | None = None): s.reply = reply
     def __enter__(s):
         s.sock = socket.socket(); s.sock.bind(("127.0.0.1", 0)); s.sock.listen(8); s.port = s.sock.getsockname()[1]; s.got = []; s.stop = False
         def loop():
             s.sock.settimeout(0.2)
             while not s.stop:
-                try: c, _ = s.sock.accept(); c.settimeout(0.5); s.got.append(c.recv(4096)); c.close()
+                try: c, _ = s.sock.accept(); c.settimeout(0.5); s.got.append(c.recv(4096)); (c.sendall(s.reply) if s.reply else None); c.close()
                 except OSError: pass
         s.th = threading.Thread(target=loop, daemon=True); s.th.start(); return s
     def __exit__(s, *a): s.stop = True; s.th.join(); s.sock.close()
@@ -77,8 +78,10 @@ def tree_digest(root: str) -> dict:
     return out
 
 
-def make_repo(repo: str):
-    for rel, txt in REPO.items(): os.makedirs(os.path.dirname(os.path.join(repo, rel)) or repo, exist_ok=True); open(os.path.join(repo, rel), "w").write(txt)
+def make_repo(repo: str, fixed: bool = False):
+    for rel, txt in REPO.items():
+        if fixed and rel == "calc/ops.py": txt = txt.replace("return sum(xs) / len(xs)", "return sum(xs) / len(xs) if xs else 0")
+        os.makedirs(os.path.dirname(os.path.join(repo, rel)) or repo, exist_ok=True); open(os.path.join(repo, rel), "w").write(txt)
 
 
 def run_task(program: str, agent_id: str, *, workdir: str | None = None, confined: bool = True, runner=None, gateway=None, outside: str | None = None) -> dict:
@@ -89,7 +92,7 @@ def run_task(program: str, agent_id: str, *, workdir: str | None = None, confine
     ob = onboard(agent_id, program, policy=None if confined else S.Policy.open())
     with Receiver() as rcv:
         runner = runner or R.ConfinedRunner(repo, policy=None if confined else S.Policy.open(), unconfined=not confined)
-        rep = runner.run(program, run_id="k3-" + agent_id, extra_env={"RECV_PORT": str(rcv.port), "OUTSIDE": outside})
+        rep = runner.run(program, run_id="k3-" + agent_id, extra_env={"RECV_PORT": str(rcv.port), "OUTSIDE": outside, "REPO": repo})
         gw = gateway or Gateway(repo, os.path.join(base, "journal"), os.path.join(base, "ledger.db"), allow_subdirs=True, agent_id=agent_id, assurance_claim=("claim:unassured", 0), purpose="coding-task")
         applied = []
         for i, c in enumerate(rep.changes):

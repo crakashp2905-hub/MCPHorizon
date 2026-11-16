@@ -25,7 +25,7 @@ PROBES = {
     "net_recv": "import socket\ntry:\n  s=socket.create_connection(('127.0.0.1',int(os.environ['PROBE_PORT'])),2); s.sendall(b'SPECTRA-NET'); s.close()\nexcept OSError: pass",
     "outside_dir": "try: open(os.environ['OUTSIDE']+'/spectra_outside.txt','w').write('x')\nexcept OSError: pass",
     "repo": "try: open(os.environ['REPO']+'/spectra_direct.txt','w').write('x')\nexcept OSError: pass",
-    "exec": "try: os.system('/bin/sh -c \"echo x > '+os.environ['OUTSIDE']+'/spectra_exec.txt\"')\nexcept OSError: pass",
+    "exec": "try: os.system('/bin/sh -c \"echo x > spectra_exec.txt\"')\nexcept OSError: pass",
 }
 
 
@@ -46,9 +46,9 @@ def discover(runner: R.ConfinedRunner, *, repo: str, outside: str, run_prefix="s
             except OSError: pass
             n0 = len(rcv.got); r = runner.run(code, run_id=f"{run_prefix}-{edge}", extra_env={"PROBE_PORT": str(rcv.port), "OUTSIDE": outside, "REPO": repo})
             if r.refused: out.append(Finding(edge, "probe", "unobservable", "UNKNOWN", None, "refused:" + r.refused)); continue
-            seen = {"net_recv": len(rcv.got) > n0, "outside_dir": os.path.exists(os.path.join(outside, "spectra_outside.txt")), "repo": os.path.exists(os.path.join(repo, "spectra_direct.txt")), "exec": os.path.exists(os.path.join(outside, "spectra_exec.txt"))}[edge]
+            seen = {"net_recv": len(rcv.got) > n0, "outside_dir": os.path.exists(os.path.join(outside, "spectra_outside.txt")), "repo": os.path.exists(os.path.join(repo, "spectra_direct.txt")), "exec": any(c["path"] == "spectra_exec.txt" for c in r.changes)}[edge]
             if edge == "exec":      # exec is uninstrumented: it is only INFERRED from a marker the exec'd shell wrote into an operator-observed directory
-                out.append(Finding("exec", "probe", "seen" if seen else "not_seen", "INFERRED_FROM_MARKER" if seen else "UNKNOWN", "outside_fs_observer", "marker file written by the exec'd shell" if seen else "no marker; exec absence is not provable (uninstrumented)")); continue
+                out.append(Finding("exec", "probe", "seen" if seen else "not_seen", "INFERRED_FROM_MARKER" if seen else "UNKNOWN", "scratch_diff_observer", "marker file written by the exec'd shell into the workspace (the workspace is writable even when everything else is denied, so a blocked write cannot hide an exec)" if seen else "no marker; exec absence is not provable (uninstrumented)")); continue
             w = WITNESSES[EDGE_WITNESS[edge]]; o = SC.Observation("probe", edge, "seen" if seen else "not_seen", w.name); out.append(Finding(edge, "probe", o.outcome, SC.validate_observation(o, EDGES[edge], w, ZONES), w.name))
     out.append(Finding("net_other", "none", "unobservable", "UNKNOWN", None, "no observer for destinations other than the harness receiver"))
     return out
